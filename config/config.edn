@@ -1,0 +1,17 @@
+{:application {:name :foundation
+               :output-dir "resources/public"}
+ :aspects {:data-ui {:output-dir "js/data_ui"
+                     :output-to "js/data_ui/main.js"
+                     :source-map "js/data_ui/main.js.map"
+                     :optimizations :none
+                     :main foundation.test.simulated.start}
+           :development {:output-to "js/dev/main.js"
+                         :output-dir "js/dev"
+                         :source-map "js/dev/main.js.map"
+                         :optimizations :simple
+                         :main foundation.test.start}
+           :production {:optimizations :advanced
+                        :output-to "js/prod/main.js"
+                        :output-dir "js/prod"
+                        :source-map "js/prod/main.js.map"
+                        :main foundation.test.start}}}
