@@ -23,7 +23,7 @@
 (extend-protocol DomContentCoercible
   string
   (-coerce-to-dom-content [this]
-    (by-id this))
+    (d/by-id this))
   default
   (-coerce-to-dom-content [this]
     (cond (satisfies? tmpl/PElement this) this)))

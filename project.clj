@@ -1,4 +1,4 @@
-(defproject foundation "0.1.0"
+(defproject foundation "0.1.1-SNAPSHOT"
   :description "Pedestal app fork for CLJS"
   :url "https://github.com/aamedina/foundation"
   :license {:name "Eclipse Public License"
