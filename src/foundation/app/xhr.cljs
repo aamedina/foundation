@@ -6,7 +6,7 @@
    [cljs.core.async :as async :refer [put! chan]]))
 
 (def *headers*
-  (clj->js {"X-Requested-With" "XMLHttpRequest"}))
+  {"X-Requested-With" "XMLHttpRequest"})
 
 (def *xhr-pool*
   "Default options for the XHR pool used to manage concurrent XHR requests.

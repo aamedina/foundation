@@ -1,10 +1,8 @@
-(defproject foundation "0.1.0-SNAPSHOT"
+(defproject foundation "0.1.0"
   :description "Pedestal app fork for CLJS"
   :url "https://github.com/aamedina/foundation"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
-  :repositories
-  {"sonatype-oss-public" "https://oss.sonatype.org/content/groups/public/"}
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1978"]
                  [org.clojure/tools.namespace "0.2.4"]
