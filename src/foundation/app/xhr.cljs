@@ -3,7 +3,8 @@
    [goog.net.XhrManager]
    [clojure.walk :refer [postwalk]]
    [cljs.reader :as reader]
-   [cljs.core.async :as async :refer [put! chan mult tap]]))
+   [cljs.core.async :as async :refer [put! chan mult tap sub pub]])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (def *headers*
   {"X-Requested-With" "XMLHttpRequest"})
@@ -26,6 +27,14 @@
                         [k v]))]
     (postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
 
+(defn fix-body
+  [body]
+  (when (seq kvs)
+    (let [kvs (clojure.walk/stringify-keys kvs)]
+      (reduce-kv (fn [init k v]
+                   (assoc init (clojure.string/replace k #"-" "_") v))
+                 {} kvs))))
+
 (def outstanding-requests
   (atom {}))
 
@@ -42,31 +51,35 @@
   ([uri method content]
      (xhr uri method content *headers*))
   ([uri method content headers]
-     (let [c (chan)]
-       (if (contains? @outstanding-requests uri)
-         (tap (mult (get @outstanding-requests uri)) c)
-         (try (swap! outstanding-requests assoc uri c)
-              (.send *xhr-pool* uri uri method content (clj->js headers) 50
-                     #(do (put! c
-                                {:status (.getStatus (.-target %))
-                                 :body (cond (re-find #"application/json"
-                                                      (.getResponseHeader
-                                                       (.-target %) "Content-Type"))
-                                             (-> (js->clj (.getResponseJson
-                                                           (.-target %)))
-                                                 (clojurify-keys))
-                                             (re-find #"application/edn"
-                                                      (.getResponseHeader
-                                                       (.-target %) "Content-Type"))
-                                             (reader/read-string
-                                              (.getResponseText (.-target %)))
-                                             :else (.getResponseText (.-target %)))
-                                 :headers (.getAllResponseHeaders (.-target %))})
-                          (swap! outstanding-requests dissoc uri))
-                     0)
-              (catch js/Error e nil)))
-       
-       c)))
+     (let [c (chan) m (mult c)]
+       (if-let [source (get @outstanding-requests uri)]
+         (tap source (chan))
+         (try (.send
+               *xhr-pool* uri uri method
+               (if-not (string? content)
+                 (JSON/stringify (clj->js (fix-body content)))
+                 content)
+               (clj->js headers) 50
+               #(do (put! c
+                          {:status (.getStatus (.-target %))
+                           :body (cond (re-find #"application/json"
+                                                (.getResponseHeader
+                                                 (.-target %) "Content-Type"))
+                                       (-> (js->clj (.getResponseJson
+                                                     (.-target %)))
+                                           (clojurify-keys))
+                                       (re-find #"application/edn"
+                                                (.getResponseHeader
+                                                 (.-target %) "Content-Type"))
+                                       (reader/read-string
+                                        (.getResponseText (.-target %)))
+                                       :else (.getResponseText (.-target %)))
+                           :headers (.getAllResponseHeaders (.-target %))})
+                    (swap! outstanding-requests dissoc uri))
+               0)
+              (swap! outstanding-requests assoc uri m)
+              (tap m (chan))
+              (catch js/Error e nil))))))
 
 (defn GET
   "Sends a GET request to the specified URI."
