@@ -11,10 +11,24 @@
 (ns foundation.app.log
   (:require [foundation.app.observers :as observers]))
 
+(defn log-map
+  [m]
+  (let [d (assoc m :timestamp (.getTime (js/Date.)))]
+    (condp = (get-in m [:log :level])
+      :debug (js/console.debug (pr-str d))
+      :error (js/console.error (pr-str d))
+      :warn (js/console.warn (pr-str d))
+      (js/console.log (pr-str d)))))
+
+(defn log!
+  [& args]
+  (log-map (apply hash-map args)))
+
 (defn log
   "Logs a message at level (a keyword). The message will be a map
   constructed from the key-value pairs supplied."
   [level & keyvals]
+  (log! [:log (assoc (apply hash-map keyvals) :level level)])
   (observers/publish :log (assoc (apply hash-map keyvals) :level level)))
 
 (defn trace
@@ -52,3 +66,12 @@
     (js/console.log (pr-str d)))
   (js/console.groupEnd))
 
+(defn log-exceptions [f & args]
+  (try (apply f args)
+       (catch js/Error e
+         (.groupCollapsed js/console "Caught exception" e)
+         (.log js/console "Was applying function\n" f)
+         (.log js/console "With arguments" (pr-str args))
+         (.log js/console "Re-throwing error...")
+         (.groupEnd js/console)
+         (throw e))))

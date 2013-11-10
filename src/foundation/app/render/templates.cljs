@@ -1,5 +1,6 @@
 (ns foundation.app.render.templates
   (:require [foundation.app.render.push :as render]
+            [dommy.core :as dom]
             [domina :as d]))
 
 (defn sibling [path segment]
@@ -10,14 +11,16 @@
 
 (defn update-template [t m]
   (doseq [[k v] t]
-    (let [{:keys [id type attr-name]} v]
+    (let [{:keys [id type attr-name f]} v]
       (case type
         :attr (cond (and (contains? m k) (nil? (get m k)))
                     (d/remove-attr! (d/by-id id) attr-name)
                     (contains? m k)
                     (d/set-attrs! (d/by-id id) {attr-name (get m k)}))
         :content (when (contains? m k)
-                   (d/set-html! (d/by-id id) (get m k)))
+                   (if (fn? f)
+                     (dom/replace! (d/by-id id) (f (get m k)))
+                     (dom/replace-contents! (d/by-id id) (get m k))))
         nil))))
 
 (defn- add-in-template [f t m]

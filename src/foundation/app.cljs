@@ -16,6 +16,10 @@
             [foundation.app.log :as log])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
+(defprotocol IService
+  (start [_])
+  (stop [_]))
+
 (defn- filter-changes [{:keys [mode processed-inputs]} changes]
   (if (= mode :always)
     changes
