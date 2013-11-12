@@ -4,7 +4,6 @@
    [goog.Uri.QueryData]
    [goog.storage.mechanism.HTML5LocalStorage]
    [goog.storage.ExpiringStorage]
-   [tailrecursion.cljson :refer [clj->cljson cljson->clj]]
    [cljs-time.core :as t]
    [cljs-time.coerce :as coerce]
    [clojure.walk :refer [postwalk]]
@@ -81,7 +80,7 @@
         status (.getStatus res)
         headers (.getAllResponseHeaders res)
         body (if (or (= status 200) (= status 201))
-               (handle-success body)
+               (on-success (.getLastUri res) body)
                body)]
     {:headers headers :status status :body body}))
 

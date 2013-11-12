@@ -11,6 +11,8 @@
 (ns foundation.app.log
   (:require [foundation.app.observers :as observers]))
 
+(defn ^:export worker? [] (nil? (.-document (js* "this"))))
+
 (defn log-map
   [m]
   (let [d (assoc m :timestamp (.getTime (js/Date.)))]
@@ -27,9 +29,16 @@
 (defn log
   "Logs a message at level (a keyword). The message will be a map
   constructed from the key-value pairs supplied."
-  [level & keyvals]
-  (log! [:log (assoc (apply hash-map keyvals) :level level)])
-  (observers/publish :log (assoc (apply hash-map keyvals) :level level)))
+  [& args]
+  (let [[level args]
+        (if (contains? #{:debug :warn :render :error} (first args))
+          [(first args) (rest args)]
+          [:** args])
+        message {msg/type :log msg/topic [level] :message (vec args)}]
+    (if (worker?)
+      (js/postMessage (pr-str message))
+      (log! [:log (assoc (apply hash-map args) :level level)]))
+    (observers/publish :log (assoc (apply hash-map args) :level level))))
 
 (defn trace
   "Logs a trace message. Argument is a quoted list representing the

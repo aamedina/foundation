@@ -4,13 +4,14 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2014"]
+                 [org.clojure/clojurescript "0.0-2030"]
                  [org.clojure/tools.namespace "0.2.4"]
                  [org.clojure/core.async "0.1.256.0-1bf8cf-alpha"]
                  [org.clojure/math.combinatorics "0.0.6"]
+                 [org.clojure/core.typed "0.2.19"]
+                 [org.clojure/core.match "0.2.0"]
                  [ring "1.2.0"]
                  [cljs-time "0.1.0-SNAPSHOT"]
-                 [tailrecursion/cljson "1.0.6"]
                  [tailrecursion/cljs-priority-map "1.0.3"]
                  [compojure "1.1.5"]
                  [hiccup "1.0.4"]

@@ -139,5 +139,5 @@
   [graph]
   (let [pos (zipmap (topo-sort graph) (range))]
     (fn [a b]
-      (compare (get pos a Number/MAX_VALUE)
-               (get pos b Number/MAX_VALUE)))))
+      (compare (get pos a Long/MAX_VALUE)
+               (get pos b Long/MAX_VALUE)))))

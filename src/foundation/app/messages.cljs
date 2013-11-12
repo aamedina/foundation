@@ -42,18 +42,12 @@
 
 (def ^:private param-ns
   "A namespace used as the namespace of message params."
-  ;; Since CLJS doesn't give us *ns* we have to use a dummy keyword to
-  ;; get our current namespace.
   (let [dummy-kw ::dummy]
     (str (namespace dummy-kw) ".param")))
 
 (defn param
   "Return a keyword with name `kw` which can be used mark a missing
-  value in a message.
-
-  Example:
-  (param :age)
-  ; -> :io.pedestal.app.messages.param/age"
+  value in a message."
   [kw]
   (keyword param-ns (name kw)))
 
@@ -81,11 +75,13 @@
   (let [keys (keys param-map)]
     (assert
      (every? (fn [key] (param-keyword-present? key)) keys)
-     (str "Every key of param-map must be a namespaced param keyword (see io.pedestal.app.messages/param). These keys are invalid: "
+     (str "Every key of param-map must be a namespaced param keyword. 
+           These keys are invalid: "
           (into [] (filter (fn [key] (not (param-keyword-present? key))) keys))))))
 
 (defn- fill-params-msg
-  "Replace parameter key-value pairs in a message with the appropriate values from param-map."
+  "Replace parameter key-value pairs in a message with the appropriate values
+   from param-map."
   [param-map msg]
   (into {} (map (fn [[k v :as original-pair]]
                   (if-let [param-val (k param-map)]
@@ -94,10 +90,8 @@
                 msg)))
 
 (defn fill-params
-  "Replace parameter key-value pairs in messages with the appropriate values from param-map.
-
-   Note: asserts that every key in param-map is a namespaced param key (see
-   io.pedestal.app.messages/param).
+  "Replace parameter key-value pairs in messages with the appropriate values from
+   param-map.
 
    Example:
    (fill-params {(msg/param :foo) :bar} [{msg/topic :some-model (msg/param :foo) 
