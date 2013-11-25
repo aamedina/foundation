@@ -11,7 +11,6 @@
              (when-not (realized? this#)
                (cljs.core.async.macros/go-loop [x# (cljs.core.async/<!
                                                     (do ~@body))]
-                 (println x#)
                  (if (foundation.app.logic/chan? x#)
                    (recur (cljs.core.async/<! x#))
                    (reset! future-state# x#))))

@@ -23,13 +23,26 @@
 (def accounts
   (future (xhr/GET "http://192.241.130.213:8080/user/15/ads-api/accounts")))
 
+(def campaigns
+  (future
+    (xhr/GET
+     "http://192.241.130.213:8080/user/15/ads-api/accounts/6cq9e/campaigns")))
+
 (def account-relation
   {:name js/String
-   :deleted js/Boolean
    :currency js/String
    :timezone-switch-at [js/String :> js/Date]
    :created-at [js/String :> js/Date]
    :timezone js/String
+   :id js/String})
+
+(def campaign-relation
+  {:name js/String
+   :account-id js/String
+   :start-time [js/String :> js/Date]
+   :end-time [js/String :> js/Date]
+   :total-budget-amount-local-micro js/Number
+   :daily-budget-amount-local-micro js/Number
    :id js/String})
 
 (db-rel account name id)
