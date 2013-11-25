@@ -12,6 +12,9 @@
   (:require [foundation.app.data.change :as chg]))
 
 (deftype TrackingMap [basis map change-map]
+  IPrintWithWriter
+  (-pr-writer [coll writer opts]
+    (-pr-writer map writer opts))
 
   Object
   (toString [_] (pr-str map))
@@ -129,4 +132,3 @@
 
 (defn tracking-map [map]
   (TrackingMap. map map {}))
-

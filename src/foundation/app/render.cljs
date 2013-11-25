@@ -25,7 +25,8 @@
 
 (defn consume-app-model [app render-fn]
   (let [app-model (atom tree/new-app-model)]
-    (consume-app-model-queue (:app-model app) (:input app) app-model render-fn)
+    (consume-app-model-queue (:app-model app) (:input app) app-model
+                             render-fn)
     app-model))
 
 (defn log-fn [deltas]

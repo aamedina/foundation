@@ -15,9 +15,11 @@
                   (if (< (c j) j) [c (inc j)]
                       (loop [c c, j j]
                         (if (= j 1) [c j]
-                            (recur (assoc c (dec j) (dec (c j))) (dec j))))))))]
+                            (recur (assoc c (dec j)
+                                          (dec (c j))) (dec j))))))))]
     (lazy-seq
-     (let [c (vec (cons nil (for [j (range 1 (inc n))] (+ j cnt (- (inc n)))))),
+     (let [c (vec (cons nil (for [j (range 1 (inc n))]
+                              (+ j cnt (- (inc n))))))
            step
            (fn step [c j]
              (cons (reverse (subvec c 1 (inc n)))
@@ -55,7 +57,8 @@
                     (if (= i -1) nil
                         (if-let [rst (next (v-seqs i))]
                           (assoc v-seqs i rst)
-                          (recur (dec i) (assoc v-seqs i (v-original-seqs i)))))))]
+                          (recur (dec i) (assoc v-seqs i
+                                                (v-original-seqs i)))))))]
             (when v-seqs
               (cons (map first v-seqs)
                     (lazy-seq (step (increment v-seqs)))))))]

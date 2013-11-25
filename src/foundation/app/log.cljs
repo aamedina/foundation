@@ -9,7 +9,8 @@
 ;
 ; You must not remove this notice, or any other, from this software.
 (ns foundation.app.log
-  (:require [foundation.app.observers :as observers]))
+  (:require [foundation.app.observers :as observers]
+            [foundation.app.messages :as msg]))
 
 (defn ^:export worker? [] (nil? (.-document (js* "this"))))
 
