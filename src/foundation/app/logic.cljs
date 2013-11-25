@@ -1,10 +1,11 @@
 (ns foundation.app.logic
-  (:refer-clojure :exclude [==])
+  (:refer-clojure :exclude [== set])
   (:require [cljs.core.logic :as l :refer [==]]
             [cljs.core.logic.fd :as fd]
             [cljs.core.logic.unifier :as u]
             [cljs.core.logic.nominal :as nom]
             [cljs.core.logic.pldb :as db]
+            [cljs.core.logic.protocols :as proto]
             [foundation.app.xhr :as xhr]
             [cljs.core.async :as a :refer [<! chan put!]]
             [cljs.core.async.impl.channels :as channels])
@@ -56,3 +57,20 @@
 
 (defn ^boolean superset?
   [s1 s2])
+
+(deftype Set [left right]
+  IPrintWithWriter
+  (-pr-writer [coll writer opts]
+    (-pr-writer right writer opts))
+  Object
+  (toString [coll] (str right)))
+
+(defn set
+  [coll]
+  (let [^not-native in (seq coll)]
+    (cond (nil? in) (Set. [] #{})
+          (instance? IndexedSeq in)
+          (let [arr (.-arr in)
+                ret (areduce arr i ^not-native res (-as-transient #{})
+                             (-conj! res (aget arr i)))]
+            (-persistent! ^not-native ret)))))
