@@ -9,6 +9,7 @@
                  [org.clojure/core.async "0.1.256.0-1bf8cf-alpha"]
                  [org.clojure/math.combinatorics "0.0.6"]
                  [org.clojure/core.match "0.2.0"]
+                 [org.clojure/core.rrb-vector "0.0.9"]
                  [foundation/cljs.core.logic "0.1.0-SNAPSHOT"]
                  [ring "1.2.0"]
                  [cljs-time "0.1.0-SNAPSHOT"]

@@ -31,6 +31,9 @@
     (l/featurec x {:name q})
     (== x {:name "Adrian"})))
 
+(defprotocol IRecur
+  (-recur [coll]))
+
 (defn union
   [s1 s2])
 
@@ -59,11 +62,24 @@
   [s1 s2])
 
 (deftype Set [left right]
+  Object
+  (toString [coll] (str right))
   IPrintWithWriter
   (-pr-writer [coll writer opts]
     (-pr-writer right writer opts))
-  Object
-  (toString [coll] (str right)))
+  ICollection
+  (-conj [coll o]
+    (Set. (conj left o) (conj right o)))
+  ILookup
+  (-lookup [coll v]
+    (-lookup coll v nil))
+  (-lookup [coll v not-found]
+    (if (contains? right v)
+      v
+      not-found))
+  ISet
+  (-disjoin [coll v]
+    (Set. left (-disjoin right v) nil)))
 
 (defn set
   [coll]
@@ -73,4 +89,10 @@
           (let [arr (.-arr in)
                 ret (areduce arr i ^not-native res (-as-transient #{})
                              (-conj! res (aget arr i)))]
-            (-persistent! ^not-native ret)))))
+            (-persistent! ^not-native ret))
+          :else (loop [in in
+                       ^not-native out (-as-transient #{})]
+                  (if-not (nil? in)
+                    (recur (-next in) (-conj! out (-first in)))
+                    (-persistent! out))))))
+
