@@ -1,16 +1,18 @@
 (ns foundation.app.logic
   (:refer-clojure :exclude [== set])
-  (:require [cljs.core.logic :as l :refer [==]]
+  (:require [cljs.core.logic :as l :refer [== s# u# !=]]
             [cljs.core.logic.fd :as fd]
             [cljs.core.logic.unifier :as u]
             [cljs.core.logic.nominal :as nom]
             [cljs.core.logic.pldb :as db]
             [cljs.core.logic.protocols :as proto]
+            [cljs.core.rrb-vector :as fv]
+            [cljs.core.rrb-vector.debug :as dv]
             [foundation.app.xhr :as xhr]
             [cljs.core.async :as a :refer [<! chan put!]]
             [cljs.core.async.impl.channels :as channels])
   (:require-macros [cljs.core.logic.macros :as l
-                    :refer [run* fresh db-rel with-db]]
+                    :refer [run* fresh db-rel with-db matche conde]]
                    [cljs.core.logic.nominal.macros :as nom]
                    [cljs.core.async.macros :refer [go go-loop]]
                    [foundation.app.macros :refer [future]]))
@@ -61,38 +63,35 @@
 (defn ^boolean superset?
   [s1 s2])
 
-(deftype Set [left right]
-  Object
-  (toString [coll] (str right))
-  IPrintWithWriter
-  (-pr-writer [coll writer opts]
-    (-pr-writer right writer opts))
-  ICollection
-  (-conj [coll o]
-    (Set. (conj left o) (conj right o)))
-  ILookup
-  (-lookup [coll v]
-    (-lookup coll v nil))
-  (-lookup [coll v not-found]
-    (if (contains? right v)
-      v
-      not-found))
-  ISet
-  (-disjoin [coll v]
-    (Set. left (-disjoin right v) nil)))
+(extend-type PersistentHashSet
+  )
 
-(defn set
-  [coll]
-  (let [^not-native in (seq coll)]
-    (cond (nil? in) (Set. [] #{})
-          (instance? IndexedSeq in)
-          (let [arr (.-arr in)
-                ret (areduce arr i ^not-native res (-as-transient #{})
-                             (-conj! res (aget arr i)))]
-            (-persistent! ^not-native ret))
-          :else (loop [in in
-                       ^not-native out (-as-transient #{})]
-                  (if-not (nil? in)
-                    (recur (-next in) (-conj! out (-first in)))
-                    (-persistent! out))))))
+(defn geto
+  [key env value]
+  (matche [env]
+    [ [ [ [key :- value] . _] ] ]
+    [ [ [_ . ?rest] ] (geto key ?rest value) ]))
 
+(defn typedo
+  [context expr result-type]
+  (conde [(geto expr context result-type)]
+         [(matche [context expr result-type]
+            [[_ [:apply ?f ?arg] _]
+             (fresh [arg-type]
+               (!= ?f ?arg)
+               (typedo context ?arg arg-type)
+               (typedo context ?f [arg-type :> result-type]))])]))
+
+(comment
+  (run* [q]
+    (typedo [['f :- [Number :> Number]]
+             ['g :- Number]]
+            [:apply 'f 'g]
+            Number))
+
+  (run* [q]
+    (typedo [['f :- ['Float :> 'Integer]]
+             ['g :- 'Float]]
+            [:apply 'f 'g]
+            'Integer))
+  )
