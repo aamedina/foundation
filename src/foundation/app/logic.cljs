@@ -1,5 +1,5 @@
 (ns foundation.app.logic
-  (:refer-clojure :exclude [== set])
+  (:refer-clojure :exclude [==])
   (:require [cljs.core.logic :as l :refer [== s# u# !=]]
             [cljs.core.logic.fd :as fd]
             [cljs.core.logic.unifier :as u]
@@ -8,6 +8,7 @@
             [cljs.core.logic.protocols :as proto]
             [cljs.core.rrb-vector :as fv]
             [cljs.core.rrb-vector.debug :as dv]
+            [clojure.set :as set]
             [foundation.app.xhr :as xhr]
             [cljs.core.async :as a :refer [<! chan put!]]
             [cljs.core.async.impl.channels :as channels])
@@ -21,6 +22,15 @@
 
 (def accounts
   (future (xhr/GET "http://192.241.130.213:8080/user/15/ads-api/accounts")))
+
+(def account-relation
+  {:name js/String
+   :deleted js/Boolean
+   :currency js/String
+   :timezone-switch-at [js/String :> js/Date]
+   :created-at [js/String :> js/Date]
+   :timezone js/String
+   :id js/String})
 
 (db-rel account name id)
 (db-rel campaign name id account-id)
@@ -82,16 +92,4 @@
                (typedo context ?arg arg-type)
                (typedo context ?f [arg-type :> result-type]))])]))
 
-(comment
-  (run* [q]
-    (typedo [['f :- [Number :> Number]]
-             ['g :- Number]]
-            [:apply 'f 'g]
-            Number))
 
-  (run* [q]
-    (typedo [['f :- ['Float :> 'Integer]]
-             ['g :- 'Float]]
-            [:apply 'f 'g]
-            'Integer))
-  )
