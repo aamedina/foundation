@@ -16,11 +16,11 @@ clojure.browser.repl.repl_print = (function repl_print(data){var temp__4096__aut
 * Process a single block of JavaScript received from the server
 */
 clojure.browser.repl.evaluate_javascript = (function evaluate_javascript(conn,block){var result = (function (){try{return new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"status","status",4416389988),new cljs.core.Keyword(null,"success","success",3441701749),new cljs.core.Keyword(null,"value","value",1125876963),[cljs.core.str(eval(block))].join('')], null);
-}catch (e8056){if((e8056 instanceof Error))
-{var e = e8056;return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"status","status",4416389988),new cljs.core.Keyword(null,"exception","exception",2495529921),new cljs.core.Keyword(null,"value","value",1125876963),cljs.core.pr_str.call(null,e),new cljs.core.Keyword(null,"stacktrace","stacktrace",3069736751),(cljs.core.truth_(e.hasOwnProperty("stack"))?e.stack:"No stacktrace available.")], null);
+}catch (e18167){if((e18167 instanceof Error))
+{var e = e18167;return new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"status","status",4416389988),new cljs.core.Keyword(null,"exception","exception",2495529921),new cljs.core.Keyword(null,"value","value",1125876963),cljs.core.pr_str.call(null,e),new cljs.core.Keyword(null,"stacktrace","stacktrace",3069736751),(cljs.core.truth_(e.hasOwnProperty("stack"))?e.stack:"No stacktrace available.")], null);
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{throw e8056;
+{throw e18167;
 } else
 {return null;
 }
