@@ -16,11 +16,43 @@
 
 (defn ^boolean chan? [x] (instance? channels/ManyToManyChannel x))
 
+(def accounts
+  (future (xhr/GET "http://192.241.130.213:8080/user/15/ads-api/accounts")))
+
 (db-rel account name id)
 (db-rel campaign name id account-id)
 (db-rel line-item name id campaign-id account-id)
 
 (def facts db/empty-db)
 
-(def accounts
-  (future (xhr/GET "http://192.241.130.213:8080/user/15/ads-api/accounts")))
+(run* [q]
+  (fresh [x]
+    (l/featurec x {:name q})
+    (== x {:name "Adrian"})))
+
+(defn union
+  [s1 s2])
+
+(defn intersection
+  [s1 s2])
+
+(defn difference
+  [s1 s2])
+
+(defn project
+  [xrel ks])
+
+(defn rename
+  [xrel kmap])
+
+(defn index
+  [xrel ks])
+
+(defn join
+  [xrel yrel])
+
+(defn ^boolean subset?
+  [s1 s2])
+
+(defn ^boolean superset?
+  [s1 s2])
