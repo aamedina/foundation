@@ -6,7 +6,7 @@
             [cljs.core.logic.nominal :as nom]
             [cljs.core.logic.pldb :as db]
             [foundation.app.xhr :as xhr]
-            [cljs.core.async :refer [<! chan put!]]
+            [cljs.core.async :as a :refer [<! chan put!]]
             [cljs.core.async.impl.channels :as channels])
   (:require-macros [cljs.core.logic.macros :as l
                     :refer [run* fresh db-rel with-db]]
@@ -22,4 +22,5 @@
 
 (def facts db/empty-db)
 
-(def accounts #{})
+(def accounts
+  (future (xhr/GET "http://192.241.130.213:8080/user/15/ads-api/accounts")))
