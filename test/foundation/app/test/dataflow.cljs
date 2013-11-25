@@ -15,7 +15,7 @@
             [foundation.app.messages :as msg])
   (:require-macros [cemerick.cljs.test :refer [deftest run-tests is testing]]))
 
-(defn test-multiple-deep-changes []
+(deftest test-multiple-deep-changes []
 
   (let [results (atom nil)
         t (fn [state message]
@@ -27,10 +27,10 @@
             [])
         dataflow (df/build {:transform [[:a [:b] t]]
                             :emit [[#{[:* :*]} e]]})]
-    (assert (= (df/run {:data-model {:b {}}} dataflow {:key :a :out [:b]})
+    (is (= (df/run {:data-model {:b {}}} dataflow {:key :a :out [:b]})
                {:data-model {:b {:c 1 :d 1}}
                 :emit []}))
-    (assert (= @results
+    (is (= @results
                {:added #{[:b :c] [:b :d]}
                 :input-paths #{[:* :*]}
                 :message {:key :a, :out [:b]}
@@ -548,32 +548,36 @@
 ;; ================================================================================
 
 (deftest test-dataflows
-  (let [dataflow (df/build {:transform [[:inc [:x] inc-t]]
-                         :derive    #{{:fn sum-d :in #{[:x]}      :out [:a]}
-                                      {:fn sum-d :in #{[:x] [:a]} :out [:b]}
-                                      {:fn sum-d :in #{[:b]}      :out [:c]}
-                                      {:fn sum-d :in #{[:a]}      :out [:d]}
-                                      {:fn sum-d :in #{[:c] [:d]} :out [:e]}}})]
+  (let [dataflow
+        (df/build {:transform [[:inc [:x] inc-t]]
+                   :derive    #{{:fn sum-d :in #{[:x]}      :out [:a]}
+                                {:fn sum-d :in #{[:x] [:a]} :out [:b]}
+                                {:fn sum-d :in #{[:b]}      :out [:c]}
+                                {:fn sum-d :in #{[:a]}      :out [:d]}
+                                {:fn sum-d :in #{[:c] [:d]} :out [:e]}}})]
     (is (= (df/run {:data-model {:x 0}} dataflow {:out [:x] :key :inc})
            {:data-model {:x 1 :a 1 :b 2 :d 1 :c 2 :e 3}})))
 
-  (let [dataflow (df/build {:transform [[:inc [:x] inc-t]]
-                         :derive    #{{:fn sum-d :in #{[:x]}           :out [:a]}
-                                      {:fn sum-d :in #{[:a]}           :out [:b]}
-                                      {:fn sum-d :in #{[:a]}           :out [:c]}
-                                      {:fn sum-d :in #{[:c]}           :out [:d]}
-                                      {:fn sum-d :in #{[:c]}           :out [:e]}
-                                      {:fn sum-d :in #{[:d] [:e]}      :out [:f]}
-                                      {:fn sum-d :in #{[:a] [:b] [:f]} :out [:g]}
-                                      {:fn sum-d :in #{[:g]}           :out [:h]}
-                                      {:fn sum-d :in #{[:g] [:f]}      :out [:i]}
-                                      {:fn sum-d :in #{[:i] [:f]}      :out [:j]}
-                                      {:fn sum-d :in #{[:h] [:g] [:j]} :out [:k]}}})]
+  (let [dataflow
+        (df/build {:transform [[:inc [:x] inc-t]]
+                   :derive    #{{:fn sum-d :in #{[:x]}           :out [:a]}
+                                {:fn sum-d :in #{[:a]}           :out [:b]}
+                                {:fn sum-d :in #{[:a]}           :out [:c]}
+                                {:fn sum-d :in #{[:c]}           :out [:d]}
+                                {:fn sum-d :in #{[:c]}           :out [:e]}
+                                {:fn sum-d :in #{[:d] [:e]}      :out [:f]}
+                                {:fn sum-d :in #{[:a] [:b] [:f]} :out [:g]}
+                                {:fn sum-d :in #{[:g]}           :out [:h]}
+                                {:fn sum-d :in #{[:g] [:f]}      :out [:i]}
+                                {:fn sum-d :in #{[:i] [:f]}      :out [:j]}
+                                {:fn sum-d :in #{[:h] [:g] [:j]} :out [:k]}}})]
     (is (= (df/run {:data-model {:x 0}} dataflow {:out [:x] :key :inc})
-           {:data-model {:x 1 :a 1 :b 1 :c 1 :d 1 :e 1 :f 2 :g 4 :h 4 :i 6 :j 8 :k 16}})))
+           {:data-model {:x 1 :a 1 :b 1 :c 1 :d 1 :e 1 :f 2 :g 4 :h 4 :i 6
+                         :j 8 :k 16}})))
 
   (let [dataflow (df/build {:transform [[:inc [:x :* :y :* :b] inc-t]]
-                         :derive    [{:fn sum-d :in #{[:x :* :y :* :b]} :out [:sum :b]}]})]
+                            :derive    [{:fn sum-d :in #{[:x :* :y :* :b]}
+                                         :out [:sum :b]}]})]
     (is (= (df/run {:data-model {:x {0 {:y {0 {:a 1
                                             :b 5}}}
                                   1 {:y {0 {:a 1}
