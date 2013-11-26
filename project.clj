@@ -13,6 +13,7 @@
                  [org.clojure/core.match "0.2.0"]
                  [org.clojure/core.rrb-vector "0.0.10-SNAPSHOT"]
                  [foundation/cljs.core.logic "0.1.0-SNAPSHOT"]
+                 [org.clojure/tools.analyzer "0.0.1-SNAPSHOT"]
                  [ring "1.2.0"]
                  [cljs-time "0.1.0-SNAPSHOT"]
                  [tailrecursion/cljs-priority-map "1.0.3"]
