@@ -140,34 +140,18 @@
         `(~tag ~x)))))
 
 (defn =nom? [x] (l/predc x nom/nom? (reifier-for 'nom x)))
-
 (defn =symbol? [x] (l/predc x symbol? (reifier-for 'sym x)))
-
 (defn =fn [x e] `(~'fn ~(nom/tie x e)))
-
-(defn =apply [expr & expr'] `(~expr ~@expr'))
-
-(defn ife [c a b] `(~'if ~c ~a ~b))
-
-(defn =lambda?
-  [x e out]
-  (== out (=fn x e)))
-
-(defn =applied?
-  [e1 e2 out]
-  (l/all (== out (=apply e1 e2))
-         (!= e1 'fn)))
-
+(defn =apply [e1 e2] `(~e1 ~e2))
+(defn =if [c a b] `(~'if ~c ~a ~b))
+(defn =fn? [x e out] (== out (=fn x e)))
+(defn =applied? [e1 e2 out] (l/all (== out (=apply e1 e2)) (!= e1 'fn)))
+(defn =if? [c a b out] (== out (=if c a b)))
 (defn =infers [t1 t2] [t1 :> t2])
-
-(defn =infers? [t1 t2 out] (== out (arr t1 t2)))
-
+(defn =infers? [t1 t2 out] (== out (=infers t1 t2)))
 (defn env [names bindings] ['env names bindings])
-
 (defn =env? [names bindings out] (== out (env names bindings)))
-
 (def empty-env (env '() '()))
-
 (def =member? l/membero)
 (def =cons l/conso)
 
@@ -175,7 +159,7 @@
   [x v ein eout]
   (fresh [names-in bindings-in names-out bindings-out]
     (=env? names-in bindings-in ein)
-    (=env? names-out bindings-in ein)
+    (=env? names-out bindings-out eout)
     (nom/hash x names-in)
     (=cons x names-in names-out)
     (=cons [x v] bindings-in bindings-out)))
@@ -188,14 +172,14 @@
 
 (comment
   (run* [q]
-    (nom? q))
+    (=nom? q))
   (run* [q]
-    (sym? q))
+    (=symbol? q))
 
   (run* [q]
     (nom/fresh [a b]
-      (== (lambda a a)
-          (lambda b b))))
+      (== (=fn a a)
+          (=fn b b))))
   )
 
 
@@ -204,14 +188,62 @@
   (conde [(=nom? e) (== e a) (== new out)]
          [(=nom? e) (!= e a) (== e out)]
          [(fresh [e1 e2 o1 o2]
-            (=apply e1 e2 e)
-            (=apply o1 o2 out)
+            (=applied? e1 e2 e)
+            (=applied? o1 o2 out)
             (=subst e1 new a o1)
             (=subst e2 new a o2))]
          [(fresh [e0 e0]
             (nom/fresh [c]
-              (=lambda? c e0 e)
-              (=lambda? c o0 out)
+              (=fn? c e0 e)
+              (=fn? c o0 out)
               (nom/hash c a)
               (nom/hash c new)
               (=subst s0 new a o0)))]))
+
+(comment
+  (run* [q]
+    (nom/fresh [a b]
+      (nom/hash a (=fn b a))))
+  
+  (run* [q]
+    (fresh [s]
+      (nom/fresh [a b c]
+        (=subst (=fn a (=apply a b)) b a s)
+        (== s (=fn c (=apply c b)))))))
+
+(defn =infer-type
+  [env expr type]
+  (conde [(fresh [x]
+            (=nom? x) (== expr x)
+            (=in-env? x type env))]
+         [(fresh [e0 tx t0 env0]
+            (nom/fresh [x]
+              (=fn? x e0 expr)
+              (=infers? tx t0 type)
+              (=env-plus x tx env env0)
+              (=infer-type env0 e0 t0)))]
+         [(fresh [e1 e2 t1 t2]
+            (=applied? e1 e2 expr)
+            (=infers? t2 type t1)
+            (=infer-type env e1 t1)
+            (=infer-type env e2 t2))]))
+
+(comment
+  (run* [q]
+    (nom/fresh [x]
+      (=infer-type empty-env (=fn x x) q))))
+
+(def =nil? l/nilo)
+(def =first l/firsto)
+(def =rest l/resto)
+
+(defn =concat
+  [x y out]
+  (conde [(=nil? x) (== y out)]
+         [(fresh [a d result]
+            (=first x a)
+            (=rest x a)
+            (=concat d y result)
+            (=cons a result out))]))
+
+
