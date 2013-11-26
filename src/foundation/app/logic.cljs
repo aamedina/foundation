@@ -139,48 +139,79 @@
         (println `(~tag ~x))
         `(~tag ~x)))))
 
-(defn nom? [x] (l/predc x nom/nom? (reifier-for 'nom x)))
+(defn =nom? [x] (l/predc x nom/nom? (reifier-for 'nom x)))
 
-(defn sym? [x] (l/predc x symbol? (reifier-for 'sym x)))
+(defn =symbol? [x] (l/predc x symbol? (reifier-for 'sym x)))
 
-(defn lambda [x e] `(~'fn ~(nom/tie x e)))
+(defn =fn [x e] `(~'fn ~(nom/tie x e)))
 
-(defn apply* [expr & expr'] `(~expr ~@expr'))
+(defn =apply [expr & expr'] `(~expr ~@expr'))
 
 (defn ife [c a b] `(~'if ~c ~a ~b))
 
-(defn is-lambda!
+(defn =lambda?
   [x e out]
-  (== out (lambda x e)))
+  (== out (=fn x e)))
 
-(defn are-applied!
+(defn =applied?
   [e1 e2 out]
-  (l/all (== out (apply* e1 e2))
+  (l/all (== out (=apply e1 e2))
          (!= e1 'fn)))
 
-(defn infers [t1 t2] [t1 :> t2])
+(defn =infers [t1 t2] [t1 :> t2])
 
-(defn infers? [t1 t2 out] (== out (arr t1 t2)))
+(defn =infers? [t1 t2 out] (== out (arr t1 t2)))
 
 (defn env [names bindings] ['env names bindings])
 
-(defn env? [names bindings out] (== out (env names bindings)))
+(defn =env? [names bindings out] (== out (env names bindings)))
 
-(def empty-env (env [] []))
+(def empty-env (env '() '()))
 
-(def member? l/membero)
+(def =member? l/membero)
+(def =cons l/conso)
 
-(defn in-env?
+(defn =env-plus
+  [x v ein eout]
+  (fresh [names-in bindings-in names-out bindings-out]
+    (=env? names-in bindings-in ein)
+    (=env? names-out bindings-in ein)
+    (nom/hash x names-in)
+    (=cons x names-in names-out)
+    (=cons [x v] bindings-in bindings-out)))
+
+(defn =in-env?
   [x v e]
   (fresh [name bindings]
-    (env? names bindings e)
-    (member? [x v] bindings)))
+    (=env? names bindings e)
+    (=member? [x v] bindings)))
 
 (comment
   (run* [q]
     (nom? q))
   (run* [q]
     (sym? q))
+
+  (run* [q]
+    (nom/fresh [a b]
+      (== (lambda a a)
+          (lambda b b))))
   )
 
-(defun plus [a b] (+ a b))
+
+(defn =subst
+  [e new a out]
+  (conde [(=nom? e) (== e a) (== new out)]
+         [(=nom? e) (!= e a) (== e out)]
+         [(fresh [e1 e2 o1 o2]
+            (=apply e1 e2 e)
+            (=apply o1 o2 out)
+            (=subst e1 new a o1)
+            (=subst e2 new a o2))]
+         [(fresh [e0 e0]
+            (nom/fresh [c]
+              (=lambda? c e0 e)
+              (=lambda? c o0 out)
+              (nom/hash c a)
+              (nom/hash c new)
+              (=subst s0 new a o0)))]))
