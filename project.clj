@@ -46,10 +46,10 @@
                        ;;             :source-map-path "out_adv"
                        ;;             :optimizations :advanced}}
                        ]}
-  :cljx {:builds [{:source-paths ["src"]
+  :cljx {:builds [{:source-paths ["src" "test"]
                    :output-path "target/classes"
                    :rules :clj}
 
-                  {:source-paths ["src"]
+                  {:source-paths ["src" "test"]
                    :output-path "target/classes"
                    :rules :cljs}]})
