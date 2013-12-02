@@ -19,9 +19,24 @@
 (defservice twitter
   {:api "http://192.241.130.213:8080/user/15/ads-api"})
 
+(defmulti transform (fn [{:keys [type topic]}] [type topic]))
+(defmulti effect (fn [{:keys [type topic]}] [type topic]))
+(defmulti render (fn [{:keys [type topic]}] [type topic]))
+
+(def event-types #{:click})
+
+(defn route-message
+  [{:keys [type topic] :as message}]
+  (cond
+    (or (contains? event-types type)
+        )
+    (effect message)
+    :else (throw (ex-info "No matching route found for message."
+                          {:message message}))))
+
 (defbehavior app
-  {:datagrid
-   :dashboard})
+  {:transform []
+   :effect []})
 
 (defmodel accounts
   {:url "/accounts/:id"})
@@ -38,7 +53,8 @@
          input: message from the application
          job: route the message to its appropriate transform function handler,
               apply the function, and return a new application state after 
-              the function application.
+              the function application. Only creates rendering deltas for 
+              those transformed paths which are configured in the renderer.
     c. Effect/Service queue =>
          input: message from the application
          job: route the message to the appropriate effect function handler,
