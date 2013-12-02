@@ -33391,20 +33391,68 @@ clojure.browser.repl.connect = function(a) {
     return a.style.display = "none"
   })
 };
+foundation.app.input_queue = function() {
+  var a = cljs.core.async.chan.call(null, 1);
+  cljs.core.async.impl.dispatch.run.call(null, function() {
+    var b = function() {
+      return function(a) {
+        return function() {
+          var b = null, c = function() {
+            var a = Array(7);
+            a[0] = b;
+            a[1] = 1;
+            return a
+          }, g = function(b) {
+            for(;;) {
+              var c = function() {
+                try {
+                  for(;;) {
+                    var c = a.call(null, b);
+                    if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                      return c
+                    }
+                  }
+                }catch(e) {
+                  if(e instanceof Object) {
+                    return b[5] = e, cljs.core.async.impl.ioc_helpers.process_exception.call(null, b), new cljs.core.Keyword(null, "recur", "recur", 1122293407)
+                  }
+                  if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
+                    throw e;
+                  }
+                  return null
+                }
+              }();
+              if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                return c
+              }
+            }
+          }, b = function(a) {
+            switch(arguments.length) {
+              case 0:
+                return c.call(this);
+              case 1:
+                return g.call(this, a)
+            }
+            throw Error("Invalid arity: " + arguments.length);
+          };
+          b.cljs$core$IFn$_invoke$arity$0 = c;
+          b.cljs$core$IFn$_invoke$arity$1 = g;
+          return b
+        }()
+      }(function(a) {
+        var b = a[1];
+        return 3 === b ? cljs.core.async.impl.ioc_helpers.return_chan.call(null, a, a[2]) : 2 === b ? (a[2] = null, a[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 1 === b ? (a[2] = null, a[1] = 2, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : null
+      })
+    }(), c = function() {
+      var c = b.call(null);
+      c[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = a;
+      return c
+    }();
+    return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, c)
+  });
+  return a
+};
 cljs.core.enable_console_print_BANG_.call(null);
-cljs.core.logic.fd.ISet.string = !0;
-cljs.core.logic.fd._member_QMARK_.string = function(a, b) {
-  return cljs.core.contains_QMARK_.call(null, cljs.core.set.call(null, a), b)
-};
-cljs.core.logic.fd._disjoint_QMARK_.string = function(a, b) {
-  return cljs.core.empty_QMARK_.call(null, cljs.core.logic.fd._difference.call(null, a, b))
-};
-cljs.core.logic.fd._intersection.string = function(a, b) {
-  return clojure.set.intersection.call(null, cljs.core.set.call(null, a), cljs.core.set.call(null, b))
-};
-cljs.core.logic.fd._difference.string = function(a, b) {
-  return clojure.set.difference.call(null, cljs.core.set.call(null, a), cljs.core.set.call(null, b))
-};
 foundation.app.coll_zip = function(a) {
   return clojure.zip.zipper.call(null, cljs.core.coll_QMARK_, cljs.core.seq, function(a, c) {
     return cljs.core.with_meta.call(null, cljs.core.into.call(null, cljs.core.empty.call(null, a), c), cljs.core.meta.call(null, a))
@@ -33443,36 +33491,6 @@ foundation.app.nodes = function(a) {
       }
     }, null, null)
   }.call(null, foundation.app.locs.call(null, a))
-};
-foundation.app.IUnifyWithSet = function() {
-  return{}
-}();
-foundation.app._unify_with_set = function(a, b, c) {
-  if(a ? a.foundation$app$IUnifyWithSet$_unify_with_set$arity$3 : a) {
-    return a.foundation$app$IUnifyWithSet$_unify_with_set$arity$3(a, b, c)
-  }
-  var d;
-  d = foundation.app._unify_with_set[goog.typeOf(null == a ? null : a)];
-  if(!d && (d = foundation.app._unify_with_set._, !d)) {
-    throw cljs.core.missing_protocol.call(null, "IUnifyWithSet.-unify-with-set", a);
-  }
-  return d.call(null, a, b, c)
-};
-cljs.core.PersistentHashSet.prototype.foundation$app$IUnifyWithSet$ = !0;
-cljs.core.PersistentHashSet.prototype.foundation$app$IUnifyWithSet$_unify_with_set$arity$3 = function(a, b, c) {
-  if(cljs.core.set_QMARK_.call(null, b)) {
-    a = clojure.data.diff.call(null, this, b);
-    b = cljs.core.nth.call(null, a, 0, null);
-    var d = cljs.core.nth.call(null, a, 1, null);
-    cljs.core.nth.call(null, a, 2, null);
-    a = clojure.set.union.call(null, b, d);
-    return cljs.core.logic._unify_terms.call(null, a, clojure.set.map_invert.call(null, a), c)
-  }
-  return null
-};
-cljs.core.PersistentHashSet.prototype.cljs$core$logic$IUnifyTerms$ = !0;
-cljs.core.PersistentHashSet.prototype.cljs$core$logic$IUnifyTerms$_unify_terms$arity$3 = function(a, b, c) {
-  return foundation.app._unify_with_set.call(null, b, this, c)
 };
 foundation.app.api = "http://192.241.130.213:8080/user/15/ads-api";
 foundation.app.accounts = new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null, "url", "url", 1014020321), "/accounts/:id"], null);
@@ -33567,6 +33585,138 @@ foundation.app._main = function() {
   return a
 };
 goog.exportSymbol("foundation.app._main", foundation.app._main);
+foundation.app.dataflow = {};
+foundation.app.tree = {};
+foundation.app.tree.inversions = new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null, "node-create", "node-create", 4378585753), new cljs.core.Keyword(null, "node-destroy", "node-destroy", 2768634529), new cljs.core.Keyword(null, "node-destroy", "node-destroy", 2768634529), new cljs.core.Keyword(null, "node-create", "node-create", 4378585753), new cljs.core.Keyword(null, "transform-enable", "transform-enable", 2076092022), new cljs.core.Keyword(null, "transform-disable", "transform-disable", 
+2862889209), new cljs.core.Keyword(null, "transform-disable", "transform-disable", 2862889209), new cljs.core.Keyword(null, "transform-enable", "transform-enable", 2076092022)], null);
+foundation.app.tree.invert = function(a) {
+  return cljs.core.map.call(null, foundation.app.tree.inversions, cljs.core.reverse.call(null, a))
+};
+foundation.app.tree.app_model = new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null, "deltas", "deltas", 3973426989), cljs.core.PersistentVector.EMPTY, new cljs.core.Keyword(null, "t", "t", 1013904358), 0], null);
+foundation.app.effect = {};
+foundation.app.effect.effect_queue = function() {
+  var a = cljs.core.async.chan.call(null, 1);
+  cljs.core.async.impl.dispatch.run.call(null, function() {
+    var b = function() {
+      return function(a) {
+        return function() {
+          var b = null, c = function() {
+            var a = Array(7);
+            a[0] = b;
+            a[1] = 1;
+            return a
+          }, g = function(b) {
+            for(;;) {
+              var c = function() {
+                try {
+                  for(;;) {
+                    var c = a.call(null, b);
+                    if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                      return c
+                    }
+                  }
+                }catch(e) {
+                  if(e instanceof Object) {
+                    return b[5] = e, cljs.core.async.impl.ioc_helpers.process_exception.call(null, b), new cljs.core.Keyword(null, "recur", "recur", 1122293407)
+                  }
+                  if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
+                    throw e;
+                  }
+                  return null
+                }
+              }();
+              if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                return c
+              }
+            }
+          }, b = function(a) {
+            switch(arguments.length) {
+              case 0:
+                return c.call(this);
+              case 1:
+                return g.call(this, a)
+            }
+            throw Error("Invalid arity: " + arguments.length);
+          };
+          b.cljs$core$IFn$_invoke$arity$0 = c;
+          b.cljs$core$IFn$_invoke$arity$1 = g;
+          return b
+        }()
+      }(function(a) {
+        var b = a[1];
+        return 3 === b ? cljs.core.async.impl.ioc_helpers.return_chan.call(null, a, a[2]) : 2 === b ? (a[2] = null, a[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 1 === b ? (a[2] = null, a[1] = 2, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : null
+      })
+    }(), c = function() {
+      var c = b.call(null);
+      c[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = a;
+      return c
+    }();
+    return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, c)
+  });
+  return a
+};
+foundation.app.render = {};
+foundation.app.render.render_queue = function() {
+  var a = cljs.core.async.chan.call(null, 1);
+  cljs.core.async.impl.dispatch.run.call(null, function() {
+    var b = function() {
+      return function(a) {
+        return function() {
+          var b = null, c = function() {
+            var a = Array(7);
+            a[0] = b;
+            a[1] = 1;
+            return a
+          }, g = function(b) {
+            for(;;) {
+              var c = function() {
+                try {
+                  for(;;) {
+                    var c = a.call(null, b);
+                    if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                      return c
+                    }
+                  }
+                }catch(e) {
+                  if(e instanceof Object) {
+                    return b[5] = e, cljs.core.async.impl.ioc_helpers.process_exception.call(null, b), new cljs.core.Keyword(null, "recur", "recur", 1122293407)
+                  }
+                  if(new cljs.core.Keyword(null, "else", "else", 1017020587)) {
+                    throw e;
+                  }
+                  return null
+                }
+              }();
+              if(!cljs.core.keyword_identical_QMARK_.call(null, c, new cljs.core.Keyword(null, "recur", "recur", 1122293407))) {
+                return c
+              }
+            }
+          }, b = function(a) {
+            switch(arguments.length) {
+              case 0:
+                return c.call(this);
+              case 1:
+                return g.call(this, a)
+            }
+            throw Error("Invalid arity: " + arguments.length);
+          };
+          b.cljs$core$IFn$_invoke$arity$0 = c;
+          b.cljs$core$IFn$_invoke$arity$1 = g;
+          return b
+        }()
+      }(function(a) {
+        var b = a[1];
+        return 3 === b ? cljs.core.async.impl.ioc_helpers.return_chan.call(null, a, a[2]) : 2 === b ? (a[2] = null, a[1] = 3, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : 1 === b ? (a[2] = null, a[1] = 2, new cljs.core.Keyword(null, "recur", "recur", 1122293407)) : null
+      })
+    }(), c = function() {
+      var c = b.call(null);
+      c[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = a;
+      return c
+    }();
+    return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null, c)
+  });
+  return a
+};
 foundation.app.message = {};
 foundation.app.message.param_ns = [cljs.core.str(cljs.core.namespace.call(null, new cljs.core.Keyword("foundation.app.message", "dummy", "foundation.app.message/dummy", 2567602168))), cljs.core.str(".param")].join("");
 foundation.app.message.param = function(a) {

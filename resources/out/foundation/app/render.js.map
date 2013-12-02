@@ -1,0 +1,21 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/render.js",
+ "sources":["render.cljs"],
+ "lineCount":85,
+ "mappings":
+ ";AAAC;;;;AAIA,qCAAA,yBAAA,9DAAMA,8DAEJ,IAAAC,mBAAA,AAAAC,+BAAA,GAAA,AAAA,AAAAC,4CAAA,aAAA,AAAA,IAAAC,mBAAA,iBAAAC,wBAAA,WAAAC,cAAA,AAAA,IAAAC,mBAAA,CAAAD,aAAA,IAAA,AAAA,GAAA,CAAAC,qBAAA;CAAA,IAAAC,cAAA,CAAAF,aAAA,QAAAA,mBAAAA,aAAA,AAAA,OAAAG,uDAAAH,iBAAAE;;CAAA,GAAA,CAAAD,qBAAA;CAAA,IAAAD,mBAAAA,aAAA,AAAA,AAAA,IAAAI,yBAAAJ,iBAAA,AAAA,CAAAI,uBAAA,KAAA;AAAA,CAAAA,uBAAA,KAAA;AAAAA,AAAA;;CAAA,GAAA,CAAAH,qBAAA;CAAA,IAAAD,mBAAAA,aAAA,AAAA,AAAA,IAAAK,yBAAAL,iBAAA,AAAA,CAAAK,uBAAA,KAAA;AAAA,CAAAA,uBAAA,KAAA;AAAAA,AAAA;;CAAA;;;;GAAA,AAAA;;;mDAAA,AAAA,IAAAC,kBAAA,KAAAC,MAAA,IAAA,AAAA,CAAAD,gBAAA,KAAAE;AAAA,CAAAF,gBAAA,KAAA;AAAAA;;iDAAAN;AAAA,AAAA,IAAAS,2BAAA,iBAAA,AAAA;AAAA,AAAA,IAAAC,wBAAA,AAAAX,gCAAAC,cAAA,AAAA,GAAA,AAAAW,6CAAAD,sBAAA;CAAA;;;;CAAAA;;;;iBAAA,GAAA,CAAAE,mBAAAC;CAAA,IAAAC,oBAAAF,QAAA,AAAA,IAAAG,yBAAAf,aAAA,AAAA,CAAAe,uBAAA,KAAAD;AAAAC,AAAA,AAAAC,6DAAAhB;AAAA;;CAAA,GAAA;CAAA,MAAAY;;CAAA;;;MAAA,AAAA,GAAA,AAAAD,6CAAAF,yBAAA;CAAA;gBAAAT;;;;;CAAAS;;;;;wCAAAT;;;;;iDAAAA;;;;;;;;;SAAAiB,uBAAA,iBAAAC,kBAAA,AAAApB,4BAAA,AAAA,CAAAoB,gBAAAC,mDAAAxB;AAAAuB;KAAA,AAAA,OAAAE,qEAAAH;;AAAAtB",
+ "names":
+ ["foundation.app.render/render-queue", "c__10283__auto__",
+  "cljs.core.async/chan", "cljs.core.async.impl.dispatch/run",
+  "f__10284__auto__", "switch__10213__auto__", "state_643141",
+  "state_val_643142", "inst_643139",
+  "cljs.core.async.impl.ioc-helpers/return-chan", "statearr-643143",
+  "statearr-643144", "statearr-643148", "js/Array",
+  "state-machine__10214__auto__", "ret-value__10215__auto__",
+  "result__10216__auto__", "cljs.core/keyword-identical?", "e643149",
+  "js/Object", "ex__10217__auto__", "statearr-643150",
+  "cljs.core.async.impl.ioc-helpers/process-exception",
+  "state__10285__auto__", "statearr-643151",
+  "cljs.core.async.impl.ioc-helpers/USER-START-IDX",
+  "cljs.core.async.impl.ioc-helpers/run-state-machine-wrapped"]}

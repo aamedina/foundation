@@ -24,4 +24,8 @@ goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['c
 goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.net.xpc.CrossPageChannel', 'clojure.browser.event', 'goog.net.xpc.CfgFields', 'cljs.core', 'goog.net.EventType', 'goog.json', 'goog.net.XhrIo']);
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core.logic', 'clojure.data', 'cljs.core', 'cljs.core.logic.unifier', 'cljs.core.logic.fd', 'clojure.zip', 'foundation.app.xhr', 'clojure.string', 'clojure.browser.repl', 'clojure.set', 'cljs.core.async']);
+goog.addDependency("../foundation/app/dataflow.js", ['foundation.app.dataflow'], ['cljs.core']);
+goog.addDependency("../foundation/app/tree.js", ['foundation.app.tree'], ['cljs.core', 'clojure.zip']);
+goog.addDependency("../foundation/app/effect.js", ['foundation.app.effect'], ['cljs.core', 'cljs.core.async']);
+goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'cljs.core.async']);
 goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);

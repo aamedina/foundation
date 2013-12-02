@@ -1,0 +1,11 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/tree.js",
+ "sources":["tree.cljs"],
+ "lineCount":11,
+ "mappings":
+ ";AAAC;;;;AAGA,iCAAA,2CAAA,mEAAA,qEAAA,qEAAA,mEAAA,6EAAA,+EAAA,+EAAA,vkBAAKA;AAIL,6BAAA,yBAAA,tDAAMC,8CACHC,QACD,OAACC,wBAAIH,+BAAW,AAACI,4BAAQF;;AAE3B,gCAAA,2CAAA,yDAAA,iCAAA,+CAAA,pNAAKG",
+ "names":
+ ["foundation.app.tree/inversions", "foundation.app.tree/invert",
+  "deltas", "cljs.core/map", "cljs.core/reverse",
+  "foundation.app.tree/app-model"]}
