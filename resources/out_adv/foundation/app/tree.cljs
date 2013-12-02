@@ -1,4 +1,5 @@
-(ns foundation.app.tree)
+(ns foundation.app.tree
+  (:require [clojure.zip :as zip]))
 
 (def inversions
   {:node-create :node-destroy :node-destroy :node-create

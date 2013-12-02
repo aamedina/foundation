@@ -26,19 +26,19 @@
             [com.cemerick/clojurescript.test "0.2.1"]
             [lein-cljsbuild "1.0.1-SNAPSHOT"]]
   :hooks [leiningen.cljsbuild]
-  :cljsbuild {:builds [{:source-paths ["src"]
+  :cljsbuild {:builds [{:source-paths ["src" "test"]
                         :compiler {:output-to "resources/main.js"
                                    :output-dir "resources/out"
                                    :source-map "resources/main.js.map"
                                    :source-map-path "out"
                                    :optimizations :none}}
-                       {:source-paths ["src"]
+                       {:source-paths ["src" "test"]
                         :compiler {:output-to "resources/simple.js"
                                    :output-dir "resources/out_simple"
                                    :source-map "resources/simple.js.map"
                                    :source-map-path "out_simple"
                                    :optimizations :simple}}
-                       {:source-paths ["src"]
+                       {:source-paths ["src" "test"]
                         :compiler {:output-to "resources/adv.js"
                                    :output-dir "resources/out_adv"
                                    :source-map "resources/adv.js.map"
