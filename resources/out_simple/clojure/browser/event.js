@@ -7,21 +7,21 @@ goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events');
 goog.require('goog.events');
-clojure.browser.event.EventType = (function (){var obj637655 = {};return obj637655;
+clojure.browser.event.EventType = (function (){var obj39862 = {};return obj39862;
 })();
-clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__7718__auto__ = this$;if(and__7718__auto__)
+clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__10885__auto__ = this$;if(and__10885__auto__)
 {return this$.clojure$browser$event$EventType$event_types$arity$1;
 } else
-{return and__7718__auto__;
+{return and__10885__auto__;
 }
 })())
 {return this$.clojure$browser$event$EventType$event_types$arity$1(this$);
 } else
-{var x__8333__auto__ = (((this$ == null))?null:this$);return (function (){var or__7730__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__8333__auto__)]);if(or__7730__auto__)
-{return or__7730__auto__;
+{var x__11500__auto__ = (((this$ == null))?null:this$);return (function (){var or__10897__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__11500__auto__)]);if(or__10897__auto__)
+{return or__10897__auto__;
 } else
-{var or__7730__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__7730__auto____$1)
-{return or__7730__auto____$1;
+{var or__10897__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__10897__auto____$1)
+{return or__10897__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"EventType.event-types",this$);
 }
@@ -30,11 +30,11 @@ clojure.browser.event.event_types = (function event_types(this$){if((function ()
 }
 });
 Element.prototype.clojure$browser$event$EventType$ = true;
-Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__637656){var vec__637657 = p__637656;var k = cljs.core.nth.call(null,vec__637657,0,null);var v = cljs.core.nth.call(null,vec__637657,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__39863){var vec__39864 = p__39863;var k = cljs.core.nth.call(null,vec__39864,0,null);var v = cljs.core.nth.call(null,vec__39864,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = true;
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__637658){var vec__637659 = p__637658;var k = cljs.core.nth.call(null,vec__637659,0,null);var v = cljs.core.nth.call(null,vec__637659,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__39865){var vec__39866 = p__39865;var k = cljs.core.nth.call(null,vec__39866,0,null);var v = cljs.core.nth.call(null,vec__39866,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 clojure.browser.event.listen = (function() {

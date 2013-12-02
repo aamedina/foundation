@@ -10,14 +10,14 @@ cljs.core.async.impl.dispatch.queued_QMARK_ = false;
 cljs.core.async.impl.dispatch.TASK_BATCH_SIZE = 1024;
 cljs.core.async.impl.dispatch.process_messages = (function process_messages(){cljs.core.async.impl.dispatch.running_QMARK_ = true;
 cljs.core.async.impl.dispatch.queued_QMARK_ = false;
-var count_641893 = 0;while(true){
-var m_641894 = cljs.core.async.impl.dispatch.tasks.pop();if((m_641894 == null))
+var count_53046 = 0;while(true){
+var m_53047 = cljs.core.async.impl.dispatch.tasks.pop();if((m_53047 == null))
 {} else
-{(m_641894.cljs$core$IFn$_invoke$arity$0 ? m_641894.cljs$core$IFn$_invoke$arity$0() : m_641894.call(null));
-if((count_641893 < cljs.core.async.impl.dispatch.TASK_BATCH_SIZE))
+{(m_53047.cljs$core$IFn$_invoke$arity$0 ? m_53047.cljs$core$IFn$_invoke$arity$0() : m_53047.call(null));
+if((count_53046 < cljs.core.async.impl.dispatch.TASK_BATCH_SIZE))
 {{
-var G__641895 = (count_641893 + 1);
-count_641893 = G__641895;
+var G__53048 = (count_53046 + 1);
+count_53046 = G__53048;
 continue;
 }
 } else
@@ -38,10 +38,10 @@ cljs.core.async.impl.dispatch.message_channel.port1.onmessage = (function (msg){
 });
 } else
 {}
-cljs.core.async.impl.dispatch.queue_dispatcher = (function queue_dispatcher(){if(cljs.core.truth_((function (){var and__7718__auto__ = cljs.core.async.impl.dispatch.queued_QMARK_;if(and__7718__auto__)
+cljs.core.async.impl.dispatch.queue_dispatcher = (function queue_dispatcher(){if(cljs.core.truth_((function (){var and__10885__auto__ = cljs.core.async.impl.dispatch.queued_QMARK_;if(and__10885__auto__)
 {return cljs.core.async.impl.dispatch.running_QMARK_;
 } else
-{return and__7718__auto__;
+{return and__10885__auto__;
 }
 })()))
 {return null;
@@ -53,7 +53,7 @@ if(typeof MessageChannel !== 'undefined')
 {if(typeof setImmediate !== 'undefined')
 {return setImmediate(cljs.core.async.impl.dispatch.process_messages);
 } else
-{if(cljs.core.constant$keyword$286)
+{if(cljs.core.constant$keyword$274)
 {return setTimeout(cljs.core.async.impl.dispatch.process_messages,0);
 } else
 {return null;
