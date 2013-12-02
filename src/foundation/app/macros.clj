@@ -1,13 +1,25 @@
 (ns foundation.app.macros)
 
 (defmacro defbehavior
-  [config])
+  [name config]
+  `(def ~name ~config))
 
 (defmacro defrenderer
-  [config])
+  [name config]
+  `(def ~name ~config))
 
 (defmacro defservice
-  [config])
+  [name config]
+  `(def ~name ~config))
 
 (defmacro defmodel
-  [spec])
+  [name spec]
+  `(def ~name ~spec))
+
+(defservice twitter
+  {:api "http://192.241.130.213:8080/user/15/ads-api"})
+
+(defbehavior app
+  {:transform []
+   :effect []
+   :emit []})
