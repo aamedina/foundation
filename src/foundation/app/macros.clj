@@ -1,4 +1,5 @@
-(ns foundation.app.macros)
+(ns foundation.app.macros
+  (:require [clojure.core.async :refer [put!]]))
 
 (defmacro defbehavior
   [name config]
@@ -19,20 +20,37 @@
 (defservice twitter
   {:api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmulti transform (fn [{:keys [type topic]}] [type topic]))
-(defmulti effect (fn [{:keys [type topic]}] [type topic]))
-(defmulti render (fn [{:keys [type topic]}] [type topic]))
+(defmulti transform (juxt :type :topic))
+(defmulti effect (juxt :type :topic))
+(defmulti render (juxt first second last))
+
+(defmethod transform :default
+  [message state]
+  (let [new-state state]
+    new-state))
+
+(defmethod effect :default
+  [message]
+  [])
+
+(defmethod render :default
+  [[op path f :as delta]]
+  [])
 
 (def event-types #{:click})
 
+(def app-model (atom {}))
+
 (defn route-message
-  [{:keys [type topic] :as message}]
+  [app-model effect-queue msg]
   (cond
-    (or (contains? event-types type)
-        )
-    (effect message)
-    :else (throw (ex-info "No matching route found for message."
-                          {:message message}))))
+    (or (contains? event-types (:type msg)) 
+        (contains? (methods effect) [(:type msg) (:topic msg)]))
+    (put! effect-queue msg)
+    (contains? (methods transform) [(:type msg) (:topic msg)])
+    (transform msg (get-in app-model (:topic msg)))
+    :else
+    (throw (ex-info "No matching route found for message." {:msg msg}))))
 
 (defbehavior app
   {:transform []
