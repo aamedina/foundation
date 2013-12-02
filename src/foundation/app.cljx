@@ -13,5 +13,18 @@
   []
   (go-loop []))
 
-(defn build
-  [])
+(defn effect-queue
+  []
+  (go-loop []))
+
+(defn render-queue
+  []
+  (go-loop []))
+
+(defn app-model
+  {:state (atom {})
+   :description nil
+   :dataflow nil
+   :input input-queue
+   :ouput effect-queue
+   :render render-queue})

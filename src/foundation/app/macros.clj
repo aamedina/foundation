@@ -17,6 +17,10 @@
   [name spec]
   `(def ~name ~spec))
 
+(defmacro build
+  [spec]
+  `(do ~spec))
+
 (defservice twitter
   {:api "http://192.241.130.213:8080/user/15/ads-api"})
 
