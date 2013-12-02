@@ -22,6 +22,7 @@ cljs.core.constant$keyword$322 = new cljs.core.Keyword(null,"basic-date-time","b
 cljs.core.constant$keyword$378 = new cljs.core.Keyword(null,"-","-");
 cljs.core.constant$keyword$323 = new cljs.core.Keyword(null,"date","date");
 cljs.core.constant$keyword$300 = new cljs.core.Keyword(null,"finally-block","finally-block");
+cljs.core.constant$keyword$423 = new cljs.core.Keyword("foundation.app.message","dummy","foundation.app.message/dummy");
 cljs.core.constant$keyword$403 = new cljs.core.Keyword(null,"ppath","ppath");
 cljs.core.constant$keyword$298 = new cljs.core.Keyword(null,"catch-block","catch-block");
 cljs.core.constant$keyword$381 = new cljs.core.Keyword(null,"map","map");
