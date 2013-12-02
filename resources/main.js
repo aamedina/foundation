@@ -23,9 +23,3 @@ goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
 goog.addDependency("../cemerick/cljs/test.js", ['cemerick.cljs.test'], ['cljs.core', 'clojure.string']);
 goog.addDependency("../test.js", ['test'], ['clojure.data', 'cljs.core', 'foundation.app.xhr', 'clojure.string', 'foundation.app', 'clojure.browser.repl', 'clojure.set', 'cljs.core.async', 'cemerick.cljs.test']);
-goog.addDependency("../foundation/app/dataflow.js", ['foundation.app.dataflow'], ['cljs.core']);
-goog.addDependency("../foundation/app/tree.js", ['foundation.app.tree'], ['cljs.core', 'clojure.zip']);
-goog.addDependency("../foundation/app/effect.js", ['foundation.app.effect'], ['cljs.core', 'cljs.core.async']);
-goog.addDependency("../foundation/app/zip.js", ['foundation.app.zip'], ['cljs.core', 'clojure.zip']);
-goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'cljs.core.async']);
-goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);

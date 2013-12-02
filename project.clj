@@ -19,7 +19,7 @@
                  [riddley "0.1.6"]
                  [prismatic/dommy "0.1.2"]
                  [enlive "1.1.4"]]
-  :source-paths ["dev" "src"]
+  :source-paths ["dev" "src" "target/classes"]
   :main user
   :jvm-opts ["-Xmx1g" "-server"]
   :plugins [[com.cemerick/austin "0.1.3"]
@@ -27,7 +27,7 @@
             [lein-cljsbuild "1.0.1-SNAPSHOT"]
             [com.keminglabs/cljx "0.3.1"]]
   :hooks [leiningen.cljsbuild cljx.hooks]
-  :cljsbuild {:builds [{:source-paths ["src" "test"]
+  :cljsbuild {:builds [{:source-paths ["target/classes" "test"]
                         :compiler {:output-to "resources/main.js"
                                    :output-dir "resources/out"
                                    :source-map "resources/main.js.map"
@@ -47,9 +47,9 @@
                        ;;             :optimizations :advanced}}
                        ]}
   :cljx {:builds [{:source-paths ["src"]
-                   :output-path "target/generated/clj"
+                   :output-path "target/classes"
                    :rules :clj}
 
                   {:source-paths ["src"]
-                   :output-path "target/generated/cljs"
+                   :output-path "target/classes"
                    :rules :cljs}]})
