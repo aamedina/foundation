@@ -24,23 +24,32 @@
   :jvm-opts ["-Xmx1g" "-server"]
   :plugins [[com.cemerick/austin "0.1.3"]
             [com.cemerick/clojurescript.test "0.2.1"]
-            [lein-cljsbuild "1.0.1-SNAPSHOT"]]
-  :hooks [leiningen.cljsbuild]
+            [lein-cljsbuild "1.0.1-SNAPSHOT"]
+            [com.keminglabs/cljx "0.3.1"]]
+  :hooks [leiningen.cljsbuild cljx.hooks]
   :cljsbuild {:builds [{:source-paths ["src" "test"]
                         :compiler {:output-to "resources/main.js"
                                    :output-dir "resources/out"
                                    :source-map "resources/main.js.map"
                                    :source-map-path "out"
                                    :optimizations :none}}
-                       {:source-paths ["src" "test"]
-                        :compiler {:output-to "resources/simple.js"
-                                   :output-dir "resources/out_simple"
-                                   :source-map "resources/simple.js.map"
-                                   :source-map-path "out_simple"
-                                   :optimizations :simple}}
-                       {:source-paths ["src" "test"]
-                        :compiler {:output-to "resources/adv.js"
-                                   :output-dir "resources/out_adv"
-                                   :source-map "resources/adv.js.map"
-                                   :source-map-path "out_adv"
-                                   :optimizations :advanced}}]})
+                       ;; {:source-paths ["src" "test"]
+                       ;;  :compiler {:output-to "resources/simple.js"
+                       ;;             :output-dir "resources/out_simple"
+                       ;;             :source-map "resources/simple.js.map"
+                       ;;             :source-map-path "out_simple"
+                       ;;             :optimizations :simple}}
+                       ;; {:source-paths ["src" "test"]
+                       ;;  :compiler {:output-to "resources/adv.js"
+                       ;;             :output-dir "resources/out_adv"
+                       ;;             :source-map "resources/adv.js.map"
+                       ;;             :source-map-path "out_adv"
+                       ;;             :optimizations :advanced}}
+                       ]}
+  :cljx {:builds [{:source-paths ["src"]
+                   :output-path "target/generated/clj"
+                   :rules :clj}
+
+                  {:source-paths ["src"]
+                   :output-path "target/generated/cljs"
+                   :rules :cljs}]})
