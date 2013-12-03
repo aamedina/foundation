@@ -6,8 +6,7 @@
             [clojure.string :as str]
             [clojure.data :refer [diff]]
             #+cljs [cljs.core.async :as a :refer [<! >! put! take! chan]]
-            #+cljs [cemerick.cljs.test :as t]
-            #+clj [foundation.app.macros :as app])
+            #+cljs [cemerick.cljs.test :as t])
   #+cljs (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                           [foundation.app.macros :as app]
                           [cemerick.cljs.test

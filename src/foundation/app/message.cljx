@@ -1,8 +1,9 @@
-(ns foundation.app.message)
+(ns foundation.app.message
+  (:refer-clojure :exclude [type]))
 
 (def type ::type)
 
-(def topic ::topic)
+(def path ::path)
 
 (def param-ns (str (namespace ::dummy) ".param"))
 
@@ -10,7 +11,7 @@
   [k]
   (keyword param-ns (name k)))
 
-(defn ^boolean param?
+(defn param?
   [k]
   (identical? (namespace k) param-ns))
 

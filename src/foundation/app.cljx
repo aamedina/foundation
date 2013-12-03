@@ -6,25 +6,25 @@
             [foundation.app.message :as msg]
             [clojure.core :as core]
             #+clj [clojure.core.match :refer [match]]
-            #+cljs [cljs.core.match :as m]
+            #+cljs [cljs.core.match]
             #+clj [clojure.repl :refer [doc]]
             #+cljs [cljs.core.async :as a :refer [<! >! put! take! chan]]
             #+clj [clojure.core.async :as a
                    :refer [<! >! put! take! chan go go-loop]]
             [clojure.zip :as zip])
   #+cljs (:require-macros [cljs.core.async.macros :refer [go go-loop]]
-                          [cljs.core.match :as m :refer [match]]
+                          [cljs.core.match :refer [match]]
                           [foundation.app.macros :as m]))
 
-(defmulti transform (juxt msg/type msg/topic))
-(defmulti effect (juxt msg/type msg/topic))
+(defmulti transform (juxt msg/type msg/path))
+(defmulti effect (juxt msg/type msg/path))
 (defmulti derive identity)
 (defmulti render identity)
-(defmulti node-create msg/topic)
-(defmulti node-update (juxt msg/topic :sel))
-(defmulti node-destroy msg/topic)
-(defmulti transform-enable (juxt msg/type msg/topic))
-(defmulti transform-disable (juxt msg/type msg/topic))
+(defmulti node-create msg/path)
+(defmulti node-update (juxt msg/path :sel))
+(defmulti node-destroy msg/path)
+(defmulti transform-enable (juxt msg/type msg/path))
+(defmulti transform-disable (juxt msg/type msg/path))
 
 (defmethod transform :default [message state] state)
 
@@ -56,30 +56,76 @@
   [[old new _]]
   (let []))
 
+(defn derives
+  [input]
+  (->> (filter (fn [[dispatch f]]
+                 (some (first dispatch) [input]))
+               (methods derive))
+       (map (fn [[dispatch f]]
+              {:output (last dispatch)
+               :fn f}))))
+
+(declare diff-phase)
+
+(defn transform-phase
+  [state]
+  (diff-phase (update-in state
+                         (reduce into [] :new (:path message))
+                         (partial transform message))
+              (:path message)))
+
+(defn diff-phase
+  [state path]
+  (loop [o (:old state) n (:new state) path path state state]
+    (cond
+      (= o n) state
+      (map? n)
+      (let [[o n _] (diff o n)]
+        (recur o n path state))
+      (nil? o) (update-in state [:added] conj path)
+      (and (map? o) (nil? n)) state
+      (nil? n) (update-in state [:removed] conj path)
+      :else (update-in state [:removed] conj path))))
+
+(defn emit-phase
+  [state]
+  (assoc state :deltas (rendering-deltas (:change state))))
+
+(defn derive-phase
+  [state]
+  (-> (reduce (fn [state [t paths]]
+                (if-let [derives (map derives paths)]
+                  (cond
+                    (contains? #{:added :updated} t)
+                    (map derives paths)
+                    (= t :removed)
+                    (map derives paths)
+                    :else state)
+                  state)
+                )
+              state (select-keys state [:added :removed :updated]))
+      diff-phase))
+
+(defn effect-phase [state]
+  (effect message))
+
+(defn state
+  [data-model message]
+  {:old @data-model
+   :new @data-model
+   :added []
+   :removed []
+   :updated []
+   :deltas []
+   :context {:message message}})
+
 (defn run-dataflow
   [data-model message]
-  (letfn [(transform-phase [state]
-            (update-in state (reduce into [] :new (:topic message))
-                       (partial transform message)))
-          (diff-phase [state]
-            (loop [o (:old state) n (:new state) prefix (:topic message)]
-              )
-            (assoc state :change (diff (:old state) (:new state))))
-          (emit-phase [state]
-            (assoc state :deltas (rendering-deltas (:change state))))
-          (derive-phase [state]
-            (assoc state :deltas (rendering-deltas (:change state))))
-          (effect-phase [state]
-            (effect message))]
-    (let [state {:old @data-model
-                 :new @data-model
-                 :change {}
-                 :deltas []
-                 :context {:message message}}
-          new-state (transform-phase state)]
-      (-> state
-          transform-phase
-          diff-phase))))
+  (-> (state data-model message)
+      transform-phase          
+      derive-phase
+      effect-phase
+      emit-phase))
 
 (defmacro build
   []
@@ -89,13 +135,14 @@
          effect-queue# (effect-queue data-model# input-queue#)
          transform# ~(methods transform)
          effect# ~(set (methods effect))
+         derive# ~(methods derive)
          rendering-config# ~(assoc {}
                               :node-create (methods node-create)
                               :node-update (methods node-update)
                               :node-destroy (methods node-destroy)
                               :transform-enable (methods transform-enable)
                               :transform-disable (methods transform-disable))
-         description# {:transform transform# :effect effect#}
+         description# {:transform transform# :effect effect# :derive derive#}
          dataflow# description#]
      {:state data-model#
       :description description#
@@ -109,7 +156,7 @@
   [message state]
   ((fnil inc 0) state))
 
-(defmethod derive [:inc #{[:counter]} [:counters] :map]
+(defmethod derive [#{[:counter]} [:counters]]
   [message state]
   ((fnil inc 0) state))
 
@@ -117,7 +164,7 @@
   [message])
 
 (defn resolve-id
-  [topic])
+  [path])
 
 (def ^:dynamic *dom* (atom (make-hierarchy)))
 
