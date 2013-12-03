@@ -53,8 +53,27 @@
   (let []))
 
 (defn rendering-deltas
-  [[old new _]]
-  (let []))
+  [state]
+  (letfn [(selector [op]
+            (case op
+              :node-create (methods node-create)
+              :node-destroy (methods node-destroy)
+              :transform-enable (methods transform-enable)
+              :transform-disable (methods transform-disable)))
+          (delta [op path]
+            [op path (get-in state (into [:new] path))])
+          (delta-op [op path]           
+            [(case op
+               :node-create :transform-enable
+               :node-destroy :transform-disable
+               nil) path ])
+          (deltas [deltas [k paths]]
+            (case k
+              :added (into deltas (keep delta (repeat :node-create) paths))
+              :updated (into deltas (keep delta (repeat :node-update) paths))
+              :removed (into deltas (keep delta (repeat :node-destroy)
+                                          paths))))]
+    (reduce deltas [] (select-keys state [:added :updated :removed]))))
 
 (defn derives
   [input]
@@ -63,6 +82,7 @@
                (methods derive))
        (map (fn [[dispatch f]]
               {:output (last dispatch)
+               :input input
                :fn f}))))
 
 (declare diff-phase)
@@ -91,17 +111,22 @@
 
 (defn derive-phase
   [state]
-  (-> (reduce (fn [state [t paths]]
-                (println (map derives paths))
-                (if-let [derives (map derives paths)]
-                  (cond
-                    (contains? #{:added :updated} t)
-                    derives
-                    (= t :removed)
-                    derives
-                    :else state)
-                  state))
-              state (select-keys state [:added :removed :updated]))))
+  (reduce (fn [state [t paths]]
+            (if-let [derives (reduce merge (map derives paths))]
+              (cond
+                (contains? #{:added :updated} t)
+                (reduce (fn [s {:keys [input output fn]}]
+                          (diff-phase (update-in s (into [:new] output) fn)
+                                      input))
+                        state derives)
+                (= t :removed)
+                (reduce
+                 (fn [s {:keys [input output fn]}]
+                   (update-in s (into [:new] output) fn))
+                 state derives)
+                :else state)
+              state))
+          state (select-keys state [:added :removed :updated])))
 
 (defn effect-phase [state]
   (effect (get-in state [:context :message])))
@@ -160,7 +185,7 @@
   ((fnil inc 0) state))
 
 (defmethod derive [#{[:counter]} [:counters]]
-  [message state]
+  [state]
   ((fnil inc 0) state))
 
 (defmethod effect [:inc [:counter]]
