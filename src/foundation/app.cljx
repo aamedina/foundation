@@ -10,7 +10,7 @@
             #+clj [clojure.repl :refer [doc]]
             #+cljs [cljs.core.async :as a :refer [<! >! put! take! chan]]
             #+clj [clojure.core.async :as a
-                   :refer [<! >! put! take! chan go-loop]]
+                   :refer [<! >! put! take! chan go go-loop]]
             [clojure.zip :as zip])
   #+cljs (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                           [cljs.core.match :as m :refer [match]]
@@ -26,18 +26,11 @@
 (defmulti transform-enable (juxt msg/type msg/topic))
 (defmulti transform-disable (juxt msg/type msg/topic))
 
-(defmethod transform :default
-  [message state]
-  (let [new-state state]
-    new-state))
+(defmethod transform :default [message state] state)
 
-(defmethod effect :default
-  [message]
-  [])
+(defmethod effect :default [message] (go []))
 
-(defmethod render :default
-  [[op path f :as delta]]
-  [])
+(defmethod render :default [[op path f :as delta]] [])
 
 (defn input-queue
   [data-model render-queue]
@@ -51,32 +44,42 @@
   [data-model]
   (go-loop []))
 
+(defn transact
+  [data-model message]
+  )
+
+(defn transact-all
+  [data-model]
+  (let []))
+
+(defn rendering-deltas
+  [[old new _]]
+  (let []))
+
 (defn run-dataflow
   [data-model message]
-  (let [state {:old @data-model
-               :new @data-model
-               :change {}
-               :context {:message message}}]
-    (letfn [(transform-phase [state]
-              (update-in data-model (:topic message)
-                         (partial transform message)))
-            (effect-phase [state]
-              (effect message))]
+  (letfn [(transform-phase [state]
+            (update-in state (reduce into [] :new (:topic message))
+                       (partial transform message)))
+          (diff-phase [state]
+            (loop [o (:old state) n (:new state) prefix (:topic message)]
+              )
+            (assoc state :change (diff (:old state) (:new state))))
+          (emit-phase [state]
+            (assoc state :deltas (rendering-deltas (:change state))))
+          (derive-phase [state]
+            (assoc state :deltas (rendering-deltas (:change state))))
+          (effect-phase [state]
+            (effect message))]
+    (let [state {:old @data-model
+                 :new @data-model
+                 :change {}
+                 :deltas []
+                 :context {:message message}}
+          new-state (transform-phase state)]
       (-> state
           transform-phase
-          effect-phase))))
-
-(defn diff-map
-  [old new]
-  (loop [[o n both] (diff old new)
-         m {:removed nil :added nil :updated nil :data-model new}]
-    (println o n)
-    (cond
-      (and (= o old) (= n new)) (assoc m :updated n)
-      (map? n) (recur (diff old n) m)
-      (nil? o) (assoc m :added o)
-      (nil? n) (assoc m :removed o))
-    ))
+          diff-phase))))
 
 (defmacro build
   []
