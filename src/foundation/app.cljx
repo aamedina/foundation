@@ -51,20 +51,32 @@
   [data-model]
   (go-loop []))
 
-(defn app-model-diff
-  [])
-
-(defn apply-transform
+(defn run-dataflow
   [data-model message]
-  (update-in data-model (:topic message) (partial transform message)))
+  (let [state {:old @data-model
+               :new @data-model
+               :change {}
+               :context {:message message}}]
+    (letfn [(transform-phase [state]
+              (update-in data-model (:topic message)
+                         (partial transform message)))
+            (effect-phase [state]
+              (effect message))]
+      (-> state
+          transform-phase
+          effect-phase))))
 
-(defn transform-maps
-  [transforms]
-  (mapv (fn [x]          
-          (if (vector? x)
-            (zipmap [:key :out :fn] x)
-            x))
-        transforms))
+(defn diff-map
+  [old new]
+  (loop [[o n both] (diff old new)
+         m {:removed nil :added nil :updated nil :data-model new}]
+    (println o n)
+    (cond
+      (and (= o old) (= n new)) (assoc m :updated n)
+      (map? n) (recur (diff old n) m)
+      (nil? o) (assoc m :added o)
+      (nil? n) (assoc m :removed o))
+    ))
 
 (defmacro build
   []
@@ -72,8 +84,8 @@
          render-queue# (render-queue data-model#)
          input-queue# (input-queue data-model# render-queue#)
          effect-queue# (effect-queue data-model# input-queue#)
-         transform# ~(into [] (map vec (methods transform)))
-         effect# ~(into [] (map set (methods effect)))
+         transform# ~(methods transform)
+         effect# ~(set (methods effect))
          rendering-config# ~(assoc {}
                               :node-create (methods node-create)
                               :node-update (methods node-update)
