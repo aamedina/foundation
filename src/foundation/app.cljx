@@ -69,23 +69,21 @@
 
 (defn transform-phase
   [state]
-  (diff-phase (update-in state
-                         (reduce into [] :new (:path message))
-                         (partial transform message))
-              (:path message)))
+  (let [message (get-in state [:context :message])]
+    (diff-phase (update-in state
+                           (into [:new] (msg/path message))
+                           (partial transform message))
+                (msg/path message))))
 
 (defn diff-phase
   [state path]
-  (loop [o (:old state) n (:new state) path path state state]
+  (let [[o n _] (diff (:old state) (:new state))]
     (cond
       (= o n) state
-      (map? n)
-      (let [[o n _] (diff o n)]
-        (recur o n path state))
       (nil? o) (update-in state [:added] conj path)
       (and (map? o) (nil? n)) state
       (nil? n) (update-in state [:removed] conj path)
-      :else (update-in state [:removed] conj path))))
+      :else (update-in state [:updated] conj path))))
 
 (defn emit-phase
   [state]
@@ -94,38 +92,43 @@
 (defn derive-phase
   [state]
   (-> (reduce (fn [state [t paths]]
+                (println (map derives paths))
                 (if-let [derives (map derives paths)]
                   (cond
                     (contains? #{:added :updated} t)
-                    (map derives paths)
+                    derives
                     (= t :removed)
-                    (map derives paths)
+                    derives
                     :else state)
-                  state)
-                )
-              state (select-keys state [:added :removed :updated]))
-      diff-phase))
+                  state))
+              state (select-keys state [:added :removed :updated]))))
 
 (defn effect-phase [state]
-  (effect message))
+  (effect (get-in state [:context :message])))
 
 (defn state
-  [data-model message]
-  {:old @data-model
-   :new @data-model
-   :added []
-   :removed []
-   :updated []
+  [message data-model]
+  {:old data-model
+   :new data-model
+   :added #{}
+   :removed #{}
+   :updated #{}
    :deltas []
    :context {:message message}})
 
 (defn run-dataflow
-  [data-model message]
-  (-> (state data-model message)
-      transform-phase          
-      derive-phase
-      effect-phase
-      emit-phase))
+  ([message] (run-dataflow message {}))
+  ([message data-model]
+     (-> (state data-model message)
+         transform-phase          
+         derive-phase
+         ;; effect-phase
+         ;; emit-phase
+         )))
+
+(defn lazy-run
+  [n init-model message]
+  (take n (iterate (comp :new (partial run-dataflow message)) {})))
 
 (defmacro build
   []
