@@ -8,15 +8,15 @@ foundation.app.zip.coll_zip = (function coll_zip(root){return clojure.zip.zipper
 });
 foundation.app.zip.locs = (function locs(root){return cljs.core.take_while.call(null,cljs.core.complement.call(null,clojure.zip.end_QMARK_),cljs.core.iterate.call(null,clojure.zip.next,foundation.app.zip.coll_zip.call(null,root)));
 });
-foundation.app.zip.nodes = (function nodes(root){var iter__8423__auto__ = (function iter__472882(s__472883){return (new cljs.core.LazySeq(null,(function (){var s__472883__$1 = s__472883;while(true){
-var temp__4098__auto__ = cljs.core.seq.call(null,s__472883__$1);if(temp__4098__auto__)
-{var s__472883__$2 = temp__4098__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__472883__$2))
-{var c__8421__auto__ = cljs.core.chunk_first.call(null,s__472883__$2);var size__8422__auto__ = cljs.core.count.call(null,c__8421__auto__);var b__472885 = cljs.core.chunk_buffer.call(null,size__8422__auto__);if((function (){var i__472884 = 0;while(true){
-if((i__472884 < size__8422__auto__))
-{var loc = cljs.core._nth.call(null,c__8421__auto__,i__472884);cljs.core.chunk_append.call(null,b__472885,clojure.zip.node.call(null,loc));
+foundation.app.zip.nodes = (function nodes(root){var iter__8423__auto__ = (function iter__618523(s__618524){return (new cljs.core.LazySeq(null,(function (){var s__618524__$1 = s__618524;while(true){
+var temp__4098__auto__ = cljs.core.seq.call(null,s__618524__$1);if(temp__4098__auto__)
+{var s__618524__$2 = temp__4098__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__618524__$2))
+{var c__8421__auto__ = cljs.core.chunk_first.call(null,s__618524__$2);var size__8422__auto__ = cljs.core.count.call(null,c__8421__auto__);var b__618526 = cljs.core.chunk_buffer.call(null,size__8422__auto__);if((function (){var i__618525 = 0;while(true){
+if((i__618525 < size__8422__auto__))
+{var loc = cljs.core._nth.call(null,c__8421__auto__,i__618525);cljs.core.chunk_append.call(null,b__618526,clojure.zip.node.call(null,loc));
 {
-var G__472886 = (i__472884 + 1);
-i__472884 = G__472886;
+var G__618527 = (i__618525 + 1);
+i__618525 = G__618527;
 continue;
 }
 } else
@@ -25,12 +25,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__472885),iter__472882.call(null,cljs.core.chunk_rest.call(null,s__472883__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__618526),iter__618523.call(null,cljs.core.chunk_rest.call(null,s__618524__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__472885),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__618526),null);
 }
 } else
-{var loc = cljs.core.first.call(null,s__472883__$2);return cljs.core.cons.call(null,clojure.zip.node.call(null,loc),iter__472882.call(null,cljs.core.rest.call(null,s__472883__$2)));
+{var loc = cljs.core.first.call(null,s__618524__$2);return cljs.core.cons.call(null,clojure.zip.node.call(null,loc),iter__618523.call(null,cljs.core.rest.call(null,s__618524__$2)));
 }
 } else
 {return null;
