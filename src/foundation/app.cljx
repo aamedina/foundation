@@ -811,15 +811,19 @@
   [root-id]
   )
 
-(defrecord Uri [re keys absolute?])
-
 (defmacro defmodel
   [name {:keys [url] :as m}]
-  `(def ~name
-     '~(assoc m
-         :url (let [compiled# (clout/route-compile url)]
-                (zipmap (keys compiled#) (vals compiled#))))))
+  `(do (defrecord ~((comp symbol str/capitalize str) name)
+           ~(vec (map (comp symbol #(str/replace % ":" "") str)
+                      (keys (:attrs m)))))
+       (def ~name
+         '~(assoc m
+             :url (let [compiled# (clout/route-compile url)]
+                    (zipmap (keys compiled#) (vals compiled#)))))
+       )
+  )
 
 
 (defmodel accounts
-  {:url "/accounts/:id"})
+  {:url "/accounts/:id"
+   :attrs {:name string? :id string? :currency string? :timezone string?}})

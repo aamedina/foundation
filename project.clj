@@ -17,6 +17,7 @@
                  [hiccup "1.0.4"]
                  [hickory "0.5.2"]
                  [riddley "0.1.6"]
+                 [inflections "0.9.5"]
                  [prismatic/dommy "0.1.2"]
                  [enlive "1.1.4"]]
   :source-paths ["dev" "src" "target/classes"]
