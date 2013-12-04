@@ -75,13 +75,46 @@
       (recur (<! push-render-queue)))
     push-render-queue))
 
-(defn transact
+(defprotocol DomMapper
+  (get-id [this path])
+  (get-parent-id [this path])
+  (new-id! [this path] [this path v])
+  (delete-id! [this path])
+  (on-destroy! [this path f])
+  (set-data! [this ks d])
+  (drop-data! [this ks])
+  (get-data [this ks]))
+
+(defn run-on-destroy!
+  [env]
+  (let [nodes (tree-seq (constantly true)
+                        (fn [n]
+                          (map #(get n %) (remove #{:id :on-destroy :_data}
+                                                  (keys n)))) env)]
+    (doseq [f (mapcat :on-destroy nodes)]
+      (f))))
+
+(defrecord DomRenderer [env]
+  DomMapper
+  (get-id [this path]
+    (if (seq path) (get-in @env (conj path :id)) (:id @env)))
+  (get-parent-id [this path]
+    (when (seq path) (get-id this (vec (butlast path)))))
+  (new-id! [this path] (new-id! this path (gensym)))
+  (new-id! [this path v] (swap! env assoc-in (conj path :id) v) v)
+  (delete-id! [this path]
+    (run-on-destroy! (get-in @env path))
+    (swap! env assoc-in path nil))
+  (on-destroy! [this path f]
+    (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
+  (set-data! [this ks d] (swap! env assoc-in (concat [:_data] ks) d))
+  (drop-data! [this ks]
+    (swap! env update-in (concat [:_data] (butlast ks)) dissoc (last ks)))
+  (get-data [this ks] (get-in @env (concat [:_data] ks))))
+
+(defn transact-one
   [data-model message]
   )
-
-(defn transact-all
-  [data-model]
-  (let []))
 
 (defn rendering-deltas
   [state]
