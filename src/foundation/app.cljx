@@ -59,6 +59,22 @@
       (recur (<! render-queue)))
     render-queue))
 
+(defn push-render-queue
+  [root-id input-queue]
+  (let [renderer (atom {:id root-id})
+        push-render-queue (chan (sliding-buffer 10))]
+    (go-loop [delta (<! push-render-queue)]
+      (let [[op path] delta]
+        (case op
+          :node-create (node-create delta)
+          :node-update (node-update delta)
+          :node-destroy (node-destroy delta)
+          :transform-enable (transform-enable delta)
+          :transform-disable (transform-disable delta)
+          nil))
+      (recur (<! push-render-queue)))
+    push-render-queue))
+
 (defn transact
   [data-model message]
   )
