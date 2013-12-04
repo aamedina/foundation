@@ -425,4 +425,91 @@
        ~(vec (map (fn [pred#] (list '_ :guard pred#)) preds)) :ok
        :else :fail)))
 
+(defn node->entities
+  [node path parent-id node-id]
+  (let [{:keys [value attrs transforms]} node
+        node-e (cond-> {:t/id node-id :t/path path :t/type :t/node
+                        :t/segment (last path)}
+                       parent-id (assoc :t/parent parent-id)
+                       value (assoc :t/value value))
+        attrs-es (attrs->entities attrs node-id)
+        transform-es (transforms->entities transforms node-id)]
+    (concat [node-e] attrs-es transform-es)))
 
+(defn tree->entities
+  [tree path parent-id]
+  (let [{:keys [children]} tree
+        ks (child-keys children)
+        node-id (next-eid)
+        node-tuples (node->entities tree path parent-id node-id)]
+    (concat node-tuples
+            (mapcat (fn [k] (tree-entitites (get-in tree [:children k])
+                                            (conj path k) node-id))
+                    ks))))
+
+(defn entity->tuples
+  [ent]
+  (let [id (:t/id e)]
+    (map (fn [[k v]] [id k v]) (dissoc e :t/id))))
+
+(defn tree->tuples
+  [tree]
+  (if (:tree tree)
+    (entities->tuples
+     (tree->entities (:tree tree) [] nil))
+    []))
+
+(defn delete-deltas
+  [t deltas]
+  (reduce (fn [d k]
+            (if (< k t)
+              (dissoc d k)
+              d))
+          deltas (keys deltas)))
+
+(defn gc
+  [state]
+  (if *gc-deltas*
+    (let [t (:t state)
+          delete-d (- t 2)]
+      (update-in state [:deltas] #(delete-deltas delete-t)))
+    state))
+
+(defn apply-deltas
+  [old deltas]
+  (let [{:keys [seq t] old}
+        deltas (expand-maps deltas)
+        {:keys [tree this-tx] (update-tree old deltas)}
+        deltas (map (fn [d s]
+                      {:delta d
+                       :t t
+                       :seq s})
+                    this-tx
+                    (iterate inc seq))]
+    (-> old
+        (assoc-in [:deltas t] deltas)
+        (assoc-in [:this-tx] [])
+        (update-in [:seq] + (count deltas))
+        (assoc-in [:tree] tree)
+        (update-in [:t] inc))))
+
+(defn value
+  [tree path]
+  (let [r-path (read-path path)]
+    (get-in tree (conj r-path :value))))
+
+(def new-app-model
+  {:deltas {}
+   :this-tx []
+   :tree nil
+   :seq 0
+   :t 0})
+
+(defn t
+  [tree]
+  (:t tree))
+
+(defn since-t
+  [tree t]
+  (let [ts (range t (:t tree))]
+    (vec (map :delta (mapcat #(get (:deltas tree) %) ts)))))
