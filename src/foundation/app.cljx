@@ -11,7 +11,7 @@
             #+clj [clojure.repl :refer [doc]]
             #+cljs [cljs.core.async :as a :refer [<! >! put! take! chan]]
             #+clj [clojure.core.async :as a
-                   :refer [<! >! put! take! chan go go-loop]]
+                   :refer [<! >! put! take! chan go go-loop sliding-buffer]]
             [clojure.zip :as zip])
   #+cljs (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                           [cljs.core.match :refer [match]]
@@ -31,17 +31,33 @@
 
 (defmethod effect :default [message] (go []))
 
+(declare transact-one since-t apply-deltas)
+
 (defn input-queue
-  [data-model render-queue]
-  (go-loop []))
+  [data-model]
+  (let [input-queue (chan (sliding-buffer 10))]
+    (go-loop [message (<! input-queue)]
+      (swap! data-model transact-one message)
+      (recur (<! input-queue)))
+    input-queue))
 
 (defn effect-queue
-  [data-model input-queue]
-  (go-loop []))
+  [data-model services-fn input-queue]
+  (let [effect-queue (chan (sliding-buffer 10))]
+    (go-loop [message (<! effect-queue)]
+      (services-fn message input-queue))
+    effect-queue))
 
 (defn render-queue
-  [app-model]
-  (go-loop []))
+  [app-model render-fn input-queue]
+  (let [render-queue (chan (sliding-buffer 10))]
+    (go-loop [message (<! render-queue)]
+      (let [old-app-model @app-model
+            new-app-model (swap! app-model apply-deltas (:deltas message))
+            deltas (since-t new-app-model old-app-model)]
+        (render-fn deltas input-queue))
+      (recur (<! render-queue)))
+    render-queue))
 
 (defn transact
   [data-model message]
