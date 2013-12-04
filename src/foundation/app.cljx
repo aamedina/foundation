@@ -5,6 +5,7 @@
             [clojure.data :refer [diff]]            
             [foundation.app.message :as msg]
             [clojure.core :as core]
+            #+clj [clojure.xml :as xml]
             #+clj [clojure.core.match :refer [match]]
             #+cljs [cljs.core.match]
             #+clj [clojure.repl :refer [doc]]
@@ -189,15 +190,61 @@
 (def dom ::dom)
 (def root ::root)
 
-(defrecord VirtualDOM [dom hierarchy])
-
-(defn virtual-dom
-  [root-id]
-  (->VirtualDOM (atom {::root root-id}) (atom (make-hierarchy))))
+(defprotocol IDOM
+  (-id [dom path])
+  (-parent [dom path])
+  (-children [dom path])
+  (-ancestors [dom path])
+  (-descendants [dom path])  
+  (-append [dom path node])
+  (-prepend [dom path node])
+  (-listen [dom path event f])
+  (-unlisten [dom path event])
+  (-remove [dom path])
+  (-remove-children [dom path]))
 
 (defn ns-qualify
   [x]
   (keyword (namespace dom) (name x)))
+
+(defn path
+  [p & ps]
+  (flatten (into [p] ps)))
+
+(def empty-node
+  {:tag ""
+   :attrs {}
+   :content []})
+
+(defn locs
+  [root]
+  (take-while (complement zip/end?)
+              (iterate zip/next (zip/xml-zip root))))
+
+(defn nodes
+  [root]
+  (for [loc (locs root)] (zip/node loc)))
+
+(defrecord VirtualDOM [dom hierarchy]
+  IDOM
+  (-id [dom path]
+    (get-in dom (path ::root path :id)))
+  (-parent [dom path])
+  (-children [dom path])
+  (-ancestors [dom path])
+  (-descendants [dom path])  
+  (-append [dom path node])
+  (-prepend [dom path node])
+  (-listen [dom path event f])
+  (-unlisten [dom path event])
+  (-remove [dom path])
+  (-remove-children [dom path]))
+
+(defn virtual-dom
+  [root-id]
+  (->VirtualDOM (atom (assoc-in empty-node [:attrs :id] root-id))
+                (atom (core/derive (make-hierarchy) (ns-qualify root-id)
+                                   ::root))))
 
 (defn extend-dom!
   ([dom child] (extend-dom! child :root))
