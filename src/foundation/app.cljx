@@ -227,26 +227,37 @@
 
 (defrecord VirtualDOM [dom paths hierarchy]
     IDOM
-    (-id [dom path]
+    (-id [vdom path]
       (get-in @paths (-path ::root path)))
-    (-parent [dom path])
-    (-children [dom path])
-    (-ancestors [dom path])
-    (-descendants [dom path])
-    (-append [dom path parent child]
-      (let [next-id (or (:id node) (gensym))]
+    (-parent [vdom path])
+    (-children [vdom path])
+    (-ancestors [vdom path])
+    (-descendants [vdom path])
+    (-append [vdom path parent child]
+      (let [next-id (or (:id child) (gensym))]
         (swap! paths assoc-in (-path ::root path) next-id)))
-    (-prepend [dom path parent child])
-    (-listen [dom path event f])
-    (-unlisten [dom path event])
-    (-remove [dom path])
-    (-remove-children [dom path])
-    (-sel [dom selector])
-    (-diff [dom new-dom]))
+    (-prepend [vdom path parent child]
+      (let [next-id (or (:id child) (gensym))]
+        (swap! paths assoc-in (-path ::root path) next-id)))
+    (-listen [vdom path event f])
+    (-unlisten [vdom path event])
+    (-remove [vdom path])
+    (-remove-children [vdom path])
+    (-sel [vdom selector]
+      (loop [loc (zip/xml-zip @dom)]
+        (println (get-in (zip/node loc) [:attrs :id]) selector)
+        (cond
+          (zip/end? loc) nil
+          (identical? (get-in (zip/node loc) [:attrs :id]) selector)
+          (zip/node loc)
+          :else (recur (zip/next loc)))))
+    (-diff [vdom new-dom]))
 
 (defn virtual-dom
   [root-id]
-  (->VirtualDOM (atom (assoc-in empty-node [:attrs :id] root-id))
+  (->VirtualDOM (atom (assoc empty-node
+                        :attrs {:id root-id}
+                        :tag "div"))
                 (atom {::root root-id})
                 (atom (core/derive (make-hierarchy) (ns-qualify root-id)
                                    ::root))))
