@@ -241,11 +241,13 @@
         (swap! paths assoc-in (-path ::root path) next-id)))
     (-listen [vdom path event f])
     (-unlisten [vdom path event])
-    (-remove [vdom path])
-    (-remove-children [vdom path])
+    (-remove [vdom path]
+      (swap! paths dissoc path))
+    (-remove-children [vdom path]
+      (map #(swap! paths dissoc %)
+           (map #(-sel vdom %) (descendants @hierarchy (-id vdom path)))))
     (-sel [vdom selector]
       (loop [loc (zip/xml-zip @dom)]
-        (println (get-in (zip/node loc) [:attrs :id]) selector)
         (cond
           (zip/end? loc) nil
           (identical? (get-in (zip/node loc) [:attrs :id]) selector)
