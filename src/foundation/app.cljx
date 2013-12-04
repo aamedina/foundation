@@ -137,8 +137,8 @@
 (defn run-dataflow
   ([message] (run-dataflow message {}))
   ([message data-model]
-     (-> (state data-model message)
-         transform-phase          
+     (-> (state message data-model)
+         transform-phase
          derive-phase
          ;; effect-phase
          ;; emit-phase
@@ -196,20 +196,18 @@
   (-children [dom path])
   (-ancestors [dom path])
   (-descendants [dom path])  
-  (-append [dom path node])
-  (-prepend [dom path node])
+  (-append [dom path parent child])
+  (-prepend [dom path parent child])
   (-listen [dom path event f])
   (-unlisten [dom path event])
   (-remove [dom path])
-  (-remove-children [dom path]))
+  (-remove-children [dom path])
+  (-sel [dom selector])
+  (-diff [dom new-dom]))
 
 (defn ns-qualify
   [x]
   (keyword (namespace dom) (name x)))
-
-(defn path
-  [p & ps]
-  (flatten (into [p] ps)))
 
 (def empty-node
   {:tag ""
@@ -225,24 +223,31 @@
   [root]
   (for [loc (locs root)] (zip/node loc)))
 
-(defrecord VirtualDOM [dom hierarchy]
-  IDOM
-  (-id [dom path]
-    (get-in dom (path ::root path :id)))
-  (-parent [dom path])
-  (-children [dom path])
-  (-ancestors [dom path])
-  (-descendants [dom path])  
-  (-append [dom path node])
-  (-prepend [dom path node])
-  (-listen [dom path event f])
-  (-unlisten [dom path event])
-  (-remove [dom path])
-  (-remove-children [dom path]))
+(defn -path [p & ps] (into [p] (flatten ps)))
+
+(defrecord VirtualDOM [dom paths hierarchy]
+    IDOM
+    (-id [dom path]
+      (get-in @paths (-path ::root path)))
+    (-parent [dom path])
+    (-children [dom path])
+    (-ancestors [dom path])
+    (-descendants [dom path])
+    (-append [dom path parent child]
+      (let [next-id (or (:id node) (gensym))]
+        (swap! paths assoc-in (-path ::root path) next-id)))
+    (-prepend [dom path parent child])
+    (-listen [dom path event f])
+    (-unlisten [dom path event])
+    (-remove [dom path])
+    (-remove-children [dom path])
+    (-sel [dom selector])
+    (-diff [dom new-dom]))
 
 (defn virtual-dom
   [root-id]
   (->VirtualDOM (atom (assoc-in empty-node [:attrs :id] root-id))
+                (atom {::root root-id})
                 (atom (core/derive (make-hierarchy) (ns-qualify root-id)
                                    ::root))))
 
