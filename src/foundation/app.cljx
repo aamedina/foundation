@@ -31,7 +31,7 @@
 
 (defmethod effect :default [message] (go []))
 
-(declare transact-one since-t apply-deltas)
+(declare transact-one since-t apply-deltas log-group)
 
 (defn input-queue
   [data-model]
@@ -58,22 +58,6 @@
         (render-fn deltas input-queue))
       (recur (<! render-queue)))
     render-queue))
-
-(defn push-render-queue
-  [root-id input-queue]
-  (let [renderer (atom {:id root-id})
-        push-render-queue (chan (sliding-buffer 10))]
-    (go-loop [delta (<! push-render-queue)]
-      (let [[op path] delta]
-        (case op
-          :node-create (node-create delta)
-          :node-update (node-update delta)
-          :node-destroy (node-destroy delta)
-          :transform-enable (transform-enable delta)
-          :transform-disable (transform-disable delta)
-          nil))
-      (recur (<! push-render-queue)))
-    push-render-queue))
 
 (defprotocol DomMapper
   (get-id [this path])
@@ -111,6 +95,36 @@
   (drop-data! [this ks]
     (swap! env update-in (concat [:_data] (butlast ks)) dissoc (last ks)))
   (get-data [this ks] (get-in @env (concat [:_data] ks))))
+
+(defn resolve-method
+  [op delta]
+  (case op
+    :node-create (node-create delta)
+    :node-update (node-update delta)
+    :node-destroy (node-destroy delta)
+    :transform-enable (transform-enable delta)
+    :transform-disable (transform-disable delta)
+    nil))
+
+(defn push-render-queue
+  [root-id input-queue]
+  (let [renderer (->DomRenderer (atom {:id root-id}))
+        push-render-queue (chan (sliding-buffer 10))]
+    (go-loop [delta (<! push-render-queue)]
+      (let [[op path] delta]
+        (resolve-method op delta))
+      (recur (<! push-render-queue)))
+    push-render-queue))
+
+(defn renderer
+  [root-id]
+  (let [renderer (->DomRenderer (atom {:id root-id}))
+        log-fn (fn [deltas] (log-group "Rendering Deltas" deltas))]
+    (fn [deltas input-queue]
+      (log-fn deltas)
+      (doseq [d deltas]
+        (let [[op path] d]
+          (resolve-method op d))))))
 
 (defn transact-one
   [data-model message]
