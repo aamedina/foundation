@@ -5,6 +5,11 @@
             [clojure.data :refer [diff]]            
             [foundation.app.message :as msg]
             [clojure.core :as core]
+            [hickory.core :refer :all]
+            [hiccup.core :refer [html h]]
+            [hiccup.def :refer [defelem defhtml wrap-attrs]]
+            [hiccup.util :refer [escape-html as-str to-uri url url-encode]]
+            [clout.core :as clout]
             #+clj [clojure.xml :as xml]
             #+clj [clojure.core.match :refer [match]]
             #+cljs [cljs.core.match]
@@ -806,3 +811,15 @@
   [root-id]
   )
 
+(defrecord Uri [re keys absolute?])
+
+(defmacro defmodel
+  [name {:keys [url] :as m}]
+  `(def ~name
+     '~(assoc m
+         :url (let [compiled# (clout/route-compile url)]
+                (zipmap (keys compiled#) (vals compiled#))))))
+
+
+(defmodel accounts
+  {:url "/accounts/:id"})
