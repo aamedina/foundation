@@ -25,8 +25,7 @@
   :jvm-opts ["-Xmx1g" "-server"]
   :plugins [[com.cemerick/austin "0.1.3"]
             [com.cemerick/clojurescript.test "0.2.1"]
-            [lein-cljsbuild "1.0.1-SNAPSHOT"]
-            [com.keminglabs/cljx "0.3.1"]]
+            [lein-cljsbuild "1.0.1-SNAPSHOT"]]
   :hooks [leiningen.cljsbuild cljx.hooks]
   :cljsbuild {:builds [{:source-paths ["target/classes" "test"]
                         :compiler {:output-to "resources/main.js"
@@ -46,11 +45,4 @@
                        ;;             :source-map "resources/adv.js.map"
                        ;;             :source-map-path "out_adv"
                        ;;             :optimizations :advanced}}
-                       ]}
-  :cljx {:builds [{:source-paths ["src" "test"]
-                   :output-path "target/classes"
-                   :rules :clj}
-
-                  {:source-paths ["src" "test"]
-                   :output-path "target/classes"
-                   :rules :cljs}]})
+                       ]})
