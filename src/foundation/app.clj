@@ -13,7 +13,6 @@
             [inflections.core :as inflect]
             [clojure.xml :as xml]
             [clojure.core.match :refer [match]]
-            [cljs.core.match]
             [clojure.repl :refer [doc]]
             [clojure.core.async :as a
              :refer [<! >! put! take! chan go go-loop sliding-buffer]]
@@ -33,7 +32,7 @@
 
 (defmethod effect :default [message] (go []))
 
-(declare transact-one since-t apply-deltas log-group)
+(declare transact-one since-t apply-deltas log-group new-app-model)
 
 (defn input-queue
   [data-model]
@@ -769,7 +768,7 @@
 
 (defn ns-qualify
   [x]
-  (keyword (namespace dom) (name x)))
+  (keyword (namespace ::dom) (name x)))
 
 (def empty-node
   {:tag ""
@@ -809,18 +808,24 @@
   )
 
 (defmacro defmodel
-  [name {:keys [url] :as m}]
-  `(do (defrecord ~((comp symbol str/capitalize str) name)
-           ~(vec (map (comp symbol #(str/replace % ":" "") str)
-                      (keys (:attrs m)))))
-       (def ~name
-         '~(assoc m
-             :url (let [compiled# (clout/route-compile url)]
-                    (zipmap (keys compiled#) (vals compiled#)))))
-       )
-  )
+  [name args {:keys [url] :as conditions} & body]
+  (let [compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
+                            ((juxt keys vals))
+                            (apply zipmap))
+        conditions (select-keys conditions [:pre :post])
+        m (dissoc conditions :pre :post)]
+    `(do (def ~((comp symbol inflect/plural str) name)
+           ~(assoc m :url compiled-route))
+         (defn ~name ~args ~conditions ~@body))))
 
-
-(defmodel accounts
+(defmodel account
+  [name id currency timezone]
   {:url "/accounts/:id"
-   :attrs {:name string? :id string? :currency string? :timezone string?}})
+   :pre [(string? name) (string? id) (string? currency) (string? timezone)]}
+  {:name name :id id :currency currency :timezone timezone})
+
+(defmulti model first)
+(defmethod model ::account
+  [type params]
+  {:pre [(string? (first params))]}
+  params)
