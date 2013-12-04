@@ -30,8 +30,6 @@
 
 (defmethod effect :default [message] (go []))
 
-(defmethod render :default [[op path f :as delta]] [])
-
 (defn input-queue
   [data-model render-queue]
   (go-loop []))
@@ -41,7 +39,7 @@
   (go-loop []))
 
 (defn render-queue
-  [data-model]
+  [app-model]
   (go-loop []))
 
 (defn transact
@@ -54,13 +52,7 @@
 
 (defn rendering-deltas
   [state]
-  (letfn [(selector [op]
-            (case op
-              :node-create (methods node-create)
-              :node-destroy (methods node-destroy)
-              :transform-enable (methods transform-enable)
-              :transform-disable (methods transform-disable)))
-          (delta [op path]
+  (letfn [(delta [op path]
             [op path (get-in state (into [:new] path))])
           (delta-op [op path]           
             [(case op
@@ -69,10 +61,10 @@
                nil) path ])
           (deltas [deltas [k paths]]
             (case k
-              :added (into deltas (keep delta (repeat :node-create) paths))
-              :updated (into deltas (keep delta (repeat :node-update) paths))
-              :removed (into deltas (keep delta (repeat :node-destroy)
-                                          paths))))]
+              :added (into deltas (map delta (repeat :node-create) paths))
+              :updated (into deltas (map delta (repeat :node-update) paths))
+              :removed (into deltas (map delta (repeat :node-destroy)
+                                         paths))))]
     (reduce deltas [] (select-keys state [:added :updated :removed]))))
 
 (defn derives
@@ -194,19 +186,43 @@
 (defn resolve-id
   [path])
 
-(def ^:dynamic *dom* (atom (make-hierarchy)))
-
 (def dom ::dom)
 (def root ::root)
+
+(defrecord VirtualDOM [dom hierarchy])
+
+(defn virtual-dom
+  [root-id]
+  (->VirtualDOM (atom {::root root-id}) (atom (make-hierarchy))))
 
 (defn ns-qualify
   [x]
   (keyword (namespace dom) (name x)))
 
 (defn extend-dom!
-  ([child] (extend-dom! child :root))
-  ([child parent]
-     (swap! *dom* core/derive (ns-qualify child) (ns-qualify parent))))
+  ([dom child] (extend-dom! child :root))
+  ([dom child parent]
+     (swap! dom core/derive (ns-qualify child) (ns-qualify parent))))
+
+(defmethod render :node-create
+  [[op path f :as delta] renderer]
+  (let []))
+
+(defmethod render :node-update
+  [[op path f :as delta] renderer]
+  [])
+
+(defmethod render :node-destroy
+  [[op path f :as delta] renderer]
+  [])
+
+(defmethod render :transform-enable
+  [[op path f :as delta] renderer]
+  [])
+
+(defmethod render :transform-enable
+  [[op path f :as delta] renderer]
+  [])
 
 (defn append
   [])
