@@ -6,12 +6,17 @@
             [foundation.app.message :as msg]
             [clojure.core :as core]
             [hickory.core :refer :all]
+            [hickory.zip :refer :all]
+            [net.cgrand.enlive-html :as en]
+            [hickory.select :as s]
+            [garden.core :as g :refer [css]]
             [hiccup.core :refer [html h]]
             [hiccup.def :refer [defelem defhtml wrap-attrs]]
             [hiccup.util :refer [escape-html as-str to-uri url url-encode]]
             [clout.core :as clout]
             [inflections.core :as inflect]
             [clojure.xml :as xml]
+            [clojure.pprint :refer [pprint]]
             [clojure.core.match :refer [match]]
             [clojure.repl :refer [doc]]
             [clojure.core.async :as a
@@ -773,7 +778,8 @@
 (def empty-node
   {:tag ""
    :attrs {}
-   :content []})
+   :content []
+   :type :element})
 
 (defn locs
   [root]
@@ -786,46 +792,77 @@
 
 (defn -path [p & ps] (into [p] (flatten ps)))
 
-(defrecord Dom [dom paths]
-    IDom
-    (-id [vdom path])
-    (-parent [vdom path])
-    (-children [vdom path])
-    (-ancestors [vdom path])
-    (-descendants [vdom path])
-    (-append [vdom path parent child])
-    (-prepend [vdom path parent child])
-    (-listen [vdom path event f])
-    (-unlisten [vdom path event])
-    (-remove [vdom path])
-    (-remove-children [vdom path])
-    (-sel [vdom selector])
-    (-sel1 [vdom selector])
-    (-diff [vdom new-dom]))
+(defn selector
+  [sel]
+  (letfn [(re [k]
+            (case k
+              :tag #"(\w+)[\.#]\w+"
+              :id #"#(\w+)"
+              :class #"\.(\w+)"))
+          (sel? [k {:keys [selector]}] (seq (re-seq (re k) selector)))
+          (select [{:keys [selector] :as sel} k]
+            (assoc sel k (last (flatten (re-seq (re k) selector)))))]
+    (let [sel {:selector (name sel)}]
+      (cond-> sel
+              (sel? :tag sel) (select :tag)
+              (sel? :id sel) (select :id)
+              (sel? :class sel) (select :class)))))
 
-(defn virtual-dom
+(defrecord Dom [dom paths]
+  IDom
+  (-id [this path])
+  (-parent [this path])
+  (-children [this path])
+  (-ancestors [this path])
+  (-descendants [this path])
+  (-append [this path parent child])
+  (-prepend [this path parent child])
+  (-listen [this path event f])
+  (-unlisten [this path event])
+  (-remove [this path])
+  (-remove-children [this path])
+  (-sel [this selector]
+    (let [locs (s/select-locs selector dom)]
+      locs))
+  (-sel1 [this selector]
+    (let [nodes (s/select selector dom)]
+      (first nodes)))
+  (-diff [this new-dom]))
+
+(defn dom
   [root-id]
-  )
+  (let [root-node (assoc empty-node
+                    :tag "div"
+                    :attrs {:id root-id})]
+    (Dom. root-node {[] root-id})))
 
 (defmacro defmodel
-  [name args {:keys [url] :as conditions} & body]
+  [name args {:keys [url views] :as conditions} & body]
   (let [compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
                             ((juxt keys vals))
                             (apply zipmap))
         conditions (select-keys conditions [:pre :post])
         m (dissoc conditions :pre :post)]
     `(do (def ~((comp symbol inflect/plural str) name)
-           ~(assoc m :url compiled-route))
+           ~(assoc m
+              :url compiled-route
+              :views views))
          (defn ~name ~args ~conditions ~@body))))
 
 (defmodel account
-  [name id currency timezone]
+  [& {:keys [name id currency timezone]
+      :or {currency "USD" timezone "America/New_York"}
+      :as params}]
   {:url "/accounts/:id"
+   :views {:columns [{:name :name :content "Name"}
+                     {:name :id :content "ID"}
+                     {:name :currency :content "Currency"}
+                     {:name :timezone :content "Timezone"}]} 
    :pre [(string? name) (string? id) (string? currency) (string? timezone)]}
   {:name name :id id :currency currency :timezone timezone})
 
-(defmulti model first)
-(defmethod model ::account
-  [type params]
-  {:pre [(string? (first params))]}
-  params)
+(def table
+  [:table
+   [:thead
+    ]])
+
