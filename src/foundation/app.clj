@@ -810,37 +810,46 @@
               (sel? :id sel) (select :id)
               (sel? :class sel) (select :class)))))
 
-(defrecord Dom [dom paths]
+(defrecord Dom [dom env]
   IDom
   (-id [this path]
     (if (seq path)
-      (get-in @dom (conj path :id))
-      (:id @dom)))
+      (get-in env (conj path :id))
+      (:id env)))
   (-parent [this path])
   (-children [this path])
   (-append [this path child]
-    (swap! paths assoc-in path (gensym))
-    ((en/append (-sel1 this path)) child))
+    (assoc this
+      :dom ((en/append (-sel1 this (-id this path))) child)
+      :env (assoc-in env (conj path :id) (gensym))))
   (-prepend [this path child]
-    (swap! paths assoc-in path (gensym))
-    ((en/prepend (-sel1 this path)) child))
+    (assoc this
+      :dom ((en/prepend (-sel1 this path)) child)
+      :env (assoc-in env (conj path :id) (gensym))))
   (-listen [this path event f])
   (-unlisten [this path event])
   (-remove [this path]
-    (swap! paths update-in (vec (butlast path)) dissoc (last path)))
+    (assoc this
+      :env (update-in env (vec (butlast path)) dissoc (last path))))
   (-add-class [this path class]
-    ((en/add-class class) (-sel1 this path)))
+    (assoc this
+      :dom ((en/add-class class) (-sel1 this path))))
   (-remove-class [this path class]
-    ((en/remove-class class) (-sel1 dom path)))
+    (assoc this
+      :dom ((en/remove-class class) (-sel1 dom path))))
   (-add-attr [this path k v]
-    ((en/set-attr k v) (-sel1 this path)))
+    (assoc this
+      :dom ((en/set-attr k v) (-sel1 this path))))
   (-remove-attr [this path k]
-    ((en/set-attr k nil) (-sel1 this path)))
+    (assoc this
+      :dom ((en/set-attr k nil) (-sel1 this path))))
   (-remove-children [this path])
   (-sel [this selector]
     (cond
-      (vector? selector) (en/select @dom (str "#" (-id this selector)))
-      (or (string? selector) (keyword? selector)) (en/select @dom selector)
+      (vector? selector)
+      (en/select dom [(keyword (str "#" (-id this selector)))])
+      (string? selector) (en/select dom [(keyword selector)])
+       (keyword? selector)  (en/select dom [selector])
       :else nil))
   (-sel1 [this selector]
     (first (-sel this selector)))
@@ -851,7 +860,7 @@
   (let [root-node (assoc empty-node
                     :tag "div"
                     :attrs {:id root-id})]
-    (Dom. root-node {[] root-id})))
+    (Dom. root-node {:id root-id})))
 
 (defmacro defmodel
   [name args {:keys [url views] :as conditions} & body]
