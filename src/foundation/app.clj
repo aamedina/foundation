@@ -820,7 +820,8 @@
   (-children [this path])
   (-append [this path child]
     (assoc this
-      :dom ((en/append (-sel1 this (-id this path))) child)
+      :dom ((en/append child)
+            (->> (-id this path) (str "#") keyword (-sel1 this)))
       :env (assoc-in env (conj path :id) (gensym))))
   (-prepend [this path child]
     (assoc this
@@ -846,8 +847,7 @@
   (-remove-children [this path])
   (-sel [this selector]
     (cond
-      (vector? selector)
-      (en/select dom [(keyword (str "#" (-id this selector)))])
+      (vector? selector) (en/select dom selector)
       (string? selector) (en/select dom [(keyword selector)])
        (keyword? selector)  (en/select dom [selector])
       :else nil))
@@ -863,7 +863,7 @@
     (Dom. root-node {:id root-id})))
 
 (defmacro defmodel
-  [name args {:keys [url views] :as conditions} & body]
+  [name params {:keys [url views] :as conditions} & body]
   (let [compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
                             ((juxt keys vals))
                             (apply zipmap))
@@ -871,24 +871,37 @@
         m (dissoc conditions :pre :post)]
     `(do (def ~((comp symbol inflect/plural str) name)
            ~(assoc m
-              :url compiled-route
-              :views views))
-         (defn ~name ~args ~conditions ~@body))))
+              :url compiled-route))
+         (defn ~name
+           ([{:keys [~@params] :as m#}] ~conditions
+              (when (map? m#)
+                (with-meta m# {:model ~(keyword name)})))
+           ([~@params] ~conditions
+              (with-meta (zipmap [~@(map keyword params)] ~params)
+                {:model ~(keyword name)}))))))
 
-(defmodel account
-  [& {:keys [name id currency timezone]
-      :or {currency "USD" timezone "America/New_York"}
-      :as params}]
+(defmodel account [name id currency timezone]
   {:url "/accounts/:id"
-   :views {:columns [{:name :name :content "Name"}
-                     {:name :id :content "ID"}
-                     {:name :currency :content "Currency"}
-                     {:name :timezone :content "Timezone"}]} 
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]}
-  {:name name :id id :currency currency :timezone timezone})
+   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
 
-(def table
-  [:table
-   [:thead
-    ]])
+(defmulti column (juxt (comp :model meta) key))
+(defmethod column [:account :name]
+  [{:keys [model attr]}]
+  (html [:th {:id attr} "Name"]))
+
+(defmethod column [:account :select-all]
+  [{:keys [model attr]}]
+  (html [:th {:id attr} "Select All"]))
+
+(defmethod column [:* :id]
+  [{:keys [model attr]}]
+  (html [:th {:id attr} "ID"]))
+
+(defmethod column [:account :currency]
+  [{:keys [model attr]}]
+  (html [:th {:id attr} "Currency"]))
+
+(defmethod column [:account :timezone]
+  [{:keys [model attr]}]
+  (html [:th {:id attr} "Timezone"]))
 
