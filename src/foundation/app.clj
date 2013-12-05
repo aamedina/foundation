@@ -759,16 +759,14 @@
   (-id [dom path])
   (-parent [dom path])
   (-children [dom path])
-  (-ancestors [dom path])
-  (-descendants [dom path])
-  (-append [dom path parent child])
-  (-prepend [dom path parent child])
+  (-append [dom parent child])
+  (-prepend [dom parent child])
   (-listen [dom path event f])
   (-unlisten [dom path event])
-  (-add-class [this path])
-  (-remove-class [this path])
-  (-add-attr [this path])
-  (-remove-attr [this path])
+  (-add-class [this path class])
+  (-remove-class [this path class])
+  (-add-attr [this path k v])
+  (-remove-attr [this path k])
   (-remove [dom path])
   (-remove-children [dom path])
   (-sel [dom selector])
@@ -782,8 +780,8 @@
 (def empty-node
   {:tag ""
    :attrs {}
-   :content []
-   :type :element})
+   :content []})
+
 
 (defn locs
   [root]
@@ -814,26 +812,38 @@
 
 (defrecord Dom [dom paths]
   IDom
-  (-id [this path])
+  (-id [this path]
+    (if (seq path)
+      (get-in @dom (conj path :id))
+      (:id @dom)))
   (-parent [this path])
   (-children [this path])
-  (-ancestors [this path])
-  (-descendants [this path])
-  (-append [this path parent child])
-  (-prepend [this path parent child])
+  (-append [this path child]
+    (swap! paths assoc-in path (gensym))
+    ((en/append (-sel1 this path)) child))
+  (-prepend [this path child]
+    (swap! paths assoc-in path (gensym))
+    ((en/prepend (-sel1 this path)) child))
   (-listen [this path event f])
   (-unlisten [this path event])
-  (-remove [this path])
-  (-add-class [this path])
-  (-remove-class [this path])
-  (-add-attr [this path])
-  (-remove-attr [this path])
-  (-remove-children [this path]
-    (en/remove ))
+  (-remove [this path]
+    (swap! paths update-in (vec (butlast path)) dissoc (last path)))
+  (-add-class [this path class]
+    ((en/add-class class) (-sel1 this path)))
+  (-remove-class [this path class]
+    ((en/remove-class class) (-sel1 dom path)))
+  (-add-attr [this path k v]
+    ((en/set-attr k v) (-sel1 this path)))
+  (-remove-attr [this path k]
+    ((en/set-attr k nil) (-sel1 this path)))
+  (-remove-children [this path])
   (-sel [this selector]
-    (en/select dom selector))
+    (cond
+      (vector? selector) (en/select @dom (str "#" (-id this selector)))
+      (or (string? selector) (keyword? selector)) (en/select @dom selector)
+      :else nil))
   (-sel1 [this selector]
-    (first (en/select dom selector)))
+    (first (-sel this selector)))
   (-diff [this new-dom]))
 
 (defn dom
