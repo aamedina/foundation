@@ -765,6 +765,10 @@
   (-prepend [dom path parent child])
   (-listen [dom path event f])
   (-unlisten [dom path event])
+  (-add-class [this path])
+  (-remove-class [this path])
+  (-add-attr [this path])
+  (-remove-attr [this path])
   (-remove [dom path])
   (-remove-children [dom path])
   (-sel [dom selector])
@@ -820,13 +824,16 @@
   (-listen [this path event f])
   (-unlisten [this path event])
   (-remove [this path])
-  (-remove-children [this path])
+  (-add-class [this path])
+  (-remove-class [this path])
+  (-add-attr [this path])
+  (-remove-attr [this path])
+  (-remove-children [this path]
+    (en/remove ))
   (-sel [this selector]
-    (let [locs (s/select-locs selector dom)]
-      locs))
+    (en/select dom selector))
   (-sel1 [this selector]
-    (let [nodes (s/select selector dom)]
-      (first nodes)))
+    (first (en/select dom selector)))
   (-diff [this new-dom]))
 
 (defn dom
