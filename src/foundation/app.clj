@@ -884,7 +884,13 @@
   {:url "/accounts/:id"
    :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
 
-(defmulti column (juxt (comp :model meta) key))
+(defmacro method-matcher
+  [multifn]
+  `(fn [& args]
+     (let [(filter (methods multifn))]
+       (match [~@args]))))
+
+(defmulti column (juxt (comp :model meta) first))
 (defmethod column [:account :name]
   [{:keys [model attr]}]
   (html [:th {:id attr} "Name"]))
@@ -905,3 +911,6 @@
   [{:keys [model attr]}]
   (html [:th {:id attr} "Timezone"]))
 
+(defn attrs
+  [model]
+  (map #(with-meta (into [] %) (meta model)) model))
