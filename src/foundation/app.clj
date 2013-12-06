@@ -38,10 +38,6 @@
 (defmulti transform-enable (juxt msg/type msg/path))
 (defmulti transform-disable (juxt msg/type msg/path))
 
-(defmethod transform :default [message state] state)
-
-(defmethod effect :default [message] (go []))
-
 (declare transact-one since-t apply-deltas log-group new-app-model)
 
 (defn input-queue
@@ -269,20 +265,6 @@
       :render render-queue#
       :rendering-config rendering-config#}))
 
-(defmethod transform [:inc [:counter]]
-  [message state]
-  ((fnil inc 0) state))
-
-(defmethod derive [#{[:counter]} [:counters]]
-  [state]
-  ((fnil inc 0) state))
-
-(defmethod effect [:inc [:counter]]
-  [message])
-
-(defn resolve-id
-  [path])
-
 (defmethod render :node-create
   [[op path f :as delta] renderer]
   (let []))
@@ -302,56 +284,6 @@
 (defmethod render :transform-enable
   [[op path f :as delta] renderer]
   [])
-
-(defn append
-  [])
-
-(defn prepend
-  [])
-
-(defn remove-children
-  [])
-
-(defn remove-child
-  [])
-
-(defn listen
-  [event])
-
-(defn unlisten
-  [event])
-
-(defmethod node-create [:*]
-  [delta])
-
-(defmethod node-create :default
-  [delta]
-  (let [el [:div]]))
-
-(defmethod node-update [#{[:*]} :#content]
-  [delta])
-
-(defmethod node-update :default
-  [delta])
-
-(defmethod node-destroy [:*]
-  [delta])
-
-(defmethod node-destroy :default
-  [delta])
-
-(defmethod transform-enable [:click [:*]]
-  [delta]
-  '(sel1 :*))
-
-(defmethod transform-enable :default
-  [delta])
-
-(defmethod transform-disable [:click [:*]]
-  [delta])
-
-(defmethod transform-disable :default
-  [delta])
 
 (def ^:dynamic *gc-deltas* true)
 
@@ -900,7 +832,30 @@
          (cons dispatch-val)
          distinct)))
 
+(defmacro multimethods
+  [multifn]
+  (let [m# (eval `(methods ~multifn))
+        methods# (->> (keys m#)                      
+                      ((juxt remove filter)
+                       #(if (coll? %)
+                          (some #{"_"} (map str %))
+                          (identical? (str %) "_"))))]
+    `(fn [q#]
+       (match `[~@q#]
+         ~@(interleave (first methods#) (map m# (first methods#)))
+         ~@(interleave (second methods#) (map m# (second methods#)))))))
+
+(defmacro defgeneric
+  [name multifn]
+  (let [methods (eval `(multimethods ~multifn))
+        dispatch-fn `(.-dispatchFn ~multifn)]
+    `(do (defn ~name [& args#]
+           (let [dispatch-val# (apply ~dispatch-fn args#)]
+             (apply (~methods dispatch-val#) args#))))))
+
 (defmulti column (juxt (comp :model meta) first))
+
+(defgeneric column* column)
 
 (defmethod column [:account :name]
   [[attr v]]
@@ -928,22 +883,95 @@
 
 (def acct (apply account (repeat 4 "")))
 
-(defmacro multimethods
-  [multifn]
-  (let [m# (eval `(methods ~multifn))
-        methods# (->> (keys m#)
-                      ((juxt remove filter)
-                       #(some #{"_"} (map str %))))]
-    `(fn [q#]
-       (match `[~@q#]
-         ~@(interleave (first methods#) (map m# (first methods#)))
-         ~@(interleave (second methods#) (map m# (second methods#)))))))
+(defgeneric transform* transform)
 
-(defmacro defgeneric
-  [name multifn]
-  (let [methods (eval `(multimethods ~multifn))]
-    `(do (defn ~name [& args#]
-           (let [dispatch-val# (apply (.-dispatchFn ~multifn) args#)]
-             (apply (~methods dispatch-val#) args#))))))
+(defmethod transform :default [message state] state)
+(defmethod effect :default [message] (go []))
 
-(defgeneric column* column)
+(defmethod transform [:inc [:counter]]
+  [_ state]
+  ((fnil inc 0) state))
+
+(defmethod transform [:inc [:**]]
+  [_ state]
+  ((fnil inc 0) state))
+
+(defmethod derive [#{[:counter]} [:counters]]
+  [state]
+  ((fnil inc 0) state))
+
+(defmethod effect [:inc [:counter]]
+  [message])
+
+(defn resolve-id
+  [path])
+
+(defmethod node-create [:*]
+  [delta])
+
+(defmethod node-update [#{[:*]} :#content]
+  [delta])
+
+(defmethod node-destroy [:*]
+  [delta])
+
+(defmethod transform-enable [:click [:*]]
+  [delta]
+  '(sel1 :*))
+
+(defmethod transform-disable [:click [:*]]
+  [delta])
+
+(defmulti dispatch-matcher (fn [k dispatch-val] k))
+
+(defmethod dispatch-matcher :transform
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:* [:**]]] ['_ '_]
+    [[type [:**]]] [type '_]
+    [[type path]] [type path]))
+
+(defmethod dispatch-matcher :effect
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:* path]] ['_ path]
+    [[type path]] [type path]))
+
+(defmethod dispatch-matcher :derive
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[input-set output]] [`(~(quote '_) :guard #(some ~input-set %)) output]))
+
+(defmethod dispatch-matcher :node-create
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:**]] ['_])
+    [[path]] [path])
+
+(defmethod dispatch-matcher :node-update
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:*]] ['_]
+    [[selector]] [selector]))
+
+(defmethod dispatch-matcher :node-destroy
+  [k dispatch-val]
+  (match [dispatch-val]    
+    [[:**]] ['_]
+    [[path]] [path]))
+
+(defmethod dispatch-matcher :transform-enable
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:* [:**]]] ['_ '_]
+    [[type [:**]]] [type '_]
+    [[type path]] [type path])))
+
+(defmethod dispatch-matcher :transform-disable
+  [k dispatch-val]
+  (match [dispatch-val]
+    [[:* [:**]]] ['_ '_]
+    [[type [:**]]] [type '_]
+    [[type path]] [type path])))
+
+

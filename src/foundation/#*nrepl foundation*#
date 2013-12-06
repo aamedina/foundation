@@ -1,0 +1,2605 @@
+; nrepl.el 0.2.0 (Clojure 1.6.0-alpha3, nREPL 0.2.3)
+user> 
+#<Namespace foundation.app>
+foundation.app> (dispatches [:account :id :name])
+(([:account :id :name]) ([:account :id] [:*]) ([:account :name] [:*]) ([:*] [:id :name]) ([:*] [:*] [:*]))
+foundation.app> 
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:account :name :*] [:* :id :name] [:* :* :*])
+foundation.app> (dispatches [:account :id :name])
+()
+foundation.app> (dispatches [:account :id :name])
+ArityException Wrong number of args (2) passed to: core/reduce-kv  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (dispatches [:account :id :name])
+()
+foundation.app> (dispatches [:account :id :name])
+()
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:account :name :*] [:* :id :name] [:* :* :*])
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:account :name :*] [:* :id :name] [:* :* :*])
+foundation.app> (first (dispatches [:account :id :name]))
+[:account :id :name]
+foundation.app> (nth (first (dispatches [:account :id :name])) 0 )
+:account
+foundation.app> (def d [:account :id :name])
+#'foundation.app/d
+foundation.app> (nth d 0)
+:account
+foundation.app> (map nth d (range))
+UnsupportedOperationException nth not supported on this type: Keyword  clojure.lang.RT.nthFrom (RT.java:799)
+foundation.app> (map nth [d] (range))
+(:account)
+foundation.app> (interleave d (range))
+(:account 0 :id 1 :name 2)
+foundation.app> (interleave d (range))
+(:account 0 :id 1 :name 2)
+foundation.app> (partition 2 (interleave d (range)))
+((:account 0) (:id 1) (:name 2))
+foundation.app> (map nth (partition 2 (interleave d (range))))
+ArityException Wrong number of args (1) passed to: core/nth  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (apply map nth (partition 2 (interleave d (range))))
+ClassCastException clojure.lang.Keyword cannot be cast to java.lang.Number  clojure.core/nth (core.clj:850)
+foundation.app> (apply map [nth (partition 2 (interleave d (range)))])
+ArityException Wrong number of args (1) passed to: core/nth  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (map nth (interleave d (range)))
+ArityException Wrong number of args (1) passed to: core/nth  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (map nth (partition 2 (interleave d (range))))
+ArityException Wrong number of args (1) passed to: core/nth  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (apply map (cons nth (partition 2 (interleave d (range)))))
+ClassCastException clojure.lang.Keyword cannot be cast to java.lang.Number  clojure.core/nth (core.clj:850)
+foundation.app> (partition 2 (interleave d (range)))
+((:account 0) (:id 1) (:name 2))
+foundation.app> (apply map nth (partition 2 (interleave d (range))))
+ClassCastException clojure.lang.Keyword cannot be cast to java.lang.Number  clojure.core/nth (core.clj:850)
+foundation.app> (apply map #(= (nth d %2) %1) (partition 2 (interleave d (range))))
+ArityException Wrong number of args (3) passed to: app/eval15863/fn--15864  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (map #(= (nth d %2) %1)
+                     (partition 2 (interleave d (range))))
+ArityException Wrong number of args (1) passed to: app/eval15869/fn--15870  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (map #(= (nth d %2) %1)
+                     (interleave d (range)))
+ArityException Wrong number of args (1) passed to: app/eval15877/fn--15878  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (map #(= (nth d (second %)) (first %))
+                     (interleave d (range)))
+ExceptionInfo Don't know how to create ISeq from: clojure.lang.Keyword  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (interleave d (range))
+(:account 0 :id 1 :name 2)
+foundation.app> (partition 2 (interleave d (range)))
+((:account 0) (:id 1) (:name 2))
+foundation.app> (map first (partition 2 (interleave d (range))))
+(:account :id :name)
+foundation.app> (partition 2 (interleave d (range)))
+((:account 0) (:id 1) (:name 2))
+foundation.app> (map (fn [[k idx]]
+                       (nth d idx)) (partition 2 (interleave d (range))))
+(:account :id :name)
+foundation.app> (map (fn [[k idx]]
+                       (= (nth d idx) k)) (partition 2 (interleave d (range))))
+(true true true)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatches [:account :id :name])
+ArityException Wrong number of args (3) passed to: core/filter  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name])
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:* :id :name] [:* :* :*])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:* :id :name] [:* :* :*])
+foundation.app> (com/partitions [:account :id :name])
+(([:account :id :name]) ([:account :id] [:name]) ([:account :name] [:id]) ([:account] [:id :name]) ([:account] [:id] [:name]))
+foundation.app> (com/partitions [:account :id :name])
+(([:account :id :name]) ([:account :id] [:name]) ([:account :name] [:id]) ([:account] [:id :name]) ([:account] [:id] [:name]))
+foundation.app> (map first (com/partitions [:account :id :name]))
+([:account :id :name] [:account :id] [:account :name] [:account] [:account])
+foundation.app> (->> (com/partitions [:account :id :name])
+                     (map first))
+([:account :id :name] [:account :id] [:account :name] [:account] [:account])
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+{[:account] :*, [:account :name] :*, [:account :id] :*, [:account :id :name] :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map ffirst ps)
+                          (repeat :*)))
+{:account :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+{[:account] :*, [:account :name] :*, [:account :id] :*, [:account :id :name] :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+{[:account] :*, [:account :name] :*, [:account :id] :*, [:account :id :name] :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap ps
+                          (repeat :*)))
+{([:account] [:id] [:name]) :*, ([:account] [:id :name]) :*, ([:account :name] [:id]) :*, ([:account :id] [:name]) :*, ([:account :id :name]) :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+{[:account] :*, [:account :name] :*, [:account :id] :*, [:account :id :name] :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (zipmap (map first ps)
+                          (repeat :*)))
+{[:account] :*, [:account :name] :*, [:account :id] :*, [:account :id :name] :*}
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (map #(zipmap % (repeat :*)) (map first ps)))
+({:name :*, :id :*, :account :*} {:id :*, :account :*} {:name :*, :account :*} {:account :*} {:account :*})
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (->> (map #(zipmap % (repeat :*)) (map first ps))
+                       (map #(replace % [:account :id :name]) )))
+([:* :* :*] [:* :* :name] [:* :id :*] [:* :id :name] [:* :id :name])
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (map #(zipmap % (repeat :*)) (into [] (map rest ps))))
+({} {[:name] :*} {[:id] :*} {[:id :name] :*} {[:name] :*, [:id] :*})
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (map #(zipmap % (repeat :*)) (reduce into [] (map rest ps))))
+({:name :*} {:id :*} {:name :*, :id :*} {:id :*} {:name :*})
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (map #(zipmap % (repeat :*)) (reduce into [] (map rest ps))))
+({:name :*} {:id :*} {:name :*, :id :*} {:id :*} {:name :*})
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (->> (map #(zipmap % (repeat :*))
+                            (reduce into [] (rest ps)))
+                       (map #(replace % [:account :id :name]) )))
+([:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :name])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column a)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: a in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (->> (map #(zipmap % (repeat :*))
+                            (reduce into [] (rest ps)))
+                       (map #(replace % [:account :id :name]) )))
+([:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (->> (map #(zipmap % (repeat :*))
+                            (reduce into [] (rest ps)))
+                       (map #(replace % [:account :id :name]) )))
+([:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (let [ps (com/partitions [:account :id :name])]
+                  (->> (map #(zipmap % (repeat :*))
+                            (reduce into [] (rest ps)))
+                       (map #(replace % [:account :id :name]) )))
+([:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (matching-dispatches [:account :id])
+([:* :id] [:account :*])
+foundation.app> (matching-dispatches [:account :id :name])
+([:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (matching-dispatches [:account :id :name :hi])
+([:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*])
+foundation.app> (matching-dispatches [:account :id :name :hi])
+(([:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*]) :* :* :* :*)
+foundation.app> (matching-dispatches [:account :id :name :hi])
+([:* :* :* :*] [:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*])
+foundation.app> (matching-dispatches [:account :id :name :hi])
+(:account :id :name :hi :* :* :* :* [:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*])
+foundation.app> (matching-dispatches [:account :id :name :hi])
+(:account :id :name :hi :* :* :* :* [:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*])
+foundation.app> (matching-dispatches [:account :id :name :hi])
+([:account :id :name :hi] [:* :* :* :*] [:* :* :* :hi] [:account :id :name :*] [:* :* :name :*] [:account :id :* :hi] [:* :* :name :hi] [:account :id :* :*] [:* :* :name :hi] [:account :id :* :hi] [:account :id :name :*] [:* :id :* :*] [:account :* :name :hi] [:* :id :* :hi] [:account :* :name :*] [:* :id :* :hi] [:account :* :name :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :* :hi] [:* :id :name :hi] [:account :* :* :*] [:* :id :name :hi] [:account :* :* :hi] [:account :id :name :*] [:* :id :name :*] [:account :* :name :hi] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :*] [:account :id :* :hi] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :*] [:* :id :name :hi] [:account :* :name :hi] [:account :id :* :hi] [:account :id :name :*])
+foundation.app> (matching-dispatches [:account :id :name])
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.493 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.691 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.845 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.503 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.509 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.546 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (matching-dispatches [:account :id :name]))
+"Elapsed time: 0.505 msecs"
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :name] [:account :* :name] [:account :id :*])
+foundation.app> (time (matching-dispatches [:account :name]))
+"Elapsed time: 0.338 msecs"
+([:account :name] [:* :*] [:* :name] [:account :*])
+foundation.app> (time (matching-dispatches [:* :name]))
+"Elapsed time: 0.304 msecs"
+([:* :name] [:* :*] [:* :name] [:* :*])
+foundation.app> (time (matching-dispatches [:* :name]))
+"Elapsed time: 1.456 msecs"
+([:* :name] [:* :*])
+foundation.app> (time (matching-dispatches [:account :name]))
+"Elapsed time: 0.27 msecs"
+([:account :name] [:* :*] [:* :name] [:account :*])
+foundation.app> (time (matching-dispatches [:account :name]))
+"Elapsed time: 0.358 msecs"
+([:account :name] [:* :*] [:* :name] [:account :*])
+foundation.app> (time (matching-dispatches [:account :name :id]))
+"Elapsed time: 0.533 msecs"
+([:account :name :id] [:* :* :*] [:* :* :id] [:account :name :*] [:* :name :*] [:account :* :id] [:* :name :id] [:account :* :*])
+foundation.app> (matching-dispatches [:account :id :name])
+([:account :id :name] [:* :* :*] [:* :* :name] [:account :id :*] [:* :id :*] [:account :* :name] [:* :id :name] [:account :* :*])
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:* :*] [:* :id] [:account :*])
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:* :*] [:* :id] [:account :*])
+foundation.app> (matching-dispatches [:* :id])
+([:* :id] [:* :*])
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:* :*] [:* :id] [:account :*])
+foundation.app> (methods column)
+{[:account :currency] #<app$eval27897$fn__27899 foundation.app$eval27897$fn__27899@5dccbeca>, [:account :timezone] #<app$eval27903$fn__27905 foundation.app$eval27903$fn__27905@5a2bf583>, [:account :name] #<app$eval27879$fn__27881 foundation.app$eval27879$fn__27881@50603807>, [:account :select-all] #<app$eval27885$fn__27887 foundation.app$eval27885$fn__27887@47b2e178>, [:* :id] #<app$eval27891$fn__27893 foundation.app$eval27891$fn__27893@a39ce3c>}
+foundation.app> (keys (methods column))
+([:account :currency] [:account :timezone] [:account :name] [:account :select-all] [:* :id])
+foundation.app> (first (keys (methods column)))
+[:account :currency]
+foundation.app> (first (keys (methods column)))
+[:account :currency]
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:* :*] [:* :id] [:account :*])
+foundation.app> (doc subs )
+-------------------------
+clojure.core/subs
+([s start] [s start end])
+  Returns the substring of s beginning at start inclusive, and ending
+  at end (defaults to length of string), exclusive.
+nil
+foundation.app> (doc subseq )
+-------------------------
+clojure.core/subseq
+([sc test key] [sc start-test start-key end-test end-key])
+  sc must be a sorted collection, test(s) one of <, <=, > or
+  >=. Returns a seq of those entries with keys ek for
+  which (test (.. sc comparator (compare ek key)) 0) is true
+nil
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:* :*] [:* :id] [:account :*])
+foundation.app> (matching-dispatches [:account :id])
+([:account :id] [:account :*] [:* :id] [:* :*])
+foundation.app> (matching-dispatches [:account :id :name])
+([:account :id :name] [:account :id :*] [:account :* :name] [:* :id :name] [:account :* :*] [:* :id :*] [:* :* :name] [:* :* :*])
+foundation.app> (dispatcher column (juxt (comp :model meta) first))
+#<app$eval28192$fn__28193 foundation.app$eval28192$fn__28193@3ef35778>
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "!"))
+([:account [:timezone "!"]] [:account :*] [:* [:timezone "!"]] [:* :*])
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+([:account [:timezone "1"]] [:account :*] [:* [:timezone "1"]] [:* :*])
+foundation.app> (methods column)
+{[:account :currency] #<app$eval27897$fn__27899 foundation.app$eval27897$fn__27899@5dccbeca>, [:account :timezone] #<app$eval27903$fn__27905 foundation.app$eval27903$fn__27905@5a2bf583>, [:account :name] #<app$eval27879$fn__27881 foundation.app$eval27879$fn__27881@50603807>, [:account :select-all] #<app$eval27885$fn__27887 foundation.app$eval27885$fn__27887@47b2e178>, [:* :id] #<app$eval27891$fn__27893 foundation.app$eval27891$fn__27893@a39ce3c>}
+foundation.app> (keys (methods column))
+([:account :currency] [:account :timezone] [:account :name] [:account :select-all] [:* :id])
+foundation.app> (methods column)
+{[:account :currency] #<app$eval27897$fn__27899 foundation.app$eval27897$fn__27899@5dccbeca>, [:account :timezone] #<app$eval27903$fn__27905 foundation.app$eval27903$fn__27905@5a2bf583>, [:account :name] #<app$eval27879$fn__27881 foundation.app$eval27879$fn__27881@50603807>, [:account :select-all] #<app$eval27885$fn__27887 foundation.app$eval27885$fn__27887@47b2e178>, [:* :id] #<app$eval27891$fn__27893 foundation.app$eval27891$fn__27893@a39ce3c>}
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+([:account [:timezone "1"]] [:account :*] [:* [:timezone "1"]] [:* :*])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+([:account [:timezone "1"]] [:account :*] [:* [:timezone "1"]] [:* :*])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+([:account [:timezone "1"]] [:account :*] [:* [:timezone "1"]] [:* :*])
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+([:account [:timezone "1"]] [:account :*] [:* [:timezone "1"]] [:* :*])
+foundation.app> 
+#<Namespace foundation.app>
+{[:account :currency] #<app$eval31724$fn__31726 foundation.app$eval31724$fn__31726@1f96a840>, [:account :timezone] #<app$eval31730$fn__31732 foundation.app$eval31730$fn__31732@89a97b5>, [:account :name] #<app$eval31706$fn__31708 foundation.app$eval31706$fn__31708@42578cc7>, [:account :select-all] #<app$eval31712$fn__31714 foundation.app$eval31712$fn__31714@716497db>, [:* :id] #<app$eval31718$fn__31720 foundation.app$eval31718$fn__31720@37870578>}
+
+foundation.app> 
+#<Namespace foundation.app>
+{[:account :currency] #<app$eval32889$fn__32891 foundation.app$eval32889$fn__32891@2a87393d>, [:account :timezone] #<app$eval32895$fn__32897 foundation.app$eval32895$fn__32897@5adac93d>, [:account :name] #<app$eval32871$fn__32873 foundation.app$eval32871$fn__32873@2e80ad33>, [:account :select-all] #<app$eval32877$fn__32879 foundation.app$eval32877$fn__32879@6d208534>, [:* :id] #<app$eval32883$fn__32885 foundation.app$eval32883$fn__32885@419de339>}
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+{[:account :currency] #<app$eval34060$fn__34062 foundation.app$eval34060$fn__34062@140f4d71>, [:account :timezone] #<app$eval34066$fn__34068 foundation.app$eval34066$fn__34068@290cfde1>, [:account :name] #<app$eval34042$fn__34044 foundation.app$eval34042$fn__34044@663c4f2c>, [:account :select-all] #<app$eval34048$fn__34050 foundation.app$eval34048$fn__34050@64f12639>, [:* :id] #<app$eval34054$fn__34056 foundation.app$eval34054$fn__34056@3a9afc17>}
+NullPointerException   foundation.app/eval34078 (form-init3414827078375725227.clj:1)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column (juxt (comp :model meta) first)) (account "1" "1" "1" "1"))
+{[:account :currency] #<app$eval35224$fn__35226 foundation.app$eval35224$fn__35226@26a9e820>, [:account :timezone] #<app$eval35230$fn__35232 foundation.app$eval35230$fn__35232@7460b901>, [:account :name] #<app$eval35206$fn__35208 foundation.app$eval35206$fn__35208@3f1d425d>, [:account :select-all] #<app$eval35212$fn__35214 foundation.app$eval35212$fn__35214@5d9fd5d3>, [:* :id] #<app$eval35218$fn__35220 foundation.app$eval35218$fn__35220@549cc6b3>}
+NullPointerException   foundation.app/eval35242 (form-init3414827078375725227.clj:1)
+{[:account :currency] #<app$eval35224$fn__35226 foundation.app$eval35224$fn__35226@26a9e820>, [:account :timezone] #<app$eval35230$fn__35232 foundation.app$eval35230$fn__35232@7460b901>, [:account :name] #<app$eval35206$fn__35208 foundation.app$eval35206$fn__35208@3f1d425d>, [:account :select-all] #<app$eval35212$fn__35214 foundation.app$eval35212$fn__35214@5d9fd5d3>, [:* :id] #<app$eval35218$fn__35220 foundation.app$eval35218$fn__35220@549cc6b3>}
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ana/macroexpand-1 '(juxt (comp :model meta) first))
+ArityException Wrong number of args (1) passed to: analyzer/macroexpand-1  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (ana/macroexpand-1 '(dispatcher column (juxt (comp :model meta) first)))
+ArityException Wrong number of args (1) passed to: analyzer/macroexpand-1  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) '(dispatcher column (juxt (comp :model meta) first)))
+NullPointerException   cljs.analyzer/get-expander (analyzer.clj:1267)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) '(dispatcher column (juxt (comp :model meta) first)))
+NullPointerException   cljs.analyzer/get-expander (analyzer.clj:1267)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) '(+ 1 1))
+NullPointerException   cljs.analyzer/get-expander (analyzer.clj:1267)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) (+ 1 1))
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) '(core/+ 1 1))
+(core/+ 1 1)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) (+ 1 1))
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (ana/macroexpand-1 (ana/empty-env) '(+ 1 1))
+NullPointerException   cljs.analyzer/get-expander (analyzer.clj:1267)
+foundation.app> (ana/macroexpand-1 ~(ana/empty-env) '(+ 1 1))
+IllegalStateException Attempting to call unbound fn: #'clojure.core/unquote  clojure.lang.Var$Unbound.throwArity (Var.java:43)
+foundation.app> (doc defmulti)
+-------------------------
+clojure.core/defmulti
+([name docstring? attr-map? dispatch-fn & options])
+Macro
+  Creates a new multimethod with the associated dispatch function.
+  The docstring and attribute-map are optional.
+
+  Options are key-value pairs and may be one of:
+
+  :default
+
+  The default dispatch value, defaults to :default
+
+  :hierarchy
+
+  The value used for hierarchical dispatch (e.g. ::square is-a ::shape)
+
+  Hierarchies are type-like relationships that do not depend upon type
+  inheritance. By default Clojure's multimethods dispatch off of a
+  global hierarchy map.  However, a hierarchy relationship can be
+  created with the derive function used to augment the root ancestor
+  created with make-hierarchy.
+
+  Multimethods expect the value of the hierarchy option to be supplied as
+  a reference type e.g. a var (i.e. via the Var-quote dispatch macro #'
+  or the var special form).
+nil
+foundation.app> (doc defmethod)
+-------------------------
+clojure.core/defmethod
+([multifn dispatch-val & fn-tail])
+Macro
+  Creates and installs a new method of multimethod associated with dispatch-value. 
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (doc defmethod)
+-------------------------
+foundation.app/defmethod
+([multifn dispatch-val & fn-tail])
+Macro
+  nil
+nil
+foundation.app> acct
+{:timezone "", :currency "", :id "", :name ""}
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column acct)
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account [:timezone ""]]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: defmulti in this context, compiling:(foundation/app.clj:31:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+WARNING: defmulti already refers to: #'clojure.core/defmulti in namespace: foundation.app, being replaced by: #'foundation.app/defmulti
+WARNING: defmethod already refers to: #'clojure.core/defmethod in namespace: foundation.app, being replaced by: #'foundation.app/defmethod
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: transform in this context, compiling:(foundation/app.clj:33:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+WARNING: defmulti already refers to: #'clojure.core/defmulti in namespace: foundation.app, being replaced by: #'foundation.app/defmulti
+WARNING: defmethod already refers to: #'clojure.core/defmethod in namespace: foundation.app, being replaced by: #'foundation.app/defmethod
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: transform in this context, compiling:(foundation/app.clj:33:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> acct
+{:timezone "", :currency "", :id "", :name ""}
+foundation.app> (column acct)
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account [:timezone ""]]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (meta acct)
+{:model :account}
+foundation.app> (column acct)
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account [:timezone ""]]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (map column acct)
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :timezone]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (attrs acct)
+([:timezone ""] [:currency ""] [:id ""] [:name ""])
+foundation.app> (seq acct)
+([:timezone ""] [:currency ""] [:id ""] [:name ""])
+foundation.app> (attrs acct)
+([:timezone ""] [:currency ""] [:id ""] [:name ""])
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+(clojure.core/unquote dispatch-val)
+(clojure.core/unquote dispatch-val)
+(clojure.core/unquote dispatch-val)
+(clojure.core/unquote dispatch-val)
+(clojure.core/unquote dispatch-val)
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :name]
+[:account :select-all]
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :name]
+[:account :select-all]
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+
+foundation.app> 
+#<Namespace foundation.app>
+([:account :name] [:account :*] [:* :name] [:* :*])
+([:account :select-all] [:account :*] [:* :select-all] [:* :*])
+([_ :id] [_ :*] [:* :id] [:* :*])
+([:account :currency] [:account :*] [:* :currency] [:* :*])
+([:account :timezone] [:account :*] [:* :timezone] [:* :*])
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:account :id]
+[:id]
+[:id]
+[:id]
+[:id]
+[:id]
+
+foundation.app> 
+#<Namespace foundation.app>
+fail
+fail
+fail
+fail
+fail
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+
+foundation.app> 
+#<Namespace foundation.app>
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+
+foundation.app> 
+#<Namespace foundation.app>
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+fail
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (match [:account :id]
+                  [_ :id] "hi")
+"hi"
+foundation.app> (match [:account :id]
+                  [_ :id] :succeed
+                  :else :fail)
+:succeed
+:succeed:succeed:succeed:succeed:succeed
+foundation.app> 
+#<Namespace foundation.app>
+:succeed
+:succeed
+:succeed
+:succeed
+:succeed
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] [:account :name] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+(clojure.core.match/match [:account :id] [:account :select-all] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+
+(clojure.core.match/match [:account :id] [:account :currency] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+(clojure.core.match/match [:account :id] [:account :timezone] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (clojure.core.match/match [:account :id] [_ :id] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+:succeed
+nil
+foundation.app> (clojure.core.match/match [:account :id] [_ :id] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+:succeed
+nil
+foundation.app> (clojure.core.match/match [:account :id] [_ :id] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+:succeed
+nil
+:fail
+nil
+:fail
+nil
+:succeed
+nil
+:fail
+nil
+:fail
+nil
+:fail
+:fail
+:succeed
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+foundation.app> 
+foundation.app> 
+foundation.app> 
+foundation.app> 
+foundation.app> 
+foundation.app> (clojure.core.match/match [:account :id] [_ :id] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+:succeed
+nil
+:fail
+:fail
+:succeed
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+:fail
+:fail
+:fail
+:fail
+:fail
+:fail
+:fail
+:succeed
+:fail
+:fail
+:fail
+:fail
+:succeed
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (clojure.core.match/match [:account :id] [_ :id] (clojure.core/println :succeed) :else (clojure.core/println :fail))
+:succeed
+nil
+:fail
+:fail
+:succeed
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+:fail
+:fail
+:succeed
+:fail
+:fail
+:fail
+:fail
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+:fail
+:fail
+:fail
+:fail
+:fail
+:fail
+#<app$eval106640$fn__106642 foundation.app$eval106640$fn__106642@6e37471d>
+:fail
+:fail
+
+foundation.app> 
+#<Namespace foundation.app>
+:default
+:default
+[_ :id]
+:default
+:default
+
+foundation.app> 
+#<Namespace foundation.app>
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (filter (some #{'_} ['_ 1]))
+ArityException Wrong number of args (1) passed to: core/filter  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (some #{'_} ['_ 1])
+_
+foundation.app> (filter #(some #{'_} %) (methods column))
+()
+foundation.app> (remove #(some #{'_} %) (methods column))
+([[:account :currency] #<app$eval111549$fn__111551 foundation.app$eval111549$fn__111551@332148da>] [[:account :timezone] #<app$eval111564$fn__111566 foundation.app$eval111564$fn__111566@4e35fa6f>] [[:account :name] #<app$eval111503$fn__111505 foundation.app$eval111503$fn__111505@39ccb586>] [[_ :id] #<app$eval111534$fn__111536 foundation.app$eval111534$fn__111536@2ea18e0f>] [[:account :select-all] #<app$eval111518$fn__111520 foundation.app$eval111518$fn__111520@707592b3>] [[:_ :id] #<app$eval52628$fn__52630 foundation.app$eval52628$fn__52630@36f25f73>])
+foundation.app> (filter #(some #{'_} %) (methods column))
+()
+foundation.app> (filter #(some #{'_} (set %)) (methods column))
+()
+foundation.app> (filter #(some #{'_} %) (methods column))
+()
+foundation.app> (filter #(some #{'_} %) (keys (methods column)))
+([_ :id])
+([_ :id])
+[:account :name]
+[:account :select-all]
+[_ :id]
+[:account :currency]
+[:account :timezone]
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+(([_ :id]) ([_ :id]))
+
+foundation.app> 
+#<Namespace foundation.app>
+(([_ :id]))
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (range 10)
+(0 1 2 3 4 5 6 7 8 9)
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+{[_ :id] [_ :id]}
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id] [_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core/fn [q__124690__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__124690__auto__))) [_ :id] [_ :id] :else (quote [:account :id])))
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher [:account :id])
+#<app$dispatcher$fn__127047 foundation.app$dispatcher$fn__127047@151eaac3>
+foundation.app> ((dispatcher [:account :id]) [:account :id])
+IllegalArgumentException No matching ctor found for class foundation.app$dispatcher$fn__127047  clojure.lang.Reflector.invokeConstructor (Reflector.java:163)
+#<app$dispatcher$fn__128229 foundation.app$dispatcher$fn__128229@4df21b07>
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core/fn [q__129411__auto__] (clojure.core/seq (clojure.core/concat (clojure.core/list (quote clojure.core.match/match)) (clojure.core/list (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__129411__auto__)))) (clojure.core/interleave foundation.app/filtered foundation.app/filtered) (clojure.core/list :else) (clojure.core/list (clojure.core/seq (clojure.core/concat (clojure.core/list (quote quote)) (clojure.core/list foundation.app/dispatch-val)))))))
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core/fn [q__132826__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__132826__auto__))) [_ :id] [_ :id] :else (quote [:account :id])))
+(clojure.core/fn [q__135118__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__135118__auto__))) [_ :id] [_ :id] :else (quote [:account :id])))
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher [:account :id]) [:account :id])
+(clojure.core/fn [q__135118__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__135118__auto__))) [_ :id] [_ :id] :else (quote [:account :id])))
+IllegalArgumentException No matching ctor found for class foundation.app$dispatcher$fn__135121  clojure.lang.Reflector.invokeConstructor (Reflector.java:163)
+(clojure.core/fn [q__136319__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__136319__auto__))) [_ :id] [_ :id] :else (quote [:account :id])))
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core/fn [q__137500__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__137500__auto__))) [_ :id] [_ :id] :else (quote q)))
+
+foundation.app> 
+#<Namespace foundation.app>
+#<app$dispatcher$fn__143234 foundation.app$dispatcher$fn__143234@1463603f>
+(clojure.core.match/match [:account :id] :else (quote [:account :id]))
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else (quote [:account :id])) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else (quote [:account :id])) ()
+(clojure.core.match/match (quote [:account :id]) :else (quote [:account :id])) ()
+(clojure.core.match/match (quote [:account :id]) :else (quote [:account :id])) ()
+(clojure.core.match/match [:account :id] :else (quote [:account :id])) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else [:account :id]) (clojure.core/filter (fn* [p1__153866__153867__auto__] (clojure.core/some #{(quote foundation.app/_)} p1__153866__153867__auto__)) (clojure.core/keys (clojure.core/methods column)))
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+(clojure.core.match/match [:account :id] :else [:account :id]) ([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all] [:_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher [:account :id]) [:account :id])
+CompilerException clojure.lang.ArityException: Wrong number of args (1) passed to: app/dispatcher, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> ((dispatcher [:account :id]) [:account :id])
+CompilerException clojure.lang.ArityException: Wrong number of args (1) passed to: app/dispatcher, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+(clojure.core.match/match [:account :id] :else [:account :id]) ()
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher [:account :id]) [:account :id])
+CompilerException clojure.lang.ArityException: Wrong number of args (1) passed to: app/dispatcher, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+foundation.app> ((dispatcher column [:account :id]) [:account :id])
+[:account :id]
+foundation.app> ((dispatcher column [:account :id]))
+ArityException Wrong number of args (0) passed to: app/eval169347/fn--169353  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> ((dispatcher column [:account :id]) "")
+[:account :id]
+foundation.app> ((dispatcher column [:account :id]) [:account :id])
+CompilerException clojure.lang.ArityException: Wrong number of args (2) passed to: app/dispatcher, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+foundation.app> ((dispatcher column) [:account :id])
+[:account :id]
+foundation.app> ((dispatcher column) 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> ((dispatcher column) [:account :id])
+[:account :id]
+foundation.app> 
+#<Namespace foundation.app>
+()
+
+foundation.app> 
+#<Namespace foundation.app>
+([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all] [:_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all])
+:ok
+([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all])
+
+user> 
+#<Namespace foundation.app>
+([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all])
+
+foundation.app> 
+#<Namespace foundation.app>
+()
+((clojure.lang.Keyword clojure.lang.Keyword) (clojure.lang.Keyword clojure.lang.Keyword) (clojure.lang.Keyword clojure.lang.Keyword) (clojure.lang.Symbol clojure.lang.Keyword) (clojure.lang.Keyword clojure.lang.Keyword))
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id] [_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+([_ :id] [_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (refresh-all)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: refresh-all in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (refresh-all)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: refresh-all in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> ((dispatcher column) [:account :id])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+([_ :id] [_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+(p1__197885__197887__auto__ p1__197885__197887__auto__)
+
+foundation.app> 
+#<Namespace foundation.app>
+(p1__199083# p1__199083#)
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand-1 '(dispatcher column))
+(clojure.core/fn [q__200270__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__200270__auto__))) [_ :id] [_ :id] [_ :id] [_ :id] :else q__200270__auto__))
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__200270__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__200270__auto__)))
+  [_ :id]
+  [_ :id]
+  [_ :id]
+  [_ :id]
+  :else
+  q__200270__auto__))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__201466__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__201466__auto__)))
+  [_ :id]
+  [_ :id]
+  :else
+  q__201466__auto__))
+nil
+foundation.app> (repeat 1 1)
+(1)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (repeat 1 1)
+(1)
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__202646__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__202646__auto__)))
+  _
+  _
+  :id
+  :id
+  :else
+  q__202646__auto__))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+ExceptionInfo Don't know how to create ISeq from: clojure.lang.Symbol  clojure.lang.RT.seqFrom (RT.java:505)
+(clojure.core/fn
+ [q__203830__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+ExceptionInfo Don't know how to create ISeq from: clojure.lang.Symbol  clojure.lang.RT.seqFrom (RT.java:505)
+(clojure.core/fn
+ [q__203830__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__205016__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__205016__auto__)))
+  [_ :id]
+  [_ :id]
+  [_ :id]
+  [_ :id]
+  :else
+  q__205016__auto__))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__206196__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__206196__auto__)))
+  [_ :id]
+  [_ :id]
+  :else
+  q__206196__auto__))
+nil
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__206196__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__206196__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__206196__auto__)))
+nil
+foundation.app> (pprint (clojure.walk/macroexpand-all '(dispatcher column)))
+(fn*
+ ([q__206196__auto__]
+  (let*
+   [ocr-206270
+    (clojure.core/apply
+     clojure.core/vector
+     (clojure.core/seq (clojure.core/concat q__206196__auto__)))]
+   (try
+    (if
+     (let*
+      [and__3945__auto__ (clojure.core/vector? ocr-206270)]
+      (if
+       and__3945__auto__
+       (clojure.core/== (clojure.core/count ocr-206270) 2)
+       and__3945__auto__))
+     (try
+      (let*
+       [ocr-206270_1__206274 (clojure.core/nth ocr-206270 1)]
+       (if
+        (clojure.core/= ocr-206270_1__206274 :id)
+        [_ :id]
+        (if :else (throw clojure.core.match/backtrack) nil)))
+      (catch
+       Exception
+       e__10706__auto__
+       (if
+        (clojure.core/identical?
+         e__10706__auto__
+         clojure.core.match/backtrack)
+        (do (throw clojure.core.match/backtrack))
+        (throw e__10706__auto__))))
+     (if :else (throw clojure.core.match/backtrack) nil))
+    (catch
+     Exception
+     e__10706__auto__
+     (if
+      (clojure.core/identical?
+       e__10706__auto__
+       clojure.core.match/backtrack
+)
+      (do q__206196__auto__)
+      (throw e__10706__auto__)))))))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> '(dispatcher column)
+(dispatcher column)
+foundation.app> `~(dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:3) 
+foundation.app> `'~(dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:4) 
+foundation.app> `~@(dispatcher column)
+IllegalStateException splice not in list  clojure.lang.LispReader$SyntaxQuoteReader.syntaxQuote (LispReader.java:815)
+foundation.app> `~(dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:3) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> `~(dispatcher column)
+CompilerException java.lang.RuntimeException: No such var: foundation.app/_, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:3) 
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: No such var: foundation.app/_, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+CompilerException java.lang.RuntimeException: No such var: foundation.app/_, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+ArityException Wrong number of args (-1) passed to: app/eval209890/fn--209891  clojure.lang.Compiler.macroexpand1 (Compiler.java:6496)
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+ArityException Wrong number of args (-1) passed to: app/eval209898/fn--209899  clojure.lang.Compiler.macroexpand1 (Compiler.java:6496)
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+ArityException Wrong number of args (-1) passed to: app/eval209906/fn--209907  clojure.lang.Compiler.macroexpand1 (Compiler.java:6496)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__211038__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__211038__auto__)))
+   _
+   _
+   :id
+   :id
+   :else
+   q__211038__auto__)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__212220__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__212220__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__212220__auto__)))
+nil
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> p
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: p in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1282) 
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Can't take value of a macro: #'clojure.core.match/match, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+AssertionError Pattern row 1: Pattern rows must be wrapped in []. Try changing (clojure.core/interleave foundation.app/filtered foundation.app/filtered) to [(clojure.core/interleave foundation.app/filtered foundation.app/filtered)].  clojure.core.match/check-pattern (match.clj:1839)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__218197__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__218197__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   nil)))
+nil
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn* ([q__220523__auto__] (match [] ([_ :id] [_ :id]) :else nil)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn* ([q__221703__auto__] (match [] ([_ :id] [_ :id]) :else)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__224005__auto__]
+  ('clojure.core.match/match [] [_ :id] [_ :id] :else nil)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__225183__auto__]
+  ('clojure.core.match/match
+   []
+   [_ :id]
+   [_ :id]
+   :else
+   q__225183__auto__)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__226361__auto__]
+  ('clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__226361__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__226361__auto__)))
+nil
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__227547__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__227547__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__227547__auto__)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__228735__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__228735__auto__)))
+   [_ :id]
+   :else
+   q__228735__auto__)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__229919__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__229919__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__229919__auto__)))
+nil
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__231138__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__231138__auto__)))
+   [_ :id]
+   [_ :id]
+   :else
+   q__231138__auto__)))
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__232348__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__232348__auto__)))
+   (clojure.core/identity '[_ :id])
+   (clojure.core/identity '[_ :id])
+   :else
+   q__232348__auto__)))
+nil
+foundation.app> (dispatcher column)
+CompilerException java.lang.AssertionError: Invalid list syntax (quote [_ :id]) in (clojure.core/identity (quote [_ :id])). Valid syntax: [[:default :guard] [:default :only] [:default :clojure.core.match/vector] [:default :seq] [:default :as] [:default :when] [:or :default]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+CompilerException java.lang.AssertionError: Invalid list syntax [_ :id] in (quote [_ :id]). Valid syntax: [[:default :guard] [:default :only] [:default :clojure.core.match/vector] [:default :seq] [:default :as] [:default :when] [:or :default]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__233557__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__233557__auto__)))
+   '[_ :id]
+   '[_ :id]
+   :else
+   q__233557__auto__)))
+nil
+foundation.app> (match [1]
+                  [_] _
+                  :else nil)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [1]
+                  [_] '_
+                  :else nil)
+_
+foundation.app> (match [1]
+                  [_] '[_]
+                  :else nil)
+[_]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__234788__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__234788__auto__)))
+   [_ :id]
+   '[_ :id]
+   :else
+   q__234788__auto__)))
+nil
+foundation.app> (match [1]
+                  [_] '[_]
+                  :else nil)
+[_]
+foundation.app> (pprint (macroexpand '(dispatcher column)))
+(fn*
+ ([q__234788__auto__]
+  (clojure.core.match/match
+   (clojure.core/apply
+    clojure.core/vector
+    (clojure.core/seq (clojure.core/concat q__234788__auto__)))
+   [_ :id]
+   '[_ :id]
+   :else
+   q__234788__auto__)))
+nil
+foundation.app> (pprint (macroexpand-1 '(dispatcher column)))
+(clojure.core/fn
+ [q__234788__auto__]
+ (clojure.core.match/match
+  (clojure.core/apply
+   clojure.core/vector
+   (clojure.core/seq (clojure.core/concat q__234788__auto__)))
+  [_ :id]
+  '[_ :id]
+  :else
+  q__234788__auto__))
+nil
+foundation.app> (dispatcher column)
+#<app$eval234875$fn__234876 foundation.app$eval234875$fn__234876@45e2e4d0>
+foundation.app> ((dispatcher column) [:account :id])
+[_ :id]
+foundation.app> ((dispatcher column) [:campaign :id])
+[_ :id]
+foundation.app> ((dispatcher column) [:yup :id])
+[_ :id]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column) [:yup :id])
+[_ :id]
+foundation.app> ((dispatcher column) [:account :id])
+[_ :id]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (methods column)
+{[:account :currency] #<app$eval239657$fn__239659 foundation.app$eval239657$fn__239659@6f17376d>, [:account :timezone] #<app$eval239663$fn__239665 foundation.app$eval239663$fn__239665@b24b483>, [:account :name] #<app$eval239639$fn__239641 foundation.app$eval239639$fn__239641@656cda62>, [_ :id] #<app$eval239651$fn__239653 foundation.app$eval239651$fn__239653@6037263f>, [(quote _) :id] #<app$eval191961$fn__191963 foundation.app$eval191961$fn__191963@7e73499>, [:account :select-all] #<app$eval239645$fn__239647 foundation.app$eval239645$fn__239647@5b834ecb>}
+([_ :id])
+
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (methods column)
+{[:account :currency] #<app$eval240852$fn__240854 foundation.app$eval240852$fn__240854@4bbdbbb4>, [:account :timezone] #<app$eval240858$fn__240860 foundation.app$eval240858$fn__240860@7c92f800>, [:account :name] #<app$eval240834$fn__240836 foundation.app$eval240834$fn__240836@72ee5613>, [_ :id] #<app$eval240846$fn__240848 foundation.app$eval240846$fn__240848@64df7c09>, [(quote _) :id] #<app$eval191961$fn__191963 foundation.app$eval191961$fn__191963@7e73499>, [:account :select-all] #<app$eval240840$fn__240842 foundation.app$eval240840$fn__240842@65489210>}
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (first (map column (attrs acct)))
+"<th id=\"timezone\">Timezone</th>"
+foundation.app> (first (map column (attrs acct)))
+"<th id=\"timezone\">Timezone</th>"
+foundation.app> (take 2 (map column (attrs acct)))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (take 3 (map column (attrs acct)))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (macroexpand '(dispatcher column))
+(fn* ([q__241990__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__241990__auto__))) [_ :id] (quote [_ :id]) :else q__241990__auto__)))
+foundation.app> (clojure.walk/macroexpand-all '(dispatcher column))
+(fn* ([q__241990__auto__] (let* [ocr-242081 (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__241990__auto__)))] (try (if (let* [and__3945__auto__ (clojure.core/vector? ocr-242081)] (if and__3945__auto__ (clojure.core/== (clojure.core/count ocr-242081) 2) and__3945__auto__)) (try (let* [ocr-242081_1__242085 (clojure.core/nth ocr-242081 1)] (if (clojure.core/= ocr-242081_1__242085 :id) (quote [_ :id]) (if :else (throw clojure.core.match/backtrack) nil))) (catch Exception e__10706__auto__ (if (clojure.core/identical? e__10706__auto__ clojure.core.match/backtrack) (do (throw clojure.core.match/backtrack)) (throw e__10706__auto__)))) (if :else (throw clojure.core.match/backtrack) nil)) (catch Exception e__10706__auto__ (if (clojure.core/identical? e__10706__auto__ clojure.core.match/backtrack) (do q__241990__auto__) (throw e__10706__auto__)))))))
+foundation.app> (dispatcher column)
+#<app$eval242090$fn__242091 foundation.app$eval242090$fn__242091@5fc61ca7>
+foundation.app> ((dispatcher column) [:account :id])
+[_ :id]
+foundation.app> ((dispatcher column) [:account :id])
+[_ :id]
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.ClassCastException: clojure.lang.Var$Unbound cannot be cast to clojure.lang.MultiFn, compiling:(foundation/app.clj:936:24)>
+user> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> ((dispatcher column) [:account :id])
+[_ :id]
+foundation.app> (take 2 (map column (attrs acct)))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (take 3 (map column (attrs acct)))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (take 3 (map column (attrs acct)))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (take 2 (map column (attrs acct)))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (take 2 (map column (attrs acct)))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (take 2 (map column (attrs acct)))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatcher column)
+#<app$eval263225$fn__263226 foundation.app$eval263225$fn__263226@50e51a15>
+foundation.app> ((dispatcher column) [:account :id])
+hello!
+[_ :id]
+foundation.app> (get-method '[_ :id])
+ArityException Wrong number of args (1) passed to: core/get-method  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (get-method column '[_ :id])
+#<app$eval263193$fn__263195 foundation.app$eval263193$fn__263195@725e4a35>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (get-method column '[_ :id])
+#<app$eval264482$fn__264484 foundation.app$eval264482$fn__264484@7321252b>
+foundation.app> ((dispatcher column) [:account :id])
+hello!
+[_ :id]
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:hi :account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :hi]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns uer)
+nil
+uer> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> (column [:account :id])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: column in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+user> 
+#<Namespace foundation.app>
+foundation.app> (methods column)
+{[:account :currency] #<app$eval275063$fn__275065 foundation.app$eval275063$fn__275065@55537778>, [:account :timezone] #<app$eval275069$fn__275071 foundation.app$eval275069$fn__275071@262de5bd>, [:account :name] #<app$eval275045$fn__275047 foundation.app$eval275045$fn__275047@3845bbf5>, [_ :id] #<app$eval275057$fn__275059 foundation.app$eval275057$fn__275059@3c7059a3>, [:account :select-all] #<app$eval275051$fn__275053 foundation.app$eval275051$fn__275053@488352>}
+foundation.app> (methods column)
+{[:account :currency] #<app$eval275063$fn__275065 foundation.app$eval275063$fn__275065@55537778>, [:account :timezone] #<app$eval275069$fn__275071 foundation.app$eval275069$fn__275071@262de5bd>, [:account :name] #<app$eval275045$fn__275047 foundation.app$eval275045$fn__275047@3845bbf5>, [_ :id] #<app$eval275057$fn__275059 foundation.app$eval275057$fn__275059@3c7059a3>, [:account :select-all] #<app$eval275051$fn__275053 foundation.app$eval275051$fn__275053@488352>}
+foundation.app> column
+#<MultiFn clojure.lang.MultiFn@7dd880eb>
+foundation.app> (.-preferTable column)
+IllegalArgumentException No matching field found: preferTable for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.preferTable column)
+IllegalArgumentException No matching field found: preferTable for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.-preferTable column)
+IllegalArgumentException No matching field found: preferTable for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.-name column)
+IllegalArgumentException No matching field found: name for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (clojure.reflect/reflect column)
+{:bases #{clojure.lang.AFn}, :flags #{:public}, :members #{#clojure.reflect.Field{:name assoc, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name getFn, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Field{:name methodTable, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name hierarchy, :type clojure.lang.IRef, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Method{:name removeMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name parents, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name dispatchFn, :type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Field{:name methodCache, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name rw, :type java.util.concurrent.locks.ReentrantReadWriteLock, :declaring-class clojure.lang.MultiFn, :flags #{:final}} #clojure.reflect.Method{:name isA, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name dissoc, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name getMethod, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name cachedHierarchy, :type java.lang.Object, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name defaultDispatchVal, :type java.lang.Object, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Constructor{:name clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.String clojure.lang.IFn java.lang.Object clojure.lang.IRef], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name reset, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name findAndCacheBestMethod, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name getMethodTable, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name getPreferTable, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name preferMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name isa, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name addMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object clojure.lang.IFn], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name preferTable, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object<>], :exception-types [], :flags #{:public :varargs}} #clojure.reflect.Method{:name dominates, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name resetCache, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:private}} #clojure.reflect.Field{:name name, :type java.lang.String, :declaring-class clojure.lang.MultiFn, :flags #{:final}} #clojure.reflect.Method{:name prefers, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}}}}
+foundation.app> (keys (clojure.reflect/reflect column))
+(:bases :flags :members)
+foundation.app> (:members (clojure.reflect/reflect column))
+#{#clojure.reflect.Field{:name assoc, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name getFn, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Field{:name methodTable, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name hierarchy, :type clojure.lang.IRef, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Method{:name removeMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name parents, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name dispatchFn, :type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Field{:name methodCache, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name rw, :type java.util.concurrent.locks.ReentrantReadWriteLock, :declaring-class clojure.lang.MultiFn, :flags #{:final}} #clojure.reflect.Method{:name isA, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name dissoc, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name getMethod, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name cachedHierarchy, :type java.lang.Object, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Field{:name defaultDispatchVal, :type java.lang.Object, :declaring-class clojure.lang.MultiFn, :flags #{:public :final}} #clojure.reflect.Constructor{:name clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.String clojure.lang.IFn java.lang.Object clojure.lang.IRef], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name reset, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name findAndCacheBestMethod, :return-type clojure.lang.IFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name getMethodTable, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name getPreferTable, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:public}} #clojure.reflect.Method{:name preferMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name isa, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}} #clojure.reflect.Method{:name addMethod, :return-type clojure.lang.MultiFn, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object clojure.lang.IFn], :exception-types [], :flags #{:public}} #clojure.reflect.Field{:name preferTable, :type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :flags #{:volatile}} #clojure.reflect.Method{:name invoke, :return-type java.lang.Object, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object java.lang.Object<>], :exception-types [], :flags #{:public :varargs}} #clojure.reflect.Method{:name dominates, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}} #clojure.reflect.Method{:name resetCache, :return-type clojure.lang.IPersistentMap, :declaring-class clojure.lang.MultiFn, :parameter-types [], :exception-types [], :flags #{:private}} #clojure.reflect.Field{:name name, :type java.lang.String, :declaring-class clojure.lang.MultiFn, :flags #{:final}} #clojure.reflect.Method{:name prefers, :return-type boolean, :declaring-class clojure.lang.MultiFn, :parameter-types [java.lang.Object java.lang.Object], :exception-types [], :flags #{:private}}}
+foundation.app> (keys (:members (clojure.reflect/reflect column)))
+ClassCastException   [trace missing]
+foundation.app> (type (:members (clojure.reflect/reflect column)))
+clojure.lang.PersistentHashSet
+foundation.app> (first (:members (clojure.reflect/reflect column)))
+#clojure.reflect.Field{:name assoc, :type clojure.lang.Var, :declaring-class clojure.lang.MultiFn, :flags #{:static :final}}
+foundation.app> (set/project (:members (clojure.reflect/reflect column)) [:name])
+#{{:name assoc} {:name preferMethod} {:name defaultDispatchVal} {:name rw} {:name invoke} {:name isa} {:name methodCache} {:name reset} {:name findAndCacheBestMethod} {:name resetCache} {:name getMethod} {:name methodTable} {:name isA} {:name getPreferTable} {:name removeMethod} {:name dissoc} {:name preferTable} {:name getMethodTable} {:name clojure.lang.MultiFn} {:name name} {:name dominates} {:name dispatchFn} {:name hierarchy} {:name addMethod} {:name parents} {:name prefers} {:name cachedHierarchy} {:name getFn}}
+foundation.app> (map :name (set/project (:members (clojure.reflect/reflect column)) [:name]))
+(assoc preferMethod defaultDispatchVal rw invoke isa methodCache reset findAndCacheBestMethod resetCache getMethod methodTable isA getPreferTable removeMethod dissoc preferTable getMethodTable clojure.lang.MultiFn name dominates dispatchFn hierarchy addMethod parents prefers cachedHierarchy getFn)
+foundation.app> (map :name (set/project (:members (clojure.reflect/reflect column)) [:name]))
+(assoc preferMethod defaultDispatchVal rw invoke isa methodCache reset findAndCacheBestMethod resetCache getMethod methodTable isA getPreferTable removeMethod dissoc preferTable getMethodTable clojure.lang.MultiFn name dominates dispatchFn hierarchy addMethod parents prefers cachedHierarchy getFn)
+foundation.app> (.parents column)
+IllegalArgumentException No matching field found: parents for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.-parents column)
+IllegalArgumentException No matching field found: parents for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (parents column)
+nil
+foundation.app> (. column parents)
+IllegalArgumentException No matching field found: parents for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.getMethodTable column )
+{[:account :currency] #<app$eval275063$fn__275065 foundation.app$eval275063$fn__275065@55537778>, [:account :timezone] #<app$eval275069$fn__275071 foundation.app$eval275069$fn__275071@262de5bd>, [:account :name] #<app$eval275045$fn__275047 foundation.app$eval275045$fn__275047@3845bbf5>, [_ :id] #<app$eval275057$fn__275059 foundation.app$eval275057$fn__275059@3c7059a3>, [:account :select-all] #<app$eval275051$fn__275053 foundation.app$eval275051$fn__275053@488352>}
+foundation.app> (.getPreferTable column)
+{}
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :name])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column '[:account :name])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column '[:account :name])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column '[:account :name])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.ClassCastException: clojure.lang.Var$Unbound cannot be cast to clojure.lang.MultiFn, compiling:(foundation/app.clj:942:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column '[:account :name])
+hello!
+"<th id=\"account\">Name</th>"
+foundation.app> (column '[:account :name])
+hello!
+"<th id=\"account\">Name</th>"
+foundation.app> (column '[:hello :name])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:hello :name]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column '[:hello :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:hello :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:hello :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:hello :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:account :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column ['_ :id])
+hello!
+"<th id=\"_\">ID</th>"
+foundation.app> (column '[_ :id])
+hello!
+"<th id=\"_\">ID</th>"
+foundation.app> (column [:account :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+hello!
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+hello! [:account :id]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+hello! [:account :id] [:account :id]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (dispatcher column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: p1__291979# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (dispatcher -column)
+#<app$eval292075$fn__292076 foundation.app$eval292075$fn__292076@90f8eff>
+foundation.app> ((dispatcher -column) [:account :id])
+hello! [:account :id] [:account :id]
+[:account :id]
+foundation.app> ((dispatcher column) [:account :id])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: p1__291979# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (methods column)
+{[:account :currency] #<app$eval295677$fn__295679 foundation.app$eval295677$fn__295679@67e1d865>, [:account :timezone] #<app$eval295683$fn__295685 foundation.app$eval295683$fn__295685@38bbb18d>, [:account :name] #<app$eval295659$fn__295661 foundation.app$eval295659$fn__295661@324081db>, [_ :id] #<app$eval295671$fn__295673 foundation.app$eval295671$fn__295673@2fd40863>, [:account :select-all] #<app$eval295665$fn__295667 foundation.app$eval295665$fn__295667@498ee0c3>}
+foundation.app> (match [:account :id]
+                  [_ :id] '[_ :id]
+                  :else nil)
+[_ :id]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (match [:account :id]
+                  [_ :id] '[_ :id]
+                  :else nil)
+[_ :id]
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> (column [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: (do (clojure.core.match/match [:account :id] [foundation.app/_ :id] (quote [foundation.app/_ :id]) :else nil))  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (column [:account :id 1])
+[:account :id 1]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id 1]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column [:account :id] 1)
+ArityException Wrong number of args (2) passed to: app/eval313760/fn--313761  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (column [:account :id])
+[:account :id]
+"<th id=\"account\">ID</th>"
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column [:account :id])
+[nil :account]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :account]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column (first accounts))
+[nil :url]
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [nil :url]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (column (first accts))
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: accts in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:9) 
+foundation.app> (column (first (attrs acct)))
+[:account :timezone]
+"<th id=\"timezone\">Timezone</th>"
+foundation.app> (map column (attrs acct))
+([:account :timezone]
+[:account :currency]
+"<th id=\"timezone\">Timezone</th>" [:account :id]
+"<th id=\"currency\">Currency</th>" [:account :name]
+"<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (map column (attrs acct))
+([:account :timezone]
+[:account :currency]
+"<th id=\"timezone\">Timezone</th>" [:account :id]
+"<th id=\"currency\">Currency</th>" [:account :name]
+"<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Can't let qualified name: foundation.app/_, compiling:(foundation/app.clj:949:24)>
+user> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: arg# in this context, compiling:(foundation/app.clj:946:5)>
+user> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+ClassCastException clojure.lang.Var$Unbound cannot be cast to clojure.lang.MultiFn  clojure.core/methods (core.clj:1688)
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+ClassCastException clojure.lang.Var$Unbound cannot be cast to clojure.lang.MultiFn  clojure.core/methods (core.clj:1688)
+foundation.app> (do (ns user) (refresh-all))
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (map column (attrs acct))
+ClassCastException clojure.lang.Var$Unbound cannot be cast to clojure.lang.MultiFn  clojure.core/methods (core.clj:1688)
+foundation.app> (doc defmulti)
+-------------------------
+clojure.core/defmulti
+([name docstring? attr-map? dispatch-fn & options])
+Macro
+  Creates a new multimethod with the associated dispatch function.
+  The docstring and attribute-map are optional.
+
+  Options are key-value pairs and may be one of:
+
+  :default
+
+  The default dispatch value, defaults to :default
+
+  :hierarchy
+
+  The value used for hierarchical dispatch (e.g. ::square is-a ::shape)
+
+  Hierarchies are type-like relationships that do not depend upon type
+  inheritance. By default Clojure's multimethods dispatch off of a
+  global hierarchy map.  However, a hierarchy relationship can be
+  created with the derive function used to augment the root ancestor
+  created with make-hierarchy.
+
+  Multimethods expect the value of the hierarchy option to be supplied as
+  a reference type e.g. a var (i.e. via the Var-quote dispatch macro #'
+  or the var special form).
+nil
+foundation.app> (doc defmethod)
+-------------------------
+clojure.core/defmethod
+([multifn dispatch-val & fn-tail])
+Macro
+  Creates and installs a new method of multimethod associated with dispatch-value. 
+nil
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (.dispatch column)
+IllegalArgumentException No matching field found: dispatch for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (match [1]
+                  [a] a)
+1
+foundation.app> (match [1]
+                  [a] a
+                  :else 2)
+1
+foundation.app> (match [1]
+                  [_] a
+                  :else 2)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: a in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [1]
+                  [_] 1
+                  :else 2)
+1
+foundation.app> (match [1]
+                  [_] 2
+                  :else 2)
+2
+foundation.app> (match [1]
+                  [_] _
+                  :else 2)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [1]
+                  [a] a
+                  :else 2)
+1
+foundation.app> (match [:account 1]
+                  [:account a] a
+                  :else 2)
+1
+foundation.app> (match [:account 1]
+                  [:account id] id
+                  :else 2)
+1
+foundation.app> (match [:account 1]
+                  [:account id] id
+                  :else 2)
+1
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+ArityException Wrong number of args (4) passed to: PersistentVector  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (methods column)
+{[:account :currency] #<app$eval364406$fn__364408 foundation.app$eval364406$fn__364408@38611f2b>, [:account :timezone] #<app$eval364412$fn__364414 foundation.app$eval364412$fn__364414@70455cf7>, [:account :name] #<app$eval364388$fn__364390 foundation.app$eval364388$fn__364390@59da95b6>, [:account :select-all] #<app$eval364394$fn__364396 foundation.app$eval364394$fn__364396@1d9b0dd0>, [:_ :id] #<app$eval364400$fn__364402 foundation.app$eval364400$fn__364402@2ea7e1df>}
+foundation.app> (keys (methods column))
+([:account :currency] [:account :timezone] [:account :name] [:account :select-all] [:_ :id])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (methods column)
+{[:account :currency] #<app$eval368051$fn__368053 foundation.app$eval368051$fn__368053@48174860>, [:account :timezone] #<app$eval368057$fn__368059 foundation.app$eval368057$fn__368059@2e0c738b>, [:account :name] #<app$eval368033$fn__368035 foundation.app$eval368033$fn__368035@7826e451>, [_ :id] #<app$eval368045$fn__368047 foundation.app$eval368045$fn__368047@67db3f24>, [:account :select-all] #<app$eval368039$fn__368041 foundation.app$eval368039$fn__368041@775d329>}
+foundation.app> (keys (methods column))
+([:account :currency] [:account :timezone] [:account :name] [_ :id] [:account :select-all])
+foundation.app> (->> (keys (methods column))
+                     ((juxt remove filter) #(some #{"_"} (map str %))))
+[([:account :currency] [:account :timezone] [:account :name] [:account :select-all]) ([_ :id])]
+foundation.app> (->> (keys (methods column))
+                     ((juxt remove filter) #(some #{"_"} (map str %))))
+[([:account :currency] [:account :timezone] [:account :name] [:account :select-all]) ([_ :id])]
+foundation.app> (clojure.core.match/wildcards-and-duplicates [_ 1])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[_ 1])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[1 1])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[1 1 2])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[1 1 _])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[:hello :there])
+[#{} #{}]
+foundation.app> (clojure.core.match/wildcards-and-duplicates '[])
+[#{} #{}]
+foundation.app> (clojure.core.match/as-pattern 1)
+IllegalStateException Attempting to call unbound fn: #'clojure.core.match/as-pattern  clojure.lang.Var$Unbound.throwArity (Var.java:43)
+foundation.app> (clojure.core.match/as-pattern 1)
+IllegalStateException Attempting to call unbound fn: #'clojure.core.match/as-pattern  clojure.lang.Var$Unbound.throwArity (Var.java:43)
+foundation.app> (->> (keys (methods column))
+                     ((juxt remove filter) #(some #{"_"} (map str %))))
+[([:account :currency] [:account :timezone] [:account :name] [:account :select-all]) ([_ :id])]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+ClassCastException clojure.lang.Symbol cannot be cast to clojure.lang.MultiFn  clojure.core/methods (core.clj:1688)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+#<core$methods clojure.core$methods@1972fb21>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: methods# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: methods# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (multimethods column)
+[([[:account :currency] #<app$eval373257$fn__373259 foundation.app$eval373257$fn__373259@711aa2ed>] [[:account :timezone] #<app$eval373263$fn__373265 foundation.app$eval373263$fn__373265@bbeaf9e>] [[:account :name] #<app$eval373239$fn__373241 foundation.app$eval373239$fn__373241@13fbb418>] [[_ :id] #<app$eval373251$fn__373253 foundation.app$eval373251$fn__373253@71ec9de7>] [[:account :select-all] #<app$eval373245$fn__373247 foundation.app$eval373245$fn__373247@6572e31f>]) ()]
+foundation.app> (multimethods column)
+[([:account :currency] [:account :timezone] [:account :name] [:account :select-all]) ([_ :id])]
+foundation.app> (second (multimethods column))
+([_ :id])
+foundation.app> (map first (second (multimethods column)))
+(_)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+#<app$eval374566$fn__374567 foundation.app$eval374566$fn__374567@6524b8a0>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__374553__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__374553__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all])))
+foundation.app> ((multimethods column) [:account :timezone])
+[:account :timezone]
+foundation.app> ((multimethods column) [:account :id])
+IllegalArgumentException No matching clause: [:account :id]  foundation.app/eval374609/fn--374615 (form-init3414827078375725227.clj:1)
+foundation.app> ((multimethods column) [:account :id])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:2) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__375836__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__375836__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] [_ :id])))
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__375868__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__375868__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] p1__375867#)))
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: p1__375867# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: a# in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+CompilerException java.lang.ClassCastException: clojure.lang.Keyword cannot be cast to java.lang.String, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (macroexpand '(multimethods column))
+ClassCastException clojure.lang.Keyword cannot be cast to java.lang.String  clojure.core/symbol (core.clj:539)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__379545__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__379545__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] ((clojure.core/symbol (quote _)) :id))))
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__380752__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__380752__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] ((quote _) :id))))
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__381959__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__381959__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] ((quote _) :id))))
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__383170__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__383170__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] [(quote _) :id])))
+foundation.app> (multimethods column)
+#<app$eval383193$fn__383194 foundation.app$eval383193$fn__383194@68f7886d>
+foundation.app> ((multimethods column) [:account :id])
+[_ :id]
+foundation.app> ((multimethods column) [:hello :id])
+[_ :id]
+foundation.app> ((multimethods column) [:hi :id])
+[_ :id]
+foundation.app> ((multimethods column) [:never! :id])
+[_ :id]
+foundation.app> ((multimethods column) [:account :name])
+[:account :name]
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__383170__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__383170__auto__))) [:account :currency] [:account :currency] [:account :timezone] [:account :timezone] [:account :name] [:account :name] [:account :select-all] [:account :select-all] [_ :id] [(quote _) :id])))
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: column-matcher in this context, compiling:(foundation/app.clj:1018:1)>
+user> 
+#<Namespace foundation.app>
+foundation.app> (column-matcher 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (column-matcher [])
+IllegalArgumentException No matching clause: []  foundation.app/column-matcher (app.clj:1018)
+foundation.app> (column-matcher [:account :id])
+[_ :id]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column-matcher [:account :id])
+[_ :id]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column-matcher [:account :id])
+[_ :id]
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column-matcher [:account :id])
+[_ :id]
+foundation.app> (map {:hello "there"} [:hello])
+("there")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (multimethods column)
+#<app$eval401547$fn__401548 foundation.app$eval401547$fn__401548@2d898ebb>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__401514__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__401514__auto__))) [:account :currency] #<app$eval401496$fn__401498 foundation.app$eval401496$fn__401498@755b2bae> [:account :timezone] #<app$eval401502$fn__401504 foundation.app$eval401502$fn__401504@dafb613> [:account :name] #<app$eval401478$fn__401480 foundation.app$eval401478$fn__401480@7a32865a> [:account :select-all] #<app$eval401484$fn__401486 foundation.app$eval401484$fn__401486@2dc3984d> [_ :id] [(quote _) :id])))
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (macroexpand '(multimethods column))
+(fn* ([q__402793__auto__] (clojure.core.match/match (clojure.core/apply clojure.core/vector (clojure.core/seq (clojure.core/concat q__402793__auto__))) [:account :currency] #<app$eval402776$fn__402778 foundation.app$eval402776$fn__402778@7cab9f71> [:account :timezone] #<app$eval402782$fn__402784 foundation.app$eval402782$fn__402784@3494b016> [:account :name] #<app$eval402758$fn__402760 foundation.app$eval402758$fn__402760@3fcd024b> [:account :select-all] #<app$eval402764$fn__402766 foundation.app$eval402764$fn__402766@4623a48c> [_ :id] #<app$eval402770$fn__402772 foundation.app$eval402770$fn__402772@71177840>)))
+foundation.app> (column-matcher [:account :id])
+#<app$eval402770$fn__402772 foundation.app$eval402770$fn__402772@2da586e6>
+foundation.app> (column-matcher [:account :id])
+#<app$eval402770$fn__402772 foundation.app$eval402770$fn__402772@2da586e6>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column-matcher [:account :id])
+#<app$eval402770$fn__402772 foundation.app$eval402770$fn__402772@2da586e6>
+foundation.app> (column-matcher [:account :id] identity)
+ArityException Wrong number of args (2) passed to: app/column-matcher  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException clojure.lang.ArityException: Wrong number of args (2) passed to: app/defgeneric, compiling:(foundation/app.clj:1005:7)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: multifn__407675__auto__ in this context, compiling:(foundation/app.clj:1021:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.InstantiationException: foundation.app$defgeneric$eval408884__408885, compiling:(foundation/app.clj:999:26)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: No such var: foundation.app/dispatch-fn, compiling:(foundation/app.clj:1021:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column* (first (attrs acct)))
+#<app$eval412525$fn__412527 foundation.app$eval412525$fn__412527@3ca9ca40>
+foundation.app> (column* )
+ArityException Wrong number of args (0) passed to: core/meta  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (column* 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (column* [:account :name])
+IllegalArgumentException No matching clause: [nil :account]  foundation.app/fn--412552 (app.clj:1021)
+foundation.app> (column* [:account :name])
+IllegalArgumentException No matching clause: [nil :account]  foundation.app/fn--412552 (app.clj:1021)
+foundation.app> (column* [:account :id])
+IllegalArgumentException No matching clause: [nil :account]  foundation.app/fn--412552 (app.clj:1021)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column* (first (attrs acct)))
+#<app$eval416229$fn__416231 foundation.app$eval416229$fn__416231@a3efc83>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column* (first (attrs acct)))
+ClassCastException clojure.lang.Cons cannot be cast to clojure.lang.IFn  clojure.core/comp/fn--4160 (core.clj:2359)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Can't take value of a macro: #'foundation.app/do-dispatch, compiling:(foundation/app.clj:1022:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: No such var: foundation.app/args, compiling:(foundation/app.clj:1022:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column* (first (attrs acct)))
+ClassCastException clojure.lang.ArraySeq cannot be cast to clojure.lang.IFn  foundation.app/column* (app.clj:1022)
+foundation.app> (attrs acct)
+([:timezone ""] [:currency ""] [:id ""] [:name ""])
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> column
+#<app$column foundation.app$column@5df25730>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column 1)
+#<app$eval434340$fn__434341 foundation.app$eval434340$fn__434341@3397e8b7>
+foundation.app> ((column 1) 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> ((column 1) [:account :id])
+#<app$eval434300$fn__434302 foundation.app$eval434300$fn__434302@38cf6f37>
+foundation.app> (((column 1) [:account :id]) 1)
+UnsupportedOperationException nth not supported on this type: Long  clojure.lang.RT.nthFrom (RT.java:858)
+foundation.app> (((column 1) [:account :id]) ((column 1) [:account :id]))
+UnsupportedOperationException nth not supported on this type: app$eval434300$fn__434302  clojure.lang.RT.nthFrom (RT.java:858)
+foundation.app> (((column 1) [:account :id]) [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (column 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (column [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> (column [:account :name])
+"<th id=\"account\">Name</th>"
+foundation.app> (time (column [:account :name]))
+"Elapsed time: 0.118 msecs"
+"<th id=\"account\">Name</th>"
+foundation.app> (time (column [:account :name]))
+"Elapsed time: 0.116 msecs"
+"<th id=\"account\">Name</th>"
+foundation.app> (time (column [:account :name]))
+"Elapsed time: 0.117 msecs"
+"<th id=\"account\">Name</th>"
+foundation.app> (time (column [:account :name]))
+"Elapsed time: 0.118 msecs"
+"<th id=\"account\">Name</th>"
+foundation.app> (time (+ 1 1))
+"Elapsed time: 0.069 msecs"
+2
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (time (+ 1 1))
+"Elapsed time: 0.037 msecs"
+2
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.util.regex.PatternSyntaxException: Dangling meta character '*' near index 0
+*
+^, compiling:(foundation/app.clj:951:66)>
+user> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column* [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> (column* [:account :id])
+"<th id=\"account\">ID</th>"
+foundation.app> (.getFn column)
+IllegalArgumentException No matching field found: getFn for class clojure.lang.MultiFn  clojure.lang.Reflector.getInstanceField (Reflector.java:271)
+foundation.app> (.dispatchFn column)
+#<core$juxt$fn__4179 clojure.core$juxt$fn__4179@4a54b0be>
+foundation.app> (.-dispatchFn column)
+#<core$juxt$fn__4179 clojure.core$juxt$fn__4179@4a54b0be>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException clojure.lang.ArityException: Wrong number of args (2) passed to: app/defgeneric, compiling:(foundation/app.clj:954:60)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (column* [:account :id])
+IllegalArgumentException No matching clause: [nil :account]  foundation.app/eval447437/fn--447438 (app.clj:955)
+foundation.app> (column* (first (attrs acct)))
+"<th id=\"timezone\">Timezone</th>"
+foundation.app> (map column* (first (attrs acct)))
+ExceptionInfo Don't know how to create ISeq from: clojure.lang.Keyword  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app> (map column* (attrs acct))
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (map column* (attrs acct)))
+"Elapsed time: 0.084 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (map column* (attrs acct)))
+"Elapsed time: 0.084 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.282 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.353 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.294 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.35 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.369 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.404 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.303 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.IllegalArgumentException: No matching field found: dispatchFn for class clojure.lang.Symbol, compiling:(foundation/app.clj:947:57)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.ExceptionInInitializerError, compiling:(app.clj:950:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.499 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.476 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:error-while-loading foundation.app
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: defgeneric in this context, compiling:(foundation/app.clj:904:1)>
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.902 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.297 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.354 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.666 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.56 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column (attrs acct))))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column (attrs acct))))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (time (doall (map column (attrs acct))))
+IllegalArgumentException No method in multimethod 'column' for dispatch value: [:account :id]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.273 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.288 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.289 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.216 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.229 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.218 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column (attrs acct)))))
+"Elapsed time: 0.199 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column (attrs acct)))))
+"Elapsed time: 0.201 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column (attrs acct)))))
+"Elapsed time: 0.201 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column (attrs acct)))))
+"Elapsed time: 0.239 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.358 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.229 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.232 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (take 2 (map column* (attrs acct)))))
+"Elapsed time: 0.304 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.336 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.325 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.366 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.456 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.299 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.302 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 2.513 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.395 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.398 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.29 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.778 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.284 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 0.384 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (time (doall (map column* (attrs acct))))
+"Elapsed time: 1.44 msecs"
+("<th id=\"timezone\">Timezone</th>" "<th id=\"currency\">Currency</th>" "<th id=\"id\">ID</th>" "<th id=\"name\">Name</th>")
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (match [#{1}]
+                  [#{1}] 1
+                  :else false)
+1
+foundation.app> (match [#{1}]
+                  [#{[:counter]}] 1
+                  :else false)
+false
+foundation.app> (match [#{[:counter]}]
+                  [#{[:counter]}] 1
+                  :else false)
+1
+foundation.app> (match [#{[:counter]}]
+                  [#{[:counter] [:hello]}] 1
+                  :else false)
+false
+foundation.app> (match [#{[:counter]}]
+                  [#{[:counter] _}] 1
+                  :else false)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [#{[:counter]}]
+                  [#{[:counter] '_}] 1
+                  :else false)
+false
+foundation.app> (match [#{[:counter]}]
+                  [#{[:counter] _}] 1
+                  :else false)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [#{[:counter]}]
+                  [#{_}] 1
+                  :else false)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: _ in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init3414827078375725227.clj:1:1) 
+foundation.app> (match [#{[:counter]}]
+                  [_] 1
+                  :else false)
+1
+foundation.app> (match [[#{[:counter]} [:counters]]]
+                  [[_ output]] 1
+                  :else false)
+1
+foundation.app> (match [[#{[:counter]} [:counters]]]
+                  [[_ output]] [#{[:counter]} [:counters]]
+                  :else false)
+[#{[:counter]} [:counters]]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+ArityException Wrong number of args (2) passed to: core/identity  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+ArityException Wrong number of args (2) passed to: core/identity  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app> (ns user)
+nil
+user> (refresh-all)
+:reloading (foundation.app.message foundation.app user)
+:ok
+user> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+[((quote foundation.app/_) :guard (fn* [p1__491141__491142__auto__] (clojure.core/some #{[:counter]} p1__491141__491142__auto__))) [:counters]]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+[((quote _) :guard (fn* [p1__492366__492367__auto__] (clojure.core/some #{[:counter]} p1__492366__492367__auto__))) [:counters]]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+[((quote _) :guard (fn* [p1__492366__492367__auto__] (clojure.core/some #{[:counter]} p1__492366__492367__auto__))) [:counters]]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> (dispatch :derive [#{[:counter]} [:counters]])
+[((quote _) :guard (fn* [p1__492366__492367__auto__] (clojure.core/some #{[:counter]} p1__492366__492367__auto__))) [:counters]]
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
+#<Namespace foundation.app>
+foundation.app> 
