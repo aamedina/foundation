@@ -2,7 +2,11 @@
   (:refer-clojure :exclude [derive])
   (:require [clojure.set :as set]
             [clojure.string :as str]
-            [clojure.data :refer [diff]]            
+            [clojure.data :refer [diff]]
+            [cljs.compiler :as comp]
+            [cljs.analyzer :as ana]
+            [cljs.env :as env]
+            [cljs.closure :as cljsc]
             [foundation.app.message :as msg]
             [clojure.math.combinatorics :as com]
             [clojure.core :as core]
@@ -885,56 +889,19 @@
   {:url "/accounts/:id"
    :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
 
-(defmacro method-matcher
-  [multifn]
-  (let [methods# (eval `(methods ~multifn))
-        args (gensym "args")]
-    (letfn [(replace [pred]
-              (reduce (fn [memo val]
-                        (cond
-                          (= val :*) (conj memo '_)
-                          (= val '_) (conj memo :*)
-                          :else (conj memo val))) [] pred))]
-      `(fn [[pred# & rest# :as ~args]]
-         (match pred#
-           ~@(->> (keys methods#)
-                  (filter vector?)
-                  (filter #(some #{:*} (set %)))
-                  (map replace)
-                  (#(interleave % (map (fn [pred#]
-                                         `((fn [& args#]
-                                             (apply ~(get methods#
-                                                          (replace pred#))
-                                                    args#))
-                                           ~args)) %))))
-           :else (apply ~multifn ~args))))))
-
-(defn dispatches
-  [multifn dispatch]
-  (let [zipper (take-while (complement zip/end?)
-                           (iterate zip/next (zip/vector-zip dispatch)))]
-    (->> (map zip/node zipper)
-         (remove coll?)
-         (map #(replace {% :*} dispatch)))))
-
-(defmacro dispatcher
-  [multifn dispatch-fn] 
-  (letfn [(replace [pred]
-            (reduce (fn [memo val]
-                      (cond
-                        (= val :*) (conj memo '_)
-                        (= val '_) (conj memo :*)
-                        (nil? val) (conj memo :*)
-                        :else (conj memo val))) [] pred))]
-    `(fn [dispatch# & args#]
-       (let [dispatch-val# (apply ~dispatch-fn dispatch# args#)]
-         (if (get-method ~multifn dispatch-val#)
-           dispatch-val#
-           (let [val# (apply ~replace [dispatch-val#])]
-             (when (get-method ~multifn val#)
-               val#)))))))
+(defn matching-dispatches
+  [dispatch-val]
+  (let [ps (com/partitions dispatch-val)]
+    (->> (map #(zipmap % (repeat :*))
+              (reduce into [] (rest ps)))
+         (map #(replace % dispatch-val))
+         (cons (vec (repeat (count dispatch-val) :*)))
+         (reverse)
+         (cons dispatch-val)
+         distinct)))
 
 (defmulti column (juxt (comp :model meta) first))
+
 (defmethod column [:account :name]
   [[attr v]]
   (html [:th {:id attr} "Name"]))
@@ -943,7 +910,7 @@
   [[attr v]]
   (html [:th {:id attr} "Select All"]))
 
-(defmethod column [:* :id]
+(defmethod column '[_ :id]
   [[attr v]]
   (html [:th {:id attr} "ID"]))
 
@@ -959,3 +926,24 @@
   [model]
   (map #(with-meta (into [] %) (meta model)) model))
 
+(def acct (apply account (repeat 4 "")))
+
+(defmacro multimethods
+  [multifn]
+  (let [m# (eval `(methods ~multifn))
+        methods# (->> (keys m#)
+                      ((juxt remove filter)
+                       #(some #{"_"} (map str %))))]
+    `(fn [q#]
+       (match `[~@q#]
+         ~@(interleave (first methods#) (map m# (first methods#)))
+         ~@(interleave (second methods#) (map m# (second methods#)))))))
+
+(defmacro defgeneric
+  [name multifn]
+  (let [methods (eval `(multimethods ~multifn))]
+    `(do (defn ~name [& args#]
+           (let [dispatch-val# (apply (.-dispatchFn ~multifn) args#)]
+             (apply (~methods dispatch-val#) args#))))))
+
+(defgeneric column* column)
