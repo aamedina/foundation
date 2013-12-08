@@ -888,45 +888,42 @@
 (defmethod transform :default [message state] state)
 (defmethod effect :default [message] (go []))
 
-(defmethod transform [:inc [:counter]]
+(defmethod transform [:inc [:my-counter]]
   [_ state]
   ((fnil inc 0) state))
 
-(defmethod transform [:inc [:**]]
-  [_ state]
-  ((fnil inc 0) state))
+(defmethod transform [:swap [:**]]
+  [message _]
+  (:value message))
 
-(defmethod derive [#{[:counter]} [:counters]]
+(defmethod derive [#{[:my-counter]} [:counters]]
   [state]
   ((fnil inc 0) state))
 
-(defmethod effect [:inc [:counter]]
+(defmethod effect [:inc [:my-counter]]
   [message])
 
-(defn resolve-id
-  [path])
-
 (defmethod node-create [:*]
-  [delta])
+  [delta state])
 
 (defmethod node-update [#{[:*]} :#content]
-  [delta])
+  [delta old-state new-state])
 
 (defmethod node-destroy [:*]
-  [delta])
+  [delta node])
 
-(defmethod transform-enable [:click [:*]]
-  [delta]
-  '(sel1 :*))
+(defmethod transform-enable [:inc [:my-counter] :click]
+  [delta node])
 
-(defmethod transform-disable [:click [:*]]
-  [delta])
+(defmethod transform-disable [:inc [:my-counter] :click]
+  [delta node])
 
 (defmulti dispatch-matcher (fn [k dispatch-val] k))
 
 (defmethod dispatch-matcher :transform
   [k dispatch-val]
   (match [dispatch-val]
+    [[type [:*]]] [type ['_]]
     [[:* [:**]]] ['_ '_]
     [[type [:**]]] [type '_]
     [[type path]] [type path]))
@@ -945,8 +942,8 @@
 (defmethod dispatch-matcher :node-create
   [k dispatch-val]
   (match [dispatch-val]
-    [[:**]] ['_])
-    [[path]] [path])
+    [[:**]] ['_]
+    [[path]] [path]))
 
 (defmethod dispatch-matcher :node-update
   [k dispatch-val]
@@ -963,15 +960,48 @@
 (defmethod dispatch-matcher :transform-enable
   [k dispatch-val]
   (match [dispatch-val]
-    [[:* [:**]]] ['_ '_]
-    [[type [:**]]] [type '_]
-    [[type path]] [type path])))
+    [[:* [:**] event]] ['_ '_]
+    [[type [:**] event]] [type '_]
+    [[type path event]] [type path]))
 
 (defmethod dispatch-matcher :transform-disable
   [k dispatch-val]
   (match [dispatch-val]
-    [[:* [:**]]] ['_ '_]
-    [[type [:**]]] [type '_]
-    [[type path]] [type path])))
+    [[:* [:**] event]] ['_ '_]
+    [[type [:**] event]] [type '_]
+    [[type path event]] [type path event]))
+
+(defmulti dispatch (fn [k dispatch-val] k))
+
+(defmethod dispatch :transform
+  [k dispatch-val]
+  (let [dispatch-match (dispatch-matcher k dispatch-val)
+        dispatch-fn (.-dispatchFn transform)]
+    (fn [message data-model]
+      (let [q (dispatch-fn message)]
+        (if-let [method (get (methods transform) q)]
+          (method message data-model)
+          (match [q]
+            [(_ :guard #(= dispatch-match %))]
+            ((get (methods transform) dispatch-val) message data-model)
+            :else (transform message data-model)))))))
+
+(def swap-msg
+  {msg/type :swap msg/path [:other-counters "abc"] :value 42})
+
+(def inc-msg
+  {msg/type :inc msg/path [:my-counter]})
+
+(defn update-data-model
+  [data-model message]
+  (update-in data-model (msg/path message) #(apply transform message %&)))
+
+(defmacro mmatch
+  [q dispatch-match dispatch-val & {:keys [else] :or {else nil}}]
+  (let [m (vec (eval `(do ~dispatch-match)))]
+    `(match ~q
+       ~m ~dispatch-val
+       :else ~else)))
+
 
 
