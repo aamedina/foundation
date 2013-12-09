@@ -316,7 +316,8 @@
 (defn update-state
   [state path f & args]
   (let [data-model (get-in state [:new :data-model])
-        new-data-model (apply update-in data-model path f args)]))
+        new-data-model (apply update-in data-model path f args)]
+    ))
 
 (defn transform-phase
   [{:keys [new context] :as state}]
