@@ -313,9 +313,16 @@
         (vec transformers)
         [(get-method multifn dispatch-val)]))))
 
+(defn update-state
+  [state path f & args]
+  (let [data-model (get-in state [:new :data-model])
+        new-data-model (apply update-in data-model path f args)]))
+
 (defn transform-phase
-  [{:keys [new context]}]
-  )
+  [{:keys [new context] :as state}]
+  (let [{:keys [type path] :as message} (:message context)
+        transform-fn (first (find-message-transformer transform message))]
+    (update-state state path transform-fn message)))
 
 (defn derive-phase
   [])
