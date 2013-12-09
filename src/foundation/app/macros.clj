@@ -329,7 +329,7 @@
         transform-fn (first (find-message-transformer transform message))]
     (update-state state path transform-fn message)))
 
-(defn derive-phase
+(defn derives-phase
   [{:keys [new context] :as state}]
   (let [dispatches (dissoc (methods derives) :default)
         derives (keys dispatches)]
@@ -355,7 +355,7 @@
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
-                      derive-phase)]
+                      derives-phase)]
     (:new (-> new-state
               effect-phase
               emit-phase))))
@@ -402,11 +402,13 @@
 
 (def counter-dependencies
   (-> (d/graph)
-      (d/depend [] nil)
-      (d/depend [:my-counter] [])
-      (d/depend [:other-counters] [])
+      (d/depend [:my-counter] nil)
+      (d/depend [:other-counters :*] nil)
       (d/depend [:total-count] [:my-counter])
       (d/depend [:total-count] [:other-counters :*])
       (d/depend [:max-count] [:my-counter])
       (d/depend [:max-count] [:other-counters :*])
-      ))
+      (d/depend [:average-count] [:my-counter])
+      (d/depend [:average-count] [:total-count])
+      (d/depend [:average-count] [:other-counters :*])))
+
