@@ -19,7 +19,8 @@
             [riddley.compiler :refer [locals]]
             [clojure.core.match.protocols :refer :all]
             [clojure.core.async :refer [go go-loop chan <! >! <!!]]
-            [clojure.core.reducers :as r]))
+            [clojure.core.reducers :as r]
+            [foundation.app.dependency :as d]))
 
 (defn scaffold [iface]
   (doseq [[iface methods]
@@ -265,10 +266,28 @@
 ;; (defmethod transform-disable [:inc [:my-counter] :click]
 ;;   [delta node])
 
+(defn receive-input-message
+  [app-atom input-queue])
+
+(defn send-effects
+  [app-atom output-queue])
+
+(defn send-app-model-deltas
+  [app-atom app-model-queue])
+
 (defn build
   []
-  (let [app-atom (atom {:data-model {}})]
-    ))
+  (let [app-atom (atom {:data-model {}})
+        input-queue (chan)
+        output-queue (chan)
+        app-model-queue (chan)]
+    (receive-input-message app-atom input-queue)
+    (send-effects app-atom output-queue)
+    (send-app-model-deltas app-atom app-model-queue)
+    {:state app-atom
+     :input input-queue
+     :output output-queue
+     :app-model app-model-queue}))
 
 (defn transform-phase
   [])
