@@ -147,6 +147,52 @@
         (render-fn deltas (:input app))))
     app-model))
 
+(defn filter-deltas
+  [new-state paths])
+
+(defn run-dataflow
+  [state flow message])
+
+(defn multiplex-message
+  [state flow message]
+  [(cond
+     (= (:path message) ::app-model) :app-model
+     (= (:path message) ::output) :output
+     :else :default) (:type message)])
+
+(defmulti process-message multiplex-message)
+
+(defmethod process-message :default
+  [state flow message]
+  (run-dataflow state flow message))
+
+(defmethod process-message [:app-model :navigate]
+  [state flow message])
+
+(defmethod process-message [:app-model :set-focus]
+  [state flow message])
+
+(defmethod process-message [:app-model :subscribe]
+  [state flow message])
+
+(defmethod process-message [:app-model :unsubscribe]
+  [state flow message])
+
+(defmethod process-message [:app-model :add-named-paths]
+  [state flow message])
+
+(defmethod process-message [:app-model :remove-named-paths]
+  [state flow message])
+
+(defn transact-message
+  [state flow message]
+  (let [old-state (assoc state ::input message)
+        new-state (process-message state flow message)
+        new-deltas (filter-deltas new-state (:emit new-state))]
+    (-> new-state
+        (assoc :emitter-deltas new-deltas)
+        (dissoc :emit))))
+
 (defn matching-path?
   [path1 path2]
   (= (loop [a path1
