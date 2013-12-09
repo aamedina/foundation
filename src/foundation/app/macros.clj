@@ -70,24 +70,6 @@
   [& colls]
   (apply zip-with vector colls))
 
-(defn transform-phase
-  [])
-
-(defn derive-phase
-  [])
-
-(defn effect-phase
-  [])
-
-(defn emit-phase
-  [])
-
-(defn output-phase
-  [])
-
-(defn post-processing-phase
-  [])
-
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
 
 (defmethod input-spec :vals
@@ -150,8 +132,7 @@
 (defn filter-deltas
   [new-state paths])
 
-(defn run-dataflow
-  [state flow message])
+(declare run-dataflow)
 
 (defn multiplex-message
   [state flow message]
@@ -283,3 +264,94 @@
 
 ;; (defmethod transform-disable [:inc [:my-counter] :click]
 ;;   [delta node])
+
+(defn build
+  []
+  (let [app-atom (atom {:data-model {}})]
+    ))
+
+(defn transform-phase
+  [])
+
+(defn derive-phase
+  [])
+
+(defn effect-phase
+  [])
+
+(defn descendant?
+  [input-path path])
+
+(defn remover
+  [change-set input-paths]
+  (set (remove (fn [x] (some #(matching-path? x) input-paths) change-set))))
+
+(defn remove-matching-changes
+  [change input-paths]
+  (reduce (fn [a k] (update-in a [k] remover input-paths))
+          change [:inspect :added :updated :removed]))
+
+(defn propagate?
+  [{:keys [change] :as state} input-paths]
+  (letfn [(propagate? [state changed-inputs input-path]
+            (some #(descendant? input-path %) changed-inputs))]
+    (let [changed-inputs (if (seq change) (reduce into (vals change)) [])]
+      (some (fn [input-path]
+              (if-let [propagate? (or (:propagator (meta input-path))
+                                      propagate?)]
+                (propagate? state changed-inputs input-path)))
+            input-paths))))
+
+(defn flow-input
+  [context state input-paths change]
+  (letfn [(input-set [changes f input-paths]
+            (set (f (fn [x] (some (partial descendant? x) input-paths))
+                    changes)))
+          (update-input-sets [m ks f input-paths]
+            (reduce (fn [a k] (update-in a [k] input-set f input-paths))
+                    m ks))]
+    (-> context
+        (assoc :new-model (get-in state [:new :data-model]))
+        (assoc :old-model (get-in state [:old :data-model]))
+        (assoc :input-paths input-paths)
+        (merge (select-keys change [:added :updated :removed]))
+        (update-input-sets [:added :updated :removed] filter input-paths))))
+
+(defn emit-phase
+  [{:keys [dataflow context change] :as state}]
+  (-> (reduce (fn [{:keys [change remaining-change processed-inputs] :as acc}
+                   {input-paths :in emit-fn :fn mode :mode}]
+                (-> acc
+                    (update-in [:remaining-change] remove-matching-changes
+                               input-paths)
+                    (update-in [:processed-inputs] (fnil into []) input-paths)
+                    (update-in [:new :emit] (fnil into [])
+                               (emit-fn (-> (flow-input context acc
+                                                        input-paths
+                                                        change)
+                                            (assoc :mode mode
+                                                   :processed-inputs
+                                                   processed-inputs))))))
+              (assoc state :remaining-change change)
+              (:emit dataflow))
+      (dissoc :remaining-change)))
+
+(defn output-phase
+  [])
+
+(defn post-processing-phase
+  [])
+
+(defn run-dataflow
+  [model dataflow message]
+  (let [state {:old model
+               :new model
+               :change {}
+               :dataflow dataflow
+               :context {}}
+        new-state (-> (assoc-in state [:context :message] message)
+                      transform-phase
+                      derive-phase)]
+    (:new (-> new-state
+              effect-phase
+              emit-phase))))
