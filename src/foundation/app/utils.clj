@@ -21,6 +21,54 @@
             [clojure.core.async :refer [go chan <! >! <!!]]
             [clojure.core.reducers :as r]))
 
+(defn scaffold [iface]
+  (doseq [[iface methods]
+          (->> iface .getMethods
+               (map #(vector (.getName (.getDeclaringClass %))
+                             (symbol (.getName %))
+                             (count (.getParameterTypes %))))
+               (group-by first))]
+    (println (str "  " iface))
+    (doseq [[_ name argcount] methods]
+      (println
+       (str "    "
+            (list name
+                  (into ['this] (take argcount (repeatedly gensym)))))))))
+
+(defn all-dependencies
+  [dependencies n]
+  (loop [stack []
+         unprocessed [n]
+         processed {}]
+    (if (empty? unprocessed)
+      stack
+      (let [i (peek unprocessed)
+            status (processed i)]
+        (case status
+          :done (recur stack (pop unprocessed) processed)
+          :seen-once (recur (conj stack i) (pop unprocessed)
+                            (assoc processed i :done))
+          (recur stack (into unprocessed (dependencies i))
+                 (assoc processed i :seen-once)))))))
+
+(defn locs
+  [root]
+  (take-while (complement zip/end?)
+              (iterate zip/next root)))
+
+(defn nodes
+  [root]
+  (for [loc (locs root)]
+    (zip/node loc)))
+
+(defn zip-with
+  [f & colls]
+  (apply map f colls))
+
+(defn zip
+  [& colls]
+  (apply zip-with vector colls))
+
 (defmacro resolve-sym
   [sym]
   (->> (all-ns)

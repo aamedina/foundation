@@ -20,56 +20,30 @@
             [clojure.core.match.protocols :refer :all]
             [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
             [clojure.core.reducers :as r]
-            [foundation.app.dependency :as d]))
+            [foundation.app.dependency :as d]
+            [foundation.app.tree :as tree]))
 
-(defn scaffold [iface]
-  (doseq [[iface methods]
-          (->> iface .getMethods
-               (map #(vector (.getName (.getDeclaringClass %))
-                             (symbol (.getName %))
-                             (count (.getParameterTypes %))))
-               (group-by first))]
-    (println (str "  " iface))
-    (doseq [[_ name argcount] methods]
-      (println
-       (str "    "
-            (list name
-                  (into ['this] (take argcount (repeatedly gensym)))))))))
+(declare run-dataflow match-dispatch)
 
-(defn all-dependencies
-  [dependencies n]
-  (loop [stack []
-         unprocessed [n]
-         processed {}]
-    (if (empty? unprocessed)
-      stack
-      (let [i (peek unprocessed)
-            status (processed i)]
-        (case status
-          :done (recur stack (pop unprocessed) processed)
-          :seen-once (recur (conj stack i) (pop unprocessed)
-                            (assoc processed i :done))
-          (recur stack (into unprocessed (dependencies i))
-                 (assoc processed i :seen-once)))))))
+(defmulti node-create identity)
 
+(defmulti transform (partial match-dispatch :transform))
 
-(defn locs
-  [root]
-  (take-while (complement zip/end?)
-              (iterate zip/next root)))
+(defmethod transform :default [messsage] :default)
 
-(defn nodes
-  [root]
-  (for [loc (locs root)]
-    (zip/node loc)))
+(defmulti derives (partial match-dispatch :derives))
 
-(defn zip-with
-  [f & colls]
-  (apply map f colls))
+(defmethod derives :default [state & args] :default)
 
-(defn zip
-  [& colls]
-  (apply zip-with vector colls))
+(defmulti effect (partial match-dispatch :effect))
+
+(defmulti post-process (juxt first second))
+
+(defmethod post-process :default [delta] [delta])
+
+(defmulti pre-process (juxt :type :path))
+
+(defmethod pre-process :default [message] [message])
 
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
 
@@ -87,30 +61,6 @@
 
 (defmethod input-spec :default
   [dispatch-val inputs args-key arg-names])
-
-(defmulti match-dispatch (fn [k & args] k))
-
-(defmulti transform (partial match-dispatch :transform))
-
-(defmulti derives (partial match-dispatch :derives))
-
-(defmulti effect (partial match-dispatch :effect))
-
-(defmulti post-process (juxt first second))
-
-(defn data-model
-  []
-  {})
-
-(def app-model ::app-model)
-(def output ::output)
-(def effect ::output)
-(def priority ::priority)
-(def init ::init)
-
-(defn input-queue [])
-(defn output-queue [])
-(defn app-model-queue [])
 
 (def new-app-model {})
 
@@ -130,13 +80,8 @@
         (render-fn deltas (:input app))))
     app-model))
 
-(defn filter-deltas
-  [new-state paths])
-
-(declare run-dataflow)
-
 (defn multiplex-message
-  [state flow message]
+  [state message]
   [(cond
      (= (:path message) ::app-model) :app-model
      (= (:path message) ::output) :output
@@ -145,35 +90,26 @@
 (defmulti process-message multiplex-message)
 
 (defmethod process-message :default
-  [state flow message]
-  (run-dataflow state flow message))
+  [state message]
+  (run-dataflow state message))
 
 (defmethod process-message [:app-model :navigate]
-  [state flow message])
+  [state message])
 
 (defmethod process-message [:app-model :set-focus]
-  [state flow message])
+  [state message])
 
 (defmethod process-message [:app-model :subscribe]
-  [state flow message])
+  [state message])
 
 (defmethod process-message [:app-model :unsubscribe]
-  [state flow message])
+  [state message])
 
 (defmethod process-message [:app-model :add-named-paths]
-  [state flow message])
+  [state message])
 
 (defmethod process-message [:app-model :remove-named-paths]
-  [state flow message])
-
-(defn transact-message
-  [state flow message]
-  (let [old-state (assoc state ::input message)
-        new-state (process-message state flow message)
-        new-deltas (filter-deltas new-state (:emit new-state))]
-    (-> new-state
-        (assoc :emitter-deltas new-deltas)
-        (dissoc :emit))))
+  [state message])
 
 (defn matching-path?
   [path1 path2]
@@ -190,6 +126,8 @@
                  (recur (vec (rest a)) (vec (rest b)))
                  :fail)))
      :succeed))
+
+(defmulti match-dispatch (fn [k & args] k))
 
 (defmethod match-dispatch :transform
   [t {:keys [type path] :as message} & args]
@@ -210,71 +148,27 @@
             ispec (input-spec ispec message dispatch-val)]
         (dispatch-fn message nil (range 10))))))
 
-(defmethod transform [:inc [:my-counter]]
-  [_ state]
-  ((fnil inc 0) state))
-
-(defmethod transform [:swap [:**]]
-  [message _]
-  (:value message))
-
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:total-count] :vals]
-  [message state nums]
-  (reduce + nums))
-
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:max-count] :vals]
-  [message old-value nums]  
-  (apply max (or old-value 0) nums))
-
-(defmethod derives [{[:my-counter] :nums
-                     [:other-counters :*] :nums
-                     [:total-count] :total} [:average-count] :map]
-  [message old-value {:keys [nums total]}]
-  (/ total (count nums)))
-
-(defmethod post-process [:value [:average-count]]
-  [[op path n]]
-  (letfn [(round [n places]
-            (let [p (Math/pow 10 places)]
-              (/ (Math/round (* p n)) p)))]
-    [[op path (round n 2)]]))
-
-(defmethod post-process :default [delta] [delta])
-
-(defmethod derives :default [state & args] :default)
-
-(defmethod transform :default [messsage] :default)
-
-(def swap-msg
-  {:type :swap :path [:other-counters "abc"] :value 42})
-
-(def inc-msg
-  {:type :inc :path [:my-counter]})
-
-;; (defmethod node-create [:*]
-;;   [delta state])
-
-;; (defmethod node-update [#{[:*]} :#content]
-;;   [delta old-state new-state])
-
-;; (defmethod node-destroy [:*]
-;;   [delta node])
-
-;; (defmethod transform-enable [:inc [:my-counter] :click]
-;;   [delta node])
-
-;; (defmethod transform-disable [:inc [:my-counter] :click]
-;;   [delta node])
+(defn filter-deltas
+  [state deltas]
+  (let [subscriptions (:subscriptions state)
+        special-ops {:navigate-node-destroy :node-destroy}
+        prefix? (fn [path prefix] (= (take (count prefix) path) prefix))]
+    (mapv (fn [[op & xs :as delta]]
+            (if (special-ops op)
+              (apply vector (special-ops op) xs) delta))
+          (filter (fn [[op path]]
+                    (or (special-ops op)
+                        (some (fn [s] (prefix? path s)) subscriptions)))
+                  (mapcat tree/expand-map deltas)))))
 
 (defn transact-one
   [state message]
-  )
-
-(defmulti pre-process (juxt :type :path))
-
-(defmethod pre-process :default [message] [message])
+  (let [old-state (-> state (assoc :input message) (dissoc :effect))
+        new-state (process-message state message)
+        new-deltas (filter-deltas new-state (:emit new-state))]
+    (-> new-state
+        (assoc :emitter-deltas new-deltas)
+        (dissoc :emit))))
 
 (defn receive-input-message
   [app-atom input-queue]
@@ -285,7 +179,10 @@
 
 (defn send-effects
   [app-atom output-queue]
-  )
+  (add-watch app-atom :effects-watcher
+             (fn [_ _ _ new-state]
+               (doseq [message (post-process (:effect new-state))]
+                 (put! output-queue message)))))
 
 (defn send-app-model-deltas
   [app-atom app-model-queue]
@@ -400,7 +297,7 @@
         (update-input-sets [:added :updated :removed] filter input-paths))))
 
 (defn emit-phase
-  [{:keys [dataflow context change] :as state}]
+  [{:keys [context change] :as state}]
   (-> (reduce (fn [{:keys [change remaining-change processed-inputs] :as acc}
                    {input-paths :in emit-fn :fn mode :mode}]
                 (-> acc
@@ -415,7 +312,7 @@
                                                    :processed-inputs
                                                    processed-inputs))))))
               (assoc state :remaining-change change)
-              (:emit dataflow))
+              (keys (methods node-create)))
       (dissoc :remaining-change)))
 
 (defn output-phase
@@ -425,11 +322,10 @@
   [])
 
 (defn run-dataflow
-  [model dataflow message]
+  [model message]
   (let [state {:old model
                :new model
                :change {}
-               :dataflow dataflow
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
@@ -437,3 +333,40 @@
     (:new (-> new-state
               effect-phase
               emit-phase))))
+
+(def swap-msg
+  {:type :swap :path [:other-counters "abc"] :value 42})
+
+(def inc-msg
+  {:type :inc :path [:my-counter]})
+
+(defmethod transform [:inc [:my-counter]]
+  [_ state]
+  ((fnil inc 0) state))
+
+(defmethod transform [:swap [:**]]
+  [message _]
+  (:value message))
+
+(defmethod derives [#{[:my-counter]
+                      [:other-counters :*]} [:total-count] :vals]
+  [message state nums]
+  (reduce + nums))
+
+(defmethod derives [#{[:my-counter]
+                      [:other-counters :*]} [:max-count] :vals]
+  [message old-value nums]  
+  (apply max (or old-value 0) nums))
+
+(defmethod derives [{[:my-counter] :nums
+                     [:other-counters :*] :nums
+                     [:total-count] :total} [:average-count] :map]
+  [message old-value {:keys [nums total]}]
+  (/ total (count nums)))
+
+(defmethod post-process [:value [:average-count]]
+  [[op path n]]
+  (letfn [(round [n places]
+            (let [p (Math/pow 10 places)]
+              (/ (Math/round (* p n)) p)))]
+    [[op path (round n 2)]]))
