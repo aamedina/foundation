@@ -321,7 +321,7 @@
     (-> state
         (assoc-in [:new :data-model] @new-data-model)
         (update-in [:change] (fn [old new] (merge-with into old new))
-                   (tm/changes tracking-map)))))
+                   (tm/changes new-data-model)))))
 
 (defn transform-phase
   [{:keys [new context] :as state}]
@@ -330,7 +330,13 @@
     (update-state state path transform-fn message)))
 
 (defn derive-phase
-  [])
+  [{:keys [new context] :as state}]
+  (let [dispatches (dissoc (methods derives) :default)
+        derives (keys dispatches)]
+    (reduce (fn [{:keys [change] :as acc}
+                 [input-paths output-path input-spec :as derive]]
+              (update-in acc [:change] conj input-paths))
+            state derives)))
 
 (defn effect-phase
   [])
@@ -394,3 +400,13 @@
               (/ (Math/round (* p n)) p)))]
     [[op path (round n 2)]]))
 
+(def counter-dependencies
+  (-> (d/graph)
+      (d/depend [] nil)
+      (d/depend [:my-counter] [])
+      (d/depend [:other-counters] [])
+      (d/depend [:total-count] [:my-counter])
+      (d/depend [:total-count] [:other-counters :*])
+      (d/depend [:max-count] [:my-counter])
+      (d/depend [:max-count] [:other-counters :*])
+      ))
