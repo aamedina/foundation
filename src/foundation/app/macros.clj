@@ -62,21 +62,14 @@
 (defmethod input-spec :default
   [dispatch-val inputs args-key arg-names])
 
-(def new-app-model {})
-
-(defn apply-deltas
-  [app-model deltas])
-
-(defn since-t
-  [new-app-model old-app-model])
-
 (defn consume-app-model
   [app render-fn]
-  (let [app-model (atom new-app-model)]
+  (let [app-model (atom tree/new-app-model)]
     (go-loop [message (<! (:app-model app))]
       (let [old-app-model @app-model
-            new-app-model (swap! app-model apply-deltas (:deltas message))
-            deltas (since-t new-app-model old-app-model)]
+            new-app-model (swap! app-model tree/apply-deltas
+                                 (:deltas message))
+            deltas (tree/since-t new-app-model (tree/t old-app-model))]
         (render-fn deltas (:input app))))
     app-model))
 
