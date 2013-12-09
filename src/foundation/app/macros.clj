@@ -331,12 +331,18 @@
 
 (defn derives-phase
   [{:keys [new context] :as state}]
-  (let [dispatches (dissoc (methods derives) :default)
-        derives (keys dispatches)]
-    (reduce (fn [{:keys [change] :as acc}
-                 [input-paths output-path input-spec :as derive]]
-              (update-in acc [:change] conj input-paths))
-            state derives)))
+  (reduce (fn [{:keys [change] :as acc}
+               [[input-paths output-path ispec :as derive] derive-fn]]
+            (let [[input-paths arg-names]
+                  (if (map? input-paths)
+                    [(set (keys input-paths)) input-paths]
+                    [input-paths nil])]
+              (if (propagate? acc input-paths)
+                (update-state acc output-path derive-fn
+                              (->> (flow-input context acc input-paths change)
+                                   (input-spec ispec)))
+                acc)))
+          state (dissoc (methods derives) :default)))
 
 (defn effect-phase
   [])
