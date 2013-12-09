@@ -229,11 +229,24 @@
   (doseq [message script]
     (put! (:input app) message)))
 
+(defmulti depends (comp first keys))
+
+(defmethod depends :transform
+  [dispatch-map]
+  (println dispatch-map))
+(defmethod depends :derives
+  [dispatch-map]
+  (println dispatch-map))
+(defmethod depends :effect
+  [dispatch-map]
+  (println dispatch-map))
+
 (defn build-dependency-graph
   []
-  (reduce (fn [graph node])
+  (reduce (fn [graph dispatch-map]
+            (depends dispatch-map))
           (d/graph)
-          ))
+          dispatches))
 
 (defn build
   []
