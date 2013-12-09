@@ -96,7 +96,7 @@
 
 (defmulti effect (partial match-dispatch :effect))
 
-(defmulti post-process (partial match-dispatch :post-process))
+(defmulti post-process (juxt first second))
 
 (defn data-model
   []
@@ -241,6 +241,8 @@
               (/ (Math/round (* p n)) p)))]
     [[op path (round n 2)]]))
 
+(defmethod post-process :default [delta] [delta])
+
 (defmethod derives :default [state & args] :default)
 
 (defmethod transform :default [messsage] :default)
@@ -266,14 +268,42 @@
 ;; (defmethod transform-disable [:inc [:my-counter] :click]
 ;;   [delta node])
 
+(defn transact-one
+  [state message]
+  )
+
+(defmulti pre-process (juxt :type :path))
+
+(defmethod pre-process :default [message] [message])
+
 (defn receive-input-message
-  [app-atom input-queue])
+  [app-atom input-queue]
+  (go-loop [message (<! input-queue)]
+    (doseq [message (pre-process message)]
+      (swap! app-atom transact-one message))
+    (recur (<! input-queue))))
 
 (defn send-effects
-  [app-atom output-queue])
+  [app-atom output-queue]
+  )
+
+(defn post-process-deltas
+  [deltas]
+  (reduce (fn [acc [op path :as delta]]
+            (into acc (post-process delta)))
+          deltas))
 
 (defn send-app-model-deltas
-  [app-atom app-model-queue])
+  [app-atom app-model-queue]
+  (add-watch app-atom :app-model-delta-watcher
+             (fn [_ _ old-state new-state]
+               (let [deltas (:emitter-deltas new-state)]
+                 (when-not (or (empty? deltas)
+                               (= (:emitter-deltas old-state) deltas))
+                   (let [deltas (post-process-deltas deltas)]
+                     (put! app-model-queue
+                           {:path :app-model :type :deltas :deltas deltas}))))
+               )))
 
 (defn create-init-messages
   [focus]
