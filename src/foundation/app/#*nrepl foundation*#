@@ -1,0 +1,3000 @@
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (take 5 (map f (range 1000)))
+(1 1 1 1 1)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (take 5 (map f (range 1000)))
+(1 1 1 1 1)
+foundation.app.macros> (uppercase-dependencies "hello")
+["H" (\h \e \l \l \o)]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "hello")
+StackOverflowError   java.lang.String.<init> (String.java:167)
+foundation.app.macros> (f-dependencies 10)
+[5 5]
+foundation.app.macros> (f-dependencies 30)
+[25 15]
+foundation.app.macros> (f-dependencies 20000)
+[19995 10000]
+foundation.app.macros> (f-dependencies 200000)
+[199995 100000]
+foundation.app.macros> (all-dependencies f-dependencies 30)
+[3 2 7 0 5 10 15 1 6 12 20 25 30]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies f-dependencies 30)
+[3 2 7 0 5 10 15 1 6 12 20 25 30]
+foundation.app.macros> (uppercase-dependencies "hello")
+["H" (\h \e \l \l \o)]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+[(\h \e \l \l \o) (\H) "H" "hello"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> (all-dependencies uppercase-dependencies (seq "hello"))
+["H" (\h \e \l \l \o)]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (str/upper-case 1)
+"1"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+foundation.app.macros> (uppercase-dependencies "hello")
+["H(\\h \\e \\l \\l \\o)"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "hello")
+["Hhello"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "hello")
+["Hhello"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> (uppercase-dependencies "hello")
+["H" "hello"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["hello" "H"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["hello" "H"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello")
+["hello" "H"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+["hello there my friend" "H"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+["H" "hello there my friend"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend"))
+"Elapsed time: 0.705 msecs"
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend"))
+"Elapsed time: 0.598 msecs"
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend"))
+"Elapsed time: 0.709 msecs"
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() "D" (\d) "N" (\n \d) "E" (\e \n \d) "I" (\i \e \n \d) "R" (\r \i \e \n \d) "F" (\f \r \i \e \n \d) " " (\space \f \r \i \e \n \d) "Y" (\y \space \f \r \i \e \n \d) "M" (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) "H" (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) "T" (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "O" (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "L" (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (pp-uppercase "hello there my friend")
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.993 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.962 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.904 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.917 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.54 msecs"
+\d
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.735 msecs"
+"clojure.lang.PersistentList$EmptyList@1D(\\d)N(\\n \\d)E(\\e \\n \\d)I(\\i \\e \\n \\d)R(\\r \\i \\e \\n \\d)F(\\f \\r \\i \\e \\n \\d) (\\space \\f \\r \\i \\e \\n \\d)Y(\\y \\space \\f \\r \\i \\e \\n \\d)M(\\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)H(\\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)T(\\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\space \\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)O(\\o \\space \\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)L(\\l \\o \\space \\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\l \\l \\o \\space \\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)(\\e \\l \\l \\o \\space \\t \\h \\e \\r \\e \\space \\m \\y \\space \\f \\r \\i \\e \\n \\d)hello there my friend"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (upper-case "helo")
+"H[\"E\" (\\l \\o)]"
+foundation.app.macros> (upper-case "hello")
+"H[\"E\" (\\l \\l \\o)]"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (upper-case "hello")
+"HELLO"
+foundation.app.macros> (upper-case "hello there")
+"HELLO THERE"
+foundation.app.macros> (upper-case "hello there my freind")
+"HELLO THERE MY FREIND"
+foundation.app.macros> (dorun (upper-case "hello there my freind"))
+nil
+foundation.app.macros> (dorun (upper-case (apply str (range 10000))))
+StackOverflowError   java.lang.Character.toUpperCaseEx (Character.java:6948)
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> (dorun (pp-uppercase (apply str (range 10000))))
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.708 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.705 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.709 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (uppercase "hello there my friend"))
+"Elapsed time: 0.354 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (uppercase "hello there my friend"))
+"Elapsed time: 0.086 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (uppercase "hello there my friend"))
+"Elapsed time: 0.075 msecs"
+("H" "E" "L" "L" "O" " " "T" "H" "E" "R" "E" " " "M" "Y" " " "F" "R" "I" "E" "N" "D")
+foundation.app.macros> (time (apply str (uppercase "hello there my friend")))
+"Elapsed time: 0.096 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (apply str (uppercase "hello there my friend")))
+"Elapsed time: 0.082 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (apply str (uppercase "hello there my friend")))
+"Elapsed time: 0.093 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (apply str (uppercase "hello there my friend")))
+"Elapsed time: 0.163 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (uppercase-dependencies "hello")
+["H" (\e \l \l \o)]
+foundation.app.macros> (uppercase-dependencies "hello there")
+["H" (\e \l \l \o \space \t \h \e \r \e)]
+foundation.app.macros> (uppercase-dependencies "hello there friend")
+["H" (\e \l \l \o \space \t \h \e \r \e \space \f \r \i \e \n \d)]
+foundation.app.macros> (uppercase-dependencies "hello there friend muwahah")
+["H" (\e \l \l \o \space \t \h \e \r \e \space \f \r \i \e \n \d \space \m \u \w \a \h \a \h)]
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (uppercase-dependencies "hello there friend muwahah")
+["H" (\e \l \l \o \space \t \h \e \r \e \space \f \r \i \e \n \d \space \m \u \w \a \h \a \h)]
+foundation.app.macros> (all-dependencies "hello there ")
+ArityException Wrong number of args (1) passed to: macros/all-dependencies  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (all-dependencies uppercase "hello there")
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (all-dependencies uppercase "hello there")
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.179 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.147 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.226 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.213 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.364 msecs"
+[() "E" (\e) "R" (\r \e) (\e \r \e) "H" (\h \e \r \e) "T" (\t \h \e \r \e) " " (\space \t \h \e \r \e) "O" (\o \space \t \h \e \r \e) "L" (\l \o \space \t \h \e \r \e) (\l \l \o \space \t \h \e \r \e) (\e \l \l \o \space \t \h \e \r \e) "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.153 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.21 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.217 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.177 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there"))
+"Elapsed time: 0.178 msecs"
+["E" "R" "H" "T" " " "O" "L" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there my friend"))
+"Elapsed time: 0.583 msecs"
+["D" "N" "E" "I" "R" "F" " " "Y" "M" "H" "T" "O" "L" "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there my friend"))
+"Elapsed time: 0.223 msecs"
+["D" "N" "E" "I" "R" "F" " " "Y" "M" "H" "T" "O" "L" "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there my friend"))
+"Elapsed time: 0.313 msecs"
+["D" "N" "E" "I" "R" "F" " " "Y" "M" "H" "T" "O" "L" "hello there my friend"]
+foundation.app.macros> (time (all-dependencies uppercase "hello there my friend"))
+"Elapsed time: 0.313 msecs"
+["D" "N" "E" "I" "R" "F" " " "Y" "M" "H" "T" "O" "L" "hello there my friend"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.42 msecs"
+["H" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.117 msecs"
+["H" "hello there"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.847 msecs"
+["" "E" "e" "R" "re" "ere" "H" "here" "T" "there" " " " there" "O" "o there" "L" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (str (seq "hello"))
+"(\\h \\e \\l \\l \\o)"
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.348 msecs"
+["" "E" "e" "R" "re" "ere" "H" "here" "T" "there" " " " there" "O" "o there" "L" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (all-dependencies f-dependencies 30)
+[3 2 7 0 5 10 15 1 6 12 20 25 30]
+foundation.app.macros> (map f 30)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app.macros> (map f (range 30))
+(1 1 1 1 1 2 2 2 2 2 4 4 4 4 4 6 6 6 6 6 10 10 10 10 10 14 14 14 14 14)
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f-dependencies 30)
+[25 15]
+foundation.app.macros> (f-dependencies 25)
+[20 12]
+foundation.app.macros> (f-dependencies 20)
+[15 10]
+foundation.app.macros> (f-dependencies 25)
+[20 12]
+foundation.app.macros> (f-dependencies 12)
+[7 6]
+foundation.app.macros> (f-dependencies 6)
+[1 3]
+foundation.app.macros> (f-dependencies 1)
+[]
+foundation.app.macros> (uppercase-dependencies "H")
+["H" ""]
+foundation.app.macros> (uppercase-dependencies "HELLO")
+["H" "ELLO"]
+foundation.app.macros> (uppercase-dependencies "HELLO THERE")
+["H" "ELLO THERE"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "HELLO THERE")
+["ELLO THERE"]
+foundation.app.macros> (uppercase-dependencies "HELLO THERE")
+["ELLO THERE"]
+foundation.app.macros> (f-dependencies "HELLO THERE")
+ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.lt (Numbers.java:219)
+foundation.app.macros> (f-dependencies 30)
+[25 15]
+foundation.app.macros> (f-dependencies "HELLO THERE")
+ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.lt (Numbers.java:219)
+foundation.app.macros> (f-dependencies "HELLO THERE")
+ClassCastException java.lang.String cannot be cast to java.lang.Number  clojure.lang.Numbers.lt (Numbers.java:219)
+foundation.app.macros> (uppercase-dependencies "hello there")
+["ello there"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there")
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (all-dependencies uppercase-dependencies (seq "hello there"))
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" (\h \e \l \l \o \space \t \h \e \r \e)]
+foundation.app.macros> (all-dependencies uppercase-dependencies (seq "hello there"))
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" (\h \e \l \l \o \space \t \h \e \r \e)]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there")
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.201 msecs"
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.208 msecs"
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there"))
+"Elapsed time: 0.201 msecs"
+["" "e" "re" "ere" "here" "there" " there" "o there" "lo there" "llo there" "ello there" "hello there"]
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> (pp-uppercase "hello")
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.159 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.141 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.16 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.162 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.162 msecs"
+"HELLO"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 1.024 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.178 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.161 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.2 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.772 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello"))
+"Elapsed time: 0.164 msecs"
+"HELLO"
+foundation.app.macros> (time (pp-uppercase "hello therre!"))
+"Elapsed time: 0.339 msecs"
+"HELLO THERRE!"
+foundation.app.macros> (time (pp-uppercase "hello there!"))
+"Elapsed time: 0.371 msecs"
+"HELLO THERE!"
+foundation.app.macros> (time (pp-uppercase "hello there!"))
+"Elapsed time: 0.37 msecs"
+"HELLO THERE!"
+foundation.app.macros> (time (pp-uppercase "hello there!"))
+"Elapsed time: 0.313 msecs"
+"HELLO THERE!"
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text"))
+"Elapsed time: 1.16 msecs"
+"HELLO THERE MY FRIEND IS A TEXT"
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text"))
+"Elapsed time: 1.066 msecs"
+"HELLO THERE MY FRIEND IS A TEXT"
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text"))
+"Elapsed time: 1.057 msecs"
+"HELLO THERE MY FRIEND IS A TEXT"
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text yup"))
+"Elapsed time: 1.292 msecs"
+"HELLO THERE MY FRIEND IS A TEXT YUP"
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text yup the runtime is going up"))
+"Elapsed time: 3.188 msecs"
+"HELLO THERE MY FRIEND IS A TEXT YUP THE RUNTIME IS GOING UP"
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend is a text yup the runtime is going up"))
+"Elapsed time: 1.054 msecs"
+["" "p" "up" " up" "g up" "ng up" "ing up" "oing up" "going up" " going up" "s going up" "is going up" " is going up" "e is going up" "me is going up" "ime is going up" "time is going up" "ntime is going up" "untime is going up" "runtime is going up" " runtime is going up" "e runtime is going up" "he runtime is going up" "the runtime is going up" " the runtime is going up" "p the runtime is going up" "up the runtime is going up" "yup the runtime is going up" " yup the runtime is going up" "t yup the runtime is going up" "xt yup the runtime is going up" "ext yup the runtime is going up" "text yup the runtime is going up" " text yup the runtime is going up" "a text yup the runtime is going up" " a text yup the runtime is going up" "s a text yup the runtime is going up" "is a text yup the runtime is going up" " is a text yup the runtime is going up" "d is a text yup the runtime is going up" "nd is a text yup the runtime is going up" "end is a text yup the runtime is going up" "iend is a text yup the runtime is going up" "riend is a text yup the runtime is going up" "friend is a text yup the runtime is going up" " friend is a text yup the runtime is going up" "y friend is a text yup the runtime is going up" "my friend is a text yup the runtime is going up" " my friend is a text yup the runtime is going up" "e my friend is a text yup the runtime is going up" "re my friend is a text yup the runtime is going up" "ere my friend is a text yup the runtime is going up" "here my friend is a text yup the runtime is going up" "there my friend is a text yup the runtime is going up" " there my friend is a text yup the runtime is going up" "o there my friend is a text yup the runtime is going up" "lo there my friend is a text yup the runtime is going up" "llo there my friend is a text yup the runtime is going up" "ello there my friend is a text yup the runtime is going up" "hello there my friend is a text yup the runtime is going up"]
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend is a text yup the runtime is going up"))
+"Elapsed time: 1.549 msecs"
+["" "p" "up" " up" "g up" "ng up" "ing up" "oing up" "going up" " going up" "s going up" "is going up" " is going up" "e is going up" "me is going up" "ime is going up" "time is going up" "ntime is going up" "untime is going up" "runtime is going up" " runtime is going up" "e runtime is going up" "he runtime is going up" "the runtime is going up" " the runtime is going up" "p the runtime is going up" "up the runtime is going up" "yup the runtime is going up" " yup the runtime is going up" "t yup the runtime is going up" "xt yup the runtime is going up" "ext yup the runtime is going up" "text yup the runtime is going up" " text yup the runtime is going up" "a text yup the runtime is going up" " a text yup the runtime is going up" "s a text yup the runtime is going up" "is a text yup the runtime is going up" " is a text yup the runtime is going up" "d is a text yup the runtime is going up" "nd is a text yup the runtime is going up" "end is a text yup the runtime is going up" "iend is a text yup the runtime is going up" "riend is a text yup the runtime is going up" "friend is a text yup the runtime is going up" " friend is a text yup the runtime is going up" "y friend is a text yup the runtime is going up" "my friend is a text yup the runtime is going up" " my friend is a text yup the runtime is going up" "e my friend is a text yup the runtime is going up" "re my friend is a text yup the runtime is going up" "ere my friend is a text yup the runtime is going up" "here my friend is a text yup the runtime is going up" "there my friend is a text yup the runtime is going up" " there my friend is a text yup the runtime is going up" "o there my friend is a text yup the runtime is going up" "lo there my friend is a text yup the runtime is going up" "llo there my friend is a text yup the runtime is going up" "ello there my friend is a text yup the runtime is going up" "hello there my friend is a text yup the runtime is going up"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (all-dependencies uppercase-dependencies "hello there my friend is a text yup the runtime is going up"))
+"Elapsed time: 0.934 msecs"
+[() (\p) (\u \p) (\space \u \p) (\g \space \u \p) (\n \g \space \u \p) (\i \n \g \space \u \p) (\o \i \n \g \space \u \p) (\g \o \i \n \g \space \u \p) (\space \g \o \i \n \g \space \u \p) (\s \space \g \o \i \n \g \space \u \p) (\i \s \space \g \o \i \n \g \space \u \p) (\space \i \s \space \g \o \i \n \g \space \u \p) (\e \space \i \s \space \g \o \i \n \g \space \u \p) (\m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d \space \i \s \space \a \space \t \e \x \t \space \y \u \p \space \t \h \e \space \r \u \n \t \i \m \e \space \i \s \space \g \o \i \n \g \space \u \p) "hello there my friend is a text yup the runtime is going up"]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend is a text yup the runtime is going up"))
+ExceptionInfo Don't know how to create ISeq from: java.lang.Character  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (uppercase-dependencies "hello")
+(\e \l \l \o)
+foundation.app.macros> (uppercase-dependencies "hello there")
+(\e \l \l \o \space \t \h \e \r \e)
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there")
+UnsupportedOperationException nth not supported on this type: Character  clojure.lang.RT.nthFrom (RT.java:858)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there")
+[() (\e) (\r \e) (\e \r \e) (\h \e \r \e) (\t \h \e \r \e) (\space \t \h \e \r \e) (\o \space \t \h \e \r \e) (\l \o \space \t \h \e \r \e) (\l \l \o \space \t \h \e \r \e) (\e \l \l \o \space \t \h \e \r \e) "hello there"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() (\d) (\n \d) (\e \n \d) (\i \e \n \d) (\r \i \e \n \d) (\f \r \i \e \n \d) (\space \f \r \i \e \n \d) (\y \space \f \r \i \e \n \d) (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[() (\d) (\n \d) (\e \n \d) (\i \e \n \d) (\r \i \e \n \d) (\f \r \i \e \n \d) (\space \f \r \i \e \n \d) (\y \space \f \r \i \e \n \d) (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.682 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.596 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.598 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.526 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.389 msecs"
+("" "D" "ND" "END" "IEND" "RIEND" "FRIEND" " FRIEND" "Y FRIEND" "MY FRIEND" " MY FRIEND" "E MY FRIEND" "RE MY FRIEND" "ERE MY FRIEND" "HERE MY FRIEND" "THERE MY FRIEND" " THERE MY FRIEND" "O THERE MY FRIEND" "LO THERE MY FRIEND" "LLO THERE MY FRIEND" "ELLO THERE MY FRIEND" "HELLO THERE MY FRIEND")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.03 msecs"
+("" "" "N" "EN" "IEN" "RIEN" "FRIEN" " FRIEN" "Y FRIEN" "MY FRIEN" " MY FRIEN" "E MY FRIEN" "RE MY FRIEN" "ERE MY FRIEN" "HERE MY FRIEN" "THERE MY FRIEN" " THERE MY FRIEN" "O THERE MY FRIEN" "LO THERE MY FRIEN" "LLO THERE MY FRIEN" "ELLO THERE MY FRIEN" "HELLO THERE MY FRIEN")
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.518 msecs"
+("" "" "N" "EN" "IEN" "RIEN" "FRIEN" " FRIEN" "Y FRIEN" "MY FRIEN" " MY FRIEN" "E MY FRIEN" "RE MY FRIEN" "ERE MY FRIEN" "HERE MY FRIEN" "THERE MY FRIEN" " THERE MY FRIEN" "O THERE MY FRIEN" "LO THERE MY FRIEN" "LLO THERE MY FRIEN" "ELLO THERE MY FRIEN" "HELLO THERE MY FRIEN")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.035 msecs"
+("" "D" "ND" "END" "IEND" "RIEND" "FRIEND" " FRIEND" "Y FRIEND" "MY FRIEND" " MY FRIEND" "E MY FRIEND" "RE MY FRIEND" "ERE MY FRIEND" "HERE MY FRIEND" "THERE MY FRIEND" " THERE MY FRIEND" "O THERE MY FRIEND" "LO THERE MY FRIEND" "LLO THERE MY FRIEND" "ELLO THERE MY FRIEND" "HELLO THERE MY FRIEND")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.483 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.625 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.683 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.755 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.623 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.486 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (pp-uppercase "hello there my friend")
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.488 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.487 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.062 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.63 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.25 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.651 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.542 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.596 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.542 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.539 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (first (pp-uppercase "hello there my friend")))
+"Elapsed time: 0.544 msecs"
+\H
+foundation.app.macros> (time (first (pp-uppercase "hello there my friend")))
+"Elapsed time: 0.543 msecs"
+\H
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.654 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.663 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.546 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there"))
+"Elapsed time: 0.334 msecs"
+"HELLO THERE"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.419 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.552 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 1.472 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.383 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.384 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.477 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.383 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (time (pp-uppercase "hello there my friend"))
+"Elapsed time: 0.442 msecs"
+"HELLO THERE MY FRIEND"
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[(\d) (\n \d) (\e \n \d) (\i \e \n \d) (\r \i \e \n \d) (\f \r \i \e \n \d) (\space \f \r \i \e \n \d) (\y \space \f \r \i \e \n \d) (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (all-dependencies uppercase-dependencies "hello there my friend")
+[(\d) (\n \d) (\e \n \d) (\i \e \n \d) (\r \i \e \n \d) (\f \r \i \e \n \d) (\space \f \r \i \e \n \d) (\y \space \f \r \i \e \n \d) (\m \y \space \f \r \i \e \n \d) (\space \m \y \space \f \r \i \e \n \d) (\e \space \m \y \space \f \r \i \e \n \d) (\r \e \space \m \y \space \f \r \i \e \n \d) (\e \r \e \space \m \y \space \f \r \i \e \n \d) (\h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) (\e \l \l \o \space \t \h \e \r \e \space \m \y \space \f \r \i \e \n \d) "hello there my friend"]
+foundation.app.macros> (f 60)
+94
+foundation.app.macros> (f 40)
+36
+foundation.app.macros> (f 35)
+26
+foundation.app.macros> (f 37)
+26
+foundation.app.macros> (f 38)
+26
+foundation.app.macros> (f 40)
+36
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 15)
+6
+foundation.app.macros> (f 25)
+14
+foundation.app.macros> (f 25)
+14
+foundation.app.macros> (f 25)
+14
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 25)
+14
+foundation.app.macros> (f 25)
+14
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 20)
+10
+foundation.app.macros> (f 24)
+10
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> (f 30)
+20
+foundation.app.macros> 
+foundation.app.macros> (map f (range 31))
+(1 1 1 1 1 2 2 2 2 2 4 4 4 4 4 6 6 6 6 6 10 10 10 10 10 14 14 14 14 14 20)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (get-global-hierarchy)
+IllegalStateException Can't change/establish root binding of: -global-hierarchy with set  clojure.lang.Var.set (Var.java:233)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (get-global-hierarchy)
+#<Atom@35972d43: {:parents {}, :descendants {}, :ancestors {}}>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (get-global-hierarchy)
+#<Atom@57ca6971: {:parents {}, :descendants {}, :ancestors {}}>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> MultiFn
+foundation.app.macros.MultiFn
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform 1)
+ClassCastException foundation.app.macros.MultiFn cannot be cast to clojure.lang.IFn  foundation.app.macros/eval67546 (form-init4807525801864370774.clj:1)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform 1)
+AbstractMethodError foundation.app.macros.MultiFn.invoke(Ljava/lang/Object;)Ljava/lang/Object;  foundation.app.macros/eval68247 (form-init4807525801864370774.clj:1)
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:error-while-loading foundation.app.macros
+#<CompilerException java.lang.RuntimeException: Unable to resolve symbol: -get-method in this context, compiling:(foundation/app/macros.clj:368:19)>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (transform 1)
+AbstractMethodError foundation.app.macros.MultiFn.invoke(Ljava/lang/Object;)Ljava/lang/Object;  foundation.app.macros/eval71840 (form-init4807525801864370774.clj:1)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform 1)
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform 1)
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform 1)
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.077 msecs"
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.075 msecs"
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.09 msecs"
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.839 msecs"
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.093 msecs"
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.093 msecs"
+:default
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.081 msecs"
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (time (transform 1))
+"Elapsed time: 0.827 msecs"
+:default
+foundation.app.macros> (methods transform)
+ClassCastException foundation.app.macros.MultiFn cannot be cast to clojure.lang.MultiFn  clojure.core/methods (core.clj:1688)
+foundation.app.macros> (-methods transform)
+{:default #<macros$eval84317$fn__84318 foundation.app.macros$eval84317$fn__84318@55a64e46>, [] #<macros$eval84313$fn__84314 foundation.app.macros$eval84313$fn__84314@2913af2a>}
+foundation.app.macros> (-methods transform)
+{:default #<macros$eval84317$fn__84318 foundation.app.macros$eval84317$fn__84318@55a64e46>, [] #<macros$eval84313$fn__84314 foundation.app.macros$eval84313$fn__84314@2913af2a>}
+foundation.app.macros> (-get-method transform :default)
+#<macros$eval84317$fn__84318 foundation.app.macros$eval84317$fn__84318@55a64e46>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform {:type :inc :path [:**]})
+:default
+foundation.app.macros> (transform {:type :inc :path [:my-counter]})
+ArityException Wrong number of args (1) passed to: macros/eval85001/fn--85002  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform {:type :inc :path [:my-counter]})
+ArityException Wrong number of args (1) passed to: macros/eval85646/fn--85647  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} {})
+ClassCastException clojure.lang.PersistentArrayMap cannot be cast to java.lang.Number  clojure.lang.Numbers.inc (Numbers.java:110)
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} 0)
+1
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (transform {:type :swap :path [:my-counter]} nil)
+ArityException Wrong number of args (2) passed to: macros/eval85654/fn--85655  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :swap :path [:**]} nil)
+nil
+foundation.app.macros> (transform {:type :swap :path [:**] :value "hello"}
+                                  nil)
+"hello"
+foundation.app.macros> 
+
+foundation.app.macros> 
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (odd? y)]
+                         [x y])
+([:a 1] [:a 3] [:b 1] [:b 3])
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :while (odd? y)]
+                         [x y])
+()
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (odd? y)]
+                         [x y])
+([:a 1] [:a 3] [:b 1] [:b 3])
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (odd? y)
+                             :when (even? x)]
+                         [x y])
+IllegalArgumentException Argument must be an integer: :a  clojure.core/even? (core.clj:1344)
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (= :b x)
+                             :when (odd? y)]
+                         [x y])
+([:b 1] [:b 3])
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (= :a x)
+                             :when (odd? y)]
+                         [x y])
+([:a 1] [:a 3])
+foundation.app.macros> (for [x [:a :b]
+                             y (range 5)
+                             :when (= :a x)
+                             :when (odd? y)]
+                         [x y])
+([:a 1] [:a 3])
+foundation.app.macros> (for [m (.getMethods java.awt.Frame)
+                             :let [name (.getName m)]
+                             :when (re-find #"H" name)]
+                         name)
+("getHeight" "addHierarchyListener" "removeHierarchyListener" "getHierarchyListeners" "addHierarchyBoundsListener" "removeHierarchyBoundsListener" "getHierarchyBoundsListeners")
+foundation.app.macros> (for [m (.getMethods java.awt.Frame)
+                             :let [name (.getName m)]
+                             :when (re-find #"get" name)]
+                         name)
+("getState" "getTitle" "getIconImage" "getMenuBar" "getExtendedState" "getMaximizedBounds" "getCursorType" "getFrames" "getAccessibleContext" "getType" "getOwner" "getToolkit" "getOpacity" "getShape" "getBackground" "getWindows" "getIconImages" "getWarningString" "getInputContext" "getOwnedWindows" "getOwnerlessWindows" "getModalExclusionType" "getWindowListeners" "getWindowFocusListeners" "getWindowStateListeners" "getFocusOwner" "getMostRecentFocusOwner" "getFocusTraversalKeys" "getFocusCycleRootAncestor" "getFocusableWindowState" "getBufferStrategy" "getLocale" "getListeners" "getPreferredSize" "getMinimumSize" "getFocusTraversalPolicy" "getComponentCount" "getComponent" "getComponents" "getInsets" "getComponentZOrder" "getLayout" "getMaximumSize" "getAlignmentX" "getAlignmentY" "getContainerListeners" "getComponentAt" "getComponentAt" "getMousePosition" "getName" "getParent" "getLocation" "getLocation" "getSize" "getSize" "getTreeLock" "getCursor" "getFont" "getPropertyChangeListeners" "getPropertyChangeListeners" "getBounds" "getBounds" "getX" "getY" "getGraphicsConfiguration" "getPeer" "getLocationOnScreen" "getWidth" "getHeight" "getMousePosition" "setDropTarget" "getDropTarget" "getForeground" "getColorModel" "getBaseline" "getBaselineResizeBehavior" "getGraphics" "getFontMetrics" "getIgnoreRepaint" "getComponentListeners" "getFocusListeners" "getHierarchyListeners" "getHierarchyBoundsListeners" "getKeyListeners" "getMouseListeners" "getMouseMotionListeners" "getMouseWheelListeners" "getInputMethodListeners" "getInputMethodRequests" "getFocusTraversalKeysEnabled" "getComponentOrientation" "getClass")
+foundation.app.macros> (fn [xs]
+                         (for [x xs]
+                           (str/upper-case x)))
+#<macros$eval86026$fn__86027 foundation.app.macros$eval86026$fn__86027@d7befc9>
+foundation.app.macros> ((fn [xs] (for [x xs] (str/upper-case x))) "hello")
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time ((fn [xs] (for [x xs] (str/upper-case x))) "hello"))
+"Elapsed time: 0.569 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time ((fn [xs] (for [x xs] (str/upper-case x))) "hello"))
+"Elapsed time: 0.575 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time ((fn [xs] (for [x xs] (str/upper-case x))) "hello"))
+"Elapsed time: 0.574 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (time ((fn [xs] (for [x xs] (str/upper-case x))) "hello"))
+"Elapsed time: 0.6 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time ((fn [xs] (for [x xs] (str/upper-case x))) "hello"))
+"Elapsed time: 0.598 msecs"
+("H" "E" "L" "L" "O")
+foundation.app.macros> (time (str/upper-case "hello"))
+"Elapsed time: 0.129 msecs"
+"HELLO"
+foundation.app.macros> (time (str/upper-case "hello"))
+"Elapsed time: 0.057 msecs"
+"HELLO"
+foundation.app.macros> (time (str/upper-case "hello"))
+"Elapsed time: 0.071 msecs"
+"HELLO"
+foundation.app.macros> (time (str/upper-case "hello"))
+"Elapsed time: 0.072 msecs"
+"HELLO"
+foundation.app.macros> (time (str/upper-case "hello"))
+"Elapsed time: 0.078 msecs"
+"HELLO"
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 1000000)))))
+"Elapsed time: 246.042 msecs"
+nil
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 1000000)))))
+"Elapsed time: 230.82 msecs"
+nil
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 10000000)))))
+"Elapsed time: 3174.299 msecs"
+nil
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 100000)))))
+"Elapsed time: 19.613 msecs"
+nil
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 100000)))))
+"Elapsed time: 20.838 msecs"
+nil
+foundation.app.macros> (time (dorun (str/upper-case (apply str (range 100000)))))
+"Elapsed time: 23.432 msecs"
+nil
+foundation.app.macros> (time (dorun (reduce + (range 100000))))
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app.macros> (time (dorun [(reduce + (range 100000))]))
+"Elapsed time: 4.85 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 100000))]))
+"Elapsed time: 4.027 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 1000000))]))
+"Elapsed time: 34.039 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 1000000))]))
+"Elapsed time: 35.462 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 1000000))]))
+"Elapsed time: 40.447 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 1000000))]))
+"Elapsed time: 35.839 msecs"
+nil
+foundation.app.macros> (time (dorun [(reduce + (range 1000000))]))
+"Elapsed time: 33.975 msecs"
+nil
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1))
+1
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1)
+                         :else "a")
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1)
+                         :else "a")
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1
+                           :else "a"))
+1
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1
+                           :else "a"))
+1
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           ['x] 1
+                           :else "a"))
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           ['x] 1
+                           :else x))
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           ['x] 1
+                           :else y))
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           ['x] 1
+                           :else y))
+"a"
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] (println x)
+                           :else y))
+a
+nil
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] (println (= x y))
+                           :else y))
+true
+nil
+foundation.app.macros> (let [y "a" x "a"]
+                         (match [y]
+                           [x] 1
+                           :else y))
+1
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-path [:inc [:my-counter]])
+[:inc [:my-counter]]
+foundation.app.macros> (match-path [:inc [:my-counter]])
+[:inc [:my-counter]]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch [:inc [:my-counter]])
+IllegalArgumentException No method in multimethod 'match-dispatch' for dispatch value: [:inc [:my-counter]]  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+ArityException Wrong number of args (2) passed to: core/identity  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+ArityException Wrong number of args (2) passed to: core/identity  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+ArityException Wrong number of args (2) passed to: core/identity  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+[:my-counter]
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+{:type :inc, :path [:my-counter]}
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+{:type :inc, :path []}
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+{:type :inc, :path :my-counter}
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (match-dispatch :transform [:inc [:my-counter]])
+{:type :inc, :path [:my-counter]}
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+WARNING: derive already refers to: #'clojure.core/derive in namespace: foundation.app.macros, being replaced by: #'foundation.app.macros/derive
+:ok
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (derives 0)
+ArityException Wrong number of args (1) passed to: macros/fn--103897/fn--103898/fn--103899  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (derives 0 1)
+ArityException Wrong number of args (2) passed to: macros/fn--103897/fn--103898/fn--103899  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (derives)
+AbstractMethodError foundation.app.macros.MultiFn.invoke()Ljava/lang/Object;  foundation.app.macros/eval103989 (form-init4807525801864370774.clj:1)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives-methods)
+(:default [#{[:my-counter]} [:counters]])
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives-methods)
+(:default [#{[:my-counter]} [:counters]])
+foundation.app.macros> (derives)
+AbstractMethodError foundation.app.macros.MultiFn.invoke()Ljava/lang/Object;  foundation.app.macros/eval104913 (form-init4807525801864370774.clj:1)
+foundation.app.macros> (derives 0 1)
+ArityException Wrong number of args (2) passed to: macros/fn--104853/fn--104854/fn--104855  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0 1)
+ArityException Wrong number of args (2) passed to: macros/eval105318/fn--105319  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (derives 0 1)
+ArityException Wrong number of args (2) passed to: macros/eval107024/fn--107025  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+(:default [#{[:my-counter]} [:counters]])
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+([#{[:my-counter]} [:counters]])
+:default
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (derives 0)
+([#{[:my-counter]} [:counters]])
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (derives 0)
+[#{[:my-counter]} [:counters]]
+:default
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (derives 0)
+{:type #{[:my-counter]}, :path [:counters]}
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (.-dispatch-fn transform)
+#<macros$fn__116382$fn__116383 foundation.app.macros$fn__116382$fn__116383@669d2317>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (transforms 0)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: transforms in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (transform 0)
+:default
+foundation.app.macros> (transform {:type :inc :path [:my-counter]})
+:default
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value "hello"})
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value "hello"})
+ArityException Wrong number of args (1) passed to: macros/eval119692/fn--119693  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value "hello"} {})
+ArityException Wrong number of args (3) passed to: macros/eval119642/fn--119643  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value "hello"} 0)
+ArityException Wrong number of args (3) passed to: macros/eval119642/fn--119643  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value 0} nil)
+ArityException Wrong number of args (3) passed to: macros/eval119642/fn--119643  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+ArityException Wrong number of args (3) passed to: macros/eval119642/fn--119643  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:error-while-loading foundation.app.macros
+#<CompilerException java.lang.IllegalArgumentException: Only these options are valid: :default, :hierarchy, compiling:(foundation/app/macros.clj:387:24)>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:error-while-loading foundation.app.macros
+#<CompilerException java.lang.IllegalArgumentException: Only these options are valid: :default, :hierarchy, compiling:(foundation/app/macros.clj:387:24)>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:error-while-loading foundation.app.macros
+#<CompilerException java.lang.IllegalArgumentException: Only these options are valid: :default, :hierarchy, compiling:(foundation/app/macros.clj:387:24)>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:error-while-loading foundation.app.macros
+#<CompilerException java.lang.IllegalArgumentException: Only these options are valid: :default, :hierarchy, compiling:(foundation/app/macros.clj:386:24)>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (transform {:type :inc :path [:my-counter]} nil)
+1
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value 0} nil)
+1
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (transform {:type :inc :path [:my-counter] :value 0} nil)
+[:inc [:my-counter]]
+1
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives {})
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives {})
+([#{[:my-counter]} [:counters]])
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (doc m/match-let)
+-------------------------
+clojure.core.match/match-let
+([bindings & body])
+Macro
+  nil
+nil
+foundation.app.macros> (m/match-let [a 1])
+IllegalArgumentException No matching clause: 1  foundation.app.macros/eval135955 (form-init4807525801864370774.clj:1)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (defpred e? even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred 'e? even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred `e? even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred e?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (defpred even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> 
+foundation.app.macros> 
+foundation.app.macros> (range 10)
+(0 1 2 3 4 5 6 7 8 9)
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (defpred `(1 :when even?))
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> preds
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: preds in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1282) 
+foundation.app.macros> m/preds
+#<Atom@36d99800: {(clojure.core/seq (clojure.core/concat (clojure.core/list 1) (clojure.core/list :when) (clojure.core/list (quote clojure.core/even?)))) (clojure.core/seq (clojure.core/concat (clojure.core/list 1) (clojure.core/list :when) (clojure.core/list (quote clojure.core/even?)))), even? even?, (quote foundation.app.macros/e?) even?, (quote e?) even?, e? e?}>
+foundation.app.macros> (reset! m/preds nil)
+nil
+foundation.app.macros> (reset! m/preds {})
+{}
+foundation.app.macros> m/preds
+#<Atom@36d99800: {}>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> m/preds
+#<Atom@36d99800: {}>
+foundation.app.macros> (defpred e? even?)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: e? in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> m/preds
+#<Atom@36d99800: {e? even?}>
+foundation.app.macros> (reset! m/preds {})
+{}
+foundation.app.macros> m/preds
+#<Atom@36d99800: {}>
+foundation.app.macros> (defpred even?)
+{#<core$even_QMARK_ clojure.core$even_QMARK_@28238dc0> #<core$even_QMARK_ clojure.core$even_QMARK_@28238dc0>}
+foundation.app.macros> :when even? 
+:when
+#<core$even_QMARK_ clojure.core$even_QMARK_@28238dc0>
+foundation.app.macros> (let [xs (range 10)]
+                         (match [xs]
+                           [[x :when even?]] x))
+IllegalArgumentException No matching clause: clojure.lang.LazySeq@9ebadac6  foundation.app.macros/eval141823 (form-init4807525801864370774.clj:2)
+foundation.app.macros> (let [xs (range 10)]
+                         (match [xs]
+                           [[x :when even?]] x
+                           :else xs ))
+(0 1 2 3 4 5 6 7 8 9)
+foundation.app.macros> (let [xs (range 10)]
+                         (match [xs]
+                           [(x :when even?)] x
+                           :else xs))
+IllegalArgumentException Argument must be an integer: clojure.lang.LazySeq@9ebadac6  clojure.core/even? (core.clj:1344)
+foundation.app.macros> (let [xs (range 10)]
+                         (match [xs]
+                           [x :when even?] x
+                           :else xs))
+IllegalArgumentException Argument must be an integer: clojure.lang.LazySeq@9ebadac6  clojure.core/even? (core.clj:1344)
+foundation.app.macros> (let [xs (range 10)]
+                         (match [xs]
+                           [([x :when even?])] x
+                           :else xs))
+CompilerException java.lang.AssertionError: Invalid list syntax  in ([(x :when even?)]). Valid syntax: [[:default :guard] [:default :only] [:default :clojure.core.match/vector] [:default :seq] [:default :as] [:default :when] [:or :default]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:2:26) 
+foundation.app.macros> (let [x 1]
+                         (match [x]
+                           [([x :when even?])] x
+                           :else xs))
+CompilerException java.lang.AssertionError: Invalid list syntax  in ([(x :when even?)]). Valid syntax: [[:default :guard] [:default :only] [:default :clojure.core.match/vector] [:default :seq] [:default :as] [:default :when] [:or :default]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:2:26) 
+foundation.app.macros> (let [x 1]
+                         (match [x]
+                           [x :when even?] x
+                           :else xs))
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: xs in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:2:26) 
+foundation.app.macros> (let [x 1]
+                         (match [x]
+                           [x :when even?] x
+                           :else xs))
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: xs in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:2:26) 
+foundation.app.macros> (let [x 1]
+                         (match [x]
+                           [x :when even?] x
+                           :else :odd))
+:odd
+foundation.app.macros> (let [x 1]
+                         (match [x]
+                           [x :when even?] :even
+                           :else :odd))
+:odd
+foundation.app.macros> (let [x 2]
+                         (match [x]
+                           [x :when even?] :even
+                           :else :odd))
+:even
+foundation.app.macros> (let [x 2]
+                         (match [x]
+                           [x :when odd?] :even
+                           :else :odd))
+CompilerException java.lang.AssertionError: Assert failed: Unknown predicate in [odd?]
+(every? (fn* [p1__9000#] (contains? (clojure.core/deref preds) p1__9000#)) gs), compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:2:26) 
+foundation.app.macros> (let [x 2]
+                         (match [x]
+                           [x :when even?] :even
+                           :else :odd))
+:even
+foundation.app.macros> (let [x 2]
+                         (match [x]
+                           [x :when even?] :even
+                           :else :odd))
+:even
+foundation.app.macros> (let [x 2]
+                         (match [x]
+                           [x :when even?] :even
+                           :else :odd))
+:even
+foundation.app.macros> (m/with-tag seq 1)
+Exception No tag specified for vector specialization clojure.core$seq@1f587608  clojure.core.match/eval8276/fn--8277 (match.clj:141)
+foundation.app.macros> (m/with-tag seq [])
+Exception No tag specified for vector specialization clojure.core$seq@1f587608  clojure.core.match/eval8276/fn--8277 (match.clj:141)
+foundation.app.macros> (m/with-tag seq ^seq [])
+Exception No tag specified for vector specialization clojure.core$seq@1f587608  clojure.core.match/eval8276/fn--8277 (match.clj:141)
+foundation.app.macros> (m/compile [])
+#clojure.core.match.FailNode{}
+foundation.app.macros> (m/compile [x])
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: x in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (m/compile [1])
+#clojure.core.match.FailNode{}
+foundation.app.macros> (m/compile [1]
+                                  [x] x)
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: x in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (m/compile [1]
+                                  [1])
+ArityException Wrong number of args (2) passed to: match/compile  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (m/compile :rows [1] :ocrs [1])
+ArityException Wrong number of args (4) passed to: match/compile  clojure.lang.AFn.throwArity (AFn.java:429)
+foundation.app.macros> (m/compile {:rows [1] :ocrs [1]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows [x] :ocrs [1]})
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: x in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (m/compile {:rows ['x] :ocrs [1]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows ['x] :ocrs ['x]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows [[1]] :ocrs ['x]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows [(let [x 1])] :ocrs ['x]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows [(let [x 1] [x])] :ocrs ['x]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (m/compile {:rows [(let [x 1] [x])] :ocrs [x]})
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: x in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:1:1) 
+foundation.app.macros> (m/compile {:rows [(let [x 1] [x])] :ocrs 1})
+ExceptionInfo Don't know how to create ISeq from: java.lang.Long  clojure.lang.RT.seqFrom (RT.java:505)
+foundation.app.macros> (m/compile {:rows [(let [x 1] [x])] :ocrs [1]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (m/compile {:rows [(let [x 1] [x])] :ocrs [1]})
+#clojure.core.match.LeafNode{:value nil, :bindings ()}
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives 0)
+:default
+foundation.app.macros> (derives {:type :inc [:my-counter]})
+RuntimeException Map literal must contain an even number of forms  clojure.lang.Util.runtimeException (Util.java:219)
+RuntimeException Unmatched delimiter: )  clojure.lang.Util.runtimeException (Util.java:219)
+foundation.app.macros> (derives {:type :inc :path [:my-counter]})
+:default
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives {:type :inc :path [:my-counter]})
+:default
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (derives {:type :inc :path [:my-counter]})
+[:path [:my-counter]
+ :derives [#{[:other-counters :*] [:my-counter]} [:total-count] :vals]] 
+:default
+foundation.app.macros> (type (for [n (range 10)] n))
+clojure.lang.LazySeq
+foundation.app.macros> (take 100 (for [x (range) y (range)
+                                       :when (< y x)]
+                                   [x y]))
+foundation.app.macros> (take 100 (for [x (range 10000)
+                                       y (range 10000)
+                                       :when (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 100000)
+                                       y (range 100000)
+                                       :when (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 10000000)
+                                       y (range 10000000)
+                                       :when (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 10000000)
+                                       y (range 1000000)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 10000000)
+                                       y (range 1000000)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 10000000)
+                                       y (range 10000)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range)
+                                       y (range)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range)
+                                       y (range)
+                                       :while (> y x)]
+                                   [x y]))
+foundation.app.macros> (take 100 (for [x (range 10000)
+                                       y (range 10000)
+                                       :while (> y x)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 100000)
+                                       y (range 100000)
+                                       :while (> y x)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 10000)
+                                       y (range 100000)
+                                       :while (> y x)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 10)
+                                       y (range 100000)
+                                       :while (> y x)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100000)
+                                       :while (> y x)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100000)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [10 0] [10 1] [10 2] [10 3] [10 4] [10 5] [10 6] [10 7] [10 8] [10 9] [11 0] [11 1] [11 2] [11 3] [11 4] [11 5] [11 6] [11 7] [11 8] [11 9] [11 10] [12 0] [12 1] [12 2] [12 3] [12 4] [12 5] [12 6] [12 7] [12 8] [12 9] [12 10] [12 11] [13 0] [13 1] [13 2] [13 3] [13 4] [13 5] [13 6] [13 7] [13 8] [13 9] [13 10] [13 11] [13 12] [14 0] [14 1] [14 2] [14 3] [14 4] [14 5] [14 6] [14 7] [14 8])
+foundation.app.macros> (take 100 (for [x (range 10)
+                                       y (range 10)
+                                       :while (< y x)]
+                                   [x y]))
+([1 0] [2 0] [2 1] [3 0] [3 1] [3 2] [4 0] [4 1] [4 2] [4 3] [5 0] [5 1] [5 2] [5 3] [5 4] [6 0] [6 1] [6 2] [6 3] [6 4] [6 5] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [8 0] [8 1] [8 2] [8 3] [8 4] [8 5] [8 6] [8 7] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8])
+foundation.app.macros> (take 100 (for [x (range 10)
+                                       y (range 10)
+                                       :while (odd? y)]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 10)
+                                       y (range 10)
+                                       :while (odd? x)]
+                                   [x y]))
+([1 0] [1 1] [1 2] [1 3] [1 4] [1 5] [1 6] [1 7] [1 8] [1 9] [3 0] [3 1] [3 2] [3 3] [3 4] [3 5] [3 6] [3 7] [3 8] [3 9] [5 0] [5 1] [5 2] [5 3] [5 4] [5 5] [5 6] [5 7] [5 8] [5 9] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [7 7] [7 8] [7 9] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [9 9])
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100)
+                                       :while (odd? x)]
+                                   [x y]))
+([1 0] [1 1] [1 2] [1 3] [1 4] [1 5] [1 6] [1 7] [1 8] [1 9] [1 10] [1 11] [1 12] [1 13] [1 14] [1 15] [1 16] [1 17] [1 18] [1 19] [1 20] [1 21] [1 22] [1 23] [1 24] [1 25] [1 26] [1 27] [1 28] [1 29] [1 30] [1 31] [1 32] [1 33] [1 34] [1 35] [1 36] [1 37] [1 38] [1 39] [1 40] [1 41] [1 42] [1 43] [1 44] [1 45] [1 46] [1 47] [1 48] [1 49] [1 50] [1 51] [1 52] [1 53] [1 54] [1 55] [1 56] [1 57] [1 58] [1 59] [1 60] [1 61] [1 62] [1 63] [1 64] [1 65] [1 66] [1 67] [1 68] [1 69] [1 70] [1 71] [1 72] [1 73] [1 74] [1 75] [1 76] [1 77] [1 78] [1 79] [1 80] [1 81] [1 82] [1 83] [1 84] [1 85] [1 86] [1 87] [1 88] [1 89] [1 90] [1 91] [1 92] [1 93] [1 94] [1 95] [1 96] [1 97] [1 98] [1 99])
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100)
+                                       :while (and (odd? x) (even? y))]
+                                   [x y]))
+([1 0] [3 0] [5 0] [7 0] [9 0] [11 0] [13 0] [15 0] [17 0] [19 0] [21 0] [23 0] [25 0] [27 0] [29 0] [31 0] [33 0] [35 0] [37 0] [39 0] [41 0] [43 0] [45 0] [47 0] [49 0] [51 0] [53 0] [55 0] [57 0] [59 0] [61 0] [63 0] [65 0] [67 0] [69 0] [71 0] [73 0] [75 0] [77 0] [79 0] [81 0] [83 0] [85 0] [87 0] [89 0] [91 0] [93 0] [95 0] [97 0] [99 0])
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100)
+                                       :while (and (odd? x) (odd? y))]
+                                   [x y]))
+()
+foundation.app.macros> (take 100 (for [x (range 100)
+                                       y (range 100)
+                                       :while (and (odd? x) (even? y))]
+                                   [x y]))
+([1 0] [3 0] [5 0] [7 0] [9 0] [11 0] [13 0] [15 0] [17 0] [19 0] [21 0] [23 0] [25 0] [27 0] [29 0] [31 0] [33 0] [35 0] [37 0] [39 0] [41 0] [43 0] [45 0] [47 0] [49 0] [51 0] [53 0] [55 0] [57 0] [59 0] [61 0] [63 0] [65 0] [67 0] [69 0] [71 0] [73 0] [75 0] [77 0] [79 0] [81 0] [83 0] [85 0] [87 0] [89 0] [91 0] [93 0] [95 0] [97 0] [99 0])
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello] [:hello])
+true
+foundation.app.macros> (matches-path? [:hello] [:there])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello] [:there])
+()
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello] [:there])
+()
+nil
+foundation.app.macros> (matches-path? [:hello] [:hello])
+()
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello] [:hello])
+()
+nil
+foundation.app.macros> (matches-path? [:hello] [:there])
+()
+nil
+foundation.app.macros> (matches-path? [:hello] [:hello])
+()
+nil
+foundation.app.macros> (matches-path? [:hello] [:hello :**])
+()
+nil
+foundation.app.macros> (matches-path? [:hello :**] [:hello])
+()
+nil
+foundation.app.macros> (matches-path? [:hello :**] [:hello])
+()
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :**] [:hello])
+([:hello :hello])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :**] [:hello])
+(:match)
+foundation.app.macros> (matches-path? [:hello :**] [:hello :there])
+(:match)
+foundation.app.macros> (matches-path? [:hello :**] [:hello :there :my :friend])
+(:match)
+foundation.app.macros> (matches-path? [:hello :my] [:hello :there :my :friend])
+(:match :match)
+foundation.app.macros> (matches-path? [:hello :my] [:hello :there :my :friend])
+(:match :match)
+foundation.app.macros> (matches-path? [:hello :my] [:hello :there :my :friend])
+(:match :match)
+foundation.app.macros> (matches-path? [:hello :there] [:hello :there :my :friend])
+(:match :match)
+foundation.app.macros> (matches-path? [:hello :there :my] [:hello :there :my :friend])
+(:match :match :match)
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :friend])
+(:match :match :match :match)
+foundation.app.macros> (matches-path? [:hello :**]
+                                      [:hello :there :my :friend])
+(:match)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :**]
+                                      [:hello :there :my :friend])
+false
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :friend])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :friend])
+(:match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :friend])
+(:match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my])
+(:match :match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :**])
+IllegalArgumentException Duplicate key: :**  clojure.lang.PersistentHashSet.createWithCheck (PersistentHashSet.java:56)
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :**])
+IllegalArgumentException Duplicate key: :**  clojure.lang.PersistentHashSet.createWithCheck (PersistentHashSet.java:56)
+foundation.app.macros> (conj #{:**} :**)
+#{:**}
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :friend]
+                                      [:hello :there :my :**])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :**])
+UnsupportedOperationException count not supported on this type: Keyword  clojure.lang.RT.countFrom (RT.java:557)
+(:match :match 
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend])
+UnsupportedOperationException count not supported on this type: Keyword  clojure.lang.RT.countFrom (RT.java:557)
+(:match :match 
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend])
+(:match :match :match :match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend])
+(:match :match :match :match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend :hi])
+(:match :match :match :match :match :match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend :hi])
+(:match :match :match :match :match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :friend :hi])
+(:match :match :match :match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :my])
+(:match :match :match :match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :there :my :**]
+                                      [:hello :there :my :never])
+(:match :match :match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my :never])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my :**])
+(:match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my :**])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my :**])
+(:match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my :**])
+(:match :match :match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :my])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :there :hi :there])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello])
+(:match)
+false
+foundation.app.macros> (matches-path? [:hello :there :my :okay]
+                                      [:hello :hi])
+(:match)
+false
+foundation.app.macros> (matches-path? [:hello :hi]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi]
+                                      [:hello :*])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :*])
+(:match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :*])
+(:match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :*])
+(:match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :* :there])
+(:match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :* :phew])
+(:match :match :match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :* :phew])
+(:match :match :match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :* :phew])
+(:match :match :match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+false
+foundation.app.macros> (min [1 2] [1 2])
+ClassCastException   [trace missing]
+foundation.app.macros> (min 1 2)
+1
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (min [1 2] [1 2])
+ClassCastException   [trace missing]
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :*])
+(:match :match :match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :*])
+(:match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :nope])
+(:match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :yup :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :yup :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :yup :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :*])
+(:match :match :match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :fail :fail :fail :fail :match :fail :fail :fail :fail :match :fail)
+:fail
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :fail :fail :fail :fail :match :fail :fail :fail :fail :match :fail)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :fail :fail :fail :fail :match :fail :fail :fail :fail :match :fail)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :fail :fail :fail :fail :match :fail :fail :fail :fail :match :fail)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+()
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+nil
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :**])
+nil
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :**])
+(:match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :**])
+(:match :match :match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi ])
+(:match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(true true)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(true false false true false false false false)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(true false false true false false false false)
+ClassCastException clojure.lang.PersistentVector cannot be cast to java.lang.Number  clojure.lang.Numbers.add (Numbers.java:126)
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(true false false true false false false false)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+(:match :match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+(:match :match :match)
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+(:match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+(:match)
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+(:match)
+false
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :while (= a b)]
+                         :match)
+(:match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (= a b)]
+                         :match)
+(:match :match :match :match :match :match :match :match :match :match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :while (odd? a)]
+                         :match)
+(:match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? a)]
+                         :match)
+(:match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? a)
+                             :when (odd? b)]
+                         :match)
+(:match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? a)
+                             :when (odd? a)]
+                         :match)
+(:match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match :match)
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? a)
+                             :when (odd? a)]
+                         [a b])
+([1 0] [1 1] [1 2] [1 3] [1 4] [1 5] [1 6] [1 7] [1 8] [1 9] [3 0] [3 1] [3 2] [3 3] [3 4] [3 5] [3 6] [3 7] [3 8] [3 9] [5 0] [5 1] [5 2] [5 3] [5 4] [5 5] [5 6] [5 7] [5 8] [5 9] [7 0] [7 1] [7 2] [7 3] [7 4] [7 5] [7 6] [7 7] [7 8] [7 9] [9 0] [9 1] [9 2] [9 3] [9 4] [9 5] [9 6] [9 7] [9 8] [9 9])
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? a)
+                             :when (odd? b)]
+                         [a b])
+([1 1] [1 3] [1 5] [1 7] [1 9] [3 1] [3 3] [3 5] [3 7] [3 9] [5 1] [5 3] [5 5] [5 7] [5 9] [7 1] [7 3] [7 5] [7 7] [7 9] [9 1] [9 3] [9 5] [9 7] [9 9])
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (and (odd? a) (even? a))
+                             :when (odd? b)]
+                         [a b])
+()
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (or (odd? a) (even? a))
+                             :when (odd? b)]
+                         [a b])
+([0 1] [0 3] [0 5] [0 7] [0 9] [1 1] [1 3] [1 5] [1 7] [1 9] [2 1] [2 3] [2 5] [2 7] [2 9] [3 1] [3 3] [3 5] [3 7] [3 9] [4 1] [4 3] [4 5] [4 7] [4 9] [5 1] [5 3] [5 5] [5 7] [5 9] [6 1] [6 3] [6 5] [6 7] [6 9] [7 1] [7 3] [7 5] [7 7] [7 9] [8 1] [8 3] [8 5] [8 7] [8 9] [9 1] [9 3] [9 5] [9 7] [9 9])
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :when (odd? b)]
+                         [a b])
+([0 1] [0 3] [0 5] [0 7] [0 9] [1 1] [1 3] [1 5] [1 7] [1 9] [2 1] [2 3] [2 5] [2 7] [2 9] [3 1] [3 3] [3 5] [3 7] [3 9] [4 1] [4 3] [4 5] [4 7] [4 9] [5 1] [5 3] [5 5] [5 7] [5 9] [6 1] [6 3] [6 5] [6 7] [6 9] [7 1] [7 3] [7 5] [7 7] [7 9] [8 1] [8 3] [8 5] [8 7] [8 9] [9 1] [9 3] [9 5] [9 7] [9 9])
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :while (odd? b)]
+                         [a b])
+()
+foundation.app.macros> (for [a (range 10) b (range 10)
+                             :while (even? b)]
+                         [a b])
+([0 0] [1 0] [2 0] [3 0] [4 0] [5 0] [6 0] [7 0] [8 0] [9 0])
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :never])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew] [:** :never])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :never])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew] [:** :never])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :**])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew] [:** :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+([:hello :hello] [:** :hello] [:** :hi])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :** :**]
+                                      [:hello :hi])
+([:hello :hello] [:** :hello] [:** :hi] [:** :hello] [:** :hi])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :** :**]
+                                      [:hello :hi])
+([:hello :hello])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi])
+([:hello :hello] [:** :hello] [:** :hi])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :** :**]
+                                      [:hello :hi :phew])
+([:hello :hello])
+false
+foundation.app.macros> (filter #{:**} [:** :**])
+(:** :**)
+foundation.app.macros> (count (filter #{:**} [:** :**]))
+2
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :** :**]
+                                      [:hello :hi :phew])
+([:hello :hello])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :**]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:** :hello] [:** :hi] [:** :phew] [:** :*])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew] [:* :*])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew] [:* :*] [:* :hi])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:hello :hi] [:hello :phew] [:hello :*] [:hello :hi] [:hi :hello] [:hi :hi] [:hi :phew] [:hi :*] [:hi :hi] [:phew :hello] [:phew :hi] [:phew :phew] [:phew :*] [:phew :hi] [:* :hello] [:* :hi] [:* :phew] [:* :*] [:* :hi])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew] [:* :*] [:* :hi])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+nil
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew] [:* :*] [:* :hi])
+true
+foundation.app.macros> (refresh-all)
+:reloading (foundation.app.message foundation.app foundation.app.macros user)
+:ok
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:hello :*] [:hi :hi] [:hi :*] [:phew :phew] [:phew :*] [:* :hello] [:* :hi] [:* :phew])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:* :hello] [:* :hi] [:* :phew])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :hi])
+([:hello :hello] [:hi :hi] [:phew :phew] [:* :hi])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there]
+                                      [:hello :hi :phew :hi])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :there]
+                                      [:hello :hi :phew :*])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi]
+                                      [:hello :hi :phew :* :hi])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup :there]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup :there]
+                                      [:hello :hi :phew :* :hi :**])
+([:yup :**] [:there :*] [:phew :phew] [:hi :hi] [:hello :hello])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi]
+                                      [:hello :hi :phew :* :hi :**])
+([:there :*] [:phew :phew] [:hi :hi] [:hello :hello])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup]
+                                      [:hello :hi :phew :* :hi :**])
+([:yup :**] [:there :*] [:phew :phew] [:hi :hi] [:hello :hello])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup :there]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi :yup :there :we :go]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi] [:yup :**])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :there :hi]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:there :*] [:hi :hi])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew])
+true
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew])
+true
+foundation.app.macros> (matches-path? [:hello :hi :phew :*]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> (matches-path? [:hello :hi :phew :* :hi]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew] [:hi :hi])
+false
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:hello :hi :phew :* :hi]
+                                      [:hello :hi :phew :* :hi :**])
+([:hello :hello] [:hi :hi] [:phew :phew])
+false
+foundation.app.macros> (match [[:**]]
+                         [[:**]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:**]]
+                         [[:**]] :succeed
+                         [[_ & :**]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:my-counter]]
+                         [[:**]] :succeed
+                         [[_ & :**]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :**]]
+                         [[:**]] :succeed
+                         [[_ & :**]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :**]]
+                         [[:**]] :succeed
+                         [[_ & r]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:my-counter :**]]
+                         [[:**]] :succeed
+                         [[_ & [:**]]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & _ & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & _ & [:**]]] :succeed
+                         :else :fail)
+IllegalArgumentException No method in multimethod 'to-source' for dispatch value: class clojure.core.match.RestPattern  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & _ & [:**]]] :succeed
+                         :else :fail)
+IllegalArgumentException No method in multimethod 'to-source' for dispatch value: class clojure.core.match.RestPattern  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & _ [:**]]] :succeed
+                         :else :fail)
+IllegalArgumentException No method in multimethod 'to-source' for dispatch value: class clojure.core.match.RestPattern  clojure.lang.MultiFn.getFn (MultiFn.java:160)
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ _ & [:**]]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[& _] & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[_ & _] & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[_ & r] & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[_ & r] _ & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[_ & [:**]] & [:**]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[[_ & [:**]]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (match [[:my-counter :hello :**]]
+                         [[:**]] :succeed
+                         [[_ & [_ & [:**]]]] :succeed
+                         :else :fail)
+:succeed
+foundation.app.macros> (match [[:my-counter :hello :there :**]]
+                         [[:**]] :succeed
+                         [[_ & [_ & [:**]]]] :succeed
+                         :else :fail)
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ & [:**]]] (recur (vec (rest path)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ & :**]] (recur (vec (rest path)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[_]] (recur (vec (rest path)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[_]] (recur (vec (rest path)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[_]] (recur (vec (rest path)))
+                           :else :fail))
+[:my-counter :hello :there :**]
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           :else :fail))
+[:my-counter :hello :there :**]
+[:hello :there :**]
+[:there :**]
+[:**]
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& :**]] (recur (vec (rest path)))
+                           :else :fail))
+[:my-counter :hello :there :**]
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& [:**]]] (recur (vec (rest path)))
+                           :else :fail))
+[:my-counter :hello :there :**]
+:fail
+foundation.app.macros> (loop [path [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           :else :fail))
+[:my-counter :hello :there :**]
+[:hello :there :**]
+[:there :**]
+[:**]
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [path]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           :else :fail))
+CompilerException java.lang.IllegalArgumentException: Mismatched argument count to recur, expected: 2 args, got: 1, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:6:38) 
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (println path)
+                         (match [pathspec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           :else :fail))
+CompilerException java.lang.RuntimeException: Unable to resolve symbol: pathspec in this context, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:4:26) 
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           :else :fail))
+CompilerException java.lang.IllegalArgumentException: Mismatched argument count to recur, expected: 2 args, got: 1, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:5:38) 
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           [_] (cond (= (first path) (first path-spec)))
+                           :else :fail))
+CompilerException java.lang.IllegalArgumentException: Mismatched argument count to recur, expected: 2 args, got: 1, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:5:38) 
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path)))
+                           [[& _]] (recur (vec (rest path)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (rest path) (rest path-spec)))
+                           :else :fail))
+CompilerException java.lang.IllegalArgumentException: Mismatched argument count to recur, expected: 2 args, got: 1, compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:5:38) 
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path))
+                                            (vec (rest path-spec)))
+                           [[& _]] (recur (vec (rest path))
+                                          (vec (rest path-spec)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec))))
+                           :else :fail))
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there :yo :nope]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path))
+                                            (vec (rest path-spec)))
+                           [[& _]] (recur (vec (rest path))
+                                          (vec (rest path-spec)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec))))
+                           :else :fail))
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path))
+                                            (vec (rest path-spec)))
+                           [[& _]] (recur (vec (rest path))
+                                          (vec (rest path-spec)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec))))
+                           :else :fail))
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there]
+                              path-spec [:my-counter :hello :there :**]]
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path))
+                                            (vec (rest path-spec)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec))))
+                           :else :fail))
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there]
+                              path-spec [:my-counter :hello :there :**]]
+                         (println path path-spec)
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [[_ :**]] (recur (vec (rest path))
+                                            (vec (rest path-spec)))
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec))))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [path [:my-counter :hello :there]
+                              path-spec [:my-counter :hello :there :**]]
+                         (println path path-spec)
+                         (match [path-spec]
+                           [[:**]] :succeed
+                           [_] (cond
+                                 (= (first path) (first path-spec))
+                                 (recur (vec (rest path))
+                                        (vec (rest path-spec)))
+                                 :else :fail)
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [[(first a) (second b)]]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest b)) (vec (rest a)))))
+CompilerException java.lang.AssertionError: Pattern row 1: Pattern row has differing number of patterns. [:* y] has 2 pattern/s, expecting 1 for occurrences [[(first a) (second b)]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:3:26) 
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest b)) (vec (rest a)))))
+IllegalArgumentException No matching clause: :my-counter :hello  foundation.app.macros/eval201363 (form-init4807525801864370774.clj:3)
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest b)) (vec (rest a)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x x] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+CompilerException java.lang.AssertionError: Pattern row 3: Pattern row reuses wildcards in [x x].  The following wildcards are ambiguous: x.  There's no guarantee that the matched values will be same.  Rename the occurrences uniquely., compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:3:26) 
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x x] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+CompilerException java.lang.AssertionError: Pattern row 3: Pattern row reuses wildcards in [x x].  The following wildcards are ambiguous: x.  There's no guarantee that the matched values will be same.  Rename the occurrences uniquely., compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:3:26) 
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [a b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [_ :**] :succeed 
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [_ :**] :succeed
+                           [:** _] :succeed 
+                           [:* y] (recur (vec (rest a)) (vec (rest b)))
+                           [x :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [_ :**] :succeed
+                           [:** _] :succeed 
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [(first a) y] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+CompilerException java.lang.AssertionError: Invalid list syntax a in (first a). Valid syntax: [[:default :guard] [:default :only] [:default :clojure.core.match/vector] [:default :seq] [:default :as] [:default :when] [:or :default]], compiling:(/private/var/folders/r5/xhpm7f6d37vcktjb4xnyjqjr0000gn/T/form-init4807525801864370774.clj:3:26) 
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [a y] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [a b] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [_ _] (recur (vec (rest a)) (vec (rest b)))
+                           :else :fail))
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b))))
+                           :else :fail))
+nil
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   :fail)
+                           :else :fail))
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   :fail)
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (second b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+:my-counter :hello
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+nil :**
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** nil] :succeed
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+nil :**
+:fail
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] :succeed
+                           [_ :**] :succeed
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] (when-not (seq (rest a)) :succeed)
+                           [_ :**] (when-not (seq (rest b)) :succeed)
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] (when-not (seq (rest a)) :succeed)
+                           [_ :**] (when-not (seq (rest b)) :succeed)
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   (do (println x y)
+                                       :fail))
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] (when-not (seq (rest a)) :succeed)
+                           [_ :**] (when-not (seq (rest b)) :succeed)
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   :fail)
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] (when-not (seq (rest a)) :succeed)
+                           [_ :**] (when-not (seq (rest b)) :succeed)
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   :fail)
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (loop [a [:my-counter :hello :there]
+                              b [:my-counter :hello :there :**]]
+                         (println a b)
+                         (match [(first a) (first b)]
+                           [:** _] (when-not (seq (rest a)) :succeed)
+                           [_ :**] (when-not (seq (rest b)) :succeed)
+                           [:* _] (recur (vec (rest a)) (vec (rest b)))
+                           [_ :*] (recur (vec (rest a)) (vec (rest b)))
+                           [x y] (if (= x y)
+                                   (recur (vec (rest a)) (vec (rest b)))
+                                   :fail)
+                           :else :fail))
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> (matches-path? [:my-counter :hello :there]
+                                      [:my-counter :hello :there :**])
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> 
+#<Namespace foundation.app.macros>
+foundation.app.macros> (matches-path? [:my-counter :hello :there]
+                                      [:my-counter :hello :there :**])
+[:my-counter :hello :there] [:my-counter :hello :there :**]
+[:hello :there] [:hello :there :**]
+[:there] [:there :**]
+[] [:**]
+:succeed
+foundation.app.macros> 
