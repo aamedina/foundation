@@ -24,7 +24,7 @@
             [foundation.app.tree :as tree]
             [foundation.app.data.tracking-map :as tm]))
 
-(declare run-dataflow match-dispatch)
+(declare run-dataflow match-dispatch dispatches)
 
 (defmulti node-create identity)
 
@@ -229,16 +229,24 @@
   (doseq [message script]
     (put! (:input app) message)))
 
+(defn build-dependency-graph
+  []
+  (reduce (fn [graph node])
+          (d/graph)
+          ))
+
 (defn build
   []
   (let [app-atom (atom {:data-model {}})
         input-queue (chan)
         output-queue (chan)
-        app-model-queue (chan)]
+        app-model-queue (chan)
+        dependencies (build-dependency-graph)]
     (receive-input-message app-atom input-queue)
     (send-effects app-atom output-queue)
     (send-app-model-deltas app-atom app-model-queue)
     {:state app-atom
+     :dependencies dependencies
      :input input-queue
      :output output-queue
      :app-model app-model-queue}))
@@ -331,17 +339,18 @@
 
 (defn derives-phase
   [{:keys [new context] :as state}]
-  (reduce (fn [{:keys [change] :as acc}
+  (reduce (fn [{:keys [change] :as state}
                [[input-paths output-path ispec :as derive] derive-fn]]
             (let [[input-paths arg-names]
                   (if (map? input-paths)
                     [(set (keys input-paths)) input-paths]
                     [input-paths nil])]
-              (if (propagate? acc input-paths)
-                (update-state acc output-path derive-fn
-                              (->> (flow-input context acc input-paths change)
-                                   (input-spec ispec)))
-                acc)))
+              (if (propagate? state input-paths)
+                (update-state
+                 state output-path derive-fn
+                 (->> (flow-input context state input-paths change)
+                      (input-spec ispec)))
+                state)))
           state (dissoc (methods derives) :default)))
 
 (defn effect-phase
@@ -418,3 +427,13 @@
       (d/depend [:average-count] [:total-count])
       (d/depend [:average-count] [:other-counters :*])))
 
+(def dispatches
+  (->> [transform derives effect]
+       (map methods)
+       (map assoc (repeat {}) [:transform :derives :effect])
+       (reduce (fn [xrel dispatches]
+                 (->> (first (vals dispatches))
+                      (map assoc (repeat {})
+                           (repeat (first (keys dispatches))))
+                      (into xrel)))
+               #{})))
