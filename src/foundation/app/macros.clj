@@ -287,12 +287,6 @@
   [app-atom output-queue]
   )
 
-(defn post-process-deltas
-  [deltas]
-  (reduce (fn [acc [op path :as delta]]
-            (into acc (post-process delta)))
-          deltas))
-
 (defn send-app-model-deltas
   [app-atom app-model-queue]
   (add-watch app-atom :app-model-delta-watcher
@@ -300,10 +294,13 @@
                (let [deltas (:emitter-deltas new-state)]
                  (when-not (or (empty? deltas)
                                (= (:emitter-deltas old-state) deltas))
-                   (let [deltas (post-process-deltas deltas)]
+                   (let [deltas (reduce (fn [acc delta]
+                                          (into acc (post-process delta)))
+                                        deltas)]
                      (put! app-model-queue
-                           {:path :app-model :type :deltas :deltas deltas}))))
-               )))
+                           {:path :app-model
+                            :type :deltas
+                            :deltas deltas})))))))
 
 (defn create-init-messages
   [focus]
