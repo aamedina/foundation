@@ -18,7 +18,7 @@
             [riddley.walk :refer [walk-exprs macroexpand-all]]
             [riddley.compiler :refer [locals]]
             [clojure.core.match.protocols :refer :all]
-            [clojure.core.async :refer [go go-loop chan <! >! <!!]]
+            [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
             [clojure.core.reducers :as r]
             [foundation.app.dependency :as d]))
 
@@ -274,6 +274,42 @@
 
 (defn send-app-model-deltas
   [app-atom app-model-queue])
+
+(defn create-init-messages
+  [focus]
+  (into (mapv (fn [[name paths]]
+                {:path :app-model
+                 :type :add-named-paths
+                 :paths paths
+                 :name name})
+              (remove (fn [[k v]] (= k :default)) focus))
+        (when-let [n (:default focus)]
+          [{:topic :app-model
+            :type :navigate
+            :name n}])))
+
+(defn begin
+  ([app] (begin app nil))
+  ([app {:keys [init-messages focus]}]
+     (let [init-messages
+           (cond
+             init-messages init-messages
+             focus (create-init-messages focus)
+             :else [{:path :app-model :type :subscribe :paths [[]]}])]
+       (doseq [message init-messages]
+         (put! (:input app) message)))))
+
+(defn consume-effects
+  [app services-fn]
+  (let [output (:output app) input (:input app)]
+    (go-loop [message (<! output)]
+      (services-fn message input)
+      (recur (<! (:output app))))))
+
+(defn run!
+  [app script]
+  (doseq [message script]
+    (put! (:input app) message)))
 
 (defn build
   []
