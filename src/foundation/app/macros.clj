@@ -21,7 +21,8 @@
             [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
             [clojure.core.reducers :as r]
             [foundation.app.dependency :as d]
-            [foundation.app.tree :as tree]))
+            [foundation.app.tree :as tree]
+            [foundation.app.data.tracking-map :as tm]))
 
 (declare run-dataflow match-dispatch)
 
@@ -316,8 +317,11 @@
 (defn update-state
   [state path f & args]
   (let [data-model (get-in state [:new :data-model])
-        new-data-model (apply update-in data-model path f args)]
-    ))
+        new-data-model (update-in (tm/tracking-map data-model) path f args)]
+    (-> state
+        (assoc-in [:new :data-model] @new-data-model)
+        (update-in [:change] (fn [old new] (merge-with into old new))
+                   (tm/changes tracking-map)))))
 
 (defn transform-phase
   [{:keys [new context] :as state}]
@@ -389,3 +393,4 @@
             (let [p (Math/pow 10 places)]
               (/ (Math/round (* p n)) p)))]
     [[op path (round n 2)]]))
+
