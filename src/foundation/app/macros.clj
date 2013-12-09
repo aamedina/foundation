@@ -27,9 +27,9 @@
 
 (defmulti node-create identity)
 
-(defmulti transform (partial match-dispatch :transform))
+(defmulti transform (fn [msg & args] ((juxt :type :path) msg)))
 
-(defmethod transform :default [messsage] :default)
+(defmethod transform :default [message & args] :default)
 
 (defmulti derives (partial match-dispatch :derives))
 
@@ -106,8 +106,8 @@
 
 (defn matching-path?
   [path1 path2]
-  (= (loop [a path1
-            b path2]
+  (= (loop [a (vec (flatten path1))
+            b (vec (flatten path2))]
        (match [(first a) (first b)]
          [[] []] :succeed
          [nil nil] :succeed
@@ -242,15 +242,6 @@
      :output output-queue
      :app-model app-model-queue}))
 
-(defn transform-phase
-  [])
-
-(defn derive-phase
-  [])
-
-(defn effect-phase
-  [])
-
 (defn descendant?
   [input-path path])
 
@@ -308,6 +299,30 @@
               (keys (methods node-create)))
       (dissoc :remaining-change)))
 
+(defn find-message-transformer
+  [multifn message]
+  (let [dispatch-fn (.-dispatchFn multifn)
+        dispatch-val (dispatch-fn message)
+        dispatches (dissoc (methods multifn) :default)]
+    (if-let [transformer (get dispatches dispatch-val)]
+      [transformer]
+      (if-let [transformers
+               (seq (for [dval (keys dispatches)
+                          :when (matching-path? dval dispatch-val)]
+                      (get dispatches dval)))]
+        (vec transformers)
+        [(get-method multifn dispatch-val)]))))
+
+(defn transform-phase
+  [{:keys [new context]}]
+  )
+
+(defn derive-phase
+  [])
+
+(defn effect-phase
+  [])
+
 (defn output-phase
   [])
 
@@ -326,6 +341,9 @@
     (:new (-> new-state
               effect-phase
               emit-phase))))
+
+(def default-msg
+  {:type :default :path [:nil :**] :value "hallo"})
 
 (def swap-msg
   {:type :swap :path [:other-counters "abc"] :value 42})
