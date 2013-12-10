@@ -1,26 +1,15 @@
 (ns foundation.app.macros
   (:require [clojure.set :as set]
             [clojure.string :as str]
-            [clojure.data :refer [diff]]
-            [clojure.java.io :as io]
-            [clojure.core :as core]
             [clojure.repl :refer [doc]]
             [clojure.zip :as zip]
             [clojure.pprint :refer [pprint]]
             [clojure.math.combinatorics :as com]
             [clojure.tools.namespace.repl :refer [refresh-all]]
-            [clojure.core.match :as m
-             :refer [match match-let matchv defpred]]
-            [cljs.compiler :as comp]
-            [cljs.analyzer :as ana]
-            [cljs.env :as env]
-            [cljs.closure :as cljsc]
+            [clojure.core.match :as m :refer [match]]
             [riddley.walk :refer [walk-exprs macroexpand-all]]
-            [riddley.compiler :refer [locals]]
-            [clojure.core.match.protocols :refer :all]
             [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
             [clojure.core.reducers :as r]
-            [criterium.core :refer :all]
             [foundation.app.dependency :as d]
             [foundation.app.tree :as tree]
             [foundation.app.data.tracking-map :as tm]))
@@ -512,7 +501,10 @@
                #{})))
 
 (defn test-dataflow
-  [msg]
-  (:data-model (:new (run-dataflow @(:state (build)) msg))))
+  ([msg] (test-dataflow msg @(:state (build))))
+  ([msg state] (test-dataflow 1 msg state))
+  ([n msg state]
+     (reduce (fn [state n]
+               (:data-model (:new (run-dataflow state)))) state (range n))))
 
 
