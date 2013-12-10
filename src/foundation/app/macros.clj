@@ -56,7 +56,7 @@
           v-type (value-types input-paths)
           assoc-a (fn [a k v]
                     (if (= (v-type k) :seq)
-                      (update-in a [k] (fnil conj []) v)
+                      (update-in a [k] (fnil into []) (if (coll? v) v [v]))
                       (assoc a k v)))]
       (->> (for [[path arg] input-paths]
              (loop [ks path
@@ -65,21 +65,18 @@
                (let [k (first ks)]
                  (match [k data-model]
                    [nil v] (assoc-a ret arg v)
-                   [:* m] (reduce #(assoc-a %1 arg %2) ret (vals m))
+                   [:* m] (assoc-a ret arg (vals m))
                    [:** v] (assoc-a ret arg v)
                    [k {k v}] (recur (rest ks) (get v k v) ret)
-                   :else nil))))
-           (remove nil?)
-           (into {})))
-    ))
+                   :else ret))))
+           (reduce (partial merge-with (comp vec concat)))))))
 
 (defmethod input-spec :vals
   [_ arg-names inputs]
-  (flatten (vals (input-spec :map nil inputs))))
+  (flatten (vals (input-spec :map arg-names inputs))))
 
 (defmethod input-spec :map
   [_ arg-names {:keys [new-model input-paths]}]
-  (println (reify-input-paths input-paths new-model arg-names))
   (reify-input-paths input-paths new-model arg-names))
 
 (defmethod input-spec :map-seq
@@ -141,10 +138,10 @@
        (match [(first a) (first b)]
          [[] []] :succeed
          [nil nil] :succeed
-         [:** (_ :guard keyword?)] (if-not (seq (rest a)) :succeed :fail)
-         [(_ :guard keyword?) :**] (if-not (seq (rest b)) :succeed :fail)
-         [:* (_ :guard keyword?)] (recur (vec (rest a)) (vec (rest b)))
-         [(_ :guard keyword?) :*] (recur (vec (rest a)) (vec (rest b)))
+         [:** _] (if-not (seq (rest a)) :succeed :fail)
+         [_ :**] (if-not (seq (rest b)) :succeed :fail)
+         [:* _] (recur (vec (rest a)) (vec (rest b)))
+         [_ :*] (recur (vec (rest a)) (vec (rest b)))
          :else (if (= (first a) (first b))
                  (recur (vec (rest a)) (vec (rest b)))
                  :fail)))
@@ -407,6 +404,8 @@
 (defn derives?
   [{:keys [context] :as state}
    [[input-paths output-path ispec :as derive] derive-fn]]
+  (println (filter #(matching-path? (:path (:message context)) %)
+                   (d/nodes (:deps (:new state)))))
   (and (seq (d/transitive-dependents (:deps (:new state))
                                      (:path (:message context))))
        (propagate? state input-paths)))
@@ -485,7 +484,7 @@
 (defmethod derives [{[:my-counter] :nums
                      [:other-counters :*] :nums
                      [:total-count] :total} [:average-count] :map]
-  [old-value message {:keys [nums total]}]
+  [old-value message {:keys [nums total] :as m}]
   (/ total (count nums)))
 
 (defmethod post-process [:value [:average-count]]
