@@ -501,10 +501,11 @@
                #{})))
 
 (defn test-dataflow
-  ([msg] (test-dataflow msg @(:state (build))))
-  ([msg state] (test-dataflow 1 msg state))
-  ([n msg state]
-     (reduce (fn [state n]
-               (:data-model (:new (run-dataflow state)))) state (range n))))
+  ([msgs] (test-dataflow msgs @(:state (build))))
+  ([msgs state]
+     (-> (reduce (fn [state msg]
+                   (:new (run-dataflow state msg)))
+                 state msgs)
+         :data-model)))
 
 
