@@ -49,20 +49,41 @@
 
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
 
+(defn reify-input-paths
+  [input-paths data-model arg-names]
+  (->> (for [[path arg-name] (if (seq arg-names)
+                               (zipmap input-paths arg-names)
+                               (zipmap input-paths input-paths))]
+         (loop [pkeys path
+                data-model data-model]
+           (let [pkey (first pkeys)]
+             (match [pkey data-model]
+               [:* _] (recur (rest pkeys) (rest pkeys data-model))
+               [:** _] (zipmap arg-name [data-model])
+               [nil _] (zipmap arg-name [data-model])
+               [pkey {pkey _}] (recur (rest pkeys) (get data-model pkey))
+               :else nil))))
+       (remove nil?)
+       (reduce conj {})))
+
 (defmethod input-spec :vals
-  [dispatch-val inputs args-key arg-names])
+  [_ arg-names inputs]
+  (vals (input-spec :map nil inputs)))
 
 (defmethod input-spec :map
-  [dispatch-val inputs args-key arg-names])
+  [_ arg-names {:keys [new-model input-paths]}]
+  (println (reify-input-paths input-paths new-model arg-names))
+  (reify-input-paths input-paths new-model arg-names))
 
 (defmethod input-spec :map-seq
-  [dispatch-val inputs args-key arg-names])
+  [dispatch-val arg-names inputs])
 
 (defmethod input-spec :single-val
-  [dispatch-val inputs args-key arg-names])
+  [dispatch-val arg-names inputs])
 
 (defmethod input-spec :default
-  [dispatch-val inputs args-key arg-names])
+  [dispatch-val arg-names inputs]
+  :default)
 
 (defn consume-app-model
   [app render-fn]
@@ -289,8 +310,12 @@
      :output output-queue
      :app-model app-model-queue}))
 
-(defn descendant?
-  [input-path path])
+(defn descendent?
+  [path-a path-b]
+  (let [[small large] (if (< (count path-a) (count path-b))
+                        [path-a path-b]
+                        [path-b path-a])]
+    (= small (take (count small) large))))
 
 (defn remover
   [change-set input-paths]
@@ -304,7 +329,7 @@
 (defn propagate?
   [{:keys [change] :as state} input-paths]
   (letfn [(propagate? [state changed-inputs input-path]
-            (some #(descendant? input-path %) changed-inputs))]
+            (some #(descendent? input-path %) changed-inputs))]
     (let [changed-inputs (if (seq change) (reduce into (vals change)) [])]
       (some (fn [input-path]
               (if-let [propagate? (or (:propagator (meta input-path))
@@ -315,11 +340,11 @@
 (defn flow-input
   [context state input-paths change]
   (letfn [(input-set [changes f input-paths]
-            (set (f (fn [x] (some (partial descendant? x) input-paths))
-                    changes)))
+            (set (f (fn [x]
+                      (some (partial descendent? x) input-paths)) changes)))
           (update-input-sets [m ks f input-paths]
-            (reduce (fn [a k] (update-in a [k] input-set f input-paths))
-                    m ks))]
+            (reduce (fn [a k]
+                      (update-in a [k] input-set f input-paths)) m ks))]
     (-> context
         (assoc :new-model (get-in state [:new :data-model]))
         (assoc :old-model (get-in state [:old :data-model]))
@@ -365,6 +390,7 @@
   (let [data-model (get-in state [:new :data-model])
         new-data-model
         (apply update-in (tm/tracking-map data-model) path f args)]
+    (println new-data-model)
     (-> state
         (assoc-in [:new :data-model] @new-data-model)
         (update-in [:change] (fn [old new] (merge-with into old new))
@@ -379,26 +405,27 @@
 (defn derives?
   [{:keys [context] :as state}
    [[input-paths output-path ispec :as derive] derive-fn]]
-  (let [message (:message context)
-        dependents (d/transitive-dependents (:dependencies state)
-                                            (:path message))]
+  (when-let [dependents (d/transitive-dependents (:deps (:new state))
+                                                 (:path (:message context)))]
     (seq dependents)))
 
 (defn derives-phase
-  [{:keys [new context] :as state}]
-  (let [message (:message context)
-        dependents (d/transitive-dependents (:dependencies state)
-                                            (:path message))
-        fix-paths (juxt (comp set keys) identity)]
-    (reduce (fn [{:keys [change] :as state}
-                 [[input-paths output-path ispec :as derive] derive-fn]]
-              (let [[input-paths arg-names] (if (map? input-paths)
-                                              (fix-paths input-paths)
-                                              [input-paths nil])]
-                (->> (flow-input context state input-paths change)
-                     (input-spec ispec)
-                     (update-state state output-path derive-fn))))
-            state (filter derives? (dissoc (methods derives) :default)))))
+  [{:keys [context] :as state}]
+  (if-let [dependents (d/transitive-dependents (:deps (:new state))
+                                               (:path (:message context)))]
+    (let [fix-paths (juxt (comp set keys) identity)]
+      (reduce (fn [{:keys [change] :as state}
+                   [[input-paths output-path ispec :as derive] derive-fn]]
+                (let [[input-paths arg-names] (if (map? input-paths)
+                                                (fix-paths input-paths)
+                                                [input-paths nil])]
+                  (->> (flow-input context state input-paths change)
+                       (input-spec ispec arg-names)
+                       (update-state state output-path derive-fn))
+                  state))
+              state (filter #(derives? state %)
+                            (dissoc (methods derives) :default))))    
+    state))
 
 (defn effect-phase
   [])
@@ -417,7 +444,7 @@
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
-                      ;; derives-phase
+                      derives-phase
                       )]
     new-state
     ;; (:new (-> new-state
@@ -440,7 +467,6 @@
 
 (defmethod transform [:swap [:**]]
   [_ message]
-  (println (:value message) _)
   (:value message))
 
 (defmethod derives [#{[:my-counter]
@@ -493,12 +519,4 @@
   [msg]
   (:data-model (:new (run-dataflow @(:state (build)) msg))))
 
-(defn shuffle-expr
-  [expr]
-  (if (coll? expr)
-    (if (= (first expr) `unquote)
-      "?"
-      (let [[op & args] expr]
-        (str "(" (str/join (str " " op " ")
-                           (map shuffle-expr args)) ")")))
-    expr))
+

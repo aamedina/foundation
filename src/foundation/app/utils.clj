@@ -11,9 +11,9 @@
             [clojure.tools.namespace.repl :refer [refresh-all]]
             [clojure.core.match :as m
              :refer [match match-let matchv defpred]]
-            [cljs.compiler :as comp]
-            [cljs.analyzer :as ana]
-            [cljs.env :as env]
+            ;; [cljs.compiler :as comp]
+            ;; [cljs.analyzer :as ana]
+            ;; [cljs.env :as env]
             [cljs.closure :as cljsc]
             [riddley.walk :refer [walk-exprs macroexpand-all]]
             [riddley.compiler :refer [locals]]
@@ -206,181 +206,181 @@
   [pred xs]
   ((juxt take-while drop-while) (complement pred) xs))
 
-(defn- reset-cache
-  [method-cache method-table cached-hierarchy hierarchy]
-  (swap! method-cache (fn [_] (deref method-table)))
-  (swap! cached-hierarchy (fn [_] (deref hierarchy))))
+;; (defn- reset-cache
+;;   [method-cache method-table cached-hierarchy hierarchy]
+;;   (swap! method-cache (fn [_] (deref method-table)))
+;;   (swap! cached-hierarchy (fn [_] (deref hierarchy))))
 
-(defn- prefers*
-  [x y prefer-table]
-  (let [xprefs (@prefer-table x)]
-    (or
-     (when (and xprefs (xprefs y))
-       true)
-     (loop [ps (parents y)]
-       (when (pos? (count ps))
-         (when (prefers* x (first ps) prefer-table)
-           true)
-         (recur (rest ps))))
-     (loop [ps (parents x)]
-       (when (pos? (count ps))
-         (when (prefers* (first ps) y prefer-table)
-           true)
-         (recur (rest ps))))
-     false)))
+;; (defn- prefers*
+;;   [x y prefer-table]
+;;   (let [xprefs (@prefer-table x)]
+;;     (or
+;;      (when (and xprefs (xprefs y))
+;;        true)
+;;      (loop [ps (parents y)]
+;;        (when (pos? (count ps))
+;;          (when (prefers* x (first ps) prefer-table)
+;;            true)
+;;          (recur (rest ps))))
+;;      (loop [ps (parents x)]
+;;        (when (pos? (count ps))
+;;          (when (prefers* (first ps) y prefer-table)
+;;            true)
+;;          (recur (rest ps))))
+;;      false)))
 
-(defn- dominates
-  [x y prefer-table]
-  (or (prefers* x y prefer-table) (isa? x y)))
+;; (defn- dominates
+;;   [x y prefer-table]
+;;   (or (prefers* x y prefer-table) (isa? x y)))
 
-(defn- find-and-cache-best-method
-  [name dispatch-val hierarchy method-table prefer-table method-cache
-   cached-hierarchy]
-  (let [best-entry
-        (reduce
-         (fn [be [k _ :as e]]
-           (if (isa? @hierarchy dispatch-val k)
-             (let [be2 (if (or (nil? be)
-                               (dominates k (first be) prefer-table))
-                         e
-                         be)]
-               (when-not (dominates (first be2) k prefer-table)
-                 (throw (Exception.
-                         (str "Multiple methods in multimethod '" name
-                              "' match dispatch value: " dispatch-val " -> " k
-                              " and " (first be2)
-                              ", and neither is preferred"))))
-               be2)
-             be))
-                nil @method-table)]
-    (when best-entry
-      (if (= @cached-hierarchy @hierarchy)
-        (do
-          (swap! method-cache assoc dispatch-val (second best-entry))
-          (second best-entry))
-        (do
-          (reset-cache method-cache method-table cached-hierarchy hierarchy)
-          (find-and-cache-best-method name dispatch-val hierarchy
-                                      method-table prefer-table
-                                      method-cache cached-hierarchy))))))
+;; (defn- find-and-cache-best-method
+;;   [name dispatch-val hierarchy method-table prefer-table method-cache
+;;    cached-hierarchy]
+;;   (let [best-entry
+;;         (reduce
+;;          (fn [be [k _ :as e]]
+;;            (if (isa? @hierarchy dispatch-val k)
+;;              (let [be2 (if (or (nil? be)
+;;                                (dominates k (first be) prefer-table))
+;;                          e
+;;                          be)]
+;;                (when-not (dominates (first be2) k prefer-table)
+;;                  (throw (Exception.
+;;                          (str "Multiple methods in multimethod '" name
+;;                               "' match dispatch value: " dispatch-val " -> " k
+;;                               " and " (first be2)
+;;                               ", and neither is preferred"))))
+;;                be2)
+;;              be))
+;;                 nil @method-table)]
+;;     (when best-entry
+;;       (if (= @cached-hierarchy @hierarchy)
+;;         (do
+;;           (swap! method-cache assoc dispatch-val (second best-entry))
+;;           (second best-entry))
+;;         (do
+;;           (reset-cache method-cache method-table cached-hierarchy hierarchy)
+;;           (find-and-cache-best-method name dispatch-val hierarchy
+;;                                       method-table prefer-table
+;;                                       method-cache cached-hierarchy))))))
 
-(defprotocol IMultiFn
-  (-reset [mf])
-  (-add-method [mf dispatch-val method])
-  (-remove-method [mf dispatch-val])
-  (-prefer-method [mf dispatch-val dispatch-val-y])
-  (-get-method [mf dispatch-val])
-  (-methods [mf])
-  (-prefers [mf])
-  (-dispatch [mf args]))
+;; (defprotocol IMultiFn
+;;   (-reset [mf])
+;;   (-add-method [mf dispatch-val method])
+;;   (-remove-method [mf dispatch-val])
+;;   (-prefer-method [mf dispatch-val dispatch-val-y])
+;;   (-get-method [mf dispatch-val])
+;;   (-methods [mf])
+;;   (-prefers [mf])
+;;   (-dispatch [mf args]))
 
-(defn do-dispatch
-  [mf name dispatch-fn args]
-  (let [dispatch-val (apply dispatch-fn args)
-        target-fn (-get-method mf dispatch-val)]
-    (when-not target-fn
-      (throw (Exception. (str "No method in multimethod '"
-                              name "' for dispatch value: " dispatch-val))))
-    (apply target-fn args)))
+;; (defn do-dispatch
+;;   [mf name dispatch-fn args]
+;;   (let [dispatch-val (apply dispatch-fn args)
+;;         target-fn (-get-method mf dispatch-val)]
+;;     (when-not target-fn
+;;       (throw (Exception. (str "No method in multimethod '"
+;;                               name "' for dispatch value: " dispatch-val))))
+;;     (apply target-fn args)))
 
-(deftype MultiFn [name dispatch-fn default-dispatch-val hierarchy
-                  method-table prefer-table method-cache cached-hierarchy]
-  IMultiFn
-  (-reset [mf]
-    (swap! method-table (fn [mf] {}))
-    (swap! method-cache (fn [mf] {}))
-    (swap! prefer-table (fn [mf] {}))
-    (swap! cached-hierarchy (fn [mf] nil))
-    mf)
-  (-add-method [mf dispatch-val method]
-    (swap! method-table assoc dispatch-val method)
-    (reset-cache method-cache method-table cached-hierarchy hierarchy)
-    mf)
-  (-remove-method [mf dispatch-val]
-    (swap! method-table dissoc dispatch-val)
-    (reset-cache method-cache method-table cached-hierarchy hierarchy)
-    mf)
-  (-get-method [mf dispatch-val]
-    (when-not (= @cached-hierarchy @hierarchy)
-      (reset-cache method-cache method-table cached-hierarchy hierarchy))
-    (if-let [target-fn (@method-cache dispatch-val)]
-      target-fn
-      (if-let [target-fn (find-and-cache-best-method name dispatch-val
-                                                     hierarchy method-table
-                                                     prefer-table
-                                                     method-cache
-                                                     cached-hierarchy)]
-        target-fn
-        (@method-table default-dispatch-val))))
-  (-prefer-method [mf dispatch-val-x dispatch-val-y]
-    (when (prefers* dispatch-val-x dispatch-val-y prefer-table)
-      (throw (Exception. (str "Preference conflict in multimethod '" name
-                              "': " dispatch-val-y
-                              " is already preferred to " dispatch-val-x))))
-    (swap! prefer-table
-           (fn [old]
-             (assoc old dispatch-val-x
-                    (conj (get old dispatch-val-x #{}) dispatch-val-y))))
-    (reset-cache method-cache method-table cached-hierarchy hierarchy))
-  (-methods [mf] @method-table)
-  (-prefers [mf] @prefer-table)
-  (-dispatch [mf args] (do-dispatch mf name dispatch-fn args))
-  clojure.lang.IFn
-  (invoke [mf a1] (-dispatch mf [a1]))
-  (invoke [mf a1 a2] (-dispatch mf [a1 a2]))
-  (invoke [mf a1 a2 a3] (-dispatch mf [a1 a2 a3]))
-  (invoke [mf a1 a2 a3 a4] (-dispatch mf [a1 a2 a3 a4]))
-  (invoke [mf a1 a2 a3 a4 a5] (-dispatch mf [a1 a2 a3 a4 a5]))
-  (invoke [mf a1 a2 a3 a4 a5 a6] (-dispatch mf [a1 a2 a3 a4 a5 a6]))
-  (invoke [mf a1 a2 a3 a4 a5 a6 a7] (-dispatch mf [a1 a2 a3 a4 a5 a6 a7]))
-  (applyTo [mf args] (-dispatch mf args)))
+;; (deftype MultiFn [name dispatch-fn default-dispatch-val hierarchy
+;;                   method-table prefer-table method-cache cached-hierarchy]
+;;   IMultiFn
+;;   (-reset [mf]
+;;     (swap! method-table (fn [mf] {}))
+;;     (swap! method-cache (fn [mf] {}))
+;;     (swap! prefer-table (fn [mf] {}))
+;;     (swap! cached-hierarchy (fn [mf] nil))
+;;     mf)
+;;   (-add-method [mf dispatch-val method]
+;;     (swap! method-table assoc dispatch-val method)
+;;     (reset-cache method-cache method-table cached-hierarchy hierarchy)
+;;     mf)
+;;   (-remove-method [mf dispatch-val]
+;;     (swap! method-table dissoc dispatch-val)
+;;     (reset-cache method-cache method-table cached-hierarchy hierarchy)
+;;     mf)
+;;   (-get-method [mf dispatch-val]
+;;     (when-not (= @cached-hierarchy @hierarchy)
+;;       (reset-cache method-cache method-table cached-hierarchy hierarchy))
+;;     (if-let [target-fn (@method-cache dispatch-val)]
+;;       target-fn
+;;       (if-let [target-fn (find-and-cache-best-method name dispatch-val
+;;                                                      hierarchy method-table
+;;                                                      prefer-table
+;;                                                      method-cache
+;;                                                      cached-hierarchy)]
+;;         target-fn
+;;         (@method-table default-dispatch-val))))
+;;   (-prefer-method [mf dispatch-val-x dispatch-val-y]
+;;     (when (prefers* dispatch-val-x dispatch-val-y prefer-table)
+;;       (throw (Exception. (str "Preference conflict in multimethod '" name
+;;                               "': " dispatch-val-y
+;;                               " is already preferred to " dispatch-val-x))))
+;;     (swap! prefer-table
+;;            (fn [old]
+;;              (assoc old dispatch-val-x
+;;                     (conj (get old dispatch-val-x #{}) dispatch-val-y))))
+;;     (reset-cache method-cache method-table cached-hierarchy hierarchy))
+;;   (-methods [mf] @method-table)
+;;   (-prefers [mf] @prefer-table)
+;;   (-dispatch [mf args] (do-dispatch mf name dispatch-fn args))
+;;   clojure.lang.IFn
+;;   (invoke [mf a1] (-dispatch mf [a1]))
+;;   (invoke [mf a1 a2] (-dispatch mf [a1 a2]))
+;;   (invoke [mf a1 a2 a3] (-dispatch mf [a1 a2 a3]))
+;;   (invoke [mf a1 a2 a3 a4] (-dispatch mf [a1 a2 a3 a4]))
+;;   (invoke [mf a1 a2 a3 a4 a5] (-dispatch mf [a1 a2 a3 a4 a5]))
+;;   (invoke [mf a1 a2 a3 a4 a5 a6] (-dispatch mf [a1 a2 a3 a4 a5 a6]))
+;;   (invoke [mf a1 a2 a3 a4 a5 a6 a7] (-dispatch mf [a1 a2 a3 a4 a5 a6 a7]))
+;;   (applyTo [mf args] (-dispatch mf args)))
 
-(def -global-hierarchy (atom nil))
+;; (def -global-hierarchy (atom nil))
 
-(defn get-global-hierarchy
-  []
-  (when (nil? @-global-hierarchy)
-    (reset! -global-hierarchy (make-hierarchy)))
-  -global-hierarchy)
+;; (defn get-global-hierarchy
+;;   []
+;;   (when (nil? @-global-hierarchy)
+;;     (reset! -global-hierarchy (make-hierarchy)))
+;;   -global-hierarchy)
 
-(defmacro defspec
-  [name & options]
-  (let [docstring   (if (core/string? (first options))
-                      (first options)
-                      nil)
-        options     (if (core/string? (first options))
-                      (next options)
-                      options)
-        m           (if (map? (first options))
-                      (first options)
-                      {})
-        options     (if (map? (first options))
-                      (next options)
-                      options)
-        dispatch-fn (first options)
-        options     (next options)
-        m           (if docstring
-                      (assoc m :doc docstring)
-                      m)
-        m           (if (meta name)
-                      (conj (meta name) m)
-                      m)
-        options (apply core/hash-map options)
-        default (core/get options :default :default)]
-    `(do (declare ~name)
-         (def ~(with-meta name m)
-           (let [method-table# (atom {})
-                 prefer-table# (atom {})
-                 method-cache# (atom {})
-                 cached-hierarchy# (atom {})
-                 hierarchy#
-                 (get ~options :hierarchy (get-global-hierarchy))]
-             (MultiFn.  ~(core/name name) #(apply ~dispatch-fn %&)
-                        ~default hierarchy#
-                        method-table# prefer-table# method-cache#
-                        cached-hierarchy#))))))
+;; (defmacro defspec
+;;   [name & options]
+;;   (let [docstring   (if (core/string? (first options))
+;;                       (first options)
+;;                       nil)
+;;         options     (if (core/string? (first options))
+;;                       (next options)
+;;                       options)
+;;         m           (if (map? (first options))
+;;                       (first options)
+;;                       {})
+;;         options     (if (map? (first options))
+;;                       (next options)
+;;                       options)
+;;         dispatch-fn (first options)
+;;         options     (next options)
+;;         m           (if docstring
+;;                       (assoc m :doc docstring)
+;;                       m)
+;;         m           (if (meta name)
+;;                       (conj (meta name) m)
+;;                       m)
+;;         options (apply core/hash-map options)
+;;         default (core/get options :default :default)]
+;;     `(do (declare ~name)
+;;          (def ~(with-meta name m)
+;;            (let [method-table# (atom {})
+;;                  prefer-table# (atom {})
+;;                  method-cache# (atom {})
+;;                  cached-hierarchy# (atom {})
+;;                  hierarchy#
+;;                  (get ~options :hierarchy (get-global-hierarchy))]
+;;              (MultiFn.  ~(core/name name) #(apply ~dispatch-fn %&)
+;;                         ~default hierarchy#
+;;                         method-table# prefer-table# method-cache#
+;;                         cached-hierarchy#))))))
 
-(defmacro defgeneric
-  [multifn dispatch-val & fn-tail]
-  `(-add-method ~(with-meta multifn {:tag 'MultiFn}) ~dispatch-val
-                (fn ~@fn-tail)))
+;; (defmacro defgeneric
+;;   [multifn dispatch-val & fn-tail]
+;;   `(-add-method ~(with-meta multifn {:tag 'MultiFn}) ~dispatch-val
+;;                 (fn ~@fn-tail)))
