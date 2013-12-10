@@ -327,14 +327,10 @@
 
 (defn propagate?
   [{:keys [change] :as state} input-paths]
-  (letfn [(propagate? [state changed-inputs input-path]
-            (some #(descendent? input-path %) changed-inputs))]
-    (let [changed-inputs (if (seq change) (reduce into (vals change)) [])]
-      (some (fn [input-path]
-              (if-let [propagate? (or (:propagator (meta input-path))
-                                      propagate?)]
-                (propagate? state changed-inputs input-path)))
-            input-paths))))
+  (let [changed-inputs (if (seq change) (reduce into (vals change)) [])]
+    (some (fn [input-path]
+            (some #(descendent? input-path %) changed-inputs))
+          input-paths)))
 
 (defn flow-input
   [context state input-paths change]
@@ -403,9 +399,9 @@
 (defn derives?
   [{:keys [context] :as state}
    [[input-paths output-path ispec :as derive] derive-fn]]
-  (when-let [dependents (d/transitive-dependents (:deps (:new state))
-                                                 (:path (:message context)))]
-    (seq dependents)))
+  (and (seq (d/transitive-dependents (:deps (:new state))
+                                     (:path (:message context))))
+       (propagate? state input-paths)))
 
 (defn derives-phase
   [{:keys [context] :as state}]
