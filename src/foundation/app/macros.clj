@@ -40,20 +40,37 @@
 
 (defn reify-input-paths
   [input-paths data-model arg-names]
-  (->> (for [[path arg-name] (if (seq arg-names)
-                               (zipmap input-paths arg-names)
-                               (zipmap input-paths input-paths))]
-         (loop [pkeys path
-                data-model data-model]
-           (let [pkey (first pkeys)]
-             (match [pkey data-model]
-               [nil v] [arg-name v]
-               [:* v] (recur (rest pkeys) (get v pkey v))
-               [:** v] [arg-name v]
-               [pkey {pkey v}] (recur (rest pkeys) v)
-               :else nil))))
-       (remove nil?)
-       (into {})))
+  (letfn [(value-types [arg-names]
+            (if arg-names
+              (reduce (fn [a [k v]]
+                        (cond
+                          (contains? (set k) :*) (assoc a v :seq)
+                          (contains? a v) (assoc a v :seq)
+                          (nil? (get a v)) (assoc a v :single)
+                          :else a))
+                      {} arg-names)
+              (constantly :single)))]
+    (let [v-type (value-types (zipmap input-paths arg-names))
+          assoc-a (fn [a k v]
+                    (if (= (v-type k) :seq)
+                      (update-in a [k] (fnil conj []) v)
+                      (assoc a k v)))]
+      (->> (for [[path arg] (if (seq arg-names)
+                              (zipmap input-paths arg-names)
+                              (zipmap input-paths input-paths))]
+             (loop [ks path
+                    data-model data-model
+                    ret {}]
+               (let [k (first ks)]
+                 (match [k data-model]
+                   [nil v] (assoc-a ret arg v)
+                   [:* v] (recur (rest ks) (get v k v) ret)
+                   [:** v] (assoc-a ret arg v)
+                   [k {k v}] (recur (rest ks) v ret)
+                   :else nil))))
+           (remove nil?)
+           (into {})))
+    ))
 
 (defmethod input-spec :vals
   [_ arg-names inputs]
@@ -61,6 +78,7 @@
 
 (defmethod input-spec :map
   [_ arg-names {:keys [new-model input-paths]}]
+  (println (reify-input-paths input-paths new-model arg-names))
   (reify-input-paths input-paths new-model arg-names))
 
 (defmethod input-spec :map-seq
@@ -398,14 +416,13 @@
                                    (dissoc (methods derives) :default))
                            (sort (d/topo-comparator (:deps (:new state))))
                            seq)]
-    (let [fix-paths (juxt (comp set keys) identity)
+    (let [fix-paths (juxt (comp set keys) vals)
           message (:message context)]
       (reduce (fn [{:keys [change] :as state}
                    [[input-paths output-path ispec :as derive] derive-fn]]
                 (let [[input-paths arg-names] (if (map? input-paths)
                                                 (fix-paths input-paths)
                                                 [input-paths nil])]
-                  (println input-paths arg-names)
                   (->> (flow-input context state input-paths change)
                        (input-spec ispec arg-names)
                        (update-state state output-path derive-fn message))))
@@ -468,7 +485,6 @@
                      [:other-counters :*] :nums
                      [:total-count] :total} [:average-count] :map]
   [old-value message {:keys [nums total]}]
-  (println old-value message nums total)
   (/ total (count nums)))
 
 (defmethod post-process [:value [:average-count]]
