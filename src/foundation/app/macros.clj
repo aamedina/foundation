@@ -20,6 +20,7 @@
             [clojure.core.match.protocols :refer :all]
             [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
             [clojure.core.reducers :as r]
+            [criterium.core :refer :all]
             [foundation.app.dependency :as d]
             [foundation.app.tree :as tree]
             [foundation.app.data.tracking-map :as tm]))
@@ -28,9 +29,9 @@
 
 (defmulti node-create identity)
 
-(defmulti transform (fn [msg & args] ((juxt :type :path) msg)))
+(defmulti transform (fn [state msg] ((juxt :type :path) msg)))
 
-(defmethod transform :default [message & args] :default)
+(defmethod transform :default [state msg] :default)
 
 (defmulti derives (partial match-dispatch :derives))
 
@@ -372,6 +373,7 @@
   [{:keys [new context] :as state}]
   (let [{:keys [type path] :as message} (:message context)
         transform-fn (first (find-message-transformer transform message))]
+    (println type path)
     (update-state state path transform-fn message)))
 
 (defn derives?
@@ -415,10 +417,13 @@
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
-                      derives-phase)]
-    (:new (-> new-state
-              effect-phase
-              emit-phase))))
+                      ;; derives-phase
+                      )]
+    (println state new-state)
+    ;; (:new (-> new-state
+    ;;           effect-phase
+    ;;           emit-phase))
+    ))
 
 (def default-msg
   {:type :default :path [:nil :**] :value "hallo"})
@@ -430,11 +435,12 @@
   {:type :inc :path [:my-counter]})
 
 (defmethod transform [:inc [:my-counter]]
-  [_ state]
+  [state _]
+  (println _ state)
   ((fnil inc 0) state))
 
 (defmethod transform [:swap [:**]]
-  [message _]
+  [_ message]
   (:value message))
 
 (defmethod derives [#{[:my-counter]
@@ -482,3 +488,17 @@
                            (repeat (first (keys dispatches))))
                       (into xrel)))
                #{})))
+
+(defn test-dataflow
+  [msg]
+  (run-dataflow @(:state (build)) msg))
+
+(defn shuffle-expr
+  [expr]
+  (if (coll? expr)
+    (if (= (first expr) `unquote)
+      "?"
+      (let [[op & args] expr]
+        (str "(" (str/join (str " " op " ")
+                           (map shuffle-expr args)) ")")))
+    expr))

@@ -22,7 +22,9 @@
                  [prismatic/dommy "0.1.2"]
                  [enlive "1.1.4"]
                  [enfocus "2.1.0-SNAPSHOT"]
-                 [garden "1.1.4"]]
+                 [garden "1.1.4"]
+                 [avl.clj "0.0.9"]
+                 [criterium "0.4.2"]]
   :source-paths ["dev" "src" "target/classes"]
   :main user
   :jvm-opts ["-Xmx1g" "-server"]
