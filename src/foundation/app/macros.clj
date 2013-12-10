@@ -303,7 +303,7 @@
   (let [[small large] (if (< (count path-a) (count path-b))
                         [path-a path-b]
                         [path-b path-a])]
-    (= small (take (count small) large))))
+    (matching-path? small (vec (take (count small) large)))))
 
 (defn remover
   [change-set input-paths]
@@ -405,6 +405,7 @@
                 (let [[input-paths arg-names] (if (map? input-paths)
                                                 (fix-paths input-paths)
                                                 [input-paths nil])]
+                  (println input-paths arg-names)
                   (->> (flow-input context state input-paths change)
                        (input-spec ispec arg-names)
                        (update-state state output-path derive-fn message))))
