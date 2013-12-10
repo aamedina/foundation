@@ -64,9 +64,12 @@
                (let [k (first ks)]
                  (match [k data-model]
                    [nil v] (assoc-a ret arg v)
-                   [:* v] (recur (rest ks) (get v k v) ret)
+                   [:* m] 
+                   (assoc-a ret
+                            (first (map #(replace {:* %} path) (keys m)))
+                            (first (vals m)))
                    [:** v] (assoc-a ret arg v)
-                   [k {k v}] (recur (rest ks) v ret)
+                   [k {k v}] (recur (rest ks) (get v k v) ret)
                    :else nil))))
            (remove nil?)
            (into {})))
