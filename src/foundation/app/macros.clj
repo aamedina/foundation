@@ -14,7 +14,7 @@
             [foundation.app.tree :as tree]
             [foundation.app.data.tracking-map :as tm]))
 
-(declare run-dataflow match-dispatch dispatches)
+(declare run-dataflow match-dispatch dispatches derives?)
 
 (defmulti node-create identity)
 
@@ -146,27 +146,6 @@
                  (recur (vec (rest a)) (vec (rest b)))
                  :fail)))
      :succeed))
-
-(defmulti match-dispatch (fn [k & args] k))
-
-(defmethod match-dispatch :transform
-  [t {:keys [type path] :as message} & args]
-  (let [dispatches (dissoc (methods transform :default))
-        dval ((juxt :type :path) message)]
-    (for [dispatch-val (keys dispatches)]
-      (when-let [dispatch-fn (get-method transform dispatch-val)]
-        (matching-path? dval path)
-        dispatch-val))))
-
-(defmethod match-dispatch :derives
-  [t {:keys [type path] :as message} & args]
-  (let [dispatches (dissoc (methods derives) :default)]
-    (for [[paths derived-path ispec :as dispatch-val] (keys dispatches)
-          :when (some #(matching-path? path %)
-                      (if (map? paths) (keys paths) paths))]
-      (let [dispatch-fn (get dispatches dispatch-val)
-            ispec (input-spec ispec message dispatch-val)]
-        (dispatch-fn message nil (range 10))))))
 
 (defn filter-deltas
   [state deltas]
@@ -355,20 +334,20 @@
 (defn emit-phase
   [{:keys [context change] :as state}]
   (-> (reduce (fn [{:keys [change remaining-change processed-inputs] :as acc}
-                   {input-paths :in emit-fn :fn mode :mode}]
+                   [[type input-paths] emit-fn]]
                 (-> acc
                     (update-in [:remaining-change] remove-matching-changes
                                input-paths)
-                    (update-in [:processed-inputs] (fnil into []) input-paths)
+                    (update-in [:processed-inputs] (fnil into [])
+                               input-paths)
                     (update-in [:new :emit] (fnil into [])
                                (emit-fn (-> (flow-input context acc
                                                         input-paths
                                                         change)
-                                            (assoc :mode mode
-                                                   :processed-inputs
+                                            (assoc :processed-inputs
                                                    processed-inputs))))))
               (assoc state :remaining-change change)
-              (keys (methods node-create)))
+              (dissoc (methods node-create) :default))
       (dissoc :remaining-change)))
 
 (defn find-message-transformer
@@ -440,9 +419,6 @@
           state
           (dissoc (methods effect) :default)))
 
-(defn output-phase
-  [])
-
 (defn post-processing-phase
   [])
 
@@ -454,13 +430,11 @@
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
-                      derives-phase
-                      )]
+                      derives-phase)]
     (-> new-state
         effect-phase
-        ;; emit-phase
-        )
-    ))
+        emit-phase
+        :new)))
 
 (def default-msg
   {:type :default :path [:nil :**] :value "hallo"})
@@ -529,7 +503,7 @@
   ([msgs] (test-dataflow msgs @(:state (build))))
   ([msgs state]
      (-> (reduce (fn [state msg]
-                   (:new (run-dataflow state msg)))
+                   (run-dataflow state msg))
                  state msgs)
          :data-model)))
 
