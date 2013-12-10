@@ -50,24 +50,22 @@
                           :else a))
                       {} arg-names)
               (constantly :single)))]
-    (let [v-type (value-types (zipmap input-paths arg-names))
+    (let [input-paths (if (seq arg-names)
+                        (zipmap input-paths arg-names)
+                        (zipmap input-paths input-paths))
+          v-type (value-types input-paths)
           assoc-a (fn [a k v]
                     (if (= (v-type k) :seq)
                       (update-in a [k] (fnil conj []) v)
                       (assoc a k v)))]
-      (->> (for [[path arg] (if (seq arg-names)
-                              (zipmap input-paths arg-names)
-                              (zipmap input-paths input-paths))]
+      (->> (for [[path arg] input-paths]
              (loop [ks path
                     data-model data-model
                     ret {}]
                (let [k (first ks)]
                  (match [k data-model]
                    [nil v] (assoc-a ret arg v)
-                   [:* m] 
-                   (assoc-a ret
-                            (first (map #(replace {:* %} path) (keys m)))
-                            (first (vals m)))
+                   [:* m] (reduce #(assoc-a %1 arg %2) ret (vals m))
                    [:** v] (assoc-a ret arg v)
                    [k {k v}] (recur (rest ks) (get v k v) ret)
                    :else nil))))
@@ -77,7 +75,7 @@
 
 (defmethod input-spec :vals
   [_ arg-names inputs]
-  (vals (input-spec :map nil inputs)))
+  (flatten (vals (input-spec :map nil inputs))))
 
 (defmethod input-spec :map
   [_ arg-names {:keys [new-model input-paths]}]
