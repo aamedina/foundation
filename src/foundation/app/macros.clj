@@ -165,6 +165,7 @@
   (let [old-state (-> state (assoc :input message) (dissoc :effect))
         new-state (process-message state message)
         new-deltas (filter-deltas new-state (:emit new-state))]
+    (println old-state new-state new-deltas)
     (-> new-state
         (assoc :emitter-deltas new-deltas)
         (dissoc :emit))))
@@ -508,3 +509,8 @@
          :data-model)))
 
 
+(defn test-transact-one
+  [msgs]
+  (reduce (fn [state msg]
+            (transact-one state msg))
+          @(:state (build)) msgs))
