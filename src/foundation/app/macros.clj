@@ -33,9 +33,9 @@
 
 (defmethod transform :default [state msg] :default)
 
-(defmulti derives (partial match-dispatch :derives))
+(defmulti derives (fn [state msg inputs] ((juxt :type :path) msg)))
 
-(defmethod derives :default [state & args] :default)
+(defmethod derives :default [state msg inputs] :default)
 
 (defmulti effect (partial match-dispatch :effect))
 
@@ -58,13 +58,13 @@
                 data-model data-model]
            (let [pkey (first pkeys)]
              (match [pkey data-model]
-               [:* _] (recur (rest pkeys) (rest pkeys data-model))
-               [:** _] (zipmap arg-name [data-model])
-               [nil _] (zipmap arg-name [data-model])
-               [pkey {pkey _}] (recur (rest pkeys) (get data-model pkey))
+               [nil v] [arg-name v]
+               [:* v] (recur (rest pkeys) (get v pkey v))
+               [:** v] [arg-name v]
+               [pkey {pkey v}] (recur (rest pkeys) v)
                :else nil))))
        (remove nil?)
-       (reduce conj {})))
+       (into {})))
 
 (defmethod input-spec :vals
   [_ arg-names inputs]
@@ -72,7 +72,6 @@
 
 (defmethod input-spec :map
   [_ arg-names {:keys [new-model input-paths]}]
-  (println (reify-input-paths input-paths new-model arg-names))
   (reify-input-paths input-paths new-model arg-names))
 
 (defmethod input-spec :map-seq
@@ -390,7 +389,6 @@
   (let [data-model (get-in state [:new :data-model])
         new-data-model
         (apply update-in (tm/tracking-map data-model) path f args)]
-    (println new-data-model)
     (-> state
         (assoc-in [:new :data-model] @new-data-model)
         (update-in [:change] (fn [old new] (merge-with into old new))
@@ -411,9 +409,12 @@
 
 (defn derives-phase
   [{:keys [context] :as state}]
-  (if-let [dependents (d/transitive-dependents (:deps (:new state))
-                                               (:path (:message context)))]
-    (let [fix-paths (juxt (comp set keys) identity)]
+  (if-let [dependents (->> (filter (fn [x] (derives? state x))
+                                   (dissoc (methods derives) :default))
+                           (sort (d/topo-comparator (:deps (:new state))))
+                           seq)]
+    (let [fix-paths (juxt (comp set keys) identity)
+          message (:message context)]
       (reduce (fn [{:keys [change] :as state}
                    [[input-paths output-path ispec :as derive] derive-fn]]
                 (let [[input-paths arg-names] (if (map? input-paths)
@@ -421,10 +422,8 @@
                                                 [input-paths nil])]
                   (->> (flow-input context state input-paths change)
                        (input-spec ispec arg-names)
-                       (update-state state output-path derive-fn))
-                  state))
-              state (filter #(derives? state %)
-                            (dissoc (methods derives) :default))))    
+                       (update-state state output-path derive-fn message))))
+              state dependents))
     state))
 
 (defn effect-phase
@@ -471,18 +470,19 @@
 
 (defmethod derives [#{[:my-counter]
                       [:other-counters :*]} [:total-count] :vals]
-  [message state nums]
+  [state message nums]
   (reduce + nums))
 
 (defmethod derives [#{[:my-counter]
                       [:other-counters :*]} [:max-count] :vals]
-  [message old-value nums]
+  [old-value message nums]
   (apply max (or old-value 0) nums))
 
 (defmethod derives [{[:my-counter] :nums
                      [:other-counters :*] :nums
                      [:total-count] :total} [:average-count] :map]
-  [message old-value {:keys [nums total]}]
+  [old-value message {:keys [nums total]}]
+  (println old-value message nums total)
   (/ total (count nums)))
 
 (defmethod post-process [:value [:average-count]]
