@@ -229,22 +229,48 @@
   (doseq [message script]
     (put! (:input app) message)))
 
-(defmulti depends (comp first keys))
+(defn root-paths
+  [graph]
+  (->> (d/nodes graph)
+       (mapcat (juxt (fn [k n] n) d/transitive-dependencies) (repeat graph))
+       (apply hash-map)
+       (filter #(nil? (val %)))
+       (keys)))
+
+(defn derived-paths
+  [graph]
+  (->> (d/nodes graph)
+       (mapcat (juxt (fn [k n] n) d/transitive-dependencies) (repeat graph))
+       (apply hash-map)
+       (remove #(nil? (val %)))
+       (keys)))
+
+(defmulti depends (fn [dm graph] (-> dm keys first)))
 
 (defmethod depends :transform
-  [dispatch-map]
-  (println dispatch-map))
+  [{:keys [transform]} graph]
+  (let [[type path] (key transform)]
+    graph))
+
 (defmethod depends :derives
-  [dispatch-map]
-  (println dispatch-map))
+  [{:keys [derives]} graph]
+  (let [[input-paths output-path input-spec] (key derives)
+        input-paths (or (and (map? input-paths) (keys input-paths))
+                        input-paths)]
+    (reduce #(d/depend %1 output-path %2) graph input-paths)))
+
 (defmethod depends :effect
-  [dispatch-map]
-  (println dispatch-map))
+  [dispatch-map graph]
+  graph)
+
+(defmethod depends :default
+  [dispatch-map graph]
+  graph)
 
 (defn build-dependency-graph
   []
   (reduce (fn [graph dispatch-map]
-            (depends dispatch-map))
+            (depends dispatch-map graph))
           (d/graph)
           dispatches))
 
@@ -442,7 +468,7 @@
 
 (def dispatches
   (->> [transform derives effect]
-       (map methods)
+       (map #(dissoc (methods %) :default))
        (map assoc (repeat {}) [:transform :derives :effect])
        (reduce (fn [xrel dispatches]
                  (->> (first (vals dispatches))
