@@ -272,12 +272,12 @@
   ([] (build-dependency-graph {}))
   ([app]
      (reduce (fn [graph dispatch-map] (depends dispatch-map graph))
-             (or (:dependencies app) (d/graph)) dispatches)))
+             (or (:deps app) (d/graph)) dispatches)))
 
 (defn build
   []
   (let [dependencies (build-dependency-graph)
-        app-atom (atom {:data-model {} :dependencies dependencies})
+        app-atom (atom {:data-model {} :deps dependencies})
         input-queue (chan)
         output-queue (chan)
         app-model-queue (chan)]
@@ -349,7 +349,7 @@
 (defn find-message-transformer
   [multifn message]
   (let [dispatch-fn (.-dispatchFn multifn)
-        dispatch-val (dispatch-fn message)
+        dispatch-val (dispatch-fn nil message)
         dispatches (dissoc (methods multifn) :default)]
     (if-let [transformer (get dispatches dispatch-val)]
       [transformer]
@@ -363,7 +363,8 @@
 (defn update-state
   [state path f & args]
   (let [data-model (get-in state [:new :data-model])
-        new-data-model (update-in (tm/tracking-map data-model) path f args)]
+        new-data-model
+        (apply update-in (tm/tracking-map data-model) path f args)]
     (-> state
         (assoc-in [:new :data-model] @new-data-model)
         (update-in [:change] (fn [old new] (merge-with into old new))
@@ -372,8 +373,7 @@
 (defn transform-phase
   [{:keys [new context] :as state}]
   (let [{:keys [type path] :as message} (:message context)
-        transform-fn (first (find-message-transformer transform message))]
-    (println type path)
+        transform-fn (first (find-message-transformer transform message))]    
     (update-state state path transform-fn message)))
 
 (defn derives?
@@ -419,7 +419,7 @@
                       transform-phase
                       ;; derives-phase
                       )]
-    (println state new-state)
+    new-state
     ;; (:new (-> new-state
     ;;           effect-phase
     ;;           emit-phase))
@@ -436,11 +436,11 @@
 
 (defmethod transform [:inc [:my-counter]]
   [state _]
-  (println _ state)
   ((fnil inc 0) state))
 
 (defmethod transform [:swap [:**]]
   [_ message]
+  (println (:value message) _)
   (:value message))
 
 (defmethod derives [#{[:my-counter]
@@ -491,7 +491,7 @@
 
 (defn test-dataflow
   [msg]
-  (run-dataflow @(:state (build)) msg))
+  (:data-model (:new (run-dataflow @(:state (build)) msg))))
 
 (defn shuffle-expr
   [expr]
