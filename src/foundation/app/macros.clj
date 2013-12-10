@@ -26,7 +26,7 @@
 
 (defmethod derives :default [state msg inputs] :default)
 
-(defmulti effect (partial match-dispatch :effect))
+(defmulti effect (fn [state msg inputs] ((juxt :type :path) msg)))
 
 (defmulti post-process (juxt first second))
 
@@ -404,11 +404,10 @@
 (defn derives?
   [{:keys [context] :as state}
    [[input-paths output-path ispec :as derive] derive-fn]]
-  (println (filter #(matching-path? (:path (:message context)) %)
-                   (d/nodes (:deps (:new state)))))
-  (and (seq (d/transitive-dependents (:deps (:new state))
-                                     (:path (:message context))))
-       (propagate? state input-paths)))
+  (let [nodes (d/nodes (:deps (:new state)))
+        path (:path (:message context))
+        node-for-path (first (filter #(matching-path? path %) nodes))]
+    (d/transitive-dependents (:deps (:new state)) node-for-path)))
 
 (defn derives-phase
   [{:keys [context] :as state}]
@@ -417,7 +416,7 @@
                            (sort (d/topo-comparator (:deps (:new state))))
                            seq)]
     (let [fix-paths (juxt (comp set keys) vals)
-          message (:message context)]
+          message (:message context)]     
       (reduce (fn [{:keys [change] :as state}
                    [[input-paths output-path ispec :as derive] derive-fn]]
                 (let [[input-paths arg-names] (if (map? input-paths)
@@ -430,7 +429,16 @@
     state))
 
 (defn effect-phase
-  [])
+  [{:keys [context] :as state}]
+  (reduce (fn [{:keys [change] :as state}
+               [[input-paths ispec :as effect] effect-fn]]
+            (if (derives? state effect)
+              (update-in state [:new :effect] (fnil into [])
+                         (->> (flow-input context state input-paths change)
+                              (input-spec ispec)
+                              (apply effect-fn)))))
+          state
+          (dissoc (methods effect) :default)))
 
 (defn output-phase
   [])
@@ -448,10 +456,10 @@
                       transform-phase
                       derives-phase
                       )]
-    new-state
-    ;; (:new (-> new-state
-    ;;           effect-phase
-    ;;           emit-phase))
+    (-> new-state
+        effect-phase
+        ;; emit-phase
+        )
     ))
 
 (def default-msg
