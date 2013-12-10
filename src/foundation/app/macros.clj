@@ -268,24 +268,22 @@
   graph)
 
 (defn build-dependency-graph
-  []
-  (reduce (fn [graph dispatch-map]
-            (depends dispatch-map graph))
-          (d/graph)
-          dispatches))
+  ([] (build-dependency-graph {}))
+  ([app]
+     (reduce (fn [graph dispatch-map] (depends dispatch-map graph))
+             (or (:dependencies app) (d/graph)) dispatches)))
 
 (defn build
   []
-  (let [app-atom (atom {:data-model {}})
+  (let [dependencies (build-dependency-graph)
+        app-atom (atom {:data-model {} :dependencies dependencies})
         input-queue (chan)
         output-queue (chan)
-        app-model-queue (chan)
-        dependencies (build-dependency-graph)]
+        app-model-queue (chan)]
     (receive-input-message app-atom input-queue)
     (send-effects app-atom output-queue)
     (send-app-model-deltas app-atom app-model-queue)
-    {:state app-atom
-     :dependencies dependencies
+    {:state app-atom     
      :input input-queue
      :output output-queue
      :app-model app-model-queue}))
@@ -376,21 +374,29 @@
         transform-fn (first (find-message-transformer transform message))]
     (update-state state path transform-fn message)))
 
+(defn derives?
+  [{:keys [context] :as state}
+   [[input-paths output-path ispec :as derive] derive-fn]]
+  (let [message (:message context)
+        dependents (d/transitive-dependents (:dependencies state)
+                                            (:path message))]
+    (seq dependents)))
+
 (defn derives-phase
   [{:keys [new context] :as state}]
-  (reduce (fn [{:keys [change] :as state}
-               [[input-paths output-path ispec :as derive] derive-fn]]
-            (let [[input-paths arg-names]
-                  (if (map? input-paths)
-                    [(set (keys input-paths)) input-paths]
-                    [input-paths nil])]
-              (if (propagate? state input-paths)
-                (update-state
-                 state output-path derive-fn
-                 (->> (flow-input context state input-paths change)
-                      (input-spec ispec)))
-                state)))
-          state (dissoc (methods derives) :default)))
+  (let [message (:message context)
+        dependents (d/transitive-dependents (:dependencies state)
+                                            (:path message))
+        fix-paths (juxt (comp set keys) identity)]
+    (reduce (fn [{:keys [change] :as state}
+                 [[input-paths output-path ispec :as derive] derive-fn]]
+              (let [[input-paths arg-names] (if (map? input-paths)
+                                              (fix-paths input-paths)
+                                              [input-paths nil])]
+                (->> (flow-input context state input-paths change)
+                     (input-spec ispec)
+                     (update-state state output-path derive-fn))))
+            state (filter derives? (dissoc (methods derives) :default)))))
 
 (defn effect-phase
   [])
@@ -438,7 +444,7 @@
 
 (defmethod derives [#{[:my-counter]
                       [:other-counters :*]} [:max-count] :vals]
-  [message old-value nums]  
+  [message old-value nums]
   (apply max (or old-value 0) nums))
 
 (defmethod derives [{[:my-counter] :nums
