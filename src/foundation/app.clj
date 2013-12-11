@@ -27,15 +27,16 @@
             [clojure.zip :as zip]))
 
 (defmacro defmodel
-  [name params {:keys [url views] :as conditions} & body]
+  [name params {:keys [url api] :as m} & body]
   (let [compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
                             ((juxt keys vals))
                             (apply zipmap))
-        conditions (select-keys conditions [:pre :post])
-        m (dissoc conditions :pre :post)]
+        conditions (select-keys m [:pre :post])
+        m (dissoc m :pre :post)]
     `(do (def ~((comp symbol inflect/plural str) name)
-           ~(assoc m
-              :url compiled-route))
+           ~(merge compiled-route (assoc m
+                                    :url url
+                                    :api api)))
          (defn ~name
            ([{:keys [~@params] :as m#}] ~conditions
               (when (map? m#)
@@ -44,34 +45,30 @@
               (with-meta (zipmap [~@(map keyword params)] ~params)
                 {:model ~(keyword name)}))))))
 
-(defmodel account [name id currency timezone]
-  {:url "/accounts/:id"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+;; (defmulti column (juxt (comp :model meta) first))
 
-(defmulti column (juxt (comp :model meta) first))
+;; (defmethod column [:account :name]
+;;   [[attr v]]
+;;   (html [:th {:id attr} "Name"]))
 
-(defmethod column [:account :name]
-  [[attr v]]
-  (html [:th {:id attr} "Name"]))
+;; (defmethod column [:account :select-all]
+;;   [[attr v]]
+;;   (html [:th {:id attr} "Select All"]))
 
-(defmethod column [:account :select-all]
-  [[attr v]]
-  (html [:th {:id attr} "Select All"]))
+;; (defmethod column '[_ :id]
+;;   [[attr v]]
+;;   (html [:th {:id attr} "ID"]))
 
-(defmethod column '[_ :id]
-  [[attr v]]
-  (html [:th {:id attr} "ID"]))
+;; (defmethod column [:account :currency]
+;;   [[attr v]]
+;;   (html [:th {:id attr} "Currency"]))
 
-(defmethod column [:account :currency]
-  [[attr v]]
-  (html [:th {:id attr} "Currency"]))
+;; (defmethod column [:account :timezone]
+;;   [[attr v]]
+;;   (html [:th {:id attr} "Timezone"]))
 
-(defmethod column [:account :timezone]
-  [[attr v]]
-  (html [:th {:id attr} "Timezone"]))
+;; (defn attrs
+;;   [model]
+;;   (map #(with-meta (into [] %) (meta model)) model))
 
-(defn attrs
-  [model]
-  (map #(with-meta (into [] %) (meta model)) model))
-
-(def acct (apply account (repeat 4 "")))
+;; (def acct (apply account (repeat 4 "")))

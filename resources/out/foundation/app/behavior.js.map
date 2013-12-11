@@ -1,0 +1,16 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/behavior.js",
+ "sources":["behavior.cljs"],
+ "lineCount":60,
+ "mappings":
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAuBA,AAAAA,gCAAAC,yBAAA,mFAAA,mDAAA,mFAAA,iFAAA,oBAAA,TACGC,MAAMC,GACP,OAAC,uCAAA,vCAACC,yBAAKC,2BAAOH;;AAEhB,AAAAF,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,iEAAA,sBAAA,XACGE,EAAEG,SACH,OAAA,qFAAQA;;AAEV,AAAAN,gCAAAC,yBAAA,mFAAA,iEAAA,mFAAA,iFAAA,8BAAA,nBACGM,UAAUD,SACX,IAAAE,2HAAA,AAAA,oBAAAA,1HAAgB,mGAAA,lGAAK,AAAA,uFAASF;CAA9B,aAAAE,mBAAA,5BAASC,4BACP,QAAGF,YAAUE;;CACbF;;;AAEJ,AAAAP,gCAAAU,uBAAA,mFAAA,uCAAA,mFAAA,yEAAA,uDAAA,mFAAA,iFAAA,mFAAA,2EAAA,6DAAA,+BAAA,pBAEGR,MAAMI,QAAQK,MACf,OAACC,2BAAOC,iBAAEF;;AAEZ,AAAAX,gCAAAU,uBAAA,mFAAA,uCAAA,mFAAA,yEAAA,uDAAA,mFAAA,iFAAA,mFAAA,uEAAA,6DAAA,mCAAA,xBAEGH,UAAUD,QAAQK,MACnB,OAACG,0BAAMC,cAAI,iBAAAC,6BAAA,AAAA,oBAAAA,9BAAIT;CAAJS;;CAAA;;KAAiBL;;AAE9B,AAAAX,gCAAAU,uBAAA,mFAAA,4CAAA,mFAAA,yEAAA,qDAAA,mFAAA,yEAAA,uDAAA,qDAAA,mFAAA,2EAAA,sEAAA,mFAAA,+EAAA,2DAAA,6BAAAO,UAAA,AAAA,IAAAC,aAAAD,aAAAC,iBAAA,EAAA,AAAAC,+BAAAD,aAAA,AAAAJ,0BAAAM,mBAAAF,YAAAA,oBAAAA,2BAAA,AAAAG,wBAAAH,eAAA,mEAAA,AAAAG,wBAAAH,eAAA,sDAAA,xaAGGX,UAAUD,0TAAgBK,3GAAKW,vBAAWC,sOAC3C,QAAGD,QAAM,AAACE,0BAAMb;;AAElB,AAAAX,gCAAAyB,4BAAA,mFAAA,uCAAA,mFAAA,iFAAA,yEAAA,0BAAA,AAAA,0FAAA,wEAAA,iFAAA,mFAAA,iFAAA,taACGnB,QAAQoB,6IACPC,iFAAeC,uPAAkCF",
+ "names":
+ ["cljs.core/-add-method", "foundation.app/transform", "state", "_",
+  "cljs.core/fnil", "cljs.core/inc", "message", "old-value",
+  "temp__4096__auto__", "points", "foundation.app/derives", "nums",
+  "cljs.core/reduce", "cljs.core/+", "cljs.core/apply",
+  "cljs.core/max", "or__7730__auto__", "p__35124", "map__35125",
+  "cljs.core/seq?", "cljs.core/hash-map", "cljs.core/get", "total",
+  "m", "cljs.core/count", "foundation.app/route-effect", "count",
+  "foundation.app.message/type", "foundation.app.message/path"]}

@@ -1,0 +1,43 @@
+// Compiled by ClojureScript 0.0-2080
+goog.provide('foundation.app.services');
+goog.require('cljs.core');
+goog.require('foundation.app');
+goog.require('cljs.core.async');
+goog.require('clojure.zip');
+goog.require('foundation.app');
+goog.require('enfocus.events');
+goog.require('foundation.app.message');
+goog.require('foundation.app.models');
+goog.require('enfocus.events');
+goog.require('clojure.zip');
+goog.require('enfocus.core');
+goog.require('dommy.core');
+goog.require('foundation.app.xhr');
+goog.require('enfocus.core');
+goog.require('foundation.app.rendering');
+goog.require('foundation.app.util');
+goog.require('clojure.set');
+goog.require('foundation.app.templates');
+goog.require('clojure.string');
+goog.require('foundation.app');
+goog.require('foundation.app.templates');
+goog.require('clojure.string');
+goog.require('foundation.app.behavior');
+goog.require('cljs.core.match');
+goog.require('clojure.browser.repl');
+goog.require('clojure.set');
+goog.require('foundation.app.message');
+goog.require('foundation.app.models');
+goog.require('cljs.core.match');
+goog.require('cljs.core.async');
+goog.require('foundation.app.xhr');
+goog.require('foundation.app.util');
+goog.require('foundation.app.rendering');
+goog.require('foundation.app.behavior');
+goog.require('dommy.core');
+cljs.core._add_method.call(null,foundation.app.effect,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"swap","swap",1017447685),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"other-counters","other-counters",3756872582)], null)], null),(function (message,input_queue){return null;
+}));
+cljs.core._add_method.call(null,foundation.app.effect,new cljs.core.Keyword(null,"default","default",2558708147),(function (message,input_queue){return cljs.core.println.call(null,[cljs.core.str("Sending message to server: "),cljs.core.str(message)].join(''));
+}));
+
+//# sourceMappingURL=services.js.map

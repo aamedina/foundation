@@ -11,7 +11,8 @@
             [foundation.app.tree :as tree]
             [foundation.app.dataflow :as df]
             [foundation.app.data.component :as c]
-            [foundation.app.data.tracking-map :as tm]
+            [foundation.app.data.tracking-map :as tm]            
+            [foundation.app.xhr :as xhr]
             [enfocus.core :as en]
             [enfocus.events :as events]
             [dommy.core :as dom])
@@ -26,7 +27,7 @@
          node-create node-update node-destroy)
 
 (defmulti node-create
-  (fn [renderer [_ path _ _] input-queue id]
+  (fn [renderer [_ path _ _] input-queue parent-id id]
     (let [nodes (keys (dissoc (methods node-create) :default))
           matching (set (filter #(matching-path? path %) nodes))]
       (cond
@@ -39,8 +40,15 @@
 (defmethod node-create :default [renderer delta input-queue])
 
 (defmulti node-update
-  (fn [renderer [_ path _ _] input-queue id node]
-    [(if-not (keyword? id) (keyword id) id) path]))
+  (fn [renderer [_ path _ _] input-queue parent-id]
+    (let [nodes (keys (dissoc (methods node-create) :default))
+          matching (set (filter #(matching-path? path %) nodes))]
+      (cond
+        (contains? matching path) path
+        (seq (disj matching [:**] [:*] []))
+        (first (disj matching [:**] [:*] []))
+        (seq matching) (first matching)
+        :else :default))))
 
 (defmethod node-update :default [& args] nil)
 
@@ -57,9 +65,18 @@
 
 (defmethod node-destroy :default [& args])
 
-(defmulti transform-enable (fn [renderer delta input-queue] (second delta)))
+(defmulti transform-enable
+  (fn [renderer [_ path _ _] id message]
+    (let [nodes (keys (dissoc (methods node-create) :default))
+          matching (set (filter #(matching-path? path %) nodes))]
+      (cond
+        (contains? matching path) path
+        (seq (disj matching [:**] [:*] []))
+        (first (disj matching [:**] [:*] []))
+        (seq matching) (first matching)
+        :else :default))))
 
-(defmethod transform-enable :default [renderer delta input-queue])
+(defmethod transform-enable :default [& args] [])
 
 (defmulti transform-disable (fn [renderer delta input-queue] (second delta)))
 
@@ -87,7 +104,8 @@
 
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
 
-(defmulti route-effect (fn [message inputs] ((juxt msg/type msg/path) message)))
+(defmulti route-effect
+  (fn [message inputs] ((juxt msg/type msg/path) message)))
 
 (defmethod route-effect :default [message inputs] [])
 
@@ -108,6 +126,8 @@
   (set-data! [this ks d])
   (drop-data! [this ks])
   (get-data [this ks]))
+
+(defn fix-id [s] (if-not (keyword? s) (keyword (str "#" s)) s))
 
 (defn- run-on-destroy!
   [env]
@@ -154,10 +174,11 @@
            (let [[op path] d
                  id (if-let [id (get-id renderer path)]
                       id
-                      (new-id! renderer path))]
+                      (new-id! renderer path))
+                 parent-id (fix-id (get-parent-id renderer path))]
              (case op
-               :node-create (node-create renderer d input-queue id)
-               :node-update (node-update renderer d input-queue id (sel1 id))
+               :node-create (node-create renderer d input-queue parent-id id)
+               :node-update (node-update renderer d input-queue parent-id)
                :node-destroy (node-destroy renderer d input-queue id)
                :value (node-update renderer d input-queue id (sel1 id))
                :attr (node-update renderer d input-queue id (sel1 id))
@@ -570,94 +591,19 @@
                       emit-phase)]
     (:new new-state)))
 
-(def swap-msg
-  {msg/type :swap msg/path [:other-counters "abc"] :value 42})
+(defaction bind-event
+  [e id f]
+  [(fix-id id)] (events/listen e f))
 
-(def inc-msg
-  {msg/type :inc msg/path [:my-counter]})
-
-(defmethod transform [:inc [:my-counter]]
-  [state _]
-  ((fnil inc 0) state))
-
-(defmethod transform [:swap [:**]]
-  [_ message]
-  (:value message))
-
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:total-count] :vals]
-  [state message nums]
-  (reduce + nums))
-
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:max-count] :vals]
-  [old-value message nums]
-  (apply max (or old-value 0) nums))
-
-(defmethod derives [{[:my-counter] :nums
-                     [:other-counters :*] :nums
-                     [:total-count] :total} [:average-count] :map]
-  [old-value message {:keys [nums total] :as m}]
-  (/ total (count nums)))
-
-(defmethod route-effect [#{[:my-counter]} :single-val]
-  [message count]
-  [{msg/type :swap msg/path [:other-counters] :value count}])
-
-(defaction click-handler
-  [message]
-  [:#button1] (ef/content message))
-
-(defaction setup
-  []
-  [:#button1] (events/listen :click #(click-handler "I have been clicked")))
-
-(defn transform-enable!
-  [event type path])
-
-(defmethod node-create []
-  [renderer [_ path _ val] input-queue id]
-  (en/at js/document
-    [:body] (en/do->
-             (en/set-attr :id id)
-             (en/content "Hello, world!" (en/html [:h1 "hello"]))
-             (en/append (en/html [:button#button1 "button"]))))
-  )
-
-;; (defmethod node-create [:*]
-;;   [renderer [_ path _ val] input-queue]
-;;   (println path val))
-
-;; (defmethod node-create [:my-counter]
-;;   [renderer [_ path _ val] input-queue]
-;;   (println path val))
-
-;; (defmethod node-create [:other-counters :*]
-;;   [renderer [_ path _ val] input-queue]
-;;   (println path val))
-
-;; (defmethod node-create [:average-count]
-;;   [renderer [_ path _ val] input-queue]
-;;   (println path val))
-
-(defmethod node-update [:my-counter]
-  [renderer [_ path old-val new-val :as delta] input-queue node]
-  (println path old-val new-val node))
-
-(defmethod post-process [:value [:average-count]]
-  [[op path n]]
-  (letfn [(round [n places]
-            (let [p (Math/pow 10 places)]
-              (/ (Math/round (* p n)) p)))]
-    [[op path (round n 2)]]))
-
-(defmethod effect [:swap [:other-counters]]
-  [message input-queue]
-  (println (str "Sending message to server: " message)))
-
-(defmethod effect :default
-  [message input-queue]
-  (println (str "Sending message to server: " message)))
+(defaction attach-transform
+  [renderer event id type path input-queue]
+  (let [partial-message {msg/type type msg/path path}
+        event-handler
+        (fn [e]
+          (doseq [message
+                  (transform-enable renderer [type path] id partial-message)]
+            (put! input-queue message)))]
+    (bind-event event id event-handler)))
 
 (def dispatches
   (->> [transform derives effect]
@@ -673,39 +619,9 @@
 (defn log-fn [deltas] (util/log-group "Rendering Deltas" deltas))
 
 (defn create-app
-  [& {:keys [services init-messages]}]
+  [root-id & {:keys [services init-messages]}]
   (let [app (build)
-        render-fn (renderer "content" log-fn)
+        render-fn (renderer root-id log-fn)
         app-model (consume-app-model app render-fn)]
     (consume-effects app)
     (def ^:dynamic *app* {:app app :app-model app-model})))
-
-(def counters (atom {"abc" 0 "xyz" 0}))
-
-(defn increment-counter
-  [k t input-queue]
-  (go-loop []
-    (put! input-queue {msg/type :swap msg/path [:other-counters k]
-                       :value (get (swap! counters update-in [k] inc) k)})
-    (<! (timeout t))
-    (recur)))
-
-(defn receive-messages
-  [input-queue]
-  (increment-counter "abc" 2000 input-queue)
-  (increment-counter "xyz" 5000 input-queue))
-
-(defrecord MockServices [app]
-  c/Lifecycle
-  (start [_]
-    (receive-messages (:input app)))
-  (stop [_]))
-
-(defn reset [] (js/location.reload true))
-
-(defn ^:export -main []
-  (let [app (create-app)]
-    (put! (:input (:app *app*)) inc-msg)
-    app))
-
-(enable-console-print!)

@@ -1,0 +1,10 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/services.js",
+ "sources":["services.cljs"],
+ "lineCount":43,
+ "mappings":
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAwBA,AAAAA,gCAAAC,sBAAA,mFAAA,qDAAA,mFAAA,yFAAA,gCAAA,AAAA,rBACGC,QAAQC;;AAGX,AAAAH,gCAAAC,sBAAA,2DAAA,gCAAA,rBACGC,QAAQC,aACT,OAACC,4BAAQ,eAAA,6CAAmCF",
+ "names":
+ ["cljs.core/-add-method", "foundation.app/effect", "message",
+  "input-queue", "cljs.core/println"]}

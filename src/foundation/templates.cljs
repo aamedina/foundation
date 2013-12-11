@@ -8,5 +8,6 @@
                    [cljs.core.async.macros :as a :refer [go go-loop]]))
 
 (deftemplate twitter-power
-  []
-  [:div#content "Hello, world!"])
+  [id]
+  [:div {:id id}
+   ])
