@@ -1,20 +1,17 @@
-(ns foundation.app.macros
+(ns foundation.app
   (:require [clojure.set :as set]
             [clojure.string :as str]
             [clojure.repl :refer [doc]]
             [clojure.zip :as zip]
-            [clojure.pprint :refer [pprint]]
-            [clojure.math.combinatorics :as com]
-            [clojure.tools.namespace.repl :refer [refresh-all]]
-            [clojure.core.match :as m :refer [match]]
-            [clojure.core.async
-             :refer [go go-loop chan <! >! <!! put! take! timeout alts!]]
-            [clojure.core.reducers :as r]
+            [cljs.core.match :as m]
+            [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app.dependency :as d]
             [foundation.app.tree :as tree]
             [foundation.app.dataflow :as df]
             [foundation.app.component :as c]
-            [foundation.app.data.tracking-map :as tm]))
+            [foundation.app.data.tracking-map :as tm])
+  (:require-macros [cljs.core.match :as m :refer [match]]
+                   [cljs.core.async :as a :refer [go go-loop]]))
 
 (declare run-dataflow match-dispatch dispatches derives? matching-path?)
 

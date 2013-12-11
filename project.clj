@@ -7,7 +7,7 @@
   :dependencies [[org.clojure/clojure "1.6.0-alpha3"]
                  [org.clojure/clojurescript "0.0-2080"]
                  [org.clojure/tools.namespace "0.2.4"]
-                 [org.clojure/core.async "0.1.256.0-1bf8cf-alpha"]
+                 [org.clojure/core.async "0.1.262.0-151b23-alpha"]
                  [org.clojure/math.combinatorics "0.0.7"]
                  [org.clojure/core.match "0.2.0"]
                  [foundation/cljs.core.logic "0.1.0-SNAPSHOT"]
