@@ -25,18 +25,18 @@
                  [garden "1.1.4"]
                  [avl.clj "0.0.9"]
                  [criterium "0.4.2"]]
-  :source-paths ["dev" "src" "target/classes"]
+  :source-paths ["dev" "src"]
   :main user
   :jvm-opts ["-Xmx1g" "-server"]
   :plugins [[com.cemerick/austin "0.1.3"]
             [com.cemerick/clojurescript.test "0.2.1"]
             [lein-cljsbuild "1.0.1-SNAPSHOT"]]
   :hooks [leiningen.cljsbuild]
-  :cljsbuild {:builds [{:source-paths ["target/classes" "test"]
+  :cljsbuild {:builds [{:source-paths ["src"]
                         :compiler {:output-to "resources/main.js"
                                    :output-dir "resources/out"
                                    :source-map "resources/main.js.map"
-                                   :source-map-path "out"
+                                   :source-map-path "resources/out"
                                    :optimizations :none}}
                        ;; {:source-paths ["src" "test"]
                        ;;  :compiler {:output-to "resources/simple.js"

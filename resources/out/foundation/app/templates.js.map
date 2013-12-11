@@ -1,0 +1,9 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/templates.js",
+ "sources":["templates.cljs"],
+ "lineCount":15,
+ "mappings":
+ ";AAAC;;;;;;;;AASA,yCAAA,0BAAA,AAAA,IAAAA,WAAA,AAAAC,uBAAA,OAAA,AAAA,AAAAD,sBAAA,KAAA,3IAAaE;AAAb,AAAAF,qBAAA,AAAAC,wBAAA;AAAAD",
+ "names":
+ ["dom66759", "js/document", "foundation.app.templates/twitter-power"]}
