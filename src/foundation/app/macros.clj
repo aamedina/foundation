@@ -8,25 +8,44 @@
             [clojure.tools.namespace.repl :refer [refresh-all]]
             [clojure.core.match :as m :refer [match]]
             [riddley.walk :refer [walk-exprs macroexpand-all]]
-            [clojure.core.async :refer [go go-loop chan <! >! <!! put! take!]]
+            [clojure.core.async
+             :refer [go go-loop chan <! >! <!! put! take! timeout alts!]]
             [clojure.core.reducers :as r]
             [foundation.app.dependency :as d]
             [foundation.app.tree :as tree]
+            [foundation.app.dataflow :as df]
+            [foundation.app.component :as c]
             [foundation.app.data.tracking-map :as tm]))
 
-(declare run-dataflow match-dispatch dispatches derives?)
+(declare run-dataflow match-dispatch dispatches derives? matching-path?)
 
-(defmulti node-create identity)
+(defmulti node-create (fn [renderer delta input-queue] (second delta)))
+
+(defmethod node-create :default [renderer delta input-queue])
+
+(defmulti node-destroy (fn [renderer delta input-queue] (second delta)))
+
+(defmethod node-destroy :default [renderer delta input-queue])
+
+(defmulti transform-enable (fn [renderer delta input-queue] (second delta)))
+
+(defmethod transform-enable :default [renderer delta input-queue])
+
+(defmulti transform-disable (fn [renderer delta input-queue] (second delta)))
+
+(defmethod transform-disable :default [renderer delta input-queue])
 
 (defmulti transform (fn [state msg] ((juxt :type :path) msg)))
 
-(defmethod transform :default [state msg] :default)
+(defmethod transform :default [state msg] nil)
 
 (defmulti derives (fn [state msg inputs] ((juxt :type :path) msg)))
 
-(defmethod derives :default [state msg inputs] :default)
+(defmethod derives :default [state msg inputs] nil)
 
-(defmulti effect (fn [state msg inputs] ((juxt :type :path) msg)))
+(defmulti effect (fn [msg input-queue] ((juxt :type :path) msg)))
+
+(defmethod effect :default [message input-queue] nil)
 
 (defmulti post-process (juxt first second))
 
@@ -37,6 +56,164 @@
 (defmethod pre-process :default [message] [message])
 
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
+
+(defmulti route-effect (fn [message inputs] ((juxt :type :path) message)))
+
+(defmethod route-effect :default [message inputs] [])
+
+(def search-ops {:node-create #{:node-* :*}
+                 :node-destroy #{:node-* :*}
+                 :value #{:value :*}
+                 :attr #{:attr :*}
+                 :transform-enable #{:transform-* :*}
+                 :transform-disable #{:transform-* :*}})
+
+(defn real-path [op path]
+  (cons op (conj (vec (interleave (repeat :children) path)) :handler)))
+
+(defn add-handler [handlers op path f]
+  (assoc-in handlers (real-path op path) f))
+
+(defn add-handlers
+  ([hs] (add-handlers {} hs))
+  ([m hs] (reduce (fn [acc [op path f]] (add-handler acc op path f)) m hs)))
+
+(defn matching-keys [ks p]
+  (filter (fn [k]
+            (or (= k p)
+                (= k :*)
+                (= k :**)
+                (when (contains? search-ops p)
+                  (contains? (p search-ops) k))))
+          ks))
+
+(defn sort-keys [ks]
+  (let [sorted-keys (remove #(= % :**) (sort ks))]
+    (reverse (if (> (count ks) (count sorted-keys))
+               (conj sorted-keys :**)
+               sorted-keys))))
+
+(defn select-matches [handlers p]
+  (let [keys (matching-keys (keys handlers) p)]
+    (map (fn [k] [k (get handlers k)]) (sort-keys keys))))
+
+(defn find-handler* [handlers path]
+  (if (empty? path)
+    (:handler handlers)
+    (some (fn [[k v]]
+            (if-let [handler (find-handler* v (rest path))]
+              handler
+              (when (= k :**) (:handler v))))
+          (select-matches (:children handlers) (first path)))))
+
+(defn find-handler [handlers op path]
+  (find-handler* {:children handlers} (vec (cons op path))))
+
+(defprotocol DomMapper
+  (get-id [this path])
+  (get-parent-id [this path])
+  (new-id! [this path] [this path v]
+    "Create a new id for this given path.
+    Store this id in the renderer's environment.
+    Returns the generated id. An id can be provided as a third
+    argument.")
+  (delete-id! [this path]
+    "Delete this id and all information associated with it from the
+    environment. This will also delete all ids and information
+    associated with child nodes.")
+  (on-destroy! [this path f]
+    "Add a function to be called when the node at path is destroyed.")
+  (set-data! [this ks d])
+  (drop-data! [this ks])
+  (get-data [this ks]))
+
+(defn- run-on-destroy!
+  [env]
+  (let [nodes (tree-seq (constantly true)
+                        (fn [n]
+                          (map #(get n %) (remove #{:id :on-destroy :_data}
+                                                  (keys n)))) env)]
+    (doseq [f (mapcat :on-destroy nodes)]
+      (f))))
+
+(defrecord DomRenderer [env]
+  DomMapper
+  (get-id [this path]
+    (if (seq path)
+      (get-in @env (conj path :id))
+      (:id @env)))
+  (get-parent-id [this path]
+    (when (seq path)
+      (get-id this (vec (butlast path)))))
+  (new-id! [this path]
+    (new-id! this path (gensym)))
+  (new-id! [this path v]
+    (swap! env assoc-in (conj path :id) v)
+    v)
+  (delete-id! [this path]
+    (run-on-destroy! (get-in @env path))
+    (swap! env assoc-in path nil))
+  (on-destroy! [this path f]
+    (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
+  (set-data! [this ks d]
+    (swap! env assoc-in (concat [:_data] ks) d))
+  (drop-data! [this ks]
+    (swap! env update-in (concat [:_data] (butlast ks)) dissoc (last ks)))
+  (get-data [this ks]
+    (get-in @env (concat [:_data] ks))))
+
+(defn renderer
+  ([root-id]
+     (renderer root-id identity))
+  ([root-id log-fn]
+     (let [renderer (->DomRenderer (atom {:id root-id}))]
+       (fn [deltas input-queue]
+         (log-fn deltas)
+         (doseq [d deltas]
+           (let [[op path] d]
+             (node-create renderer d input-queue)))))))
+
+(defn push-render-queue
+  [root-id input-queue]
+  (let [renderer (->DomRenderer (atom {:id root-id}))
+        render-queue (chan)]
+    (go-loop []
+      (let [message (<! render-queue)
+            [op path] message]
+        (node-create renderer message input-queue))
+      (recur))
+    render-queue))
+
+(defn filter-changes [{:keys [processed-inputs]} changes]
+  (remove (fn [[k v]] (some (partial matching-path? k)
+                            processed-inputs)) changes))
+
+(letfn [(prefixed [k p] (vec (concat (if (keyword? p) [p] p) k)))]
+  (defn default-emitter
+    [prefix]
+    (fn [inputs]
+      (vec (concat (let [added (->> inputs
+                                    df/added-inputs
+                                    (filter-changes inputs))]
+                     (mapcat (fn [[k v]]
+                               (let [k (prefixed k prefix)]
+                                 [[:node-create k :map]
+                                  [:value k v]]))
+                             added))
+                   (let [updates (->> inputs
+                                      df/updated-inputs
+                                      (filter-changes inputs))]
+                     (mapv (fn [[k v]] [:value (prefixed k prefix) v])
+                           updates))
+                   (let [removed (->> inputs
+                                      df/removed-inputs
+                                      (filter-changes inputs))]
+                     (mapcat (fn [[k v]]
+                               (let [k (prefixed k prefix)]
+                                 (if (= v ::removed)
+                                   [[:value k nil] [:node-destroy k]]
+                                   [[:value k v]])))
+                             removed)))))))
 
 (defn reify-input-paths
   [input-paths data-model arg-names]
@@ -80,31 +257,35 @@
   (reify-input-paths input-paths new-model arg-names))
 
 (defmethod input-spec :map-seq
-  [dispatch-val arg-names inputs])
+  [_ arg-names inputs]
+  (apply concat (seq (input-spec :map inputs arg-names))))
 
 (defmethod input-spec :single-val
-  [dispatch-val arg-names inputs])
+  [_ arg-names inputs]
+  (first (vals (input-spec :map arg-names inputs))))
 
 (defmethod input-spec :default
-  [dispatch-val arg-names inputs]
-  :default)
+  [_ arg-names inputs]
+  [inputs])
 
 (defn consume-app-model
   [app render-fn]
   (let [app-model (atom tree/new-app-model)]
-    (go-loop [message (<! (:app-model app))]
-      (let [old-app-model @app-model
+    (go-loop []
+      (let [message (<! (:app-model app))
+            old-app-model @app-model
             new-app-model (swap! app-model tree/apply-deltas
                                  (:deltas message))
             deltas (tree/since-t new-app-model (tree/t old-app-model))]
-        (render-fn deltas (:input app))))
+        (render-fn deltas (:input app)))
+      (recur))
     app-model))
 
 (defn multiplex-message
   [state message]
   [(cond
-     (= (:path message) ::app-model) :app-model
-     (= (:path message) ::output) :output
+     (= (:path message) :app-model) :app-model
+     (= (:path message) :output) :output
      :else :default) (:type message)])
 
 (defmulti process-message multiplex-message)
@@ -114,22 +295,29 @@
   (run-dataflow state message))
 
 (defmethod process-message [:app-model :navigate]
-  [state message])
+  [state message]
+  state)
 
 (defmethod process-message [:app-model :set-focus]
-  [state message])
+  [state message]
+  state)
 
 (defmethod process-message [:app-model :subscribe]
-  [state message])
+  [state message]
+  
+  state)
 
 (defmethod process-message [:app-model :unsubscribe]
-  [state message])
+  [state message]
+  state)
 
 (defmethod process-message [:app-model :add-named-paths]
-  [state message])
+  [state message]
+  state)
 
 (defmethod process-message [:app-model :remove-named-paths]
-  [state message])
+  [state message]
+  state)
 
 (defn matching-path?
   [path1 path2]
@@ -149,55 +337,54 @@
 
 (defn filter-deltas
   [state deltas]
-  (let [subscriptions (:subscriptions state)
-        special-ops {:navigate-node-destroy :node-destroy}
+  (let [special-ops {:navigate-node-destroy :node-destroy}
         prefix? (fn [path prefix] (= (take (count prefix) path) prefix))]
-    (mapv (fn [[op & xs :as delta]]
-            (if (special-ops op)
-              (apply vector (special-ops op) xs) delta))
-          (filter (fn [[op path]]
-                    (or (special-ops op)
-                        (some (fn [s] (prefix? path s)) subscriptions)))
-                  (mapcat tree/expand-map deltas)))))
+    (vec (mapcat tree/expand-map deltas))))
 
 (defn transact-one
   [state message]
-  (let [old-state (-> state (assoc :input message) (dissoc :effect))
+  (let [state (-> state (assoc :input message) (dissoc :effect))
+        old-state state
         new-state (process-message state message)
         new-deltas (filter-deltas new-state (:emit new-state))]
-    (println old-state new-state new-deltas)
     (-> new-state
         (assoc :emitter-deltas new-deltas)
         (dissoc :emit))))
 
-(defn receive-input-message
-  [app-atom input-queue]
-  (go-loop [message (<! input-queue)]
-    (doseq [message (pre-process message)]
-      (swap! app-atom transact-one message))
-    (recur (<! input-queue))))
+(defn input-queue
+  [app-atom]
+  (let [c (chan)]
+    (go-loop []
+      (let [message (<! c)]
+        (doseq [message (pre-process message)]          
+          (swap! app-atom transact-one message)))
+      (recur))
+    c))
 
-(defn send-effects
-  [app-atom output-queue]
-  (add-watch app-atom :effects-watcher
-             (fn [_ _ _ new-state]
-               (doseq [message (post-process (:effect new-state))]
-                 (put! output-queue message)))))
+(defn app-model-queue
+  [app-atom]
+  (let [app-model-queue (chan)]
+    (add-watch app-atom :app-model-delta-watcher
+               (fn [_ _ old-state new-state]
+                 (let [deltas (:emitter-deltas new-state)]
+                   (when-not (or (empty? deltas)
+                                 (= (:emitter-deltas old-state) deltas))
+                     (let [deltas (vec (mapcat post-process deltas))]
+                       (println deltas)
+                       (put! app-model-queue
+                             {:path :app-model
+                              :type :deltas
+                              :deltas deltas}))))))
+    app-model-queue))
 
-(defn send-app-model-deltas
-  [app-atom app-model-queue]
-  (add-watch app-atom :app-model-delta-watcher
-             (fn [_ _ old-state new-state]
-               (let [deltas (:emitter-deltas new-state)]
-                 (when-not (or (empty? deltas)
-                               (= (:emitter-deltas old-state) deltas))
-                   (let [deltas (reduce (fn [acc delta]
-                                          (into acc (post-process delta)))
-                                        deltas)]
-                     (put! app-model-queue
-                           {:path :app-model
-                            :type :deltas
-                            :deltas deltas})))))))
+(defn effect-queue
+  [app-atom]
+  (let [output-queue (chan)]
+    (add-watch app-atom :effects-watcher
+               (fn [_ _ _ new-state]
+                 (doseq [message (:effect new-state)]
+                   (put! output-queue message))))
+    output-queue))
 
 (defn create-init-messages
   [focus]
@@ -224,32 +411,17 @@
          (put! (:input app) message)))))
 
 (defn consume-effects
-  [app services-fn]
+  [app]
   (let [output (:output app) input (:input app)]
-    (go-loop [message (<! output)]
-      (services-fn message input)
-      (recur (<! (:output app))))))
+    (go-loop []
+      (let [message (<! output)]
+        (effect message input)
+        (recur)))))
 
 (defn run!
   [app script]
   (doseq [message script]
     (put! (:input app) message)))
-
-(defn root-paths
-  [graph]
-  (->> (d/nodes graph)
-       (mapcat (juxt (fn [k n] n) d/transitive-dependencies) (repeat graph))
-       (apply hash-map)
-       (filter #(nil? (val %)))
-       (keys)))
-
-(defn derived-paths
-  [graph]
-  (->> (d/nodes graph)
-       (mapcat (juxt (fn [k n] n) d/transitive-dependencies) (repeat graph))
-       (apply hash-map)
-       (remove #(nil? (val %)))
-       (keys)))
 
 (defmulti depends (fn [dm graph] (-> dm keys first)))
 
@@ -279,21 +451,6 @@
      (reduce (fn [graph dispatch-map] (depends dispatch-map graph))
              (or (:deps app) (d/graph)) dispatches)))
 
-(defn build
-  []
-  (let [dependencies (build-dependency-graph)
-        app-atom (atom {:data-model {} :deps dependencies})
-        input-queue (chan)
-        output-queue (chan)
-        app-model-queue (chan)]
-    (receive-input-message app-atom input-queue)
-    (send-effects app-atom output-queue)
-    (send-app-model-deltas app-atom app-model-queue)
-    {:state app-atom     
-     :input input-queue
-     :output output-queue
-     :app-model app-model-queue}))
-
 (defn descendent?
   [path-a path-b]
   (let [[small large] (if (< (count path-a) (count path-b))
@@ -303,19 +460,12 @@
 
 (defn remover
   [change-set input-paths]
-  (set (remove (fn [x] (some #(matching-path? x) input-paths) change-set))))
+  (set (remove (fn [x] (some #(matching-path? x %) input-paths)) change-set)))
 
 (defn remove-matching-changes
   [change input-paths]
   (reduce (fn [a k] (update-in a [k] remover input-paths))
           change [:inspect :added :updated :removed]))
-
-(defn propagate?
-  [{:keys [change] :as state} input-paths]
-  (let [changed-inputs (if (seq change) (reduce into (vals change)) [])]
-    (some (fn [input-path]
-            (some #(descendent? input-path %) changed-inputs))
-          input-paths)))
 
 (defn flow-input
   [context state input-paths change]
@@ -334,22 +484,20 @@
 
 (defn emit-phase
   [{:keys [context change] :as state}]
-  (-> (reduce (fn [{:keys [change remaining-change processed-inputs] :as acc}
-                   [[type input-paths] emit-fn]]
-                (-> acc
-                    (update-in [:remaining-change] remove-matching-changes
-                               input-paths)
-                    (update-in [:processed-inputs] (fnil into [])
-                               input-paths)
-                    (update-in [:new :emit] (fnil into [])
-                               (emit-fn (-> (flow-input context acc
-                                                        input-paths
-                                                        change)
-                                            (assoc :processed-inputs
-                                                   processed-inputs))))))
-              (assoc state :remaining-change change)
-              (dissoc (methods node-create) :default))
-      (dissoc :remaining-change)))
+  (let [input-paths (into #{} (keys (dissoc (methods node-create) :default)))
+        {:keys [change remaining-change processed-inputs] :as state}
+        (-> (assoc state :remaining-change change))]
+    (-> state
+        (update-in [:remaining-change] remove-matching-changes input-paths)
+        (update-in [:processed-inputs] (fnil into []) input-paths)
+        (update-in [:new :emit] (fnil into [])
+                   ((default-emitter [])
+                    (-> (flow-input context state
+                                    input-paths
+                                    remaining-change)
+                        (assoc :processed-inputs
+                          processed-inputs))))
+        (dissoc :remaining-change))))
 
 (defn find-message-transformer
   [multifn message]
@@ -382,19 +530,22 @@
     (update-state state path transform-fn message)))
 
 (defn derives?
-  [{:keys [context] :as state}
-   [[input-paths output-path ispec :as derive] derive-fn]]
+  [{:keys [context] :as state} input-paths]
   (let [nodes (d/nodes (:deps (:new state)))
         path (:path (:message context))
         node-for-path (first (filter #(matching-path? path %) nodes))]
-    (d/transitive-dependents (:deps (:new state)) node-for-path)))
+    (seq (d/transitive-dependents (:deps (:new state)) node-for-path))))
+
+(defn dependents
+  [state multifn]
+  (->> (filter (fn [x] (derives? state x))
+               (dissoc (methods multifn) :default))
+       (sort (d/topo-comparator (:deps (:new state))))
+       seq))
 
 (defn derives-phase
   [{:keys [context] :as state}]
-  (if-let [dependents (->> (filter (fn [x] (derives? state x))
-                                   (dissoc (methods derives) :default))
-                           (sort (d/topo-comparator (:deps (:new state))))
-                           seq)]
+  (if-let [dependents (dependents state derives)]
     (let [fix-paths (juxt (comp set keys) vals)
           message (:message context)]     
       (reduce (fn [{:keys [change] :as state}
@@ -410,18 +561,31 @@
 
 (defn effect-phase
   [{:keys [context] :as state}]
-  (reduce (fn [{:keys [change] :as state}
-               [[input-paths ispec :as effect] effect-fn]]
-            (if (derives? state effect)
-              (update-in state [:new :effect] (fnil into [])
-                         (->> (flow-input context state input-paths change)
-                              (input-spec ispec)
-                              (apply effect-fn)))))
-          state
-          (dissoc (methods effect) :default)))
+  (if-let [dependents (dependents state route-effect)]
+    (let [fix-paths (juxt (comp set keys) vals)
+          message (:message context)]
+      (reduce
+       (fn [{:keys [change] :as state}
+            [[input-paths ispec :as effect] effect-fn]]
+         (let [[input-paths arg-names] (if (map? input-paths)
+                                         (fix-paths input-paths)
+                                         [input-paths nil])]
+           (->> (flow-input context state input-paths change)
+                (input-spec ispec arg-names)
+                (effect-fn message)
+                (update-in state [:new :effect] (fnil into [])))))
+       state dependents))
+    state))
 
-(defn post-processing-phase
-  [])
+(defrecord App [state input output app-model])
+
+(defn build
+  []
+  (let [app-atom (atom {:data-model {} :deps (build-dependency-graph)})]
+    (App. app-atom
+          (input-queue app-atom)
+          (effect-queue app-atom)
+          (app-model-queue app-atom))))
 
 (defn run-dataflow
   [model message]
@@ -431,11 +595,10 @@
                :context {}}
         new-state (-> (assoc-in state [:context :message] message)
                       transform-phase
-                      derives-phase)]
-    (-> new-state
-        effect-phase
-        emit-phase
-        :new)))
+                      derives-phase
+                      effect-phase
+                      emit-phase)]
+    (:new new-state)))
 
 (def default-msg
   {:type :default :path [:nil :**] :value "hallo"})
@@ -470,6 +633,34 @@
   [old-value message {:keys [nums total] :as m}]
   (/ total (count nums)))
 
+(defmethod route-effect [#{[:my-counter]} :single-val]
+  [message count]
+  [{:type :swap :path [:other-counters] :value count}])
+
+(defmethod node-create [:**]
+  [renderer delta input-queue]
+  )
+
+;; (defmethod node-create [:my-counter]
+;;   [renderer delta input-queue]
+;;   )
+
+;; (defmethod node-create [:other-counters :*]
+;;   [renderer delta input-queue]
+;;   )
+
+;; (defmethod node-create [:average-count]
+;;   [renderer delta input-queue]
+;;   )
+
+(defmethod transform-enable [:inc [:my-counter]]
+  []
+  )
+
+(defmethod transform-disable [:inc [:my-counter]]
+  []
+  )
+
 (defmethod post-process [:value [:average-count]]
   [[op path n]]
   (letfn [(round [n places]
@@ -477,17 +668,13 @@
               (/ (Math/round (* p n)) p)))]
     [[op path (round n 2)]]))
 
-(def counter-dependencies
-  (-> (d/graph)
-      (d/depend [:my-counter] nil)
-      (d/depend [:other-counters :*] nil)
-      (d/depend [:total-count] [:my-counter])
-      (d/depend [:total-count] [:other-counters :*])
-      (d/depend [:max-count] [:my-counter])
-      (d/depend [:max-count] [:other-counters :*])
-      (d/depend [:average-count] [:my-counter])
-      (d/depend [:average-count] [:total-count])
-      (d/depend [:average-count] [:other-counters :*])))
+(defmethod effect [:swap [:other-counters]]
+  [message input-queue]
+  (println (str "Sending message to server: " message)))
+
+(defmethod effect :default
+  [message input-queue]
+  (println (str "Sending message to server: " message)))
 
 (def dispatches
   (->> [transform derives effect]
@@ -503,10 +690,9 @@
 (defn test-dataflow
   ([msgs] (test-dataflow msgs @(:state (build))))
   ([msgs state]
-     (-> (reduce (fn [state msg]
-                   (run-dataflow state msg))
-                 state msgs)
-         :data-model)))
+     (:data-model (reduce (fn [state msg]
+                            (run-dataflow state msg))
+                          state msgs))))
 
 
 (defn test-transact-one
@@ -514,3 +700,54 @@
   (reduce (fn [state msg]
             (transact-one state msg))
           @(:state (build)) msgs))
+
+(defn test-input-queue
+  [msgs]
+  (let [app (build)
+        transact-complete (chan)]
+    (go-loop [msgs msgs]
+      (put! (:input app) (first msgs))
+      (recur (rest msgs)))
+    app))
+
+(defn log-fn
+  [deltas]
+  (println "Rendering Deltas")
+  (pprint deltas))
+
+(defn test-create-app
+  []
+  (let [app (build)
+        render-fn (renderer "content" log-fn)
+        app-model (consume-app-model app render-fn)]
+    (begin app)
+    (put! (:input app) inc-msg)
+    {:app app :app-model app-model}))
+
+(def counters (atom {"abc" 0 "xyz" 0}))
+
+(defn increment-counter
+  [k t input-queue]
+  (go-loop []
+    (put! input-queue {:type :swap :path [:other-counters k]
+                       :value (get (swap! counters update-in [k] inc) k)})
+    (<! (timeout t))
+    (recur)))
+
+(defn receive-messages
+  [input-queue]
+  (increment-counter "abc" 2000 input-queue)
+  (increment-counter "xyz" 5000 input-queue))
+
+(defrecord MockServices [app]
+  c/Lifecycle
+  (start [_]
+    (receive-messages (:input app)))
+  (stop [_]))
+
+(defn ^:export -main []
+  (let [app (test-create-app)
+        services (->MockServices (:app app))]
+    (consume-effects (:app app))
+    ;; (c/start services)
+    app))
