@@ -9,10 +9,13 @@
             [foundation.app.util :as util]
             [foundation.app.data.dependency :as d]
             [foundation.app.tree :as tree]
-            [foundation.app.dataflow :as df]
+            [foundation.app.dataflow :as df :refer [matching-path?]]
             [foundation.app.data.component :as c]
             [foundation.app.data.tracking-map :as tm]            
             [foundation.app.xhr :as xhr]
+            [foundation.app.render
+             :refer [node-create node-update node-destroy]]
+            [foundation.app.app-model :as am]
             [enfocus.core :as en]
             [enfocus.events :as events]
             [dommy.core :as dom])
@@ -21,66 +24,7 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(enable-console-print!)
-
-(declare run-dataflow match-dispatch dispatches derives? matching-path?
-         node-create node-update node-destroy)
-
-(defmulti node-create
-  (fn [renderer [_ path _ _] input-queue parent-id id]
-    (let [nodes (keys (dissoc (methods node-create) :default))
-          matching (set (filter #(matching-path? path %) nodes))]
-      (cond
-        (contains? matching path) path
-        (seq (disj matching [:**] [:*] []))
-        (first (disj matching [:**] [:*] []))
-        (seq matching) (first matching)
-        :else :default))))
-
-(defmethod node-create :default [renderer delta input-queue])
-
-(defmulti node-update
-  (fn [renderer [_ path _ _] input-queue parent-id]
-    (let [nodes (keys (dissoc (methods node-create) :default))
-          matching (set (filter #(matching-path? path %) nodes))]
-      (cond
-        (contains? matching path) path
-        (seq (disj matching [:**] [:*] []))
-        (first (disj matching [:**] [:*] []))
-        (seq matching) (first matching)
-        :else :default))))
-
-(defmethod node-update :default [& args] nil)
-
-(defmulti node-destroy
-  (fn [renderer [_ path _ _] input-queue id]
-    (let [nodes (keys (dissoc (methods node-create) :default))
-          matching (set (filter #(matching-path? path %) nodes))]
-      (cond
-        (contains? matching path) path
-        (seq (disj matching [:**] [:*] []))
-        (first (disj matching [:**] [:*] []))
-        (seq matching) (first matching)
-        :else :default))))
-
-(defmethod node-destroy :default [& args])
-
-(defmulti transform-enable
-  (fn [renderer [_ path _ _] id message]
-    (let [nodes (keys (dissoc (methods node-create) :default))
-          matching (set (filter #(matching-path? path %) nodes))]
-      (cond
-        (contains? matching path) path
-        (seq (disj matching [:**] [:*] []))
-        (first (disj matching [:**] [:*] []))
-        (seq matching) (first matching)
-        :else :default))))
-
-(defmethod transform-enable :default [& args] [])
-
-(defmulti transform-disable (fn [renderer delta input-queue] (second delta)))
-
-(defmethod transform-disable :default [renderer delta input-queue])
+(declare run-dataflow match-dispatch dispatches derives?)
 
 (defmulti transform (fn [state msg] ((juxt msg/type msg/path) msg)))
 
@@ -92,7 +36,8 @@
 
 (defmulti effect (fn [msg input-queue] ((juxt msg/type msg/path) msg)))
 
-(defmethod effect :default [message input-queue] nil)
+(defmethod effect :default [message input-queue]
+  (println (str "Sending message to server: " message)))
 
 (defmulti post-process (juxt first second))
 
@@ -108,95 +53,6 @@
   (fn [message inputs] ((juxt msg/type msg/path) message)))
 
 (defmethod route-effect :default [message inputs] [])
-
-(defprotocol DomMapper
-  (get-id [this path])
-  (get-parent-id [this path])
-  (new-id! [this path] [this path v]
-    "Create a new id for this given path.
-    Store this id in the renderer's environment.
-    Returns the generated id. An id can be provided as a third
-    argument.")
-  (delete-id! [this path]
-    "Delete this id and all information associated with it from the
-    environment. This will also delete all ids and information
-    associated with child nodes.")
-  (on-destroy! [this path f]
-    "Add a function to be called when the node at path is destroyed.")
-  (set-data! [this ks d])
-  (drop-data! [this ks])
-  (get-data [this ks]))
-
-(defn fix-id [s] (if-not (keyword? s) (keyword (str "#" s)) s))
-
-(defn- run-on-destroy!
-  [env]
-  (let [nodes (tree-seq (constantly true)
-                        (fn [n]
-                          (map #(get n %) (remove #{:id :on-destroy :_data}
-                                                  (keys n)))) env)]
-    (doseq [f (mapcat :on-destroy nodes)]
-      (f))))
-
-(defrecord DomRenderer [env]
-  DomMapper
-  (get-id [this path]
-    (if (seq path)
-      (get-in @env (conj path :id))
-      (:id @env)))
-  (get-parent-id [this path]
-    (when (seq path)
-      (get-id this (vec (butlast path)))))
-  (new-id! [this path]
-    (new-id! this path (gensym)))
-  (new-id! [this path v]
-    (swap! env assoc-in (conj path :id) v)
-    v)
-  (delete-id! [this path]
-    (run-on-destroy! (get-in @env path))
-    (swap! env assoc-in path nil))
-  (on-destroy! [this path f]
-    (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
-  (set-data! [this ks d]
-    (swap! env assoc-in (concat [:_data] ks) d))
-  (drop-data! [this ks]
-    (swap! env update-in (concat [:_data] (butlast ks)) dissoc (last ks)))
-  (get-data [this ks]
-    (get-in @env (concat [:_data] ks))))
-
-(defn renderer
-  ([root-id] (renderer root-id identity))
-  ([root-id log-fn]
-     (let [renderer (->DomRenderer (atom {:id root-id}))]
-       (fn [deltas input-queue]
-         (log-fn deltas)
-         (doseq [d deltas]
-           (let [[op path] d
-                 id (if-let [id (get-id renderer path)]
-                      id
-                      (new-id! renderer path))
-                 parent-id (fix-id (get-parent-id renderer path))]
-             (case op
-               :node-create (node-create renderer d input-queue parent-id id)
-               :node-update (node-update renderer d input-queue parent-id)
-               :node-destroy (node-destroy renderer d input-queue id)
-               :value (node-update renderer d input-queue id (sel1 id))
-               :attr (node-update renderer d input-queue id (sel1 id))
-               :transform-enable
-               (transform-enable renderer d input-queue id (sel1 id))
-               :transform-disable
-               (transform-disable renderer d input-queue id (sel1 id)))))))))
-
-(defn push-render-queue
-  [root-id input-queue]
-  (let [renderer (->DomRenderer (atom {:id root-id}))
-        render-queue (chan)]
-    (go-loop []
-      (let [message (<! render-queue)
-            [op path] message]
-        (node-create renderer message input-queue))
-      (recur))
-    render-queue))
 
 (defn filter-changes [{:keys [processed-inputs]} changes]
   (remove (fn [[k v]] (some (partial matching-path? k)
@@ -310,22 +166,6 @@
       :output state
       (run-dataflow state message))))
 
-(defn matching-path?
-  [path1 path2]
-  (= (loop [a (vec (flatten path1))
-            b (vec (flatten path2))]
-       (match [(first a) (first b)]
-         [[] []] :succeed
-         [nil nil] :succeed
-         [:** _] (if-not (seq (rest a)) :succeed :fail)
-         [_ :**] (if-not (seq (rest b)) :succeed :fail)
-         [:* _] (recur (vec (rest a)) (vec (rest b)))
-         [_ :*] (recur (vec (rest a)) (vec (rest b)))
-         :else (if (= (first a) (first b))
-                 (recur (vec (rest a)) (vec (rest b)))
-                 :fail)))
-     :succeed))
-
 (defn filter-deltas
   [state deltas]
   (let [special-ops {:navigate-node-destroy :node-destroy}
@@ -396,7 +236,8 @@
            (cond
              init-messages init-messages
              focus (create-init-messages focus)
-             :else [{msg/path :app-model msg/type :subscribe msg/paths [[]]}])]
+             :else [{msg/path :app-model msg/type
+                     :subscribe msg/paths [[]]}])]
        (doseq [message init-messages]
          (put! (:input app) message)))))
 
@@ -591,20 +432,6 @@
                       emit-phase)]
     (:new new-state)))
 
-(defaction bind-event
-  [e id f]
-  [(fix-id id)] (events/listen e f))
-
-(defaction attach-transform
-  [renderer event id type path input-queue]
-  (let [partial-message {msg/type type msg/path path}
-        event-handler
-        (fn [e]
-          (doseq [message
-                  (transform-enable renderer [type path] id partial-message)]
-            (put! input-queue message)))]
-    (bind-event event id event-handler)))
-
 (def dispatches
   (->> [transform derives effect]
        (map #(dissoc (methods %) :default))
@@ -616,12 +443,13 @@
                       (into xrel)))
                #{})))
 
-(defn log-fn [deltas] (util/log-group "Rendering Deltas" deltas))
-
 (defn create-app
   [root-id & {:keys [services init-messages]}]
   (let [app (build)
-        render-fn (renderer root-id log-fn)
+        render-fn (am/renderer root-id am/log-fn)
         app-model (consume-app-model app render-fn)]
     (consume-effects app)
-    (def ^:dynamic *app* {:app app :app-model app-model})))
+    (def ^:dynamic *app* {:app app :app-model app-model})
+    *app*))
+
+;; (defrecord Dataflow [])

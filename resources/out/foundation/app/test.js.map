@@ -2,10 +2,12 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/test.js",
  "sources":["test.cljs"],
- "lineCount":44,
+ "lineCount":54,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAuBA,AAACA;AAED,4BAAA,kBAAA,9CAAMC,8CAAS,uBAAA,hBAACC;;AAEhB,4BAAA,kBAAA,9CAAeC,8CACb,yDAAA,rDAAMC,MAAI,oCAAA,pCAACC,+CACTD",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0BA,AAACA;AAED,4BAAA,kBAAA,9CAAMC,8CAAS,uBAAA,hBAACC;;AAEhB,2BAAA,oBAAA,/CAAMC,0CACHC,KACD,gNAAA,wEAAA,iFAAA,mFAAA,5bAACC,oCAAK,AAAA,qFAAQ,AAAA,iFAAMD,kDAAOE,iFAAeC;AAC1C,uNAAA,wEAAA,iFAAA,mFAAA,5bAACF,oCAAK,AAAA,qFAAQ,AAAA,iFAAMD,kDAAOE,iFAAeC;;AAE5C,4BAAA,kBAAA,9CAAeC,8CACb,yDAAA,rDAAMJ,MAAI,oCAAA,pCAACK,+CACT,OAACN,mCAAKC",
  "names":
  ["cljs.core/enable-console-print!", "foundation.app.test/reset",
-  "js/location.reload", "foundation.app.test/-main", "app",
+  "js/location.reload", "foundation.app.test/init", "app",
+  "cljs.core.async/put!", "foundation.app.message/type",
+  "foundation.app.message/path", "foundation.app.test/-main",
   "foundation.app/create-app"]}

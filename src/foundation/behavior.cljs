@@ -5,8 +5,7 @@
             [clojure.zip :as zip]
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
-            [foundation.app :as app
-             :refer [transform derives route-effect]]
+            [foundation.app :as app :refer [transform derives route-effect]]
             [foundation.app.rendering :as rendering]
             [foundation.app.message :as msg]
             [foundation.app.templates :as tmpl]
@@ -21,36 +20,51 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod transform [:inc [:my-counter]]
-  [state _]
-  ((fnil inc 0) state))
+(enable-console-print!)
 
-(defmethod transform [:swap [:**]]
-  [_ message]
-  (:value message))
+;; (defmethod transform [:init [:dashboard]]
+;;   [state message]
+;;   (println message)
+;;   {:model nil :start-time nil :end-time nil})
 
-(defmethod transform [:add-points [:my-counter]]
-  [old-value message]
-  (if-let [points (int (:points message))]
-    (+ old-value points)
-    old-value))
+;; (defmethod transform [:init [:datagrid]]
+;;   [state message]
+;;   (println message)
+;;   {:collection {} :selected #{} :resource {} :rows []})
 
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:total-count] :vals]
-  [state message nums]
-  (reduce + nums))
+;; (defmethod transform [:init [:**]]
+;;   [state message]
+;;   (println message)
+;;   {})
 
-(defmethod derives [#{[:my-counter]
-                      [:other-counters :*]} [:max-count] :vals]
-  [old-value message nums]
-  (apply max (or old-value 0) nums))
+;; (defmethod derives [#{[:dashboard]} [:chart] :map]
+;;   [state message nums]
+;;   (println message "chart derives")
+;;   {:chart nil})
 
-(defmethod derives [{[:my-counter] :nums
-                     [:other-counters :*] :nums
-                     [:total-count] :total} [:average-count] :map]
-  [old-value message {:keys [nums total] :as m}]
-  (/ total (count nums)))
+;; (defmethod transform [:add-points [:my-counter]]
+;;   [old-value message]
+;;   (if-let [points (int (:points message))]
+;;     (+ old-value points)
+;;     old-value))
 
-(defmethod route-effect [#{[:my-counter]} :single-val]
-  [message count]
-  [{msg/type :swap msg/path [:other-counters] :value count}])
+;; (defmethod derives [#{[:my-counter]
+;;                       [:other-counters :*]} [:total-count] :vals]
+;;   [state message nums]
+;;   (reduce + nums))
+
+;; (defmethod derives [#{[:my-counter]
+;;                       [:other-counters :*]} [:max-count] :vals]
+;;   [old-value message nums]
+;;   (apply max (or old-value 0) nums))
+
+;; (defmethod derives [{[:my-counter] :nums
+;;                      [:other-counters :*] :nums
+;;                      [:total-count] :total} [:average-count] :map]
+;;   [old-value message {:keys [nums total] :as m}]
+;;   (/ total (count nums)))
+
+;; (defmethod route-effect [#{[:dashboard]} :single-val]
+;;   [message count]
+;;   [{msg/type :init msg/path [:datagrid] :value count}])
+

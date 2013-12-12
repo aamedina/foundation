@@ -1,8 +1,13 @@
 (ns foundation.app.models
   (:require [goog.Uri.QueryData]
             [clojure.walk :as walk]
-            [clojure.string :as str])
-  (:require-macros [foundation.app :as app :refer [defmodel]]))
+            [clojure.string :as str]
+            [foundation.app.xhr :as xhr]
+            [foundation.app.message :as msg]
+            [foundation.app.data.dependency :as d :refer [graph depend]]
+            [cljs.core.async :refer [<! chan put!]])
+  (:require-macros [foundation.app :as app :refer [defmodel]]
+                   [cljs.core.async.macros :refer [go go-loop]]))
 
 (defn subs-uri
   "Given a URI from the resource spec, replace the matched patterns with the
@@ -102,3 +107,25 @@
    :url "/stats/accounts/:account-id/promoted_accounts/:id"
    :query-params [:start-time :end-time :granularity :metrics]
    :parent :promoted-accounts})
+
+(def model-dependencies
+  (-> (graph)
+      (depend :campaigns :accounts)
+      (depend :line-items :campaigns)
+      (depend :promoted-accounts :line-items)
+      (depend :promoted-tweets :line-items)))
+
+(def empty-targeting-criteria
+  {"UNORDERED_KEYWORD" #{}
+   "FOLLOWERS_OF_USER" #{}
+   "PHRASE_KEYWORD" #{}
+   "EXACT_KEYWORD" #{}
+   "NEGATIVE_PHRASE_KEYWORD" #{}
+   "NEGATIVE_UNORDERED_KEYWORD" #{}
+   "NEGATIVE_EXACT_KEYWORD" #{}
+   "SIMILAR_TO_FOLLOWERS_OF_USER" #{}
+   "INTEREST" #{}
+   "LOCATION" #{}
+   "PLATFORM" #{}
+   "GENDER" #{}
+   "TV_AD_TARGETING" #{}})

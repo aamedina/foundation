@@ -4,26 +4,13 @@
             [clojure.string :as str]
             [clojure.data :refer [diff]]
             [cljs.compiler :as comp]
-            [cljs.analyzer :as ana]
-            [cljs.env :as env]
-            [cljs.closure :as cljsc]
             [clojure.core :as core]
-            [hickory.core :refer :all]
-            [hickory.zip :refer :all]
-            [net.cgrand.enlive-html :as en]
-            [hickory.select :as s]
-            [garden.core :as g :refer [css]]
-            [hiccup.core :refer [html h]]
-            [hiccup.def :refer [defelem defhtml wrap-attrs]]
-            [hiccup.util :refer [escape-html as-str to-uri url url-encode]]
             [clout.core :as clout]
             [inflections.core :as inflect]
             [clojure.xml :as xml]
             [clojure.pprint :refer [pprint]]
             [clojure.core.match :refer [match]]
             [clojure.repl :refer [doc]]
-            [clojure.core.async :as a
-             :refer [<! >! put! take! chan go go-loop sliding-buffer]]
             [clojure.zip :as zip]))
 
 (defmacro defmodel
@@ -45,30 +32,37 @@
               (with-meta (zipmap [~@(map keyword params)] ~params)
                 {:model ~(keyword name)}))))))
 
-;; (defmulti column (juxt (comp :model meta) first))
 
-;; (defmethod column [:account :name]
-;;   [[attr v]]
-;;   (html [:th {:id attr} "Name"]))
+(defn readr
+  [prompt exit-code]
+  (let [input (clojure.main/repl-read prompt exit-code)]
+    (if (= input ::tl)
+      exit-code
+      input)))
 
-;; (defmethod column [:account :select-all]
-;;   [[attr v]]
-;;   (html [:th {:id attr} "Select All"]))
+(defmacro local-context []
+  (let [symbols (keys &env)]
+    (zipmap (map (fn [sym] `(quote ~sym))
+                 symbols)
+            symbols)))
 
-;; (defmethod column '[_ :id]
-;;   [[attr v]]
-;;   (html [:th {:id attr} "ID"]))
 
-;; (defmethod column [:account :currency]
-;;   [[attr v]]
-;;   (html [:th {:id attr} "Currency"]))
+(defn contextual-eval
+  [ctx expr]
+  (eval `(let [~@(mapcat (fn [[k v]] [k `'~v]) ctx)]
+           ~expr)))
 
-;; (defmethod column [:account :timezone]
-;;   [[attr v]]
-;;   (html [:th {:id attr} "Timezone"]))
+(defmacro break []
+  `(clojure.main/repl
+    :prompt #(print "debug=>")
+    :read readr
+    :eval (partial contextual-eval (local-context))))
 
-;; (defn attrs
-;;   [model]
-;;   (map #(with-meta (into [] %) (meta model)) model))
+(defn div [n d] (break) (int (/ n d)))
 
-;; (def acct (apply account (repeat 4 "")))
+(defn keys-apply
+  [f ks m]
+  (break)
+  (let [only (select-keys m ks)]
+    (break)
+    (zipmap (keys only) (map f (vals only))))) 

@@ -8,11 +8,14 @@
             [foundation.app :as app]
             [foundation.app.behavior :as behavior]
             [foundation.app.rendering :as rendering]
+            [foundation.app.services :as services]
             [foundation.app.message :as msg]
             [foundation.app.templates :as tmpl]
             [foundation.app.models :as models]
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
+            [foundation.app.data.component :as c]
+            [foundation.app.data.dependency :as d :refer [graph depend]]
             [enfocus.core :as en]
             [enfocus.events :as events]
             [dommy.core :as dom])
@@ -25,6 +28,11 @@
 
 (defn reset [] (js/location.reload true))
 
+(defn init
+  [app]
+  (put! (:input (:app app)) {msg/type :init msg/path [:dashboard]})
+  (put! (:input (:app app)) {msg/type :init msg/path [:datagrid]}))
+
 (defn ^:export -main []
   (let [app (app/create-app "content")]
-    app))
+    (init app)))

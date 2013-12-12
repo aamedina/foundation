@@ -1,0 +1,12 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/data/rrb_vector/interop.js",
+ "sources":["interop.cljs"],
+ "lineCount":21,
+ "mappings":
+ ";AAAC;;;;;;AAMA,AAAA,AAAA,AAAA,AAAA,wFAAA,xFAKEM;AALF,AAAA,AAAA,AAKEA,uGACA,wBAAA,AAAA,YAAA,KAAA,9BAAUL,iBAAAA,fAAEC,MAAMC,sBAChB,OAACC,2DAAQ,AAACC,uDAASJ,OAAGC,MAAMC;;AAPhC,AAAA,AAAA,AAAA,kGAAA,lGACEH;AADF,AAAA,AAAA,AACEA,iHACA,wBAAA,AAAA,YAAA,KAAA,9BAAUC,iBAAAA,fAAEC,MAAMC,sBAChB,OAACC,2DAAQ,AAACC,uDAASJ,OAAGC,MAAMC;;AAMhC,AAAA,AAAA,AAAA,AAAA,yFAAA,zFAKEG;AALF,AAAA,AAAA,AAKEA,yGACA,kBAAA,AAAA,aAAA,KAAA,zBAAWC,WAAAA,RAAGC,sBACZ,OAACC,4DAAS,AAACJ,uDAASE,QAAIC;;AAP5B,AAAA,AAAA,AAAA,mGAAA,nGACER;AADF,AAAA,AAAA,AACEA,mHACA,kBAAA,AAAA,aAAA,KAAA,zBAAWO,WAAAA,RAAGC,sBACZ,OAACC,4DAAS,AAACJ,uDAASE,QAAIC",
+ "names":
+ ["cljs/core.PersistentVector", "v", "start", "end",
+  "foundation.app.data.rrb-vector.protocols/-slicev",
+  "foundation.app.data.rrb-vector.rrbt/-as-rrbt", "cljs/core.Subvec",
+  "v1", "v2", "foundation.app.data.rrb-vector.protocols/-splicev"]}

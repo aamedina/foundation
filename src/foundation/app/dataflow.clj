@@ -1,16 +1,34 @@
 (ns foundation.app.dataflow
-  (:require [clojure.set :as set]))
+  (:require [clojure.set :as set]
+            [cljs.core.match :as m])
+  (:require-macros [cljs.core.match.macros :as m :refer [match]]))
+
+(defn matching-path?
+  [path1 path2]
+  (= (loop [a (vec (flatten path1))
+            b (vec (flatten path2))]
+       (match [(first a) (first b)]
+         [[] []] :succeed
+         [nil nil] :succeed
+         [:** _] (if-not (seq (rest a)) :succeed :fail)
+         [_ :**] (if-not (seq (rest b)) :succeed :fail)
+         [:* _] (recur (vec (rest a)) (vec (rest b)))
+         [_ :*] (recur (vec (rest a)) (vec (rest b)))
+         :else (if (= (first a) (first b))
+                 (recur (vec (rest a)) (vec (rest b)))
+                 :fail)))
+     :succeed))
 
 (defn matching-path-element?
   "Return true if the two elements match."
   [a b]
   (or (= a b) (= a :*) (= b :*)))
 
-(defn matching-path?
-  "Return true if the two paths match."
-  [path-a path-b]
-  (and (= (count path-a) (count path-b))
-       (every? true? (map (fn [a b] (matching-path-element? a b)) path-a path-b))))
+;; (defn matching-path?
+;;   "Return true if the two paths match."
+;;   [path-a path-b]
+;;   (and (= (count path-a) (count path-b))
+;;        (every? true? (map (fn [a b] (matching-path-element? a b)) path-a path-b))))
 
 (defn descendant?
   "Return true if one path could be the parent of the other."
