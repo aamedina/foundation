@@ -24,6 +24,19 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
+(defmethod node-create []
+  [renderer [_ path _ val] input-queue parent-id id]
+  (en/at js/document
+    [:body] (en/append (tmpl/twitter-power id))))
+
+(defmethod node-create [:dashboard]
+  [renderer delta input-queue parent-id id]
+  )
+
+(defmethod node-create [:dashboard :*]
+  [renderer delta input-queue parent-id id]
+  )
+
 ;; (defmethod node-create []
 ;;   [renderer [_ path _ val] input-queue parent-id id]
 ;;   (en/at js/document

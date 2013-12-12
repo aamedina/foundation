@@ -24,20 +24,26 @@
   ([root-id log-fn]
      (let [renderer (render/->DomRenderer (atom {:id root-id}))]
        (fn [deltas input-queue]
-         (log-fn deltas)
-         (doseq [d deltas]
-           (let [[op path] d
-                 id (if-let [id (get-id renderer path)]
-                      id
-                      (new-id! renderer path))
-                 parent-id (fix-id (get-parent-id renderer path))]
-             (case op
-               :node-create (node-create renderer d input-queue parent-id id)
-               :node-update (node-update renderer d input-queue parent-id)
-               :node-destroy (node-destroy renderer d input-queue id)
-               :value (node-update renderer d input-queue id (sel1 id))
-               :attr (node-update renderer d input-queue id (sel1 id))
-               :transform-enable
-               (transform-enable renderer d input-queue id (sel1 id))
-               :transform-disable
-               (transform-disable renderer d input-queue id (sel1 id)))))))))
+         (let [deltas (remove (fn [[op path _ _]]
+                                (and (empty? path) (not= op :node-create)))
+                              deltas)]
+           (when (seq deltas)
+             (log-fn deltas))
+           (doseq [d deltas]
+             (let [[op path] d
+                   id (if-let [id (get-id renderer path)]
+                        id
+                        (new-id! renderer path))
+                   pid (fix-id (get-parent-id renderer path))]
+               (case op
+                 :node-create (node-create renderer d input-queue pid id)
+                 :node-update (node-update renderer d input-queue pid)
+                 :node-destroy (node-destroy renderer d input-queue id)
+                 :value (when-not (empty? path)
+                          (node-update renderer d input-queue id))
+                 :attr (node-update renderer d input-queue id)
+                 :transform-enable
+                 (transform-enable renderer d input-queue id)
+                 :transform-disable
+                 (transform-disable renderer d input-queue id)))))
+         ))))

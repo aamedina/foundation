@@ -102,4 +102,5 @@
 
 (deftemplate twitter-power
   [id]
-  [:div {:id id}])
+  [:div {:id id}
+   [:h1 "Hello, world!"]])

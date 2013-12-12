@@ -44,11 +44,19 @@
          (recur))
        in)))
 
+(defn add-proc
+  ([f] (add-proc f (atom (graph))))
+  ([f out] (add-proc f out (atom (graph))))
+  ([f out procs]
+     (let [in (proc out f)]
+       (swap! procs depend out in)
+       [in procs])))
+
 (def logger (proc println))
 
 (defrecord TwitterAds [app app-model procs]
   app/IApplication
-  (initialize [_]
+  (initialize [application]
     (put! (:input app) {msg/type :init msg/path [:dashboard]})
     (put! (:input app) {msg/type :init msg/path [:datagrid]}))
   c/Lifecycle

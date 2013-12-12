@@ -78,22 +78,22 @@ return h__14232__auto____$1;
 foundation.app.services.TwitterAds.prototype.cljs$core$ILookup$_lookup$arity$2 = (function (this__14383__auto__,k__14384__auto__){var self__ = this;
 var this__14383__auto____$1 = this;return cljs.core._lookup.call(null,this__14383__auto____$1,k__14384__auto__,null);
 });
-foundation.app.services.TwitterAds.prototype.cljs$core$ILookup$_lookup$arity$3 = (function (this__14385__auto__,k29714,else__14386__auto__){var self__ = this;
-var this__14385__auto____$1 = this;if(cljs.core.keyword_identical_QMARK_.call(null,k29714,new cljs.core.Keyword(null,"app","app",1014001043)))
+foundation.app.services.TwitterAds.prototype.cljs$core$ILookup$_lookup$arity$3 = (function (this__14385__auto__,k78575,else__14386__auto__){var self__ = this;
+var this__14385__auto____$1 = this;if(cljs.core.keyword_identical_QMARK_.call(null,k78575,new cljs.core.Keyword(null,"app","app",1014001043)))
 {return self__.app;
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{return cljs.core.get.call(null,self__.__extmap,k29714,else__14386__auto__);
+{return cljs.core.get.call(null,self__.__extmap,k78575,else__14386__auto__);
 } else
 {return null;
 }
 }
 });
-foundation.app.services.TwitterAds.prototype.cljs$core$IAssociative$_assoc$arity$3 = (function (this__14390__auto__,k__14391__auto__,G__29713){var self__ = this;
-var this__14390__auto____$1 = this;var pred__29716 = cljs.core.keyword_identical_QMARK_;var expr__29717 = k__14391__auto__;if(cljs.core.truth_(pred__29716.call(null,new cljs.core.Keyword(null,"app","app",1014001043),expr__29717)))
-{return (new foundation.app.services.TwitterAds(G__29713,self__.__meta,self__.__extmap,null));
+foundation.app.services.TwitterAds.prototype.cljs$core$IAssociative$_assoc$arity$3 = (function (this__14390__auto__,k__14391__auto__,G__78574){var self__ = this;
+var this__14390__auto____$1 = this;var pred__78577 = cljs.core.keyword_identical_QMARK_;var expr__78578 = k__14391__auto__;if(cljs.core.truth_(pred__78577.call(null,new cljs.core.Keyword(null,"app","app",1014001043),expr__78578)))
+{return (new foundation.app.services.TwitterAds(G__78574,self__.__meta,self__.__extmap,null));
 } else
-{return (new foundation.app.services.TwitterAds(self__.app,self__.__meta,cljs.core.assoc.call(null,self__.__extmap,k__14391__auto__,G__29713),null));
+{return (new foundation.app.services.TwitterAds(self__.app,self__.__meta,cljs.core.assoc.call(null,self__.__extmap,k__14391__auto__,G__78574),null));
 }
 });
 foundation.app.services.TwitterAds.prototype.foundation$app$data$component$Lifecycle$ = true;
@@ -132,8 +132,8 @@ var this__14379__auto____$1 = this;if(cljs.core.truth_((function (){var and__138
 {return false;
 }
 });
-foundation.app.services.TwitterAds.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (this__14382__auto__,G__29713){var self__ = this;
-var this__14382__auto____$1 = this;return (new foundation.app.services.TwitterAds(self__.app,G__29713,self__.__extmap,self__.__hash));
+foundation.app.services.TwitterAds.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (this__14382__auto__,G__78574){var self__ = this;
+var this__14382__auto____$1 = this;return (new foundation.app.services.TwitterAds(self__.app,G__78574,self__.__extmap,self__.__hash));
 });
 foundation.app.services.TwitterAds.prototype.cljs$core$IMeta$_meta$arity$1 = (function (this__14381__auto__){var self__ = this;
 var this__14381__auto____$1 = this;return self__.__meta;
@@ -152,7 +152,7 @@ foundation.app.services.TwitterAds.cljs$lang$ctorPrWriter = (function (this__144
 });
 foundation.app.services.__GT_TwitterAds = (function __GT_TwitterAds(app){return (new foundation.app.services.TwitterAds(app));
 });
-foundation.app.services.map__GT_TwitterAds = (function map__GT_TwitterAds(G__29715){return (new foundation.app.services.TwitterAds(new cljs.core.Keyword(null,"app","app",1014001043).cljs$core$IFn$_invoke$arity$1(G__29715),null,cljs.core.dissoc.call(null,G__29715,new cljs.core.Keyword(null,"app","app",1014001043))));
+foundation.app.services.map__GT_TwitterAds = (function map__GT_TwitterAds(G__78576){return (new foundation.app.services.TwitterAds(new cljs.core.Keyword(null,"app","app",1014001043).cljs$core$IFn$_invoke$arity$1(G__78576),null,cljs.core.dissoc.call(null,G__78576,new cljs.core.Keyword(null,"app","app",1014001043))));
 });
 
 //# sourceMappingURL=services.js.map

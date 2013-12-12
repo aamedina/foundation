@@ -34,5 +34,7 @@ goog.require('foundation.app.util');
 goog.require('foundation.app.rendering');
 goog.require('dommy.core');
 cljs.core.enable_console_print_BANG_.call(null);
+cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"init","init",1017141378),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"**","**",1013905586)], null)], null),(function (state,message){return cljs.core.PersistentArrayMap.EMPTY;
+}));
 
 //# sourceMappingURL=behavior.js.map

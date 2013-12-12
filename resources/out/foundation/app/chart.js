@@ -9,45 +9,45 @@ goog.require('cljs_time.core');
 * @param {...*} var_args
 */
 foundation.app.chart.reset_series_BANG_ = (function() { 
-var reset_series_BANG___delegate = function (chart,p__29633){var map__29639 = p__29633;var map__29639__$1 = ((cljs.core.seq_QMARK_.call(null,map__29639))?cljs.core.apply.call(null,cljs.core.hash_map,map__29639):map__29639);var point_start = cljs.core.get.call(null,map__29639__$1,new cljs.core.Keyword(null,"point-start","point-start",4476351831),cljs_time.core.ago.call(null,cljs_time.core.days.call(null,1)));var interval = cljs.core.get.call(null,map__29639__$1,new cljs.core.Keyword(null,"interval","interval",1584322615),(3600 * 1000));var data = cljs.core.get.call(null,map__29639__$1,new cljs.core.Keyword(null,"data","data",1016980252),cljs.core.PersistentVector.EMPTY);var name = cljs.core.get.call(null,map__29639__$1,new cljs.core.Keyword(null,"name","name",1017277949),"");var seq__29640_29644 = cljs.core.seq.call(null,chart.series);var chunk__29641_29645 = null;var count__29642_29646 = 0;var i__29643_29647 = 0;while(true){
-if((i__29643_29647 < count__29642_29646))
-{var series_29648 = cljs.core._nth.call(null,chunk__29641_29645,i__29643_29647);series_29648.remove();
+var reset_series_BANG___delegate = function (chart,p__78488){var map__78494 = p__78488;var map__78494__$1 = ((cljs.core.seq_QMARK_.call(null,map__78494))?cljs.core.apply.call(null,cljs.core.hash_map,map__78494):map__78494);var point_start = cljs.core.get.call(null,map__78494__$1,new cljs.core.Keyword(null,"point-start","point-start",4476351831),cljs_time.core.ago.call(null,cljs_time.core.days.call(null,1)));var interval = cljs.core.get.call(null,map__78494__$1,new cljs.core.Keyword(null,"interval","interval",1584322615),(3600 * 1000));var data = cljs.core.get.call(null,map__78494__$1,new cljs.core.Keyword(null,"data","data",1016980252),cljs.core.PersistentVector.EMPTY);var name = cljs.core.get.call(null,map__78494__$1,new cljs.core.Keyword(null,"name","name",1017277949),"");var seq__78495_78499 = cljs.core.seq.call(null,chart.series);var chunk__78496_78500 = null;var count__78497_78501 = 0;var i__78498_78502 = 0;while(true){
+if((i__78498_78502 < count__78497_78501))
+{var series_78503 = cljs.core._nth.call(null,chunk__78496_78500,i__78498_78502);series_78503.remove();
 {
-var G__29649 = seq__29640_29644;
-var G__29650 = chunk__29641_29645;
-var G__29651 = count__29642_29646;
-var G__29652 = (i__29643_29647 + 1);
-seq__29640_29644 = G__29649;
-chunk__29641_29645 = G__29650;
-count__29642_29646 = G__29651;
-i__29643_29647 = G__29652;
+var G__78504 = seq__78495_78499;
+var G__78505 = chunk__78496_78500;
+var G__78506 = count__78497_78501;
+var G__78507 = (i__78498_78502 + 1);
+seq__78495_78499 = G__78504;
+chunk__78496_78500 = G__78505;
+count__78497_78501 = G__78506;
+i__78498_78502 = G__78507;
 continue;
 }
 } else
-{var temp__4092__auto___29653 = cljs.core.seq.call(null,seq__29640_29644);if(temp__4092__auto___29653)
-{var seq__29640_29654__$1 = temp__4092__auto___29653;if(cljs.core.chunked_seq_QMARK_.call(null,seq__29640_29654__$1))
-{var c__14545__auto___29655 = cljs.core.chunk_first.call(null,seq__29640_29654__$1);{
-var G__29656 = cljs.core.chunk_rest.call(null,seq__29640_29654__$1);
-var G__29657 = c__14545__auto___29655;
-var G__29658 = cljs.core.count.call(null,c__14545__auto___29655);
-var G__29659 = 0;
-seq__29640_29644 = G__29656;
-chunk__29641_29645 = G__29657;
-count__29642_29646 = G__29658;
-i__29643_29647 = G__29659;
+{var temp__4092__auto___78508 = cljs.core.seq.call(null,seq__78495_78499);if(temp__4092__auto___78508)
+{var seq__78495_78509__$1 = temp__4092__auto___78508;if(cljs.core.chunked_seq_QMARK_.call(null,seq__78495_78509__$1))
+{var c__14545__auto___78510 = cljs.core.chunk_first.call(null,seq__78495_78509__$1);{
+var G__78511 = cljs.core.chunk_rest.call(null,seq__78495_78509__$1);
+var G__78512 = c__14545__auto___78510;
+var G__78513 = cljs.core.count.call(null,c__14545__auto___78510);
+var G__78514 = 0;
+seq__78495_78499 = G__78511;
+chunk__78496_78500 = G__78512;
+count__78497_78501 = G__78513;
+i__78498_78502 = G__78514;
 continue;
 }
 } else
-{var series_29660 = cljs.core.first.call(null,seq__29640_29654__$1);series_29660.remove();
+{var series_78515 = cljs.core.first.call(null,seq__78495_78509__$1);series_78515.remove();
 {
-var G__29661 = cljs.core.next.call(null,seq__29640_29654__$1);
-var G__29662 = null;
-var G__29663 = 0;
-var G__29664 = 0;
-seq__29640_29644 = G__29661;
-chunk__29641_29645 = G__29662;
-count__29642_29646 = G__29663;
-i__29643_29647 = G__29664;
+var G__78516 = cljs.core.next.call(null,seq__78495_78509__$1);
+var G__78517 = null;
+var G__78518 = 0;
+var G__78519 = 0;
+seq__78495_78499 = G__78516;
+chunk__78496_78500 = G__78517;
+count__78497_78501 = G__78518;
+i__78498_78502 = G__78519;
 continue;
 }
 }
@@ -59,14 +59,14 @@ break;
 return chart.addSeries(cljs.core.clj__GT_js.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"data","data",1016980252),data,new cljs.core.Keyword(null,"pointInterval","pointInterval",1241580007),interval,new cljs.core.Keyword(null,"pointStart","pointStart",2269080612),point_start.getTime()], null)));
 };
 var reset_series_BANG_ = function (chart,var_args){
-var p__29633 = null;if (arguments.length > 1) {
-  p__29633 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);} 
-return reset_series_BANG___delegate.call(this,chart,p__29633);};
+var p__78488 = null;if (arguments.length > 1) {
+  p__78488 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);} 
+return reset_series_BANG___delegate.call(this,chart,p__78488);};
 reset_series_BANG_.cljs$lang$maxFixedArity = 1;
-reset_series_BANG_.cljs$lang$applyTo = (function (arglist__29665){
-var chart = cljs.core.first(arglist__29665);
-var p__29633 = cljs.core.rest(arglist__29665);
-return reset_series_BANG___delegate(chart,p__29633);
+reset_series_BANG_.cljs$lang$applyTo = (function (arglist__78520){
+var chart = cljs.core.first(arglist__78520);
+var p__78488 = cljs.core.rest(arglist__78520);
+return reset_series_BANG___delegate(chart,p__78488);
 });
 reset_series_BANG_.cljs$core$IFn$_invoke$arity$variadic = reset_series_BANG___delegate;
 return reset_series_BANG_;

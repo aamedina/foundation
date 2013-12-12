@@ -360,7 +360,7 @@
   [{:keys [new context] :as state}]
   (let [message (:message context)
         {type msg/type path msg/path} message
-        transform-fn (first (find-message-transformer transform message))]    
+        transform-fn (first (find-message-transformer transform message))]
     (update-state state path transform-fn message)))
 
 (defn derives?

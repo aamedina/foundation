@@ -22,13 +22,16 @@
 (defmulti node-create
   (fn [renderer [_ path _ _] input-queue parent-id id]
     (let [nodes (keys (dissoc (methods node-create) :default))
-          matching (set (filter #(matching-path? path %) nodes))]
-      (cond
-        (contains? matching path) path
-        (seq (disj matching [:**] [:*] []))
-        (first (disj matching [:**] [:*] []))
-        (seq matching) (first matching)
-        :else :default))))
+          matching (-> (set (filter #(matching-path? path %) nodes))
+                       (disj [])
+                       vec)]
+      (if (contains? matching path)
+        path
+        (match [matching]
+          [[[:**] [:*]]] [:**]
+          [[[:**]]] [:**]
+          [[[:*]]] [:*]
+          :else :default)))))
 
 (defmethod node-create :default [renderer delta input-queue & args] nil)
 

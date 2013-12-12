@@ -22,6 +22,10 @@
 
 (enable-console-print!)
 
+(defmethod transform [:init [:**]]
+  [state message]
+  {})
+
 ;; (defmethod transform [:init [:dashboard]]
 ;;   [state message]
 ;;   (println message)

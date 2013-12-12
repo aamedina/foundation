@@ -9,7 +9,7 @@
  ["foundation.app.data.rrb-vector.transients/ensure-editable", "edit",
   "node", "new-arr", "cljs.core/aclone", "cljs.core/VectorNode",
   "foundation.app.data.rrb-vector.transients/editable-root", "root",
-  "obj28249",
+  "obj77448",
   "foundation.app.data.rrb-vector.transients/editable-tail", "tail",
   "ret", "js/Array", "cljs.core/array-copy",
   "foundation.app.data.rrb-vector.transients/push-tail!", "shift",
