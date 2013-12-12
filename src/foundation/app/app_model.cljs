@@ -34,8 +34,7 @@
                    id (if-let [id (get-id renderer path)]
                         id
                         (new-id! renderer path))
-                   pid (fix-id (get-parent-id renderer path))]
-               (println d)
+                   pid (get-parent-id renderer path)]
                (case op
                  :node-create (node-create renderer d input-queue pid id)
                  :node-update (node-update renderer d input-queue pid)

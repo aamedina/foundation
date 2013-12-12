@@ -24,6 +24,8 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
+(defn css-id [id] (str "#" id))
+
 (defmethod node-create []
   [renderer [_ path _ val] input-queue parent-id id]
   (en/at js/document
@@ -31,39 +33,18 @@
 
 (defmethod node-create [:dashboard]
   [renderer delta input-queue parent-id id]
-  )
-
-(defmethod node-create [:dashboard :*]
-  [renderer delta input-queue parent-id id]
-  )
+  (en/at [(css-id parent-id)]
+    (en/append (tmpl/dashboard id))))
 
 (defmethod node-create [:datagrid]
   [renderer delta input-queue parent-id id]
-  )
+  (en/at [(css-id parent-id)]
+    (en/append (tmpl/datagrid id []))))
 
-(defmethod node-create [:datagrid :*]
-  [renderer delta input-queue parent-id id]
-  )
-
-;; (defmethod node-create []
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (en/at js/document
-;;     [:body] (en/append (tmpl/twitter-power id))))
-
-;; (defmethod node-create [:dashboard]
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (en/at [parent-id]
-;;     (en/append (tmpl/dashboard {:id id}))))
-
-;; (defmethod node-create [:datagrid]
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (en/at [parent-id]
-;;     (en/append (tmpl/datagrid {:id id :collection []}))))
-
-;; (defmethod node-create [:dashboard :chart]
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (let [chart (highchart)]
-;;     (set-data! renderer path chart)))
+(defmethod node-create [:chart]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (let [chart (highchart)]
+    (set-data! renderer path chart)))
 
 ;; (defmethod node-update [:dashboard :chart]
 ;;   [renderer [_ path _ val] input-queue parent-id id]

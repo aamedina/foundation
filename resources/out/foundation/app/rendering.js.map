@@ -4,10 +4,14 @@
  "sources":["rendering.cljs"],
  "lineCount":53,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0BA,AAAAA,gCAAAC,kCAAA,iCAAA,oBAAAC,mCAAA,AAAA,IAAAC,aAAAD,iBAAA,AAAAE,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,kBAAA,AAAAC,wBAAAD,WAAA,EAAA,gBAAA,AAAAC,wBAAAD,WAAA,EAAA,MAAA,3RACGE,0EAAUC,mDAAEC,sDAAKD,uDAAEE,xNAAKC,YAAYC,UAAUC,mPAC/C,0CAAA,mFAAA,tHAACC,0BAAMC,yJACG,AAACC,8BAAU,AAACC,iDAAmBJ;;AAE3C,AAAAX,gCAAAC,kCAAA,mFAAA,uEAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,+DAAA,uDAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,qEAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,6DAAA,uDAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0BA,kCAAA,qBAAA,vDAAMA,mDAAQC,IAAI,sBAAA,mBAASA;;AAE3B,AAAAC,gCAAAC,kCAAA,iCAAA,oBAAAC,mCAAA,AAAA,IAAAC,aAAAD,iBAAA,AAAAE,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,kBAAA,AAAAC,wBAAAD,WAAA,EAAA,gBAAA,AAAAC,wBAAAD,WAAA,EAAA,MAAA,3RACGE,0EAAUC,mDAAEC,sDAAKD,uDAAEE,xNAAKC,YAAYC,UAAUX,mPAC/C,0CAAA,mFAAA,tHAACY,0BAAMC,yJACG,AAACC,8BAAU,AAACC,iDAAmBf;;AAE3C,AAAAC,gCAAAC,kCAAA,mFAAA,uEAAA,oDAAA,zCACGI,SAASU,MAAMN,YAAYC,UAAUX,IACtC,iCAAA,1BAACY,6GAAO,AAACb,0CAAOY,mBACd,AAACG,8BAAU,AAACG,6CAAejB;;AAE/B,AAAAC,gCAAAC,kCAAA,mFAAA,qEAAA,oDAAA,zCACGI,SAASU,MAAMN,YAAYC,UAAUX,IACtC,iCAAA,1BAACY,6GAAO,AAACb,0CAAOY,mBACd,AAACG,8BAAU,+CAAA,/CAACI,4CAAclB;;AAE9B,AAAAC,gCAAAC,kCAAA,mFAAA,+DAAA,oBAAAiB,mCAAA,AAAA,IAAAC,aAAAD,iBAAA,AAAAd,wBAAAe,WAAA,EAAA,iBAAA,AAAAf,wBAAAe,WAAA,EAAA,kBAAA,AAAAf,wBAAAe,WAAA,EAAA,gBAAA,AAAAf,wBAAAe,WAAA,EAAA,MAAA,3RACGd,0EAAUC,mDAAEC,sDAAKD,uDAAEE,xNAAKC,YAAYC,UAAUX,mPAC/C,sDAAA,lDAAMqB,QAAM,AAACC,0CACX,OAACC,+CAAUjB,SAASE,KAAKa",
  "names":
- ["cljs.core/-add-method", "foundation.app.render/node-create",
-  "p__87370", "vec__87371", "cljs.core/nth", "renderer", "_", "path",
-  "val", "input-queue", "parent-id", "id", "enfocus.core/at",
-  "js/document", "enfocus.core/append",
-  "foundation.app.templates/twitter-power", "delta"]}
+ ["foundation.app.rendering/css-id", "id", "cljs.core/-add-method",
+  "foundation.app.render/node-create", "p__88173", "vec__88174",
+  "cljs.core/nth", "renderer", "_", "path", "val", "input-queue",
+  "parent-id", "enfocus.core/at", "js/document", "enfocus.core/append",
+  "foundation.app.templates/twitter-power", "delta",
+  "foundation.app.templates/dashboard",
+  "foundation.app.templates/datagrid", "p__88175", "vec__88176",
+  "chart", "foundation.app.chart/highchart",
+  "foundation.app.render/set-data!"]}

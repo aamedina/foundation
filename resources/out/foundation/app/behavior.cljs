@@ -22,9 +22,11 @@
 
 (enable-console-print!)
 
-(defmethod transform [:init [:**]]
-  [state message]
-  {})
+(defmethod transform [:init [:**]] [state message] {})
+
+(defmethod derives [#{[:dashboard]} [:chart] :vals]
+  [state message input]
+  1)
 
 ;; (defmethod transform [:init [:dashboard]]
 ;;   [state message]

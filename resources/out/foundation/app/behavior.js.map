@@ -2,9 +2,10 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/behavior.js",
  "sources":["behavior.cljs"],
- "lineCount":40,
+ "lineCount":42,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAsBA,AAACA;AAED,AAAAC,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,iEAAA,0BAAA,AAAA,fACGC,MAAMC",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAsBA,AAACA;AAED,AAAAC,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,iEAAA,0BAAA,AAAA,fAAoCC,MAAMC;;AAE1C,AAAAH,gCAAAI,uBAAA,mFAAA,uCAAA,mFAAA,+EAAA,mFAAA,+DAAA,6DAAA,gCAAA,AAAA,rBACGF,MAAMC,QAAQE",
  "names":
  ["cljs.core/enable-console-print!", "cljs.core/-add-method",
-  "foundation.app/transform", "state", "message"]}
+  "foundation.app/transform", "state", "message",
+  "foundation.app/derives", "input"]}

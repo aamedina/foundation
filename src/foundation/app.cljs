@@ -282,7 +282,7 @@
   ([] (build-dependency-graph {}))
   ([app]
      (reduce (fn [graph dispatch-map] (depends dispatch-map graph))
-             (or (:deps app) (d/graph)) dispatches)))
+             (or (:deps app) (d/graph)) (dispatches))))
 
 (defn descendent?
   [path-a path-b]
@@ -368,6 +368,7 @@
   (let [nodes (d/nodes (:deps (:new state)))
         path (msg/path (:message context))
         node-for-path (first (filter #(matching-path? path %) nodes))]
+    (println nodes path node-for-path)
     (seq (d/transitive-dependents (:deps (:new state)) node-for-path))))
 
 (defn dependents
@@ -435,15 +436,17 @@
     (:new new-state)))
 
 (def dispatches
-  (->> [transform derives effect]
-       (map #(dissoc (methods %) :default))
-       (map assoc (repeat {}) [:transform :derives :effect])
-       (reduce (fn [xrel dispatches]
-                 (->> (first (vals dispatches))
-                      (map assoc (repeat {})
-                           (repeat (first (keys dispatches))))
-                      (into xrel)))
-               #{})))
+  (memoize
+   (fn []
+     (->> [transform derives effect]
+          (map #(dissoc (methods %) :default))
+          (map assoc (repeat {}) [:transform :derives :effect])
+          (reduce (fn [xrel dispatches]
+                    (->> (first (vals dispatches))
+                         (map assoc (repeat {})
+                              (repeat (first (keys dispatches))))
+                         (into xrel)))
+                  #{})))))
 
 (defn create-app
   [root-id & {:keys [services init-messages]}]

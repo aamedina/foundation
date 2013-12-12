@@ -26,7 +26,7 @@
     [:small.list-group-item-text 0]]])
 
 (deftemplate dashboard
-  [{:keys [id]}]
+  [id]
   [:div.twitter-stats.panel.panel-default {:id id}
    [:div.panel-heading
     [:h1.panel-title#resource-id]
@@ -82,7 +82,7 @@
      (datagrid-body collection columns)]))
 
 (deftemplate datagrid
-  [{:keys [id collection]}]
+  [id collection]
   [:div.datagrid-container.panel.panel-default {:id id}
    [:div.panel-heading
     (datagrid-breadcrumb collection)
@@ -102,5 +102,4 @@
 
 (deftemplate twitter-power
   [id]
-  [:div {:id id}
-   [:h1 "Hello, world!"]])
+  [:div {:id id}])

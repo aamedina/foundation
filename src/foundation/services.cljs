@@ -23,7 +23,7 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod effect [:fetch [:datagrid]]
+(defmethod effect [:init [:**]]
   [message input-queue]
   (println "effect"))
 
