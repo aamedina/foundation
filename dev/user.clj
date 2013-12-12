@@ -52,7 +52,8 @@
 (defn start
   "Starts the system running, updates the Var #'system."
   []
-  (cemerick.austin.repls/cljs-repl (:repl-env system)))
+  (cemerick.austin.repls/cljs-repl (:repl-env system)
+                                   :optimizations :none))
 
 (defn stop
   "Stops the system if it is currently running, updates the Var

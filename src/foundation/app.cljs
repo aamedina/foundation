@@ -4,7 +4,8 @@
             [clojure.string :as str]
             [clojure.zip :as zip]
             [cljs.core.match :as m]
-            [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
+            [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!
+                                     sliding-buffer close!]]
             [foundation.app.message :as msg]
             [foundation.app.util :as util]
             [foundation.app.data.dependency :as d]
@@ -409,15 +410,15 @@
        state dependents))
     state))
 
-(defrecord App [state input output app-model])
+(defrecord Application [state input output app-model])
 
 (defn build
   []
   (let [app-atom (atom {:data-model {} :deps (build-dependency-graph)})]
-    (App. app-atom
-          (input-queue app-atom)
-          (effect-queue app-atom)
-          (app-model-queue app-atom))))
+    (Application. app-atom
+                  (input-queue app-atom)
+                  (effect-queue app-atom)
+                  (app-model-queue app-atom))))
 
 (defn run-dataflow
   [model message]
@@ -452,4 +453,16 @@
     (def ^:dynamic *app* {:app app :app-model app-model})
     *app*))
 
-;; (defrecord Dataflow [])
+(deftype Process [in out f]
+  c/Lifecycle
+  (start [_]
+    (go-loop []
+      (let [val (<! in)]
+        (>! out (f val))
+        (recur))))
+  (stop [_]
+    (close! in)))
+
+(defn proc
+  [out f]
+  (Process. (chan (sliding-buffer 32)) out f))

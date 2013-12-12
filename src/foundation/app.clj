@@ -14,14 +14,16 @@
             [clojure.zip :as zip]))
 
 (defmacro defmodel
-  [name params {:keys [url api] :as m} & body]
-  (let [compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
+  [name params config & body]
+  (let [config ``~~config
+        {:keys [url api]} config
+        compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
                             ((juxt keys vals))
                             (apply zipmap))
-        conditions (select-keys m [:pre :post])
-        m (dissoc m :pre :post)]
+        conditions (select-keys config [:pre :post])
+        config ``~~(dissoc config :pre :post)]
     `(do (def ~((comp symbol inflect/plural str) name)
-           ~(merge compiled-route (assoc m
+           ~(merge compiled-route (assoc config
                                     :url url
                                     :api api)))
          (defn ~name
@@ -66,3 +68,4 @@
   (let [only (select-keys m ks)]
     (break)
     (zipmap (keys only) (map f (vals only))))) 
+

@@ -4,7 +4,8 @@
             [clojure.string :as str]
             [clojure.zip :as zip]
             [cljs.core.match :as m]
-            [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
+            [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!
+                                     sliding-buffer close!]]
             [foundation.app :as app]
             [foundation.app.behavior :as behavior]
             [foundation.app.rendering :as rendering]
@@ -29,10 +30,16 @@
 (defn reset [] (js/location.reload true))
 
 (defn init
-  [app]
-  (put! (:input (:app app)) {msg/type :init msg/path [:dashboard]})
-  (put! (:input (:app app)) {msg/type :init msg/path [:datagrid]}))
+  [app])
+
+(defrecord TwitterAds [app app-model procs]
+  c/Lifecycle
+  (start [_]
+    (put! (:input app) {msg/type :init msg/path [:dashboard]})
+    (put! (:input app) {msg/type :init msg/path [:datagrid]}))
+  (stop [_]))
 
 (defn ^:export -main []
-  (let [app (app/create-app "content")]
-    (init app)))
+  (let [{:keys [app app-model]} (app/create-app "content")
+        app (TwitterAds. app app-model (atom {}))]
+    (c/start app)))

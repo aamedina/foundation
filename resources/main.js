@@ -60,6 +60,4 @@ goog.addDependency("../foundation/app/data/rrb_vector/transients.js", ['foundati
 goog.addDependency("../foundation/app/data/rrb_vector/rrbt.js", ['foundation.app.data.rrb_vector.rrbt'], ['foundation.app.data.rrb_vector.protocols', 'foundation.app.data.rrb_vector.nodes', 'cljs.core', 'foundation.app.data.rrb_vector.transients', 'foundation.app.data.rrb_vector.trees']);
 goog.addDependency("../foundation/app/data/rrb_vector/interop.js", ['foundation.app.data.rrb_vector.interop'], ['foundation.app.data.rrb_vector.rrbt', 'foundation.app.data.rrb_vector.protocols', 'cljs.core']);
 goog.addDependency("../foundation/app/data/rrb_vector.js", ['foundation.app.data.rrb_vector'], ['foundation.app.data.rrb_vector.rrbt', 'foundation.app.data.rrb_vector.protocols', 'cljs.core', 'foundation.app.data.rrb_vector.interop']);
-goog.addDependency("../avl/clj.js", ['avl.clj'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
-goog.addDependency("../foundation/app/flow.js", ['foundation.app.flow'], ['cljs.core', 'foundation.app.data.component', 'foundation.app.data.rrb_vector', 'avl.clj', 'cljs.core.match', 'clojure.set', 'cljs.core.async', 'foundation.app.data.dependency']);
