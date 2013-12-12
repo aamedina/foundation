@@ -155,3 +155,31 @@
                   (transform-enable renderer [type path] id partial-message)]
             (put! input-queue message)))]
     (bind-event event id event-handler)))
+
+(defn log-fn [deltas] (util/log-group "Rendering Deltas" deltas))
+
+(defn renderer
+  ([root-id] (renderer root-id identity))
+  ([root-id log-fn]
+     (let [renderer (->DomRenderer (atom {:id root-id}))]
+       (fn [deltas input-queue]
+         (let [deltas (remove (fn [[op path _ _]]
+                                (and (empty? path) (not= op :node-create)))
+                              deltas)]
+           (when (seq deltas)
+             (log-fn deltas))
+           (doseq [d deltas]
+             (let [[op path] d
+                   id (if-let [id (get-id renderer path)]
+                        id
+                        (new-id! renderer path))
+                   pid (get-parent-id renderer path)]
+               (case op
+                 :node-create (node-create renderer d input-queue pid id)
+                 :node-destroy (node-destroy renderer d input-queue id)
+                 :value (node-update renderer d input-queue id)
+                 :attr (node-update renderer d input-queue id)
+                 :transform-enable
+                 (transform-enable renderer d input-queue id)
+                 :transform-disable
+                 (transform-disable renderer d input-queue id)))))))))

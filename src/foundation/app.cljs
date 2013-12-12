@@ -17,8 +17,7 @@
             [foundation.app.data.tracking-map :as tm]            
             [foundation.app.xhr :as xhr]
             [foundation.app.render
-             :refer [node-create node-update node-destroy]]
-            [foundation.app.app-model :as am]
+             :refer [node-create node-update node-destroy renderer log-fn]]
             [enfocus.core :as en]
             [enfocus.events :as events]
             [dommy.core :as dom])
@@ -408,7 +407,6 @@
 
 (defn effect-phase
   [{:keys [context] :as state}]
-  (println (matching-dispatches state effect effect?))
   (if-let [dispatches (matching-dispatches state effect effect?)]
     (let [fix-paths (juxt (comp set keys) vals)
           message (:message context)]
@@ -469,7 +467,7 @@
 (defn create-app
   [root-id & {:keys [services init-messages]}]
   (let [app (build)
-        render-fn (am/renderer root-id am/log-fn)
+        render-fn (renderer root-id log-fn)
         app-model (consume-app-model app render-fn)]
     (consume-effects app)
     (def ^:dynamic *app* {:app app :app-model app-model})
