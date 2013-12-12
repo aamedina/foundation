@@ -24,6 +24,8 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
+(enable-console-print!)
+
 (defn css-id [id] (str "#" id))
 
 (defmethod node-create []
@@ -46,10 +48,10 @@
   (let [chart (highchart)]
     (set-data! renderer path chart)))
 
-;; (defmethod node-update [:dashboard :chart]
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (let [chart (get-data renderer path)]
-;;     ))
+(defmethod node-update [:chart]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (let [chart (get-data renderer path)]
+    ))
 
 ;; (defmethod node-update [:datagrid :collection]
 ;;   [renderer [_ path _ val] input-queue parent-id id]

@@ -7,6 +7,7 @@
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!
                                      sliding-buffer close!]]
             [cljs.core.async.impl.protocols :as impl]
+            [foundation.app.data.combinatorics :as com]
             [foundation.app.message :as msg]
             [foundation.app.util :as util]
             [foundation.app.data.dependency :as d]
@@ -50,11 +51,6 @@
 (defmethod pre-process :default [message] [message])
 
 (defmulti input-spec (fn [k & args] (if (vector? k) (last k) k)))
-
-(defmulti route-effect
-  (fn [message inputs] ((juxt msg/type msg/path) message)))
-
-(defmethod route-effect :default [message inputs] [])
 
 (defn filter-changes [{:keys [processed-inputs]} changes]
   (remove (fn [[k v]] (some (partial matching-path? k)
@@ -248,7 +244,8 @@
   (let [output (:output app) input (:input app)]
     (go-loop []
       (let [message (<! output)]
-        (effect message input)
+        (apply (get-method effect (:dispatch message))
+               [(dissoc message :dispatch) input (:value message)])
         (recur)))))
 
 (defn run!
@@ -272,7 +269,12 @@
 
 (defmethod depends :effect
   [dispatch-map graph]
-  graph)
+  (let [[type input-paths output-paths input-spec]
+        (key (:effect dispatch-map))
+        io-paths (com/cartesian-product input-paths output-paths)]
+    (reduce (fn [g [input-path output-path]]
+              (d/depend g output-path input-path))
+            graph io-paths)))
 
 (defmethod depends :default
   [dispatch-map graph]
@@ -363,26 +365,36 @@
         transform-fn (first (find-message-transformer transform message))]
     (update-state state path transform-fn message)))
 
-(defn derives?
-  [{:keys [context] :as state} input-paths]
+(defn dependents
+  [{:keys [context] :as state}]
   (let [nodes (d/nodes (:deps (:new state)))
         path (msg/path (:message context))
         node-for-path (first (filter #(matching-path? path %) nodes))]
-    (println nodes path node-for-path)
-    (seq (d/transitive-dependents (:deps (:new state)) node-for-path))))
+    (->> (d/transitive-dependents (:deps (:new state)) node-for-path)
+         (sort (d/topo-comparator (:deps (:new state))))
+         seq)))
 
-(defn dependents
-  [state multifn]
-  (->> (filter (fn [x] (derives? state x))
-               (dissoc (methods multifn) :default))
-       (sort (d/topo-comparator (:deps (:new state))))
-       seq))
+(def derives?
+  (memoize
+   (fn [dependents [dispatch-val multifn]]
+     (contains? (set dependents) (second dispatch-val)))))
+
+(def effect?
+  (memoize
+   (fn [dependents [dispatch-val multifn]]
+     (seq (set/intersection (set dependents) (nth dispatch-val 2))))))
+
+(defn matching-dispatches
+  [state multifn pred]
+  (->> (dissoc (methods multifn) :default)
+       (filter #(pred (dependents state) %))
+       (seq)))
 
 (defn derives-phase
   [{:keys [context] :as state}]
-  (if-let [dependents (dependents state derives)]
+  (if-let [dispatches (matching-dispatches state derives derives?)]
     (let [fix-paths (juxt (comp set keys) vals)
-          message (:message context)]     
+          message (:message context)]
       (reduce (fn [{:keys [change] :as state}
                    [[input-paths output-path ispec :as derive] derive-fn]]
                 (let [[input-paths arg-names] (if (map? input-paths)
@@ -391,25 +403,31 @@
                   (->> (flow-input context state input-paths change)
                        (input-spec ispec arg-names)
                        (update-state state output-path derive-fn message))))
-              state dependents))
+              state dispatches))
     state))
 
 (defn effect-phase
   [{:keys [context] :as state}]
-  (if-let [dependents (dependents state route-effect)]
+  (println (matching-dispatches state effect effect?))
+  (if-let [dispatches (matching-dispatches state effect effect?)]
     (let [fix-paths (juxt (comp set keys) vals)
           message (:message context)]
       (reduce
        (fn [{:keys [change] :as state}
-            [[input-paths ispec :as effect] effect-fn]]
+            [[type input-paths output-paths ispec :as effect]]]
          (let [[input-paths arg-names] (if (map? input-paths)
                                          (fix-paths input-paths)
-                                         [input-paths nil])]
+                                         [input-paths nil])
+               io (com/cartesian-product input-paths output-paths)]
            (->> (flow-input context state input-paths change)
                 (input-spec ispec arg-names)
-                (effect-fn message)
-                (update-in state [:new :effect] (fnil into [])))))
-       state dependents))
+                (repeat (count io))
+                (map (fn [[input-path output-path] input]
+                       {msg/type type msg/path output-path :value input
+                        :dispatch effect}) io)
+                (update-in state [:new :effect] (fnil into [])
+                           ))))
+       state dispatches))
     state))
 
 (defrecord Application [state input output app-model])

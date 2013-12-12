@@ -28,6 +28,10 @@
   [state message input]
   1)
 
+(defmethod derives [#{[:datagrid]} [:rows] :map]
+  [state message input]
+  [])
+
 ;; (defmethod transform [:init [:dashboard]]
 ;;   [state message]
 ;;   (println message)
@@ -70,7 +74,5 @@
 ;;   [old-value message {:keys [nums total] :as m}]
 ;;   (/ total (count nums)))
 
-;; (defmethod route-effect [#{[:dashboard]} :single-val]
-;;   [message count]
-;;   [{msg/type :init msg/path [:datagrid] :value count}])
+
 

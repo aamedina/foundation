@@ -23,13 +23,6 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod effect [:init [:**]]
-  [message input-queue]
-  (println "effect"))
-
-(defmulti construct identity)
-
-(defrecord TwitterAds [app]
-  c/Lifecycle
-  (start [_])
-  (stop [_]))
+(defmethod effect [:init #{[:dashboard]} #{[:datagrid]} :single-val]
+  [message input-queue input]
+  (println input))
