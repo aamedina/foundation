@@ -2,12 +2,12 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/rendering.js",
  "sources":["rendering.cljs"],
- "lineCount":49,
+ "lineCount":53,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0BA,AAAAA,gCAAAC,kCAAA,iCAAA,oBAAAC,mCAAA,AAAA,IAAAC,aAAAD,iBAAA,AAAAE,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,kBAAA,AAAAC,wBAAAD,WAAA,EAAA,gBAAA,AAAAC,wBAAAD,WAAA,EAAA,MAAA,3RACGE,0EAAUC,mDAAEC,sDAAKD,uDAAEE,xNAAKC,YAAYC,UAAUC,mPAC/C,0CAAA,mFAAA,tHAACC,0BAAMC,yJACG,AAACC,8BAAU,AAACC,iDAAmBJ;;AAE3C,AAAAX,gCAAAC,kCAAA,mFAAA,uEAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,+DAAA,uDAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AA0BA,AAAAA,gCAAAC,kCAAA,iCAAA,oBAAAC,mCAAA,AAAA,IAAAC,aAAAD,iBAAA,AAAAE,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,kBAAA,AAAAC,wBAAAD,WAAA,EAAA,gBAAA,AAAAC,wBAAAD,WAAA,EAAA,MAAA,3RACGE,0EAAUC,mDAAEC,sDAAKD,uDAAEE,xNAAKC,YAAYC,UAAUC,mPAC/C,0CAAA,mFAAA,tHAACC,0BAAMC,yJACG,AAACC,8BAAU,AAACC,iDAAmBJ;;AAE3C,AAAAX,gCAAAC,kCAAA,mFAAA,uEAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,+DAAA,uDAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,qEAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC;;AAGxC,AAAAX,gCAAAC,kCAAA,mFAAA,6DAAA,uDAAA,oDAAA,AAAA,zCACGI,SAASW,MAAMP,YAAYC,UAAUC",
  "names":
  ["cljs.core/-add-method", "foundation.app.render/node-create",
-  "p__86402", "vec__86403", "cljs.core/nth", "renderer", "_", "path",
+  "p__87370", "vec__87371", "cljs.core/nth", "renderer", "_", "path",
   "val", "input-queue", "parent-id", "id", "enfocus.core/at",
   "js/document", "enfocus.core/append",
   "foundation.app.templates/twitter-power", "delta"]}

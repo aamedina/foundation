@@ -37,6 +37,14 @@
   [renderer delta input-queue parent-id id]
   )
 
+(defmethod node-create [:datagrid]
+  [renderer delta input-queue parent-id id]
+  )
+
+(defmethod node-create [:datagrid :*]
+  [renderer delta input-queue parent-id id]
+  )
+
 ;; (defmethod node-create []
 ;;   [renderer [_ path _ val] input-queue parent-id id]
 ;;   (en/at js/document

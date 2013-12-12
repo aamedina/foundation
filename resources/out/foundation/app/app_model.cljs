@@ -35,12 +35,12 @@
                         id
                         (new-id! renderer path))
                    pid (fix-id (get-parent-id renderer path))]
+               (println d)
                (case op
                  :node-create (node-create renderer d input-queue pid id)
                  :node-update (node-update renderer d input-queue pid)
                  :node-destroy (node-destroy renderer d input-queue id)
-                 :value (when-not (empty? path)
-                          (node-update renderer d input-queue id))
+                 :value (node-update renderer d input-queue id)
                  :attr (node-update renderer d input-queue id)
                  :transform-enable
                  (transform-enable renderer d input-queue id)

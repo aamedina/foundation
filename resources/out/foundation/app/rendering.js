@@ -39,11 +39,15 @@ goog.require('foundation.app.util');
 goog.require('foundation.app.render');
 goog.require('foundation.app.behavior');
 goog.require('dommy.core');
-cljs.core._add_method.call(null,foundation.app.render.node_create,cljs.core.PersistentVector.EMPTY,(function (renderer,p__86402,input_queue,parent_id,id){var vec__86403 = p__86402;var _ = cljs.core.nth.call(null,vec__86403,0,null);var path = cljs.core.nth.call(null,vec__86403,1,null);var ___$1 = cljs.core.nth.call(null,vec__86403,2,null);var val = cljs.core.nth.call(null,vec__86403,3,null);return enfocus.core.at.call(null,document,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"body","body",1016933652)], null),enfocus.core.append.call(null,foundation.app.templates.twitter_power.call(null,id)));
+cljs.core._add_method.call(null,foundation.app.render.node_create,cljs.core.PersistentVector.EMPTY,(function (renderer,p__87370,input_queue,parent_id,id){var vec__87371 = p__87370;var _ = cljs.core.nth.call(null,vec__87371,0,null);var path = cljs.core.nth.call(null,vec__87371,1,null);var ___$1 = cljs.core.nth.call(null,vec__87371,2,null);var val = cljs.core.nth.call(null,vec__87371,3,null);return enfocus.core.at.call(null,document,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"body","body",1016933652)], null),enfocus.core.append.call(null,foundation.app.templates.twitter_power.call(null,id)));
 }));
 cljs.core._add_method.call(null,foundation.app.render.node_create,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"dashboard","dashboard",4261010950)], null),(function (renderer,delta,input_queue,parent_id,id){return null;
 }));
 cljs.core._add_method.call(null,foundation.app.render.node_create,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"dashboard","dashboard",4261010950),new cljs.core.Keyword(null,"*","*",1013904284)], null),(function (renderer,delta,input_queue,parent_id,id){return null;
+}));
+cljs.core._add_method.call(null,foundation.app.render.node_create,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"datagrid","datagrid",2803534178)], null),(function (renderer,delta,input_queue,parent_id,id){return null;
+}));
+cljs.core._add_method.call(null,foundation.app.render.node_create,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"datagrid","datagrid",2803534178),new cljs.core.Keyword(null,"*","*",1013904284)], null),(function (renderer,delta,input_queue,parent_id,id){return null;
 }));
 
 //# sourceMappingURL=rendering.js.map

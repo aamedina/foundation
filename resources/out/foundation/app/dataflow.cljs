@@ -36,7 +36,7 @@
   (let [[small large] (if (< (count path-a) (count path-b))
                         [path-a path-b]
                         [path-b path-a])]
-    (matching-path? small (take (count small) large))))
+    (matching-path? small (vec (take (count small) large)))))
 
 (defn get-path
   "Returns a sequence of [path value] tuples"
