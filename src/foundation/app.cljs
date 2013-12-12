@@ -466,3 +466,5 @@
 (defn proc
   [out f]
   (Process. (chan (sliding-buffer 32)) out f))
+
+
