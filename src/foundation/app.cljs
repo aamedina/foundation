@@ -6,6 +6,7 @@
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!
                                      sliding-buffer close!]]
+            [cljs.core.async.impl.protocols :as impl]
             [foundation.app.message :as msg]
             [foundation.app.util :as util]
             [foundation.app.data.dependency :as d]
@@ -453,18 +454,6 @@
     (def ^:dynamic *app* {:app app :app-model app-model})
     *app*))
 
-(deftype Process [in out f]
-  c/Lifecycle
-  (start [_]
-    (go-loop []
-      (let [val (<! in)]
-        (>! out (f val))
-        (recur))))
-  (stop [_]
-    (close! in)))
-
-(defn proc
-  [out f]
-  (Process. (chan (sliding-buffer 32)) out f))
-
+(defprotocol IApplication
+  (initialize [_]))
 

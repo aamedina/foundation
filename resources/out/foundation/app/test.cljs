@@ -6,6 +6,7 @@
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!
                                      sliding-buffer close!]]
+            [cljs.core.async.impl.protocols :as impl]
             [foundation.app :as app]
             [foundation.app.behavior :as behavior]
             [foundation.app.rendering :as rendering]
@@ -29,14 +30,30 @@
 
 (defn reset [] (js/location.reload true))
 
-(defn init
-  [app])
+(defn proc
+  ([f] (proc nil f))
+  ([out f]
+     (let [make-argv (fn [args] (if (coll? args) args [args]))
+           in (chan (sliding-buffer 32))
+           out out]
+       (go-loop []
+         (when-let [args (make-argv (<! in))]
+           (if out
+             (>! out (apply f args))
+             (apply f args)))
+         (recur))
+       in)))
+
+(def logger (proc println))
 
 (defrecord TwitterAds [app app-model procs]
-  c/Lifecycle
-  (start [_]
+  app/IApplication
+  (initialize [_]
     (put! (:input app) {msg/type :init msg/path [:dashboard]})
     (put! (:input app) {msg/type :init msg/path [:datagrid]}))
+  c/Lifecycle
+  (start [this]
+    (app/initialize this))
   (stop [_]))
 
 (defn ^:export -main []
