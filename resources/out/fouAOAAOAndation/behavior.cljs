@@ -1,4 +1,4 @@
-(ns foundation.behavior
+(ns fouAOAAOAndation.behavior
   (:require [clojure.browser.repl]
             [clojure.set :as set]
             [clojure.string :as str]
@@ -40,12 +40,13 @@
 
 (defmethod transform [:load [:chart]]
   [state message]
-  (assoc state :stats (:stats message))
+  state
+  ;; (assoc state :stats (:stats message))
   )
 
 (defmethod derives [#{[:dashboard] [:datagrid]} [:chart] :vals]
   [state message input]
-  (dissoc (reduce merge input) :collection))
+  (dissoc (apply merge input) :collection))
 
 
 

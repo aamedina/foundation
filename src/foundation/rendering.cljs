@@ -4,6 +4,7 @@
             [clojure.string :as str]
             [clojure.zip :as zip]
             [cljs.core.match :as m]
+            [goog.dom]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [post-process]]
             [foundation.behavior :as behavior]
@@ -39,9 +40,33 @@
     (en/append (tmpl/dashboard id))))
 
 (defmethod node-create [:datagrid]
-  [renderer delta input-queue parent-id id]
+  [renderer [_ path _ _] input-queue parent-id id]
   (en/at [(css-id parent-id)]
-    (en/append (tmpl/datagrid id []))))
+    (en/append (tmpl/datagrid id))))
+
+(defmethod node-update [:datagrid]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (set-data! renderer path (:resource val)))
+
+;; (defmethod node-update [:datagrid]
+;;   [renderer [_ path _ val] input-queue parent-id id]
+;;   (en/at (sel1 (css-id parent-id))
+;;     [:div.panel-body]
+;;     (en/content (tmpl/datagrid-table (:model val) (:collection val)))))
+
+(defmethod node-create [:datagrid :collection]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (let [resource (get-data renderer [:datagrid])]
+    (en/at (sel1 (css-id parent-id))
+      [:div.panel-body]
+      (en/content (tmpl/datagrid-table resource [])))))
+
+(defmethod node-update [:datagrid :collection]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (let [model (get-data renderer [:datagrid])]
+    (en/at (sel1 (css-id parent-id))
+      [:div.panel-body]
+      (en/content (tmpl/datagrid-table model val)))))
 
 (defmethod node-create [:chart]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -51,14 +76,12 @@
 (defmethod node-update [:chart]
   [renderer [_ path _ val] input-queue parent-id id]
   (let [chart (get-data renderer path)]
-    (println path val)))
-
-(defmethod node-update [:datagrid :collection :*]
-  [renderer [_ path _ val] input-queue parent-id id]
-  (println path val)
-  ;; (en/at (.getElementById parent-id)
-  ;;   (en/content (tmpl/datagrid {:collection [] :id id})))
-  )
+    ;; (doseq [series (.-series chart)]
+    ;;   (.remove series))
+    ;; (.addSeries chart (clj->js {:data (:stats val)
+    ;;                             :pointInterval (* 3600 1000)
+    ;;                             :pointStart (.getTime (:start-time val))}))
+    ))
 
 ;; (defmethod transform-enable [:datagrid]
 ;;   [renderer dispatch-val id message]

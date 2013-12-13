@@ -2,7 +2,8 @@
   (:require [enfocus.core :as en]
             [enfocus.events :as e]
             [dommy.core :as dom]
-            [foundation.cells :as cells])
+            [foundation.cells :as cells]
+            [foundation.models :refer [columns]])
   (:require-macros [dommy.macros :as dom :refer [deftemplate]]
                    [enfocus.macros :as en :refer [defaction]]
                    [cljs.core.match.macros :as m :refer [match]]
@@ -44,7 +45,7 @@
        (dashboard-metric metric))]]])
 
 (deftemplate datagrid-filter
-  [coll]
+  []
   [:div.autocomplete
    [:input.form-control {:type "text"
                          :placeholder "What are you looking for?"}]])
@@ -52,22 +53,19 @@
 (deftemplate datagrid-header
   [columns]
   [:thead#datagrid-header
-   [:tr (for [col columns]
-          (cells/th col))]])
+   [:tr (for [col columns] (cells/th col))]])
 
 (deftemplate datagrid-row
   [model columns]
-  [:tr (for [col columns]
-         (cells/td col model))])
+  [:tr (for [col columns] (cells/td col model))])
 
 (deftemplate datagrid-body
   [coll columns]
   [:tbody#datagrid-body.datagrid-tbody
-   (for [model (vals coll)]
-     (datagrid-row model columns))])
+   (for [model coll] (datagrid-row model columns))])
 
 (deftemplate datagrid-breadcrumb
-  [coll]
+  []
   [:ol.breadcrumb
    [:li#account.active [:div.arrow-down] [:a "Accounts"] [:div.arrow-up]]
    [:li#campaign.hidden [:a "Campaigns"]]
@@ -75,22 +73,21 @@
    [:li#promoted_tweet.hidden  [:a "Promoted Products"]]])
 
 (deftemplate datagrid-table
-  [{:keys [resource collection]}]
-  (let [{:keys [columns]} resource]
+  [model coll]
+  (let [cols (columns model)]
     [:table#datagrid-table.table
-     (datagrid-header columns)
-     (datagrid-body collection columns)]))
+     (datagrid-header cols)
+     (datagrid-body coll cols)]))
 
 (deftemplate datagrid
-  [id collection]
+  [id]
   [:div.datagrid-container.panel.panel-default {:id id}
    [:div.panel-heading
-    (datagrid-breadcrumb collection)
+    (datagrid-breadcrumb)
     [:form.form-inline.pull-right
      [:div.form-group
-      (datagrid-filter collection)]]]
-   [:div.panel-body
-    (datagrid-table {:collection collection})]
+      (datagrid-filter)]]]
+   [:div.panel-body]
    [:div.panel-footer
     [:div.form-inline
      [:div.form-group [:button#new.btn.btn-success.btn-sm "New"]]

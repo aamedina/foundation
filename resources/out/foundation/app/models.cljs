@@ -38,11 +38,11 @@
 
 (defn reify-url
   [{:keys [url keys re api]}]
-  (fn [model & kvs]
+  (fn [model kvs]
     (let [params (select-keys model keys)
           query-string
           (->> ((fnil select-keys {}) (:query-params model) model)
-               (merge (apply hash-map kvs))
+               (merge kvs)
                (query-params))]
       (str api (subs-uri url params) query-string))))
 
@@ -61,27 +61,27 @@
   (-delete [m params] (xhr/DELETE (-url m params) params))
   (-url [m params] (f m params)))
 
-(defmulti fetch (fn [model & {:keys [params query-params]}]
-                  (keyword (name (:name model)))))
+(defmulti fetch (fn [model & args]
+                  (when-let [n (:name model)] (keyword (name n)))))
 
 (defmethod fetch :default
   [model & {:keys [params query-params] :or {params {} query-params {}}}]
-  (xhr/GET (apply (:f model) params query-params) params))
+  (xhr/GET (apply (:f model) params [query-params]) params))
 
 (defmulti create (fn [model params] (name model)))
 
 (defmethod create :default
   [model & {:keys [params query-params] :or {params {} query-params {}}}]
-  (xhr/POST (apply (:f model) params query-params) params))
+  (xhr/POST (apply (:f model) params [query-params]) params))
 
 (defmulti update (fn [model params] (name model)))
 
 (defmethod update :default
   [model & {:keys [params query-params] :or {params {} query-params {}}}]
-  (xhr/PUT (apply (:f model) params query-params) params))
+  (xhr/PUT (apply (:f model) params [query-params]) params))
 
 (defmulti delete (fn [model params] (name model)))
 
 (defmethod delete :default
   [model params & {:keys [query-params] :or {params {} query-params {}}}]
-  (xhr/DELETE (apply (:f model) params query-params) params))
+  (xhr/DELETE (apply (:f model) params [query-params]) params))

@@ -25,18 +25,30 @@
 
 (defmethod transform [:load [:dashboard]]
   [state message]
-  {:model (:model message) :start-time nil :end-time nil})
+  (binding [foundation.models/*account* (:account message)]
+    {:model (:model message)
+     :account (:account message)
+     :stats-model (:stats-model message)
+     :start-time (models/start-time (:model message))
+     :end-time (models/end-time (:model message))}))
 
 (defmethod transform [:load [:datagrid]]
   [state message]
-  {:collection (:collection message) :selected #{}})
+  {:collection (:collection message) :selected #{}
+   :resource (:resource message)
+   :account (:account message)})
 
-(defmethod derives [#{[:dashboard]} [:chart] :single-val]
-  [state message input]
-  (if-not (:stats state)
-    state
-    input))
+(defmethod transform [:load [:chart]]
+  [state message]
+  (assoc state :stats (:stats message))
+  )
 
-(defmethod derives [#{[:datagrid]} [:datagrid :collection] :single-val]
+(defmethod derives [#{[:dashboard] [:datagrid]} [:chart] :vals]
   [state message input]
-  (:collection input))
+  (dissoc (reduce merge input) :collection))
+
+
+
+;; (defmethod derives [#{[:datagrid]} [:datagrid :collection] :single-val]
+;;   [state message input]
+;;   (:collection input))

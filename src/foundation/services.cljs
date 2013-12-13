@@ -5,6 +5,7 @@
             [clojure.zip :as zip]
             [cljs.core.match]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
+            [goog.date :as date]
             [foundation.app :as app :refer [effect]]
             [foundation.behavior :as behavior]
             [foundation.templates :as tmpl]
@@ -24,16 +25,30 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod effect [:init
-                   #{[:dashboard]}
-                   #{[:datagrid]} :vals]
+(defmethod effect [:init #{[:dashboard]} #{[:datagrid]} :vals]
   [message input-queue input]
   (go (let [accounts (<! (m/fetch models/accounts))
             account (first accounts)]
         (>! input-queue
-            {msg/type :load msg/path [:datagrid] :collection accounts})
+            {msg/type :load msg/path [:dashboard]
+             :model account
+             :account account
+             :stats-model models/account-stats})
         (>! input-queue
-            {msg/type :load msg/path [:dashboard] :model account}))))
+            {msg/type :load msg/path [:datagrid]
+             :account account
+             :collection accounts
+             :resource models/accounts}))))
+
+(defmethod effect [:load #{[:chart]} #{[:chart :stats]} :single-val]
+  [message input-queue input]
+  (go (when-let [stats (<! (m/fetch (:stats-model input)
+                                    :params (:model input)
+                                    :query-params
+                                    (select-keys input
+                                                 [:start-time :end-time])))]
+        (put! input-queue {msg/type :load msg/path [:chart] :stats stats})
+        )))
 
 ;; (defmethod effect [:init
 ;;                    #{[:dashboard]}

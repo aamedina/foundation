@@ -77,7 +77,7 @@
                                       (filter-changes inputs))]
                      (mapcat (fn [[k v]]
                                (let [k (prefixed k prefix)]
-                                 (if (= v ::removed)
+                                 (if (= v :foundation.app.dataflow/removed)
                                    [[:value k nil] [:node-destroy k]]
                                    [[:value k v]])))
                              removed)))))))

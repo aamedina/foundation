@@ -176,8 +176,11 @@
                    pid (get-parent-id renderer path)]
                (case op
                  :node-create (node-create renderer d input-queue pid id)
-                 :node-destroy (node-destroy renderer d input-queue id)
-                 :value (node-update renderer d input-queue id)
+                 :node-destroy (node-destroy renderer d input-queue pid id)
+                 :value
+                 (if (= (last d) :foundation.app.dataflow/removed)
+                   (node-destroy renderer d input-queue pid id)
+                   (node-update renderer d input-queue pid id))
                  :attr (node-update renderer d input-queue id)
                  :transform-enable
                  (transform-enable renderer d input-queue id)
