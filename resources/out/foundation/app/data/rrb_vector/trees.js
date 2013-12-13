@@ -19,10 +19,10 @@ if((shift__$2 === 0))
 {return node__$1.arr;
 } else
 {{
-var G__85286 = (node__$1.arr[((i__$1 >> shift__$2) & 31)]);
-var G__85287 = (shift__$2 - 5);
-node__$1 = G__85286;
-shift__$2 = G__85287;
+var G__294463 = (node__$1.arr[((i__$1 >> shift__$2) & 31)]);
+var G__294464 = (shift__$2 - 5);
+node__$1 = G__294463;
+shift__$2 = G__294464;
 continue;
 }
 }
@@ -34,20 +34,20 @@ if((i__$1 < (rngs[j])))
 {return j;
 } else
 {{
-var G__85288 = (j + 1);
-j = G__85288;
+var G__294465 = (j + 1);
+j = G__294465;
 continue;
 }
 }
 break;
 }
 })();var i__$2 = (((j > 0))?(i__$1 - (rngs[(j - 1)])):i__$1);{
-var G__85289 = i__$2;
-var G__85290 = (node.arr[j]);
-var G__85291 = (shift__$1 - 5);
-i__$1 = G__85289;
-node = G__85290;
-shift__$1 = G__85291;
+var G__294466 = i__$2;
+var G__294467 = (node.arr[j]);
+var G__294468 = (shift__$1 - 5);
+i__$1 = G__294466;
+node = G__294467;
+shift__$1 = G__294468;
 continue;
 }
 }
@@ -66,10 +66,10 @@ if((s === shift))
 } else
 {var arr = (new Array(32));var ret = cljs.core.__GT_VectorNode.call(null,edit,arr);(arr[0] = n);
 {
-var G__85292 = (s + 5);
-var G__85293 = ret;
-s = G__85292;
-n = G__85293;
+var G__294469 = (s + 5);
+var G__294470 = ret;
+s = G__294469;
+n = G__294470;
 continue;
 }
 }
@@ -83,10 +83,10 @@ if((s === shift))
 {var arr = (new Array(33));var rngs = (new Array(33));var ret = cljs.core.__GT_VectorNode.call(null,edit,arr);(arr[0] = n);
 (arr[32] = rngs);
 {
-var G__85294 = (s + 5);
-var G__85295 = ret;
-s = G__85294;
-n = G__85295;
+var G__294471 = (s + 5);
+var G__294472 = ret;
+s = G__294471;
+n = G__294472;
 continue;
 }
 }
@@ -95,21 +95,21 @@ break;
 }
 });
 foundation.app.data.rrb_vector.trees.push_tail = (function push_tail(shift,cnt,root_edit,current_node,tail_node){if(foundation.app.data.rrb_vector.nodes.regular_QMARK_.call(null,current_node))
-{var arr = cljs.core.aclone.call(null,current_node.arr);var ret = cljs.core.__GT_VectorNode.call(null,current_node.edit,arr);var n_85296 = ret;var shift_85297__$1 = shift;while(true){
-var arr_85298__$1 = n_85296.arr;var subidx_85299 = (((cnt - 1) >> shift_85297__$1) & 31);if((shift_85297__$1 === 5))
-{(arr_85298__$1[subidx_85299] = tail_node);
+{var arr = cljs.core.aclone.call(null,current_node.arr);var ret = cljs.core.__GT_VectorNode.call(null,current_node.edit,arr);var n_294473 = ret;var shift_294474__$1 = shift;while(true){
+var arr_294475__$1 = n_294473.arr;var subidx_294476 = (((cnt - 1) >> shift_294474__$1) & 31);if((shift_294474__$1 === 5))
+{(arr_294475__$1[subidx_294476] = tail_node);
 } else
-{var temp__4090__auto___85300 = (arr_85298__$1[subidx_85299]);if(cljs.core.truth_(temp__4090__auto___85300))
-{var child_85301 = temp__4090__auto___85300;var new_carr_85302 = cljs.core.aclone.call(null,child_85301.arr);var new_child_85303 = cljs.core.__GT_VectorNode.call(null,root_edit,new_carr_85302);(arr_85298__$1[subidx_85299] = new_child_85303);
+{var temp__4090__auto___294477 = (arr_294475__$1[subidx_294476]);if(cljs.core.truth_(temp__4090__auto___294477))
+{var child_294478 = temp__4090__auto___294477;var new_carr_294479 = cljs.core.aclone.call(null,child_294478.arr);var new_child_294480 = cljs.core.__GT_VectorNode.call(null,root_edit,new_carr_294479);(arr_294475__$1[subidx_294476] = new_child_294480);
 {
-var G__85304 = new_child_85303;
-var G__85305 = (shift_85297__$1 - 5);
-n_85296 = G__85304;
-shift_85297__$1 = G__85305;
+var G__294481 = new_child_294480;
+var G__294482 = (shift_294474__$1 - 5);
+n_294473 = G__294481;
+shift_294474__$1 = G__294482;
 continue;
 }
 } else
-{(arr_85298__$1[subidx_85299] = foundation.app.data.rrb_vector.trees.new_path.call(null,tail_node.arr,root_edit,(shift_85297__$1 - 5),tail_node));
+{(arr_294475__$1[subidx_294476] = foundation.app.data.rrb_vector.trees.new_path.call(null,tail_node.arr,root_edit,(shift_294474__$1 - 5),tail_node));
 }
 }
 break;
@@ -159,8 +159,8 @@ if(((((rngs[(subidx__$1 + 1)]) | 0) === 0)) || ((subidx__$1 === 31)))
 {return subidx__$1;
 } else
 {{
-var G__85306 = (subidx__$1 + 1);
-subidx__$1 = G__85306;
+var G__294483 = (subidx__$1 + 1);
+subidx__$1 = G__294483;
 continue;
 }
 }
@@ -212,16 +212,16 @@ return cljs.core.__GT_VectorNode.call(null,root_edit,arr);
 }
 });
 foundation.app.data.rrb_vector.trees.do_assoc = (function do_assoc(shift,current_node,i,val){if(foundation.app.data.rrb_vector.nodes.regular_QMARK_.call(null,current_node))
-{var node = foundation.app.data.rrb_vector.nodes.clone.call(null,shift,current_node);var shift_85307__$1 = shift;var node_85308__$1 = node;while(true){
-if((shift_85307__$1 === 0))
-{var arr_85309 = node_85308__$1.arr;(arr_85309[(i & 31)] = val);
+{var node = foundation.app.data.rrb_vector.nodes.clone.call(null,shift,current_node);var shift_294484__$1 = shift;var node_294485__$1 = node;while(true){
+if((shift_294484__$1 === 0))
+{var arr_294486 = node_294485__$1.arr;(arr_294486[(i & 31)] = val);
 } else
-{var arr_85310 = node_85308__$1.arr;var subidx_85311 = ((i >> shift_85307__$1) & 31);var child_85312 = foundation.app.data.rrb_vector.nodes.clone.call(null,shift_85307__$1,(arr_85310[subidx_85311]));(arr_85310[subidx_85311] = child_85312);
+{var arr_294487 = node_294485__$1.arr;var subidx_294488 = ((i >> shift_294484__$1) & 31);var child_294489 = foundation.app.data.rrb_vector.nodes.clone.call(null,shift_294484__$1,(arr_294487[subidx_294488]));(arr_294487[subidx_294488] = child_294489);
 {
-var G__85313 = (shift_85307__$1 - 5);
-var G__85314 = child_85312;
-shift_85307__$1 = G__85313;
-node_85308__$1 = G__85314;
+var G__294490 = (shift_294484__$1 - 5);
+var G__294491 = child_294489;
+shift_294484__$1 = G__294490;
+node_294485__$1 = G__294491;
 continue;
 }
 }
@@ -235,8 +235,8 @@ if(((((rngs[(i__$1 + 1)]) | 0) === 0)) || ((i__$1 === 31)))
 {return i__$1;
 } else
 {{
-var G__85315 = (i__$1 + 1);
-i__$1 = G__85315;
+var G__294492 = (i__$1 + 1);
+i__$1 = G__294492;
 continue;
 }
 }
@@ -250,8 +250,8 @@ if(((((rngs[(subidx__$1 + 1)]) | 0) === 0)) || ((subidx__$1 === 31)))
 {return subidx__$1;
 } else
 {{
-var G__85316 = (subidx__$1 + 1);
-subidx__$1 = G__85316;
+var G__294493 = (subidx__$1 + 1);
+subidx__$1 = G__294493;
 continue;
 }
 }

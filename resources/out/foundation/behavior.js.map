@@ -2,10 +2,10 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/behavior.js",
  "sources":["behavior.cljs"],
- "lineCount":42,
+ "lineCount":50,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqBA,AAACA;AAED,AAAAC,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,iEAAA,0BAAA,AAAA,fAAoCC,MAAMC;;AAE1C,AAAAH,gCAAAI,uBAAA,mFAAA,uCAAA,mFAAA,+EAAA,mFAAA,+DAAA,6DAAA,gCAAA,AAAA,rBACGF,MAAMC,QAAQE;;AAGjB,AAAAL,gCAAAI,uBAAA,mFAAA,uCAAA,mFAAA,6EAAA,mFAAA,6DAAA,2DAAA,gCAAA,AAAA,rBACGF,MAAMC,QAAQE",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAqBA,AAACA;AAED,AAAAC,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,iEAAA,0BAAA,AAAA,fAAoCC,MAAMC;;AAE1C,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,+EAAA,0BAAA,AAAA,kDAAA,qJAAA,iEAAA,KAAA,6DAAA,zVACGC,MAAMC,kHACC,AAAA,qFAAQA;;AAElB,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,6EAAA,0BAAA,AAAA,kDAAA,yKAAA,6DAAA,vSACGC,MAAMC,4HACM,AAAA,+FAAaA;;AAE5B,AAAAH,gCAAAI,uBAAA,mFAAA,uCAAA,mFAAA,+EAAA,mFAAA,+DAAA,yEAAA,gCAAA,rBACGF,MAAMC,QAAQE,OACf,GAAA,AAAAC,wBAAQ,AAAA,qFAAQJ;CACdA;;CACAG;;;AAEJ,AAAAL,gCAAAI,uBAAA,mFAAA,uCAAA,mFAAA,6EAAA,mFAAA,6DAAA,yEAAA,yEAAA,gCAAA,rBACGF,MAAMC,QAAQE,OACf,OAAA,+FAAaA",
  "names":
  ["cljs.core/enable-console-print!", "cljs.core/-add-method",
   "foundation.app/transform", "state", "message",
-  "foundation.app/derives", "input"]}
+  "foundation.app/derives", "input", "cljs.core/not"]}

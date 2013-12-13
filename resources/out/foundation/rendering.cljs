@@ -53,10 +53,12 @@
   (let [chart (get-data renderer path)]
     (println path val)))
 
-;; (defmethod node-update [:datagrid :collection]
-;;   [renderer [_ path _ val] input-queue parent-id id]
-;;   (en/at [parent-id]
-;;     (en/content (tmpl/datagrid {:collection [] :id id}))))
+(defmethod node-update [:datagrid :collection :*]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (println path val)
+  ;; (en/at (.getElementById parent-id)
+  ;;   (en/content (tmpl/datagrid {:collection [] :id id})))
+  )
 
 ;; (defmethod transform-enable [:datagrid]
 ;;   [renderer dispatch-val id message]

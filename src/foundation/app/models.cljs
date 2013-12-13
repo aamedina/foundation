@@ -5,7 +5,7 @@
             [foundation.app.xhr :as xhr]
             [foundation.app.message :as msg]
             [foundation.app.data.dependency :as d :refer [graph depend]]
-            [cljs.core.async :refer [<! chan put!]])
+            [cljs.core.async :as a :refer [<! chan put!]])
   (:require-macros [foundation.app :as app :refer [defmodel]]
                    [cljs.core.async.macros :refer [go go-loop]]))
 
@@ -40,12 +40,48 @@
   [{:keys [url keys re api]}]
   (fn [model & kvs]
     (let [params (select-keys model keys)
-          query-string (->> (select-keys model (:query-params model))
-                            (merge (apply hash-map kvs))
-                            (query-params))]
+          query-string
+          (->> ((fnil select-keys {}) (:query-params model) model)
+               (merge (apply hash-map kvs))
+               (query-params))]
       (str api (subs-uri url params) query-string))))
 
-(defprotocol IModel
-  (fetch [_]))
+(defprotocol IModel 
+  (-fetch [_ _])
+  (-create [_ _])
+  (-update [_ _])
+  (-delete [_ _])
+  (-url [_ _]))
 
-(defrecord Model [url api query-params])
+(defrecord Model [url api query-params f name]
+  IModel
+  (-fetch [m params] (xhr/GET (-url m params)))
+  (-create [m params] (xhr/POST (-url m params) params))
+  (-update [m params] (xhr/PUT (-url m params) params))
+  (-delete [m params] (xhr/DELETE (-url m params) params))
+  (-url [m params] (f m params)))
+
+(defmulti fetch (fn [model & {:keys [params query-params]}]
+                  (keyword (name (:name model)))))
+
+(defmethod fetch :default
+  [model & {:keys [params query-params] :or {params {} query-params {}}}]
+  (xhr/GET (apply (:f model) params query-params) params))
+
+(defmulti create (fn [model params] (name model)))
+
+(defmethod create :default
+  [model & {:keys [params query-params] :or {params {} query-params {}}}]
+  (xhr/POST (apply (:f model) params query-params) params))
+
+(defmulti update (fn [model params] (name model)))
+
+(defmethod update :default
+  [model & {:keys [params query-params] :or {params {} query-params {}}}]
+  (xhr/PUT (apply (:f model) params query-params) params))
+
+(defmulti delete (fn [model params] (name model)))
+
+(defmethod delete :default
+  [model params & {:keys [query-params] :or {params {} query-params {}}}]
+  (xhr/DELETE (apply (:f model) params query-params) params))

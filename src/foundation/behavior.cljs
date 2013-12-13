@@ -23,55 +23,20 @@
 
 (defmethod transform [:init [:**]] [state message] {})
 
-(defmethod derives [#{[:dashboard]} [:chart] :vals]
+(defmethod transform [:load [:dashboard]]
+  [state message]
+  {:model (:model message) :start-time nil :end-time nil})
+
+(defmethod transform [:load [:datagrid]]
+  [state message]
+  {:collection (:collection message) :selected #{}})
+
+(defmethod derives [#{[:dashboard]} [:chart] :single-val]
   [state message input]
-  1)
+  (if-not (:stats state)
+    state
+    input))
 
-(defmethod derives [#{[:datagrid]} [:rows] :map]
+(defmethod derives [#{[:datagrid]} [:datagrid :collection] :single-val]
   [state message input]
-  [])
-
-;; (defmethod transform [:init [:dashboard]]
-;;   [state message]
-;;   (println message)
-;;   {:model nil :start-time nil :end-time nil})
-
-;; (defmethod transform [:init [:datagrid]]
-;;   [state message]
-;;   (println message)
-;;   {:collection {} :selected #{} :resource {} :rows []})
-
-;; (defmethod transform [:init [:**]]
-;;   [state message]
-;;   (println message)
-;;   {})
-
-;; (defmethod derives [#{[:dashboard]} [:chart] :map]
-;;   [state message nums]
-;;   (println message "chart derives")
-;;   {:chart nil})
-
-;; (defmethod transform [:add-points [:my-counter]]
-;;   [old-value message]
-;;   (if-let [points (int (:points message))]
-;;     (+ old-value points)
-;;     old-value))
-
-;; (defmethod derives [#{[:my-counter]
-;;                       [:other-counters :*]} [:total-count] :vals]
-;;   [state message nums]
-;;   (reduce + nums))
-
-;; (defmethod derives [#{[:my-counter]
-;;                       [:other-counters :*]} [:max-count] :vals]
-;;   [old-value message nums]
-;;   (apply max (or old-value 0) nums))
-
-;; (defmethod derives [{[:my-counter] :nums
-;;                      [:other-counters :*] :nums
-;;                      [:total-count] :total} [:average-count] :map]
-;;   [old-value message {:keys [nums total] :as m}]
-;;   (/ total (count nums)))
-
-
-
+  (:collection input))

@@ -9,45 +9,45 @@ goog.require('cljs_time.core');
 * @param {...*} var_args
 */
 foundation.chart.reset_series_BANG_ = (function() { 
-var reset_series_BANG___delegate = function (chart,p__86412){var map__86418 = p__86412;var map__86418__$1 = ((cljs.core.seq_QMARK_.call(null,map__86418))?cljs.core.apply.call(null,cljs.core.hash_map,map__86418):map__86418);var point_start = cljs.core.get.call(null,map__86418__$1,new cljs.core.Keyword(null,"point-start","point-start",4476351831),cljs_time.core.ago.call(null,cljs_time.core.days.call(null,1)));var interval = cljs.core.get.call(null,map__86418__$1,new cljs.core.Keyword(null,"interval","interval",1584322615),(3600 * 1000));var data = cljs.core.get.call(null,map__86418__$1,new cljs.core.Keyword(null,"data","data",1016980252),cljs.core.PersistentVector.EMPTY);var name = cljs.core.get.call(null,map__86418__$1,new cljs.core.Keyword(null,"name","name",1017277949),"");var seq__86419_86423 = cljs.core.seq.call(null,chart.series);var chunk__86420_86424 = null;var count__86421_86425 = 0;var i__86422_86426 = 0;while(true){
-if((i__86422_86426 < count__86421_86425))
-{var series_86427 = cljs.core._nth.call(null,chunk__86420_86424,i__86422_86426);series_86427.remove();
+var reset_series_BANG___delegate = function (chart,p__295609){var map__295615 = p__295609;var map__295615__$1 = ((cljs.core.seq_QMARK_.call(null,map__295615))?cljs.core.apply.call(null,cljs.core.hash_map,map__295615):map__295615);var point_start = cljs.core.get.call(null,map__295615__$1,new cljs.core.Keyword(null,"point-start","point-start",4476351831),cljs_time.core.ago.call(null,cljs_time.core.days.call(null,1)));var interval = cljs.core.get.call(null,map__295615__$1,new cljs.core.Keyword(null,"interval","interval",1584322615),(3600 * 1000));var data = cljs.core.get.call(null,map__295615__$1,new cljs.core.Keyword(null,"data","data",1016980252),cljs.core.PersistentVector.EMPTY);var name = cljs.core.get.call(null,map__295615__$1,new cljs.core.Keyword(null,"name","name",1017277949),"");var seq__295616_295620 = cljs.core.seq.call(null,chart.series);var chunk__295617_295621 = null;var count__295618_295622 = 0;var i__295619_295623 = 0;while(true){
+if((i__295619_295623 < count__295618_295622))
+{var series_295624 = cljs.core._nth.call(null,chunk__295617_295621,i__295619_295623);series_295624.remove();
 {
-var G__86428 = seq__86419_86423;
-var G__86429 = chunk__86420_86424;
-var G__86430 = count__86421_86425;
-var G__86431 = (i__86422_86426 + 1);
-seq__86419_86423 = G__86428;
-chunk__86420_86424 = G__86429;
-count__86421_86425 = G__86430;
-i__86422_86426 = G__86431;
+var G__295625 = seq__295616_295620;
+var G__295626 = chunk__295617_295621;
+var G__295627 = count__295618_295622;
+var G__295628 = (i__295619_295623 + 1);
+seq__295616_295620 = G__295625;
+chunk__295617_295621 = G__295626;
+count__295618_295622 = G__295627;
+i__295619_295623 = G__295628;
 continue;
 }
 } else
-{var temp__4092__auto___86432 = cljs.core.seq.call(null,seq__86419_86423);if(temp__4092__auto___86432)
-{var seq__86419_86433__$1 = temp__4092__auto___86432;if(cljs.core.chunked_seq_QMARK_.call(null,seq__86419_86433__$1))
-{var c__14549__auto___86434 = cljs.core.chunk_first.call(null,seq__86419_86433__$1);{
-var G__86435 = cljs.core.chunk_rest.call(null,seq__86419_86433__$1);
-var G__86436 = c__14549__auto___86434;
-var G__86437 = cljs.core.count.call(null,c__14549__auto___86434);
-var G__86438 = 0;
-seq__86419_86423 = G__86435;
-chunk__86420_86424 = G__86436;
-count__86421_86425 = G__86437;
-i__86422_86426 = G__86438;
+{var temp__4092__auto___295629 = cljs.core.seq.call(null,seq__295616_295620);if(temp__4092__auto___295629)
+{var seq__295616_295630__$1 = temp__4092__auto___295629;if(cljs.core.chunked_seq_QMARK_.call(null,seq__295616_295630__$1))
+{var c__14549__auto___295631 = cljs.core.chunk_first.call(null,seq__295616_295630__$1);{
+var G__295632 = cljs.core.chunk_rest.call(null,seq__295616_295630__$1);
+var G__295633 = c__14549__auto___295631;
+var G__295634 = cljs.core.count.call(null,c__14549__auto___295631);
+var G__295635 = 0;
+seq__295616_295620 = G__295632;
+chunk__295617_295621 = G__295633;
+count__295618_295622 = G__295634;
+i__295619_295623 = G__295635;
 continue;
 }
 } else
-{var series_86439 = cljs.core.first.call(null,seq__86419_86433__$1);series_86439.remove();
+{var series_295636 = cljs.core.first.call(null,seq__295616_295630__$1);series_295636.remove();
 {
-var G__86440 = cljs.core.next.call(null,seq__86419_86433__$1);
-var G__86441 = null;
-var G__86442 = 0;
-var G__86443 = 0;
-seq__86419_86423 = G__86440;
-chunk__86420_86424 = G__86441;
-count__86421_86425 = G__86442;
-i__86422_86426 = G__86443;
+var G__295637 = cljs.core.next.call(null,seq__295616_295630__$1);
+var G__295638 = null;
+var G__295639 = 0;
+var G__295640 = 0;
+seq__295616_295620 = G__295637;
+chunk__295617_295621 = G__295638;
+count__295618_295622 = G__295639;
+i__295619_295623 = G__295640;
 continue;
 }
 }
@@ -59,14 +59,14 @@ break;
 return chart.addSeries(cljs.core.clj__GT_js.call(null,new cljs.core.PersistentArrayMap(null, 3, [new cljs.core.Keyword(null,"data","data",1016980252),data,new cljs.core.Keyword(null,"pointInterval","pointInterval",1241580007),interval,new cljs.core.Keyword(null,"pointStart","pointStart",2269080612),point_start.getTime()], null)));
 };
 var reset_series_BANG_ = function (chart,var_args){
-var p__86412 = null;if (arguments.length > 1) {
-  p__86412 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);} 
-return reset_series_BANG___delegate.call(this,chart,p__86412);};
+var p__295609 = null;if (arguments.length > 1) {
+  p__295609 = cljs.core.array_seq(Array.prototype.slice.call(arguments, 1),0);} 
+return reset_series_BANG___delegate.call(this,chart,p__295609);};
 reset_series_BANG_.cljs$lang$maxFixedArity = 1;
-reset_series_BANG_.cljs$lang$applyTo = (function (arglist__86444){
-var chart = cljs.core.first(arglist__86444);
-var p__86412 = cljs.core.rest(arglist__86444);
-return reset_series_BANG___delegate(chart,p__86412);
+reset_series_BANG_.cljs$lang$applyTo = (function (arglist__295641){
+var chart = cljs.core.first(arglist__295641);
+var p__295609 = cljs.core.rest(arglist__295641);
+return reset_series_BANG___delegate(chart,p__295609);
 });
 reset_series_BANG_.cljs$core$IFn$_invoke$arity$variadic = reset_series_BANG___delegate;
 return reset_series_BANG_;

@@ -41,12 +41,16 @@
        (apply zipmap)))
 
 (defmacro defmodel
-  [name config & body]
+  [n config & body]
   (let [cfg (eval ``~(merge {} ~config))
         url ``~~(:url cfg)
-        compiled-route (when url (compile-route url))]
-    `(def ~name (foundation.app.models/map->Model
-                 ~((fnil #(merge cfg %) cfg) compiled-route)))))
+        str-name (name n)
+        compiled-route (when url (compile-route url))
+        params ((fnil #(merge cfg %) cfg) compiled-route)]
+    `(def ~n (foundation.app.models/map->Model
+                 ~(assoc params
+                    :f `(foundation.app.models/reify-url ~params)
+                    :name (keyword "foundation.models" str-name))))))
 
 (defn readr
   [prompt exit-code]

@@ -375,18 +375,19 @@
 
 (def derives?
   (memoize
-   (fn [dependents [dispatch-val multifn]]
+   (fn [message dependents [dispatch-val multifn]]
      (contains? (set dependents) (second dispatch-val)))))
 
 (def effect?
   (memoize
-   (fn [dependents [dispatch-val multifn]]
-     (seq (set/intersection (set dependents) (nth dispatch-val 2))))))
+   (fn [message dependents [dispatch-val multifn]]
+     (and (seq (set/intersection (set dependents) (nth dispatch-val 2)))
+          (= (first dispatch-val) (msg/type message))))))
 
 (defn matching-dispatches
   [state multifn pred]
   (->> (dissoc (methods multifn) :default)
-       (filter #(pred (dependents state) %))
+       (filter #(pred (:message (:context state)) (dependents state) %))
        (seq)))
 
 (defn derives-phase

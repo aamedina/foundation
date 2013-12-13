@@ -13,7 +13,6 @@
             [foundation.rendering :as rendering]
             [foundation.services :as services]
             [foundation.templates :as tmpl]
-            [foundation.models :as models]
             [foundation.app.message :as msg]
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
