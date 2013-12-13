@@ -1,4 +1,4 @@
-(ns foundation.app.services
+(ns foundation.services
   (:require [clojure.browser.repl]
             [clojure.set :as set]
             [clojure.string :as str]
@@ -6,11 +6,11 @@
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [effect]]
-            [foundation.app.behavior :as behavior]
-            [foundation.app.rendering :as rendering]
+            [foundation.behavior :as behavior]
+            [foundation.templates :as tmpl]
+            [foundation.models :as models]
+            [foundation.rendering :as rendering]
             [foundation.app.message :as msg]
-            [foundation.app.templates :as tmpl]
-            [foundation.app.models :as models]
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
             [foundation.app.data.component :as c]
@@ -27,5 +27,5 @@
                    #{[:dashboard]}
                    #{[:datagrid]} :vals]
   [message input-queue input]
-  ;; (go (let [accounts (f)]))
+  ;; (go (let [accounts (reify-model models/accounts {})]))
   (println (msg/path message) input))

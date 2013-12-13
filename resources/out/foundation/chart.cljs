@@ -1,4 +1,4 @@
-(ns foundation.app.chart
+(ns foundation.chart
   (:require [cljs-time.core :as time]
             [dommy.core :as dom])
   (:require-macros [dommy.macros :refer [sel1]]))

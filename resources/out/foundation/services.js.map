@@ -1,6 +1,6 @@
 {"version":3,
  "file":
- "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/services.js",
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/services.js",
  "sources":["services.cljs"],
  "lineCount":46,
  "mappings":

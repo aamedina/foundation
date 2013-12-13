@@ -34,17 +34,19 @@
 ;;               (with-meta (zipmap [~@(map keyword params)] ~params)
 ;;                 {:model ~(keyword name)}))))))
 
-(def models (atom nil))
+(defn compile-route
+  [url]
+  (->> (update-in (clout/route-compile url) [:keys] vec)
+       ((juxt keys vals))
+       (apply zipmap)))
 
 (defmacro defmodel
   [name config & body]
-  (let [config (eval ``~~config)
-        compiled-route (->> (update-in (clout/route-compile (:url config))
-                                       [:keys] vec)
-                            ((juxt keys vals))
-                            (apply zipmap))]
-    `(do (def ~name ~(merge compiled-route config)))))
-
+  (let [cfg (eval ``~(merge {} ~config))
+        url ``~~(:url cfg)
+        compiled-route (when url (compile-route url))]
+    `(def ~name (foundation.app.models/map->Model
+                 ~((fnil #(merge cfg %) cfg) compiled-route)))))
 
 (defn readr
   [prompt exit-code]

@@ -1,4 +1,4 @@
-(ns foundation.app.behavior
+(ns foundation.behavior
   (:require [clojure.browser.repl]
             [clojure.set :as set]
             [clojure.string :as str]
@@ -6,10 +6,9 @@
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [transform derives route-effect]]
-            [foundation.app.rendering :as rendering]
+            [foundation.templates :as tmpl]
+            [foundation.models :as models]
             [foundation.app.message :as msg]
-            [foundation.app.templates :as tmpl]
-            [foundation.app.models :as models]
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
             [enfocus.core :as en]

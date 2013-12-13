@@ -15,7 +15,7 @@
   "foundation.app.data.rrb-vector.nodes/last-range", "rngs", "i",
   "foundation.app.data.rrb-vector.nodes/regular-ranges", "cnt", "step",
   "js/Array", "r", "foundation.app.data.rrb-vector.nodes/overflow?",
-  "root", "slc", "and__13776__auto__", "or__13788__auto__",
+  "root", "slc", "and__13813__auto__", "or__13825__auto__",
   "foundation.app.data.rrb-vector.nodes/index-of-0", "arr", "l", "h",
   "mid", "foundation.app.data.rrb-vector.nodes/index-of-nil",
   "foundation.app.data.rrb-vector.nodes/first-child",
@@ -27,6 +27,6 @@
   "pcnt", "child", "d", "ncnt", "li",
   "foundation.app.data.rrb-vector.nodes/replace-rightmost-child", "j",
   "foundation.app.data.rrb-vector.nodes/new-path*", "reg?", "len",
-  "G__36380", "ret", "a", "e",
+  "G__85086", "ret", "a", "e",
   "foundation.app.data.rrb-vector.nodes/fold-tail", "tail", "tlen",
   "cret", "fold-tail", "cljs.core/mod"]}

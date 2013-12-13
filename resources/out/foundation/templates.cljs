@@ -1,8 +1,8 @@
-(ns foundation.app.templates
+(ns foundation.templates
   (:require [enfocus.core :as en]
             [enfocus.events :as e]
             [dommy.core :as dom]
-            [foundation.app.cells :as cells])
+            [foundation.cells :as cells])
   (:require-macros [dommy.macros :as dom :refer [deftemplate]]
                    [enfocus.macros :as en :refer [defaction]]
                    [cljs.core.match.macros :as m :refer [match]]

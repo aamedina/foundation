@@ -1,4 +1,4 @@
-(ns foundation.app.cells
+(ns foundation.cells
   (:require [enfocus.core :as en]
             [enfocus.events :as e]
             [dommy.core :as dom]

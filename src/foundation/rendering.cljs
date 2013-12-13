@@ -1,4 +1,4 @@
-(ns foundation.app.rendering
+(ns foundation.rendering
   (:require [clojure.browser.repl]
             [clojure.set :as set]
             [clojure.string :as str]
@@ -6,14 +6,14 @@
             [cljs.core.match :as m]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [post-process]]
-            [foundation.app.behavior :as behavior]
+            [foundation.behavior :as behavior]
+            [foundation.templates :as tmpl]
+            [foundation.chart :as c :refer [highchart]]
+            [foundation.models :as models]
             [foundation.app.render :as r
              :refer [node-create node-update transform-enable attach-transform
                      fix-id set-data! get-data drop-data!]]
             [foundation.app.message :as msg]
-            [foundation.app.templates :as tmpl]
-            [foundation.app.chart :as c :refer [highchart]]
-            [foundation.app.models :as models]
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
             [enfocus.core :as en]

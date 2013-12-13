@@ -4,21 +4,21 @@ goog.require('cljs.core');
 goog.require('clojure.set');
 goog.require('clojure.set');
 foundation.app.data.dependency.Number = Number;
-foundation.app.data.dependency.DependencyGraph = (function (){var obj36297 = {};return obj36297;
+foundation.app.data.dependency.DependencyGraph = (function (){var obj85003 = {};return obj85003;
 })();
-foundation.app.data.dependency.immediate_dependencies = (function immediate_dependencies(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.immediate_dependencies = (function immediate_dependencies(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$immediate_dependencies$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraph$immediate_dependencies$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.immediate_dependencies[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.immediate_dependencies[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.immediate_dependencies["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.immediate_dependencies["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraph.immediate-dependencies",graph);
 }
@@ -26,19 +26,19 @@ foundation.app.data.dependency.immediate_dependencies = (function immediate_depe
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.immediate_dependents = (function immediate_dependents(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.immediate_dependents = (function immediate_dependents(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$immediate_dependents$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraph$immediate_dependents$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.immediate_dependents[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.immediate_dependents[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.immediate_dependents["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.immediate_dependents["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraph.immediate-dependents",graph);
 }
@@ -46,19 +46,19 @@ foundation.app.data.dependency.immediate_dependents = (function immediate_depend
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.transitive_dependencies = (function transitive_dependencies(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.transitive_dependencies = (function transitive_dependencies(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$transitive_dependencies$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraph$transitive_dependencies$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.transitive_dependencies[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.transitive_dependencies[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.transitive_dependencies["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.transitive_dependencies["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraph.transitive-dependencies",graph);
 }
@@ -66,19 +66,19 @@ foundation.app.data.dependency.transitive_dependencies = (function transitive_de
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.transitive_dependents = (function transitive_dependents(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.transitive_dependents = (function transitive_dependents(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$transitive_dependents$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraph$transitive_dependents$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.transitive_dependents[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.transitive_dependents[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.transitive_dependents["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.transitive_dependents["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraph.transitive-dependents",graph);
 }
@@ -86,19 +86,19 @@ foundation.app.data.dependency.transitive_dependents = (function transitive_depe
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.nodes = (function nodes(graph){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.nodes = (function nodes(graph){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$nodes$arity$1;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraph$nodes$arity$1(graph);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.nodes[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.nodes[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.nodes["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.nodes["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraph.nodes",graph);
 }
@@ -106,21 +106,21 @@ foundation.app.data.dependency.nodes = (function nodes(graph){if((function (){va
 })().call(null,graph);
 }
 });
-foundation.app.data.dependency.DependencyGraphUpdate = (function (){var obj36299 = {};return obj36299;
+foundation.app.data.dependency.DependencyGraphUpdate = (function (){var obj85005 = {};return obj85005;
 })();
-foundation.app.data.dependency.depend = (function depend(graph,node,dep){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.depend = (function depend(graph,node,dep){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$depend$arity$3;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$depend$arity$3(graph,node,dep);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.depend[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.depend[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.depend["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.depend["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraphUpdate.depend",graph);
 }
@@ -128,19 +128,19 @@ foundation.app.data.dependency.depend = (function depend(graph,node,dep){if((fun
 })().call(null,graph,node,dep);
 }
 });
-foundation.app.data.dependency.remove_edge = (function remove_edge(graph,node,dep){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.remove_edge = (function remove_edge(graph,node,dep){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_edge$arity$3;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_edge$arity$3(graph,node,dep);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.remove_edge[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.remove_edge[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.remove_edge["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.remove_edge["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraphUpdate.remove-edge",graph);
 }
@@ -148,19 +148,19 @@ foundation.app.data.dependency.remove_edge = (function remove_edge(graph,node,de
 })().call(null,graph,node,dep);
 }
 });
-foundation.app.data.dependency.remove_all = (function remove_all(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.remove_all = (function remove_all(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_all$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_all$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.remove_all[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.remove_all[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.remove_all["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.remove_all["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraphUpdate.remove-all",graph);
 }
@@ -168,19 +168,19 @@ foundation.app.data.dependency.remove_all = (function remove_all(graph,node){if(
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.remove_node = (function remove_node(graph,node){if((function (){var and__13776__auto__ = graph;if(and__13776__auto__)
+foundation.app.data.dependency.remove_node = (function remove_node(graph,node){if((function (){var and__13813__auto__ = graph;if(and__13813__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_node$arity$2;
 } else
-{return and__13776__auto__;
+{return and__13813__auto__;
 }
 })())
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$remove_node$arity$2(graph,node);
 } else
-{var x__14391__auto__ = (((graph == null))?null:graph);return (function (){var or__13788__auto__ = (foundation.app.data.dependency.remove_node[goog.typeOf(x__14391__auto__)]);if(or__13788__auto__)
-{return or__13788__auto__;
+{var x__14428__auto__ = (((graph == null))?null:graph);return (function (){var or__13825__auto__ = (foundation.app.data.dependency.remove_node[goog.typeOf(x__14428__auto__)]);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
-{var or__13788__auto____$1 = (foundation.app.data.dependency.remove_node["_"]);if(or__13788__auto____$1)
-{return or__13788__auto____$1;
+{var or__13825__auto____$1 = (foundation.app.data.dependency.remove_node["_"]);if(or__13825__auto____$1)
+{return or__13825__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"DependencyGraphUpdate.remove-node",graph);
 }
@@ -188,7 +188,7 @@ foundation.app.data.dependency.remove_node = (function remove_node(graph,node){i
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.remove_from_map = (function remove_from_map(amap,x){return cljs.core.reduce.call(null,(function (m,p__36302){var vec__36303 = p__36302;var k = cljs.core.nth.call(null,vec__36303,0,null);var vs = cljs.core.nth.call(null,vec__36303,1,null);return cljs.core.assoc.call(null,m,k,cljs.core.disj.call(null,vs,x));
+foundation.app.data.dependency.remove_from_map = (function remove_from_map(amap,x){return cljs.core.reduce.call(null,(function (m,p__85008){var vec__85009 = p__85008;var k = cljs.core.nth.call(null,vec__85009,0,null);var vs = cljs.core.nth.call(null,vec__85009,1,null);return cljs.core.assoc.call(null,m,k,cljs.core.disj.call(null,vs,x));
 }),cljs.core.PersistentArrayMap.EMPTY,cljs.core.dissoc.call(null,amap,x));
 });
 /**
@@ -211,15 +211,15 @@ this.cljs$lang$protocol_mask$partition0$ = 2147483648;
 })
 foundation.app.data.dependency.MapDependencyGraph.cljs$lang$type = true;
 foundation.app.data.dependency.MapDependencyGraph.cljs$lang$ctorStr = "foundation.app.data.dependency/MapDependencyGraph";
-foundation.app.data.dependency.MapDependencyGraph.cljs$lang$ctorPrWriter = (function (this__14332__auto__,writer__14333__auto__,opt__14334__auto__){return cljs.core._write.call(null,writer__14333__auto__,"foundation.app.data.dependency/MapDependencyGraph");
+foundation.app.data.dependency.MapDependencyGraph.cljs$lang$ctorPrWriter = (function (this__14369__auto__,writer__14370__auto__,opt__14371__auto__){return cljs.core._write.call(null,writer__14370__auto__,"foundation.app.data.dependency/MapDependencyGraph");
 });
 foundation.app.data.dependency.MapDependencyGraph.prototype.cljs$core$IPrintWithWriter$_pr_writer$arity$3 = (function (x,opts,writer){var self__ = this;
 var x__$1 = this;return cljs.core._pr_writer.call(null,new cljs.core.PersistentArrayMap(null, 2, [new cljs.core.Keyword(null,"dependencies","dependencies",1517678747),x__$1.dependencies,new cljs.core.Keyword(null,"dependents","dependents",987613382),x__$1.dependents], null),opts,writer);
 });
 foundation.app.data.dependency.MapDependencyGraph.prototype.foundation$app$data$dependency$DependencyGraphUpdate$ = true;
 foundation.app.data.dependency.MapDependencyGraph.prototype.foundation$app$data$dependency$DependencyGraphUpdate$depend$arity$3 = (function (graph,node,dep){var self__ = this;
-var graph__$1 = this;if(cljs.core.truth_((function (){var or__13788__auto__ = cljs.core._EQ_.call(null,node,dep);if(or__13788__auto__)
-{return or__13788__auto__;
+var graph__$1 = this;if(cljs.core.truth_((function (){var or__13825__auto__ = cljs.core._EQ_.call(null,node,dep);if(or__13825__auto__)
+{return or__13825__auto__;
 } else
 {return foundation.app.data.dependency.depends_QMARK_.call(null,graph__$1,dep,node);
 }
@@ -279,32 +279,32 @@ foundation.app.data.dependency.dependent_QMARK_ = (function dependent_QMARK_(gra
 * Returns a topologically-sorted list of nodes in graph.
 */
 foundation.app.data.dependency.topo_sort = (function topo_sort(graph){var sorted = cljs.core.List.EMPTY;var g = graph;var todo = cljs.core.set.call(null,cljs.core.filter.call(null,((function (sorted,g){
-return (function (p1__36304_SHARP_){return cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,graph,p1__36304_SHARP_));
+return (function (p1__85010_SHARP_){return cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,graph,p1__85010_SHARP_));
 });})(sorted,g))
 ,foundation.app.data.dependency.nodes.call(null,graph)));while(true){
 if(cljs.core.empty_QMARK_.call(null,todo))
 {return sorted;
 } else
-{var vec__36307 = cljs.core.seq.call(null,todo);var node = cljs.core.nth.call(null,vec__36307,0,null);var more = cljs.core.nthnext.call(null,vec__36307,1);var deps = foundation.app.data.dependency.immediate_dependencies.call(null,g,node);var vec__36308 = (function (){var deps__$1 = deps;var g__$1 = g;var add = cljs.core.PersistentHashSet.EMPTY;while(true){
+{var vec__85013 = cljs.core.seq.call(null,todo);var node = cljs.core.nth.call(null,vec__85013,0,null);var more = cljs.core.nthnext.call(null,vec__85013,1);var deps = foundation.app.data.dependency.immediate_dependencies.call(null,g,node);var vec__85014 = (function (){var deps__$1 = deps;var g__$1 = g;var add = cljs.core.PersistentHashSet.EMPTY;while(true){
 if(cljs.core.seq.call(null,deps__$1))
 {var d = cljs.core.first.call(null,deps__$1);var g_SINGLEQUOTE_ = foundation.app.data.dependency.remove_edge.call(null,g__$1,node,d);if(cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,g_SINGLEQUOTE_,d)))
 {{
-var G__36309 = cljs.core.rest.call(null,deps__$1);
-var G__36310 = g_SINGLEQUOTE_;
-var G__36311 = cljs.core.conj.call(null,add,d);
-deps__$1 = G__36309;
-g__$1 = G__36310;
-add = G__36311;
+var G__85015 = cljs.core.rest.call(null,deps__$1);
+var G__85016 = g_SINGLEQUOTE_;
+var G__85017 = cljs.core.conj.call(null,add,d);
+deps__$1 = G__85015;
+g__$1 = G__85016;
+add = G__85017;
 continue;
 }
 } else
 {{
-var G__36312 = cljs.core.rest.call(null,deps__$1);
-var G__36313 = g_SINGLEQUOTE_;
-var G__36314 = add;
-deps__$1 = G__36312;
-g__$1 = G__36313;
-add = G__36314;
+var G__85018 = cljs.core.rest.call(null,deps__$1);
+var G__85019 = g_SINGLEQUOTE_;
+var G__85020 = add;
+deps__$1 = G__85018;
+g__$1 = G__85019;
+add = G__85020;
 continue;
 }
 }
@@ -313,13 +313,13 @@ continue;
 }
 break;
 }
-})();var add = cljs.core.nth.call(null,vec__36308,0,null);var g_SINGLEQUOTE_ = cljs.core.nth.call(null,vec__36308,1,null);{
-var G__36315 = cljs.core.cons.call(null,node,sorted);
-var G__36316 = foundation.app.data.dependency.remove_node.call(null,g_SINGLEQUOTE_,node);
-var G__36317 = clojure.set.union.call(null,cljs.core.set.call(null,more),cljs.core.set.call(null,add));
-sorted = G__36315;
-g = G__36316;
-todo = G__36317;
+})();var add = cljs.core.nth.call(null,vec__85014,0,null);var g_SINGLEQUOTE_ = cljs.core.nth.call(null,vec__85014,1,null);{
+var G__85021 = cljs.core.cons.call(null,node,sorted);
+var G__85022 = foundation.app.data.dependency.remove_node.call(null,g_SINGLEQUOTE_,node);
+var G__85023 = clojure.set.union.call(null,cljs.core.set.call(null,more),cljs.core.set.call(null,add));
+sorted = G__85021;
+g = G__85022;
+todo = G__85023;
 continue;
 }
 }
