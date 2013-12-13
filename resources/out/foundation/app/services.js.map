@@ -4,7 +4,8 @@
  "sources":["services.cljs"],
  "lineCount":46,
  "mappings":
- ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAyBA,AAAAA,gCAAAC,sBAAA,mFAAA,qDAAA,uCAAA,mFAAA,+EAAA,uCAAA,mFAAA,6EAAA,yEAAA,sCAAA,3BACGC,QAAQC,YAAYC,OACrB,OAACC,4BAAQD",
+ ";AAAC;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAyBA,AAAAA,gCAAAC,sBAAA,mFAAA,qDAAA,uCAAA,mFAAA,+EAAA,uCAAA,mFAAA,6EAAA,6DAAA,sCAAA,3BAGGC,QAAQC,YAAYC,OAErB,OAACC,4BAAQ,AAACC,sCAASJ,SAASE",
  "names":
  ["cljs.core/-add-method", "foundation.app/effect", "message",
-  "input-queue", "input", "cljs.core/println"]}
+  "input-queue", "input", "cljs.core/println",
+  "foundation.app.message/path"]}

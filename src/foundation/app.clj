@@ -13,26 +13,37 @@
             [clojure.repl :refer [doc]]
             [clojure.zip :as zip]))
 
+;; (defmacro defmodel
+;;   [name params config & body]
+;;   (let [config ``~~config
+;;         {:keys [url api]} config
+;;         compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
+;;                             ((juxt keys vals))
+;;                             (apply zipmap))
+;;         conditions (select-keys config [:pre :post])
+;;         config ``~~(dissoc config :pre :post)]
+;;     `(do (def ~((comp symbol inflect/plural str) name)
+;;            ~(merge compiled-route (assoc config
+;;                                     :url url
+;;                                     :api api)))
+;;          (defn ~name
+;;            ([{:keys [~@params] :as m#}] ~conditions
+;;               (when (map? m#)
+;;                 (with-meta m# {:model ~(keyword name)})))
+;;            ([~@params] ~conditions
+;;               (with-meta (zipmap [~@(map keyword params)] ~params)
+;;                 {:model ~(keyword name)}))))))
+
+(def models (atom nil))
+
 (defmacro defmodel
-  [name params config & body]
-  (let [config ``~~config
-        {:keys [url api]} config
-        compiled-route (->> (update-in (clout/route-compile url) [:keys] vec)
+  [name config & body]
+  (let [config (eval ``~~config)
+        compiled-route (->> (update-in (clout/route-compile (:url config))
+                                       [:keys] vec)
                             ((juxt keys vals))
-                            (apply zipmap))
-        conditions (select-keys config [:pre :post])
-        config ``~~(dissoc config :pre :post)]
-    `(do (def ~((comp symbol inflect/plural str) name)
-           ~(merge compiled-route (assoc config
-                                    :url url
-                                    :api api)))
-         (defn ~name
-           ([{:keys [~@params] :as m#}] ~conditions
-              (when (map? m#)
-                (with-meta m# {:model ~(keyword name)})))
-           ([~@params] ~conditions
-              (with-meta (zipmap [~@(map keyword params)] ~params)
-                {:model ~(keyword name)}))))))
+                            (apply zipmap))]
+    `(do (def ~name ~(merge compiled-route config)))))
 
 
 (defn readr

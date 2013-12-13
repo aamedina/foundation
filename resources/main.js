@@ -60,4 +60,3 @@ goog.addDependency("../foundation/app/data/rrb_vector/rrbt.js", ['foundation.app
 goog.addDependency("../foundation/app/data/rrb_vector/interop.js", ['foundation.app.data.rrb_vector.interop'], ['foundation.app.data.rrb_vector.rrbt', 'foundation.app.data.rrb_vector.protocols', 'cljs.core']);
 goog.addDependency("../foundation/app/data/rrb_vector.js", ['foundation.app.data.rrb_vector'], ['foundation.app.data.rrb_vector.rrbt', 'foundation.app.data.rrb_vector.protocols', 'cljs.core', 'foundation.app.data.rrb_vector.interop']);
 goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
-goog.addDependency("../foundation/app/app_model.js", ['foundation.app.app_model'], ['cljs.core', 'enfocus.events', 'clojure.zip', 'enfocus.core', 'foundation.app.util', 'clojure.string', 'cljs.core.match', 'clojure.browser.repl', 'clojure.set', 'cljs.core.async', 'foundation.app.render', 'dommy.core']);

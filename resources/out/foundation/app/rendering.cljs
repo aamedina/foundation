@@ -51,7 +51,7 @@
 (defmethod node-update [:chart]
   [renderer [_ path _ val] input-queue parent-id id]
   (let [chart (get-data renderer path)]
-    (println val)))
+    (println path val)))
 
 ;; (defmethod node-update [:datagrid :collection]
 ;;   [renderer [_ path _ val] input-queue parent-id id]

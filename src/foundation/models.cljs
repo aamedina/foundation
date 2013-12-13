@@ -49,71 +49,66 @@
 
 (def rest-api "http://192.241.130.213:8080/user/15/rest-api")
 
-(defmodel account [name id currency timezone]
+(defmodel accounts
   {:url "/accounts/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel campaign [name id currency timezone]
+(defmodel campaigns
   {:url "/accounts/:account-id/campaigns/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel line-item [name id currency timezone]
+(defmodel line-items
   {:url "/accounts/:account-id/line_items/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel promoted-tweet [name id currency timezone]
+(defmodel promoted-tweets
   {:url "/accounts/:account-id/promoted_tweets/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel promoted-account [name id currency timezone]
+(defmodel promoted-accounts
   {:url "/accounts/:account-id/promoted_accounts/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel targeting-criteria [name id currency timezone]
+(defmodel targeting-criteria
   {:url "/accounts/:account-id/targeting_criteria/:id"
-   :api "http://192.241.130.213:8080/user/15/ads-api"
-   :pre [(string? name) (string? id) (string? currency) (string? timezone)]})
+   :api "http://192.241.130.213:8080/user/15/ads-api"})
 
-(defmodel account-stats [start-time end-time granularity metrics]
+(defmodel account-stats
   {:api "http://192.241.130.213:8080/user/15/ads-api"
    :url "/stats/accounts/:id"
    :query-params [:start-time :end-time :granularity :metrics]})
 
-(defmodel campaign-stats [start-time end-time granularity metrics]
+(defmodel campaign-stats
   {:api "http://192.241.130.213:8080/user/15/ads-api"
    :url "/stats/accounts/:account-id/campaigns/:id"
-   :query-params [:start-time :end-time :granularity :metrics]
-   :parent :campaigns})
+   :query-params [:start-time :end-time :granularity :metrics]})
 
-(defmodel line-item-stats [start-time end-time granularity metrics]
+(defmodel line-item-stats
   {:api "http://192.241.130.213:8080/user/15/ads-api"
    :url "/stats/accounts/:account-id/line_items/:id"
-   :query-params [:start-time :end-time :granularity :metrics]
-   :parent :line-items})
+   :query-params [:start-time :end-time :granularity :metrics]})
 
-(defmodel promoted-account-stats [start-time end-time granularity metrics]
+(defmodel promoted-account-stats
   {:api "http://192.241.130.213:8080/user/15/ads-api"
    :url "/stats/accounts/:account-id/promoted_tweets/:id"
-   :query-params [:start-time :end-time :granularity :metrics]
-   :parent :promoted-tweets})
+   :query-params [:start-time :end-time :granularity :metrics]})
 
-(defmodel promoted-tweet-stats [start-time end-time granularity metrics]
+(defmodel promoted-tweet-stats
   {:api "http://192.241.130.213:8080/user/15/ads-api"
    :url "/stats/accounts/:account-id/promoted_accounts/:id"
-   :query-params [:start-time :end-time :granularity :metrics]
-   :parent :promoted-accounts})
+   :query-params [:start-time :end-time :granularity :metrics]})
 
-(def model-dependencies
+(def model-deps
   (-> (graph)
-      (depend :campaigns :accounts)
-      (depend :line-items :campaigns)
-      (depend :promoted-accounts :line-items)
-      (depend :promoted-tweets :line-items)))
+      (depend campaigns accounts)
+      (depend line-items campaigns)
+      (depend promoted-accounts line-items)
+      (depend promoted-tweets line-items)
+      (depend account-stats accounts)
+      (depend campaign-stats campaigns)
+      (depend line-item-stats line-items)
+      (depend promoted-account-stats promoted-accounts)
+      (depend promoted-tweet-stats promoted-tweets)))
 
 (def empty-targeting-criteria
   {"UNORDERED_KEYWORD" #{}

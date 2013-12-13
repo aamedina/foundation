@@ -23,6 +23,9 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod effect [:init #{[:dashboard]} #{[:datagrid]} :single-val]
+(defmethod effect [:init
+                   #{[:dashboard]}
+                   #{[:datagrid]} :vals]
   [message input-queue input]
-  (println input))
+  ;; (go (let [accounts (f)]))
+  (println (msg/path message) input))
