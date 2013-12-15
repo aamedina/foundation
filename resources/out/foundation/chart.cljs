@@ -3,17 +3,6 @@
             [dommy.core :as dom])
   (:require-macros [dommy.macros :refer [sel1]]))
 
-(defn reset-series!
-  [chart &
-   {:keys [name data interval point-start]
-    :or {name "" data [] interval (* 3600 1000)
-         point-start (time/ago (time/days 1))}}]
-  (doseq [series (.-series chart)]
-    (.remove series))
-  (.addSeries chart (clj->js {:data data
-                              :pointInterval interval
-                              :pointStart (.getTime point-start)})))
-
 (defn chart-options
   [el]
   {:title {:text ""}

@@ -1,7 +1,7 @@
 // Compiled by ClojureScript 0.0-2080
 goog.provide('foundation.app.data.rrb_vector.protocols');
 goog.require('cljs.core');
-foundation.app.data.rrb_vector.protocols.PSpliceableVector = (function (){var obj294271 = {};return obj294271;
+foundation.app.data.rrb_vector.protocols.PSpliceableVector = (function (){var obj321389 = {};return obj321389;
 })();
 foundation.app.data.rrb_vector.protocols._splicev = (function _splicev(v1,v2){if((function (){var and__13813__auto__ = v1;if(and__13813__auto__)
 {return v1.foundation$app$data$rrb_vector$protocols$PSpliceableVector$_splicev$arity$2;
@@ -23,7 +23,7 @@ foundation.app.data.rrb_vector.protocols._splicev = (function _splicev(v1,v2){if
 })().call(null,v1,v2);
 }
 });
-foundation.app.data.rrb_vector.protocols.PSliceableVector = (function (){var obj294273 = {};return obj294273;
+foundation.app.data.rrb_vector.protocols.PSliceableVector = (function (){var obj321391 = {};return obj321391;
 })();
 foundation.app.data.rrb_vector.protocols._slicev = (function _slicev(v,start,end){if((function (){var and__13813__auto__ = v;if(and__13813__auto__)
 {return v.foundation$app$data$rrb_vector$protocols$PSliceableVector$_slicev$arity$3;

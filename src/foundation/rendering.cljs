@@ -4,6 +4,7 @@
             [clojure.string :as str]
             [clojure.zip :as zip]
             [cljs.core.match :as m]
+            [cljs-time.coerce :as coerce]
             [goog.dom]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [post-process]]
@@ -38,6 +39,14 @@
   [renderer delta input-queue parent-id id]
   (en/at [(css-id parent-id)]
     (en/append (tmpl/dashboard id))))
+
+(defmethod node-create [:dashboard :stats]
+  [renderer delta input-queue parent-id id]
+  (println delta))
+
+(defmethod node-update [:dashboard :stats]
+  [renderer [_ path _ val] input-queue parent-id id]
+  (println path val))
 
 (defmethod node-create [:datagrid]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -75,13 +84,13 @@
 
 (defmethod node-update [:chart]
   [renderer [_ path _ val] input-queue parent-id id]
-  (let [chart (get-data renderer path)]
-    ;; (doseq [series (.-series chart)]
-    ;;   (.remove series))
-    ;; (.addSeries chart (clj->js {:data (:stats val)
-    ;;                             :pointInterval (* 3600 1000)
-    ;;                             :pointStart (.getTime (:start-time val))}))
-    ))
+  (let [chart (get-data renderer path)
+        start-time (.getTime (js/Date. (:start-time val)))]
+    (doseq [series (.-series chart)]
+      (.remove series))
+    (.addSeries chart (clj->js {:data (:stats val)
+                                :pointInterval (* 3600 1000)
+                                :pointStart start-time}))))
 
 ;; (defmethod transform-enable [:datagrid]
 ;;   [renderer dispatch-val id message]

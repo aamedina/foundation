@@ -327,3 +327,31 @@
                  (time/plus start-time (time/days 28)))
     (fmt/unparse (fmt/formatters :date-time-no-ms)
                  (time/today-at-midnight))))
+
+(defmulti metrics
+  (fn [model] (when-let [n (:name model)] (keyword (name n)))))
+
+(defmethod metrics :default
+  [model]
+  {"Impressions" ["promoted_tweet_search_impressions"
+                  "promoted_account_impressions"]
+   "Engagements" ["promoted_tweet_search_engagements"
+                  "promoted_tweet_timeline_engagements"]
+   "Clicks" ["promoted_tweet_search_clicks"
+             "promoted_tweet_timeline_clicks"]
+   "Retweets" ["promoted_tweet_search_retweets"
+               "promoted_tweet_timeline_retweets"]
+   "Replies" ["promoted_tweet_search_replies"
+              "promoted_tweet_timeline_replies"]
+   "Follows" ["promoted_tweet_search_follows"
+              "promoted_tweet_timeline_follows"]})
+
+(defmethod metrics :promoted-tweets
+  [model]
+  (merge {"Impressions" ["promoted_tweet_search_impressions"]}
+         (metrics :default)))
+
+(defmethod metrics :promoted-accounts
+  [model]
+  (merge {"Impressions" ["promoted_tweet_search_impressions"]}
+         (metrics :default)))

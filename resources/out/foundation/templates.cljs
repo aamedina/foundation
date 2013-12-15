@@ -16,6 +16,19 @@
   []
   [:div.analytics-highcharts])
 
+;; (defaction dashboard-metrics
+;;   [dashboard]
+;;   (doseq [metric dashboard-metrics]
+;;     (en/at dashboard
+;;       [:ul.list-group
+;;        [(str "li.list-group-item " metrics
+;;              "> h5.metric-header.list-group-item-heading")]
+;;        (en/content (str stat " " metric))
+;;        [(str "li.list-group-item#" (str metric "-cpa")
+;;              "small.list-group-item-text " stat)]
+;;        (str "li.list-group-item {:id (str metric ") [
+;;            [:small.list-group-item-text 0]]])))
+
 (deftemplate dashboard-metric
   [metric]
   [:ul.list-group

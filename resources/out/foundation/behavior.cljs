@@ -30,6 +30,8 @@
      :account (:account message)
      :stats-model (:stats-model message)
      :start-time (models/start-time (:model message))
+     :metrics (:metrics message)
+     :granularity (:granularity message)
      :end-time (models/end-time (:model message))}))
 
 (defmethod transform [:load [:datagrid]]
@@ -38,16 +40,20 @@
    :resource (:resource message)
    :account (:account message)})
 
-(defmethod transform [:load [:chart]]
+(defmethod transform [:stats [:chart]]
   [state message]
-  (assoc state :stats (:stats message))
-  )
+  (assoc state
+    :stats (vec (apply map + (filter vector? (vals (:stats message)))))))
+
+(defmethod transform [:stats [:dashboard]]
+  [state message]
+  (println (:stats message))
+  (assoc state
+    :stats (:stats message)))
 
 (defmethod derives [#{[:dashboard] [:datagrid]} [:chart] :vals]
   [state message input]
   (dissoc (reduce merge input) :collection))
-
-
 
 ;; (defmethod derives [#{[:datagrid]} [:datagrid :collection] :single-val]
 ;;   [state message input]

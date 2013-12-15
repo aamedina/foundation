@@ -33,21 +33,37 @@
             {msg/type :load msg/path [:dashboard]
              :model account
              :account account
-             :stats-model models/account-stats})
+             :stats-model models/account-stats
+             :granularity "HOUR"
+             :metrics (get (models/metrics models/accounts) "Impressions")})
         (>! input-queue
             {msg/type :load msg/path [:datagrid]
              :account account
              :collection accounts
              :resource models/accounts}))))
 
-(defmethod effect [:load #{[:chart]} #{[:chart :stats]} :single-val]
+(defmethod effect [:load #{[:dashboard] [:datagrid]} #{[:chart]} :single-val]
   [message input-queue input]
-  (go (when-let [stats (<! (m/fetch (:stats-model input)
-                                    :params (:model input)
-                                    :query-params
-                                    (select-keys input
-                                                 [:start-time :end-time])))]
-        (put! input-queue {msg/type :load msg/path [:chart] :stats stats})
+  (go (let [stats(<! (m/fetch (:stats-model input)
+                              :params (:model input)
+                              :query-params
+                              (select-keys input [:start-time :end-time
+                                                  :granularity :metrics])))
+                 total-stats
+                 (<! (m/fetch (:stats-model input)
+                              :params (:model input)
+                              :query-params
+                              (assoc (select-keys
+                                      input [:start-time :end-time])
+                                :granularity "TOTAL")))]
+        (>! input-queue
+            {msg/type :stats
+             msg/path [:chart]
+             :stats stats})
+        (>! input-queue
+            {msg/type :stats
+             msg/path [:dashboard]
+             :stats total-stats})
         )))
 
 ;; (defmethod effect [:init

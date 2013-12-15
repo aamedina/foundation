@@ -49,7 +49,6 @@
         params ((fnil #(merge cfg %) cfg) compiled-route)]
     `(def ~n (foundation.app.models/map->Model
                  ~(assoc params
-                    :f `(foundation.app.models/reify-url ~params)
                     :name (keyword "foundation.models" str-name))))))
 
 (defn readr

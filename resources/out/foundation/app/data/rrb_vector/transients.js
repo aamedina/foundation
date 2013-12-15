@@ -15,26 +15,26 @@ foundation.app.data.rrb_vector.transients.ensure_editable = (function ensure_edi
 return (new cljs.core.VectorNode(edit,new_arr));
 }
 });
-foundation.app.data.rrb_vector.transients.editable_root = (function editable_root(root){return (new cljs.core.VectorNode((function (){var obj294444 = {};return obj294444;
+foundation.app.data.rrb_vector.transients.editable_root = (function editable_root(root){return (new cljs.core.VectorNode((function (){var obj321562 = {};return obj321562;
 })(),cljs.core.aclone.call(null,root.arr)));
 });
 foundation.app.data.rrb_vector.transients.editable_tail = (function editable_tail(tail){var ret = (new Array(32));cljs.core.array_copy.call(null,tail,0,ret,0,tail.length);
 return ret;
 });
 foundation.app.data.rrb_vector.transients.push_tail_BANG_ = (function push_tail_BANG_(shift,cnt,root_edit,current_node,tail_node){var ret = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,current_node);if(foundation.app.data.rrb_vector.nodes.regular_QMARK_.call(null,ret))
-{var n_294445 = ret;var shift_294446__$1 = shift;while(true){
-var arr_294447 = n_294445.arr;var subidx_294448 = (((cnt - 1) >> shift_294446__$1) & 31);if((shift_294446__$1 === 5))
-{(arr_294447[subidx_294448] = tail_node);
+{var n_321563 = ret;var shift_321564__$1 = shift;while(true){
+var arr_321565 = n_321563.arr;var subidx_321566 = (((cnt - 1) >> shift_321564__$1) & 31);if((shift_321564__$1 === 5))
+{(arr_321565[subidx_321566] = tail_node);
 } else
-{var child_294449 = (arr_294447[subidx_294448]);if((child_294449 == null))
-{(arr_294447[subidx_294448] = foundation.app.data.rrb_vector.trees.new_path.call(null,tail_node.arr,root_edit,(shift_294446__$1 - 5),tail_node));
+{var child_321567 = (arr_321565[subidx_321566]);if((child_321567 == null))
+{(arr_321565[subidx_321566] = foundation.app.data.rrb_vector.trees.new_path.call(null,tail_node.arr,root_edit,(shift_321564__$1 - 5),tail_node));
 } else
-{var editable_child_294450 = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,child_294449);(arr_294447[subidx_294448] = editable_child_294450);
+{var editable_child_321568 = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,child_321567);(arr_321565[subidx_321566] = editable_child_321568);
 {
-var G__294451 = editable_child_294450;
-var G__294452 = (shift_294446__$1 - 5);
-n_294445 = G__294451;
-shift_294446__$1 = G__294452;
+var G__321569 = editable_child_321568;
+var G__321570 = (shift_321564__$1 - 5);
+n_321563 = G__321569;
+shift_321564__$1 = G__321570;
 continue;
 }
 }
@@ -86,8 +86,8 @@ if(((((rngs[(subidx__$1 + 1)]) | 0) === 0)) || ((subidx__$1 === 31)))
 {return subidx__$1;
 } else
 {{
-var G__294453 = (subidx__$1 + 1);
-subidx__$1 = G__294453;
+var G__321571 = (subidx__$1 + 1);
+subidx__$1 = G__321571;
 continue;
 }
 }
@@ -136,16 +136,16 @@ return ret;
 }
 });
 foundation.app.data.rrb_vector.transients.do_assoc_BANG_ = (function do_assoc_BANG_(shift,root_edit,current_node,i,val){var ret = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,current_node);if(foundation.app.data.rrb_vector.nodes.regular_QMARK_.call(null,ret))
-{var shift_294454__$1 = shift;var node_294455 = ret;while(true){
-if((shift_294454__$1 === 0))
-{var arr_294456 = node_294455.arr;(arr_294456[(i & 31)] = val);
+{var shift_321572__$1 = shift;var node_321573 = ret;while(true){
+if((shift_321572__$1 === 0))
+{var arr_321574 = node_321573.arr;(arr_321574[(i & 31)] = val);
 } else
-{var arr_294457 = node_294455.arr;var subidx_294458 = ((i >> shift_294454__$1) & 31);var child_294459 = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,(arr_294457[subidx_294458]));(arr_294457[subidx_294458] = child_294459);
+{var arr_321575 = node_321573.arr;var subidx_321576 = ((i >> shift_321572__$1) & 31);var child_321577 = foundation.app.data.rrb_vector.transients.ensure_editable.call(null,root_edit,(arr_321575[subidx_321576]));(arr_321575[subidx_321576] = child_321577);
 {
-var G__294460 = (shift_294454__$1 - 5);
-var G__294461 = child_294459;
-shift_294454__$1 = G__294460;
-node_294455 = G__294461;
+var G__321578 = (shift_321572__$1 - 5);
+var G__321579 = child_321577;
+shift_321572__$1 = G__321578;
+node_321573 = G__321579;
 continue;
 }
 }
@@ -158,8 +158,8 @@ if(((((rngs[(subidx__$1 + 1)]) | 0) === 0)) || ((subidx__$1 === 31)))
 {return subidx__$1;
 } else
 {{
-var G__294462 = (subidx__$1 + 1);
-subidx__$1 = G__294462;
+var G__321580 = (subidx__$1 + 1);
+subidx__$1 = G__321580;
 continue;
 }
 }
