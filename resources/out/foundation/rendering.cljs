@@ -7,6 +7,8 @@
             [cljs-time.coerce :as coerce]
             [goog.dom]
             [goog.style :as style]
+            [goog.dom.ViewportSizeMonitor]
+            [goog.events :as events]
             [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [post-process]]
             [foundation.behavior :as behavior]
@@ -95,7 +97,7 @@
             [(str "#" metric "-cpa")] (en/content (str -cpa " " cpa))
             [(str "#" metric "-rate")] (en/content (str -rate " " rate))))))))
 
-(declare fix-column-widths!)
+(declare fix-column-widths! set-datagrid-height! as-resizable)
 
 (defmethod node-create [:datagrid]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -118,15 +120,18 @@
       [:button#new] (e/listen :click #(put! input-queue create-msg))
       [:button#save] (e/listen :click #(put! input-queue save-msg))
       [:button#delete] (e/listen :click #(put! input-queue delete-msg))
-      [:button#dupe] (e/listen :click #(put! input-queue create-msg)))))
+      [:button#dupe] (e/listen :click #(put! input-queue create-msg)))
+    (as-resizable)))
 
 (defmethod node-update [:datagrid :collection]
   [renderer [_ path _ val] input-queue parent-id id]
-  (let [model (get-data renderer [:datagrid])]
+  (let [model (get-data renderer [:datagrid])
+        row-count (count (.-rows (sel1 :tbody)))]
     (en/at (sel1 (css-id parent-id))
-      [:div.panel-body] (en/content (tmpl/datagrid-table model val))))
-  ;; (fix-column-widths!)
-  )
+      [:div.panel-body] (en/content (tmpl/datagrid-table model val)))
+    (when (zero? row-count)
+      (set-datagrid-height!))
+    (fix-column-widths!)))
 
 (defmethod node-create [:chart]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -149,13 +154,6 @@
   (-rest [x] (for [i (range (alength x))] (aget x i)))
   ISeqable
   (-seq [x] (cons (first x) (rest x))))
-
-;; (extend-type js/NodeList
-;;   ISeq
-;;   (-first [x] (aget x 0))
-;;   (-rest [x] (for [i (range (alength x))] (aget x i)))
-;;   ISeqable
-;;   (-seq [x] (cons (first x) (rest x))))
 
 (defn th-widths
   [ths widths]
@@ -199,3 +197,25 @@
     (doseq [tr rows]
       (doseq [[width td] (map vector th-widths (.-cells tr))]
         (style/setWidth td width)))))
+
+(defn set-datagrid-height!
+  []
+  (let [content (sel1 :div.twitter-stats.panel.panel-default)
+        header-height 126
+        footer-height 81
+        max-height (- (.-clientHeight js/document.body)
+                      (+ (.-height (style/getBounds content))
+                         (.-offsetTop content))
+                      header-height
+                      footer-height)]
+    (println (.-clientHeight js/document.body)
+             (.-height (style/getBounds content)))
+    (style/setHeight (sel1 :tbody) (* (quot max-height 60) 60))))
+
+(defn as-resizable
+  []
+  (set-datagrid-height!)
+  (let [viewport-monitor (goog.dom.ViewportSizeMonitor/getInstanceForWindow)]
+    (events/listen viewport-monitor goog.events.EventType.RESIZE
+                   (fn [e]
+                     (set-datagrid-height!)))))
