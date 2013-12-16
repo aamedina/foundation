@@ -27,7 +27,11 @@
 
 (defmethod effect [:init #{[:dashboard]} :vals]
   [message input-queue input]
-  (go (let [accounts (<! (m/fetch models/accounts))
+  (go (let [accounts
+            (->> "http://192.241.130.213:8080/user/15/ads-api/bootstrap"
+                 (xhr/GET)
+                 (<!)
+                 (sort-by :name))
             account (first accounts)]
         (>! input-queue
             {msg/type :load msg/path [:dashboard]
@@ -65,13 +69,3 @@
              msg/path [:chart]
              :stats stats}))))
 
-;; (defmethod effect [:init
-;;                    #{[:dashboard]}
-;;                    #{[:datagrid]} :vals]
-;;   [message input-queue input]
-;;   (go (let [accounts (<! (m/fetch models/accounts))
-;;             account (first accounts)]
-;;         (>! input-queue
-;;             {msg/type :load msg/path [:datagrid] :collection accounts})
-;;         (>! input-queue
-;;             {msg/type :load msg/path [:dashboard] :model account}))))

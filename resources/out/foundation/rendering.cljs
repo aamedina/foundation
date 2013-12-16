@@ -129,9 +129,9 @@
         row-count (count (.-rows (sel1 :tbody)))]
     (en/at (sel1 (css-id parent-id))
       [:div.panel-body] (en/content (tmpl/datagrid-table model val)))
-    (when (zero? row-count)
-      (set-datagrid-height!))
-    (fix-column-widths!)))
+    (set-datagrid-height!)
+    (fix-column-widths!)
+    ))
 
 (defmethod node-create [:chart]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -208,8 +208,6 @@
                          (.-offsetTop content))
                       header-height
                       footer-height)]
-    (println (.-clientHeight js/document.body)
-             (.-height (style/getBounds content)))
     (style/setHeight (sel1 :tbody) (* (quot max-height 60) 60))))
 
 (defn as-resizable

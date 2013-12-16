@@ -110,7 +110,7 @@
     :content :select}
    {:name "ID"
     :key :id
-    :content :toggle}
+    :content :account-toggle}
    {:name "Account"
     :key :name}
    {:name "Created At"
@@ -126,7 +126,7 @@
     :content :select}
    {:name "ID"
     :key :id
-    :content :default}
+    :content :toggle}
    {:name "Campaign"
     :editor :text
     :key :name
@@ -165,7 +165,7 @@
     :content :select}
    {:key :id
     :name "ID"
-    :content :default}
+    :content :toggle}
    {:name "Targeting"
     :content :targeting-toggle}
    {:key :placement-type
@@ -209,7 +209,7 @@
     :content :select}
    {:key :id
     :name "ID"
-    :content :default}
+    :content :toggle}
    {:name "Tweet"
     :key :tweet-id
     :content :default}
@@ -236,7 +236,7 @@
     :content :select}
    {:key :id
     :name "ID"
-    :content :default}
+    :content :toggle}
    {:name "Tweet"
     :key :tweet-id
     :content :default}

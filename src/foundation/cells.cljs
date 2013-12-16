@@ -56,6 +56,12 @@
 (defmethod td :daily-spent
   [column record])
 
+(defmethod td :account-toggle
+  [column record]
+  [:td {:value (:id record) :id "toggle"}
+   [:img.toggle {:width "40" :height "40"
+                 :src (get-in record [:user :profile-image-url])}]])
+
 (defmethod td :toggle
   [column record]
   [:td {:value (:id record) :id "toggle"}
