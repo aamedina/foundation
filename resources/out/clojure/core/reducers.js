@@ -53,40 +53,40 @@ clojure.core.reducers.fold = clojure.core.reducers.reduce;
 * fn will be transformed by xf. xf is a function of reducing fn to
 * reducing fn.
 */
-clojure.core.reducers.reducer = (function reducer(coll,xf){if(typeof clojure.core.reducers.t34282 !== 'undefined')
+clojure.core.reducers.reducer = (function reducer(coll,xf){if(typeof clojure.core.reducers.t34503 !== 'undefined')
 {} else
 {
 /**
 * @constructor
 */
-clojure.core.reducers.t34282 = (function (xf,coll,reducer,meta34283){
+clojure.core.reducers.t34503 = (function (xf,coll,reducer,meta34504){
 this.xf = xf;
 this.coll = coll;
 this.reducer = reducer;
-this.meta34283 = meta34283;
+this.meta34504 = meta34504;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 this.cljs$lang$protocol_mask$partition0$ = 917504;
 })
-clojure.core.reducers.t34282.cljs$lang$type = true;
-clojure.core.reducers.t34282.cljs$lang$ctorStr = "clojure.core.reducers/t34282";
-clojure.core.reducers.t34282.cljs$lang$ctorPrWriter = (function (this__14367__auto__,writer__14368__auto__,opt__14369__auto__){return cljs.core._write.call(null,writer__14368__auto__,"clojure.core.reducers/t34282");
+clojure.core.reducers.t34503.cljs$lang$type = true;
+clojure.core.reducers.t34503.cljs$lang$ctorStr = "clojure.core.reducers/t34503";
+clojure.core.reducers.t34503.cljs$lang$ctorPrWriter = (function (this__14367__auto__,writer__14368__auto__,opt__14369__auto__){return cljs.core._write.call(null,writer__14368__auto__,"clojure.core.reducers/t34503");
 });
-clojure.core.reducers.t34282.prototype.cljs$core$IReduce$_reduce$arity$2 = (function (this$,f1){var self__ = this;
+clojure.core.reducers.t34503.prototype.cljs$core$IReduce$_reduce$arity$2 = (function (this$,f1){var self__ = this;
 var this$__$1 = this;return cljs.core._reduce.call(null,this$__$1,f1,f1.call(null));
 });
-clojure.core.reducers.t34282.prototype.cljs$core$IReduce$_reduce$arity$3 = (function (_,f1,init){var self__ = this;
+clojure.core.reducers.t34503.prototype.cljs$core$IReduce$_reduce$arity$3 = (function (_,f1,init){var self__ = this;
 var ___$1 = this;return cljs.core._reduce.call(null,self__.coll,self__.xf.call(null,f1),init);
 });
-clojure.core.reducers.t34282.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_34284){var self__ = this;
-var _34284__$1 = this;return self__.meta34283;
+clojure.core.reducers.t34503.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_34505){var self__ = this;
+var _34505__$1 = this;return self__.meta34504;
 });
-clojure.core.reducers.t34282.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_34284,meta34283__$1){var self__ = this;
-var _34284__$1 = this;return (new clojure.core.reducers.t34282(self__.xf,self__.coll,self__.reducer,meta34283__$1));
+clojure.core.reducers.t34503.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_34505,meta34504__$1){var self__ = this;
+var _34505__$1 = this;return (new clojure.core.reducers.t34503(self__.xf,self__.coll,self__.reducer,meta34504__$1));
 });
-clojure.core.reducers.__GT_t34282 = (function __GT_t34282(xf__$1,coll__$1,reducer__$1,meta34283){return (new clojure.core.reducers.t34282(xf__$1,coll__$1,reducer__$1,meta34283));
+clojure.core.reducers.__GT_t34503 = (function __GT_t34503(xf__$1,coll__$1,reducer__$1,meta34504){return (new clojure.core.reducers.t34503(xf__$1,coll__$1,reducer__$1,meta34504));
 });
 }
-return (new clojure.core.reducers.t34282(xf,coll,reducer,null));
+return (new clojure.core.reducers.t34503(xf,coll,reducer,null));
 });
 /**
 * Given a foldable collection, and a transformation function xf,
@@ -94,40 +94,40 @@ return (new clojure.core.reducers.t34282(xf,coll,reducer,null));
 * fn will be transformed by xf. xf is a function of reducing fn to
 * reducing fn.
 */
-clojure.core.reducers.folder = (function folder(coll,xf){if(typeof clojure.core.reducers.t34288 !== 'undefined')
+clojure.core.reducers.folder = (function folder(coll,xf){if(typeof clojure.core.reducers.t34509 !== 'undefined')
 {} else
 {
 /**
 * @constructor
 */
-clojure.core.reducers.t34288 = (function (xf,coll,folder,meta34289){
+clojure.core.reducers.t34509 = (function (xf,coll,folder,meta34510){
 this.xf = xf;
 this.coll = coll;
 this.folder = folder;
-this.meta34289 = meta34289;
+this.meta34510 = meta34510;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 this.cljs$lang$protocol_mask$partition0$ = 917504;
 })
-clojure.core.reducers.t34288.cljs$lang$type = true;
-clojure.core.reducers.t34288.cljs$lang$ctorStr = "clojure.core.reducers/t34288";
-clojure.core.reducers.t34288.cljs$lang$ctorPrWriter = (function (this__14367__auto__,writer__14368__auto__,opt__14369__auto__){return cljs.core._write.call(null,writer__14368__auto__,"clojure.core.reducers/t34288");
+clojure.core.reducers.t34509.cljs$lang$type = true;
+clojure.core.reducers.t34509.cljs$lang$ctorStr = "clojure.core.reducers/t34509";
+clojure.core.reducers.t34509.cljs$lang$ctorPrWriter = (function (this__14367__auto__,writer__14368__auto__,opt__14369__auto__){return cljs.core._write.call(null,writer__14368__auto__,"clojure.core.reducers/t34509");
 });
-clojure.core.reducers.t34288.prototype.cljs$core$IReduce$_reduce$arity$2 = (function (_,f1){var self__ = this;
+clojure.core.reducers.t34509.prototype.cljs$core$IReduce$_reduce$arity$2 = (function (_,f1){var self__ = this;
 var ___$1 = this;return cljs.core._reduce.call(null,self__.coll,self__.xf.call(null,f1),f1.call(null));
 });
-clojure.core.reducers.t34288.prototype.cljs$core$IReduce$_reduce$arity$3 = (function (_,f1,init){var self__ = this;
+clojure.core.reducers.t34509.prototype.cljs$core$IReduce$_reduce$arity$3 = (function (_,f1,init){var self__ = this;
 var ___$1 = this;return cljs.core._reduce.call(null,self__.coll,self__.xf.call(null,f1),init);
 });
-clojure.core.reducers.t34288.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_34290){var self__ = this;
-var _34290__$1 = this;return self__.meta34289;
+clojure.core.reducers.t34509.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_34511){var self__ = this;
+var _34511__$1 = this;return self__.meta34510;
 });
-clojure.core.reducers.t34288.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_34290,meta34289__$1){var self__ = this;
-var _34290__$1 = this;return (new clojure.core.reducers.t34288(self__.xf,self__.coll,self__.folder,meta34289__$1));
+clojure.core.reducers.t34509.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_34511,meta34510__$1){var self__ = this;
+var _34511__$1 = this;return (new clojure.core.reducers.t34509(self__.xf,self__.coll,self__.folder,meta34510__$1));
 });
-clojure.core.reducers.__GT_t34288 = (function __GT_t34288(xf__$1,coll__$1,folder__$1,meta34289){return (new clojure.core.reducers.t34288(xf__$1,coll__$1,folder__$1,meta34289));
+clojure.core.reducers.__GT_t34509 = (function __GT_t34509(xf__$1,coll__$1,folder__$1,meta34510){return (new clojure.core.reducers.t34509(xf__$1,coll__$1,folder__$1,meta34510));
 });
 }
-return (new clojure.core.reducers.t34288(xf,coll,folder,null));
+return (new clojure.core.reducers.t34509(xf,coll,folder,null));
 });
 /**
 * Applies f to every value in the reduction of coll. Foldable.
@@ -138,25 +138,25 @@ var map__1 = (function (f){return (function (x__14240__auto__){return map.call(n
 });
 });
 var map__2 = (function (f,coll){return clojure.core.reducers.folder.call(null,coll,(function (f1){return (function() {
-var G__34291 = null;
-var G__34291__0 = (function (){return f1.call(null);
+var G__34512 = null;
+var G__34512__0 = (function (){return f1.call(null);
 });
-var G__34291__2 = (function (ret,v){return f1.call(null,ret,f.call(null,v));
+var G__34512__2 = (function (ret,v){return f1.call(null,ret,f.call(null,v));
 });
-var G__34291__3 = (function (ret,k,v){return f1.call(null,ret,f.call(null,k,v));
+var G__34512__3 = (function (ret,k,v){return f1.call(null,ret,f.call(null,k,v));
 });
-G__34291 = function(ret,k,v){
+G__34512 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34291__0.call(this);
+return G__34512__0.call(this);
 case 2:
-return G__34291__2.call(this,ret,k);
+return G__34512__2.call(this,ret,k);
 case 3:
-return G__34291__3.call(this,ret,k,v);
+return G__34512__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34291;
+return G__34512;
 })()
 }));
 });
@@ -184,25 +184,25 @@ var mapcat__1 = (function (f){return (function (x__14240__auto__){return mapcat.
 });
 });
 var mapcat__2 = (function (f,coll){return clojure.core.reducers.folder.call(null,coll,(function (f1){return (function() {
-var G__34292 = null;
-var G__34292__0 = (function (){return f1.call(null);
+var G__34513 = null;
+var G__34513__0 = (function (){return f1.call(null);
 });
-var G__34292__2 = (function (ret,v){return clojure.core.reducers.reduce.call(null,f1,ret,f.call(null,v));
+var G__34513__2 = (function (ret,v){return clojure.core.reducers.reduce.call(null,f1,ret,f.call(null,v));
 });
-var G__34292__3 = (function (ret,k,v){return clojure.core.reducers.reduce.call(null,f1,ret,f.call(null,k,v));
+var G__34513__3 = (function (ret,k,v){return clojure.core.reducers.reduce.call(null,f1,ret,f.call(null,k,v));
 });
-G__34292 = function(ret,k,v){
+G__34513 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34292__0.call(this);
+return G__34513__0.call(this);
 case 2:
-return G__34292__2.call(this,ret,k);
+return G__34513__2.call(this,ret,k);
 case 3:
-return G__34292__3.call(this,ret,k,v);
+return G__34513__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34292;
+return G__34513;
 })()
 }));
 });
@@ -230,33 +230,33 @@ var filter__1 = (function (pred){return (function (x__14240__auto__){return filt
 });
 });
 var filter__2 = (function (pred,coll){return clojure.core.reducers.folder.call(null,coll,(function (f1){return (function() {
-var G__34293 = null;
-var G__34293__0 = (function (){return f1.call(null);
+var G__34514 = null;
+var G__34514__0 = (function (){return f1.call(null);
 });
-var G__34293__2 = (function (ret,v){if(cljs.core.truth_(pred.call(null,v)))
+var G__34514__2 = (function (ret,v){if(cljs.core.truth_(pred.call(null,v)))
 {return f1.call(null,ret,v);
 } else
 {return ret;
 }
 });
-var G__34293__3 = (function (ret,k,v){if(cljs.core.truth_(pred.call(null,k,v)))
+var G__34514__3 = (function (ret,k,v){if(cljs.core.truth_(pred.call(null,k,v)))
 {return f1.call(null,ret,k,v);
 } else
 {return ret;
 }
 });
-G__34293 = function(ret,k,v){
+G__34514 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34293__0.call(this);
+return G__34514__0.call(this);
 case 2:
-return G__34293__2.call(this,ret,k);
+return G__34514__2.call(this,ret,k);
 case 3:
-return G__34293__3.call(this,ret,k,v);
+return G__34514__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34293;
+return G__34514;
 })()
 }));
 });
@@ -285,25 +285,25 @@ var flatten__0 = (function (){return (function (x__14240__auto__){return flatten
 });
 });
 var flatten__1 = (function (coll){return clojure.core.reducers.folder.call(null,coll,(function (f1){return (function() {
-var G__34294 = null;
-var G__34294__0 = (function (){return f1.call(null);
+var G__34515 = null;
+var G__34515__0 = (function (){return f1.call(null);
 });
-var G__34294__2 = (function (ret,v){if(cljs.core.sequential_QMARK_.call(null,v))
+var G__34515__2 = (function (ret,v){if(cljs.core.sequential_QMARK_.call(null,v))
 {return cljs.core._reduce.call(null,flatten.call(null,v),f1,ret);
 } else
 {return f1.call(null,ret,v);
 }
 });
-G__34294 = function(ret,v){
+G__34515 = function(ret,v){
 switch(arguments.length){
 case 0:
-return G__34294__0.call(this);
+return G__34515__0.call(this);
 case 2:
-return G__34294__2.call(this,ret,v);
+return G__34515__2.call(this,ret,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34294;
+return G__34515;
 })()
 }));
 });
@@ -355,33 +355,33 @@ var take_while__1 = (function (pred){return (function (x__14240__auto__){return 
 });
 });
 var take_while__2 = (function (pred,coll){return clojure.core.reducers.reducer.call(null,coll,(function (f1){return (function() {
-var G__34295 = null;
-var G__34295__0 = (function (){return f1.call(null);
+var G__34516 = null;
+var G__34516__0 = (function (){return f1.call(null);
 });
-var G__34295__2 = (function (ret,v){if(cljs.core.truth_(pred.call(null,v)))
+var G__34516__2 = (function (ret,v){if(cljs.core.truth_(pred.call(null,v)))
 {return f1.call(null,ret,v);
 } else
 {return cljs.core.reduced.call(null,ret);
 }
 });
-var G__34295__3 = (function (ret,k,v){if(cljs.core.truth_(pred.call(null,k,v)))
+var G__34516__3 = (function (ret,k,v){if(cljs.core.truth_(pred.call(null,k,v)))
 {return f1.call(null,ret,k,v);
 } else
 {return cljs.core.reduced.call(null,ret);
 }
 });
-G__34295 = function(ret,k,v){
+G__34516 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34295__0.call(this);
+return G__34516__0.call(this);
 case 2:
-return G__34295__2.call(this,ret,k);
+return G__34516__2.call(this,ret,k);
 case 3:
-return G__34295__3.call(this,ret,k,v);
+return G__34516__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34295;
+return G__34516;
 })()
 }));
 });
@@ -408,35 +408,35 @@ var take__1 = (function (n){return (function (x__14240__auto__){return take.call
 });
 });
 var take__2 = (function (n,coll){return clojure.core.reducers.reducer.call(null,coll,(function (f1){var cnt = cljs.core.atom.call(null,n);return (function() {
-var G__34296 = null;
-var G__34296__0 = (function (){return f1.call(null);
+var G__34517 = null;
+var G__34517__0 = (function (){return f1.call(null);
 });
-var G__34296__2 = (function (ret,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
+var G__34517__2 = (function (ret,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
 if((cljs.core.deref.call(null,cnt) < 0))
 {return cljs.core.reduced.call(null,ret);
 } else
 {return f1.call(null,ret,v);
 }
 });
-var G__34296__3 = (function (ret,k,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
+var G__34517__3 = (function (ret,k,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
 if((cljs.core.deref.call(null,cnt) < 0))
 {return cljs.core.reduced.call(null,ret);
 } else
 {return f1.call(null,ret,k,v);
 }
 });
-G__34296 = function(ret,k,v){
+G__34517 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34296__0.call(this);
+return G__34517__0.call(this);
 case 2:
-return G__34296__2.call(this,ret,k);
+return G__34517__2.call(this,ret,k);
 case 3:
-return G__34296__3.call(this,ret,k,v);
+return G__34517__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34296;
+return G__34517;
 })()
 }));
 });
@@ -463,35 +463,35 @@ var drop__1 = (function (n){return (function (x__14240__auto__){return drop.call
 });
 });
 var drop__2 = (function (n,coll){return clojure.core.reducers.reducer.call(null,coll,(function (f1){var cnt = cljs.core.atom.call(null,n);return (function() {
-var G__34297 = null;
-var G__34297__0 = (function (){return f1.call(null);
+var G__34518 = null;
+var G__34518__0 = (function (){return f1.call(null);
 });
-var G__34297__2 = (function (ret,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
+var G__34518__2 = (function (ret,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
 if((cljs.core.deref.call(null,cnt) < 0))
 {return f1.call(null,ret,v);
 } else
 {return ret;
 }
 });
-var G__34297__3 = (function (ret,k,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
+var G__34518__3 = (function (ret,k,v){cljs.core.swap_BANG_.call(null,cnt,cljs.core.dec);
 if((cljs.core.deref.call(null,cnt) < 0))
 {return f1.call(null,ret,k,v);
 } else
 {return ret;
 }
 });
-G__34297 = function(ret,k,v){
+G__34518 = function(ret,k,v){
 switch(arguments.length){
 case 0:
-return G__34297__0.call(this);
+return G__34518__0.call(this);
 case 2:
-return G__34297__2.call(this,ret,k);
+return G__34518__2.call(this,ret,k);
 case 3:
-return G__34297__3.call(this,ret,k,v);
+return G__34518__3.call(this,ret,k,v);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34297;
+return G__34518;
 })()
 }));
 });
@@ -551,21 +551,21 @@ var cat = null;
 var cat__0 = (function (){return [];
 });
 var cat__1 = (function (ctor){return (function() {
-var G__34298 = null;
-var G__34298__0 = (function (){return ctor.call(null);
+var G__34519 = null;
+var G__34519__0 = (function (){return ctor.call(null);
 });
-var G__34298__2 = (function (left,right){return cat.call(null,left,right);
+var G__34519__2 = (function (left,right){return cat.call(null,left,right);
 });
-G__34298 = function(left,right){
+G__34519 = function(left,right){
 switch(arguments.length){
 case 0:
-return G__34298__0.call(this);
+return G__34519__0.call(this);
 case 2:
-return G__34298__2.call(this,left,right);
+return G__34519__2.call(this,left,right);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__34298;
+return G__34519;
 })()
 });
 var cat__2 = (function (left,right){if((cljs.core.count.call(null,left) === 0))
@@ -602,8 +602,8 @@ return cat;
 /**
 * .adds x to acc and returns acc
 */
-clojure.core.reducers.append_BANG_ = (function append_BANG_(acc,x){var G__34300 = acc;G__34300.push(x);
-return G__34300;
+clojure.core.reducers.append_BANG_ = (function append_BANG_(acc,x){var G__34521 = acc;G__34521.push(x);
+return G__34521;
 });
 /**
 * Equivalent to (fold cat append! coll)

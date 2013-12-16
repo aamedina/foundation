@@ -112,10 +112,9 @@
 
 (defmethod node-create [:datagrid :collection]
   [renderer [_ path _ val] input-queue parent-id id]
-  (let [resource (get-data renderer [:datagrid])]
+  (let [model (get-data renderer [:datagrid])]
     (en/at (sel1 (css-id parent-id))
-      [:div.panel-body]
-      (en/content (tmpl/datagrid-table resource []))
+      [:div.panel-body] (en/content (tmpl/datagrid-table model []))
       [:button#new] (e/listen :click #(put! input-queue create-msg))
       [:button#save] (e/listen :click #(put! input-queue save-msg))
       [:button#delete] (e/listen :click #(put! input-queue delete-msg))
@@ -126,7 +125,8 @@
   (let [model (get-data renderer [:datagrid])]
     (en/at (sel1 (css-id parent-id))
       [:div.panel-body] (en/content (tmpl/datagrid-table model val))))
-  (fix-column-widths!))
+  ;; (fix-column-widths!)
+  )
 
 (defmethod node-create [:chart]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -150,38 +150,36 @@
   ISeqable
   (-seq [x] (cons (first x) (rest x))))
 
-(extend-type js/NodeList
-  ISeq
-  (-first [x] (aget x 0))
-  (-rest [x] (for [i (range (alength x))] (aget x i)))
-  ISeqable
-  (-seq [x] (cons (first x) (rest x))))
+;; (extend-type js/NodeList
+;;   ISeq
+;;   (-first [x] (aget x 0))
+;;   (-rest [x] (for [i (range (alength x))] (aget x i)))
+;;   ISeqable
+;;   (-seq [x] (cons (first x) (rest x))))
 
 (defn th-widths
   [ths widths]
   (reduce (fn [ws [width th]]
             (let [th-width (.-width (style/getBounds th))]
               (if (> width th-width)
-                width
-                th-width)))
+                (conj ws width)
+                (conj ws th-width))))
           [] (map vector widths ths)))
 
 (defn td-widths
   [rows]
   (reduce (fn [ws td]
-            (js/console.log (.-innerHTML td))
-            (conj ws (.-width td)))
-          [] (.-children (first rows))))
+            (conj ws (.-width (style/getBounds td))))
+          [] (.-cells (first rows))))
 
 (defn full-td-widths
   [th-widths ths row-width table-width]
-  (js/console.log th-widths ths row-width table-width)
   (reduce (fn [ws [width th]]
             (let [th-width (.-width (style/getBounds th))
                   new-width (* table-width (/ width row-width))]
               (if (> new-width width)
-                (do (style/setWidth th new-width) new-width)
-                (do (style/setWidth th width) width))))
+                (do (style/setWidth th new-width) (conj ws new-width))
+                (do (style/setWidth th width) (conj ws width)))))
           [] (map vector th-widths ths)))
 
 (defn fix-column-widths!
@@ -189,8 +187,8 @@
   (let [[panel-body tbody thead]
         (vec (map #(sel1 %) [:.panel-body :tbody :thead]))
         table-width (.-width (style/getBounds panel-body))
-        rows (into [] (.-rows tbody))
-        ths (into [] (.-rows thead))
+        rows (.-rows tbody)
+        ths (.-cells (first (.-rows thead)))
         td-widths (td-widths rows)
         th-widths (th-widths ths td-widths)
         row-width (reduce + th-widths)
@@ -198,6 +196,6 @@
     (if (> row-width table-width)
       (style/setWidth (-> thead .-rows first) row-width)
       (style/setWidth (-> thead .-rows first) table-width))
-    (doseq [tr (.-rows tbody)]
-      (doseq [[width td] (map vector (.-cells tr) th-widths)]
-        (styl/setWidth td width)))))
+    (doseq [tr rows]
+      (doseq [[width td] (map vector th-widths (.-cells tr))]
+        (style/setWidth td width)))))
