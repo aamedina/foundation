@@ -55,6 +55,12 @@
                    (reduce +))))
        (zipmap (map first tmpl/dashboard-metrics))))
 
+(defn js-number
+  [n]
+  (if (or (js/isNaN n) (= n js/Infinity))
+    0
+    (round n 2)))
+
 (defn graph-stats
   [stats metric metric-type]
   (let [impressions (->> (get (models/metrics :default) "Impressions")
@@ -70,16 +76,10 @@
              :cpa (let [billed (map / (:estimated-charge-local-micro stats)
                                     (repeat 1e6))]
                     (->> (map / billed (apply map + %))
-                         (map (fn [n]
-                                (if (or (js/isNaN n) (= n js/Infinity))
-                                  0
-                                  (round n 2))))
+                         (map js-number)
                          (vec)))
              :rate (->> (map / (first impressions) (apply map + %))
-                        (map (fn [n]
-                               (if (or (js/isNaN n) (= n js/Infinity))
-                                 0
-                                 (round n 2))))
+                        (map js-number)
                         (vec))
              (apply map + %)))
          (vec))))
@@ -121,17 +121,37 @@
   [state message input]
   (select-keys (reduce merge input) [:start-time :end-time]))
 
-(defmethod transform [:add [:**]]
+(defn select
   [state message]
-  state)
+  (if-let [model (get-in state [:collection (:id message)])]
+    (let [selected (->> (:selected state)
+                        (clojure.set/select #(= (:id message) (:id %))))]
+      (if (seq selected)
+        (update-in state [:selected] clojure.set/difference selected)
+        (update-in state [:selected] conj model)))
+    state))
 
-(defmethod transform [:update [:**]]
+(defmethod transform [:select [:datagrid]]
   [state message]
-  state)
+  (select state message))
 
-(defmethod transform [:remove [:**]]
+(defmethod transform [:select-all [:datagrid]]
   [state message]
-  state)
+  (reduce select state (vals (:collection state))))
+
+(defmethod transform [:create [:datagrid :collection]]
+  [state message]
+  (into [{}] state))
+
+(defmethod transform [:save [:datagrid :collection]]
+  [state message]
+  (into (conj (subvec state 0 (:nth message)) (:model message))
+        (subvec state (inc (:nth message)) (count state))))
+
+(defmethod transform [:delete [:datagrid :collection]]
+  [state message]
+  (into (subvec state 0 (:nth message))
+        (subvec state (inc (:nth message)) (count state))))
 
 ;; (defmethod derives [#{[:datagrid]} [:datagrid :collection] :single-val]
 ;;   [state message input]

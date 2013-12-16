@@ -19,7 +19,6 @@
 
 (defn date-picker
   [el init-date date-pattern]
-  (println init-date)
   (let [date-pattern (if (keyword? date-pattern)
                        (date-pattern fmt/formatters)
                        date-pattern)
