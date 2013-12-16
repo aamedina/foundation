@@ -3,47 +3,59 @@
             [enfocus.events :as e]
             [dommy.core :as dom]
             [foundation.cells :as cells]
-            [foundation.models :refer [columns]])
+            [foundation.models :refer [columns]]
+            [goog.ui.InputDatePicker]
+            [goog.i18n.DateTimeParse :as datetime-parse]
+            [goog.i18n.DateTimeFormat :as datetime-format]
+            [cljs-time.core :as time]
+            [cljs-time.format :as fmt]
+            [goog.date :as date])
   (:require-macros [dommy.macros :as dom :refer [deftemplate]]
                    [enfocus.macros :as en :refer [defaction]]
                    [cljs.core.match.macros :as m :refer [match]]
                    [cljs.core.async.macros :as a :refer [go go-loop]]))
 
+(enable-console-print!)
+
+(defn date-picker
+  [el init-date date-pattern]
+  (println init-date)
+  (let [date-pattern (if (keyword? date-pattern)
+                       (date-pattern fmt/formatters)
+                       date-pattern)
+        picker (goog.ui.InputDatePicker.
+                (goog.i18n.DateTimeFormat. date-pattern)
+                (goog.i18n.DateTimeParse. date-pattern))]
+    (doto (.getDatePicker picker)
+      (.setUseSimpleNavigationMenu true)
+      (.setAllowNone true))
+    (doto picker
+      (.decorate el)
+      (.setDate init-date))))
+
 (def dashboard-metrics
-  ["Impressions" "Engagements" "Clicks" "Retweets" "Replies" "Follows"])
-
-(deftemplate chart
-  []
-  [:div.analytics-highcharts])
-
-;; (defaction dashboard-metrics
-;;   [dashboard]
-;;   (doseq [metric dashboard-metrics]
-;;     (en/at dashboard
-;;       [:ul.list-group
-;;        [(str "li.list-group-item " metrics
-;;              "> h5.metric-header.list-group-item-heading")]
-;;        (en/content (str stat " " metric))
-;;        [(str "li.list-group-item#" (str metric "-cpa")
-;;              "small.list-group-item-text " stat)]
-;;        (str "li.list-group-item {:id (str metric ") [
-;;            [:small.list-group-item-text 0]]])))
+  [["Impressions" "CPM" "Impression Rate"]
+   ["Engagements" "CPE" "Engagement Rate"]
+   ["Clicks" "CPC" "Click Rate"]
+   ["Retweets" "CPRT" "Retweet Rate"]
+   ["Replies" "CPR" "Reply Rate"]
+   ["Follows" "CPF" "Follow Rate"]])
 
 (deftemplate dashboard-metric
-  [metric]
+  [[metric cpa rate]]
   [:ul.list-group
    [:li.list-group-item {:id metric}
     [:h5.metric-header.list-group-item-heading (str "0 " metric)]]
    [:li.list-group-item {:id (str metric "-cpa")}
-    [:small.list-group-item-text 0]]
+    [:small.list-group-item-text (str "0 " cpa)]]
    [:li.list-group-item {:id (str metric "-rate")}
-    [:small.list-group-item-text 0]]])
+    [:small.list-group-item-text (str "0 " rate)]]])
 
 (deftemplate dashboard
   [id]
   [:div.twitter-stats.panel.panel-default {:id id}
    [:div.panel-heading
-    [:h1.panel-title#resource-id]
+    [:h1.panel-title {:id "resource-id"}]
     [:div.form-inline.pull-right
      [:div.form-group
       [:input#start-time.form-control.date-picker {:readonly true}]]
@@ -51,7 +63,8 @@
      [:div.form-group
       [:input#end-time.form-control.date-picker {:readonly true}]]
      [:button#update-stats.btn.btn-primary.btn-sm "Update"]]]
-   [:div.panel-body (chart)]
+   [:div.panel-body
+    [:div.analytics-highcharts]]
    [:div.panel-footer.row
     [:div.twitter-stats
      (for [metric dashboard-metrics]

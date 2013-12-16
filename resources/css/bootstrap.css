@@ -7499,6 +7499,7 @@ li.field.highlighted {
   position: absolute;
   bottom: 0;
   width: 100%;
+  min-height: 50%;
   padding: 0;
   margin: 0;
   overflow: hidden;
@@ -7702,6 +7703,8 @@ li.field.highlighted {
 }
 
 .datagrid-container > .panel-footer {
+  position: fixed;
+  bottom: 0;
   width: 100%;
   padding: 1.5em;
   margin: 0;

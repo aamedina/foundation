@@ -25,7 +25,7 @@
                    [enfocus.macros :as en :refer [defaction]]
                    [dommy.macros :as dom :refer [sel1]]))
 
-(defmethod effect [:init #{[:dashboard]} #{[:datagrid]} :vals]
+(defmethod effect [:init #{[:dashboard]} :vals]
   [message input-queue input]
   (go (let [accounts (<! (m/fetch models/accounts))
             account (first accounts)]
@@ -42,29 +42,28 @@
              :collection accounts
              :resource models/accounts}))))
 
-(defmethod effect [:load #{[:dashboard] [:datagrid]} #{[:chart]} :single-val]
+(defmethod effect [:load #{[:dashboard] [:datagrid]} :single-val]
   [message input-queue input]
-  (go (let [stats(<! (m/fetch (:stats-model input)
-                              :params (:model input)
-                              :query-params
-                              (select-keys input [:start-time :end-time
-                                                  :granularity :metrics])))
-                 total-stats
-                 (<! (m/fetch (:stats-model input)
-                              :params (:model input)
-                              :query-params
-                              (assoc (select-keys
-                                      input [:start-time :end-time])
-                                :granularity "TOTAL")))]
-        (>! input-queue
-            {msg/type :stats
-             msg/path [:chart]
-             :stats stats})
+  (go (let [stats
+            (<! (m/fetch (:stats-model input)
+                         :params (:model input)
+                         :query-params
+                         (select-keys input
+                                      [:start-time :end-time :granularity])))
+            total-stats
+            (<! (m/fetch (:stats-model input)
+                         :params (:model input)
+                         :query-params
+                         (assoc (select-keys input [:start-time :end-time])
+                           :granularity "TOTAL")))]
         (>! input-queue
             {msg/type :stats
              msg/path [:dashboard]
              :stats total-stats})
-        )))
+        (>! input-queue
+            {msg/type :stats
+             msg/path [:chart]
+             :stats stats}))))
 
 ;; (defmethod effect [:init
 ;;                    #{[:dashboard]}

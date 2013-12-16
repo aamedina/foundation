@@ -446,6 +446,7 @@ li.field.highlighted {
   position: absolute;
   bottom: 0;
   width: 100%;  
+  min-height: 50%;
   border: none;
   border-radius: 0px;
   margin: 0;
@@ -504,7 +505,7 @@ li.field.highlighted {
 .datagrid-container > .panel-body {
   padding: 0;
   margin: 0;
-  height: 100%;  
+  height: 100%;
   width: 100%;
   overflow: auto;
   table {
@@ -655,7 +656,9 @@ li.field.highlighted {
   padding: 1.5em;
   border-top: 1px solid @gray-lighter;
   border: none;
-  width: 100%;  
+  width: 100%; 
+  position: fixed;
+  bottom: 0;
   margin: 0;
   
   .form-inline {

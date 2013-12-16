@@ -240,11 +240,13 @@
 
 (defn consume-effects
   [app]
-  (let [output (:output app) input (:input app)]
+  (let [output (:output app) input (:input app) last-message (atom nil)]
     (go-loop []
       (let [message (<! output)]
-        (apply (get-method effect (:dispatch message))
-               [(dissoc message :dispatch) input (:value message)])
+        (when-not (= @last-message message)
+          (reset! last-message message)
+          (apply (get-method effect (:dispatch message))
+                 [(dissoc message :dispatch) input (:value message)]))
         (recur)))))
 
 (defn run!
@@ -268,12 +270,12 @@
 
 (defmethod depends :effect
   [dispatch-map graph]
-  (let [[type input-paths output-paths input-spec]
-        (key (:effect dispatch-map))
-        io-paths (com/cartesian-product input-paths output-paths)]
-    (reduce (fn [g [input-path output-path]]
-              (d/depend g output-path input-path))
-            graph io-paths)))
+  ;; (let [[type input-paths input-spec]
+  ;;       (key (:effect dispatch-map))]
+  ;;   (reduce (fn [g [input-path output-path]]
+  ;;             (d/depend g output-path input-path))
+  ;;           graph io-paths))
+  graph)
 
 (defmethod depends :default
   [dispatch-map graph]
@@ -381,7 +383,7 @@
 (def effect?
   (memoize
    (fn [message dependents [dispatch-val multifn]]
-     (and (seq (set/intersection (set dependents) (nth dispatch-val 2)))
+     (and (contains? (second dispatch-val) (msg/path message))
           (= (first dispatch-val) (msg/type message))))))
 
 (defn matching-dispatches
@@ -413,18 +415,17 @@
           message (:message context)]
       (reduce
        (fn [{:keys [change] :as state}
-            [[type input-paths output-paths ispec :as effect]]]
+            [[type input-paths ispec :as effect]]]
          (let [[input-paths arg-names] (if (map? input-paths)
                                          (fix-paths input-paths)
-                                         [input-paths nil])
-               io (com/cartesian-product input-paths output-paths)]
+                                         [input-paths nil])]
            (->> (flow-input context state input-paths change)
                 (input-spec ispec arg-names)
-                (repeat (count io))
-                (map (fn [[input-path output-path] input]
-                       {msg/type type msg/path output-path :value input
-                        :dispatch effect}) io)
-                (update-in state [:new :effect] (fnil into [])
+                (reduce (fn [m input]
+                          (update-in m [:value] conj input))
+                        {msg/type type msg/path :effect :dispatch effect
+                         :value {}})
+                (update-in state [:new :effect] (fnil conj [])
                            ))))
        state dispatches))
     state))

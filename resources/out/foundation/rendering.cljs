@@ -19,7 +19,7 @@
             [foundation.app.xhr :as xhr]
             [foundation.app.util :as util]
             [enfocus.core :as en]
-            [enfocus.events :as events]
+            [enfocus.events :as e]
             [dommy.core :as dom])
   (:require-macros [cljs.core.match.macros :as m :refer [match]]
                    [cljs.core.async.macros :as a :refer [go go-loop]]
@@ -32,21 +32,67 @@
 
 (defmethod node-create []
   [renderer [_ path _ val] input-queue parent-id id]
-  (en/at js/document
-    [:body] (en/append (tmpl/twitter-power id))))
+  (en/at [:body]
+    (en/append (tmpl/twitter-power id))))
+
+(def stats-msg {msg/type :stats msg/path [:chart]})
 
 (defmethod node-create [:dashboard]
-  [renderer delta input-queue parent-id id]
-  (en/at [(css-id parent-id)]
-    (en/append (tmpl/dashboard id))))
-
-(defmethod node-create [:dashboard :stats]
-  [renderer delta input-queue parent-id id]
-  (println delta))
-
-(defmethod node-update [:dashboard :stats]
   [renderer [_ path _ val] input-queue parent-id id]
-  (println path val))
+  (en/at [(css-id parent-id)]
+    (en/append (tmpl/dashboard id)))
+  (doseq [[metric cpa rate] tmpl/dashboard-metrics]
+    (en/at (sel1 (css-id parent-id))
+      [(str "#" metric)]
+      (e/listen :click #(put! input-queue (assoc stats-msg
+                                            :metric metric
+                                            :metric-type :total)))
+      [(str "#" metric "-cpa")]
+      (e/listen :click #(put! input-queue (assoc stats-msg
+                                            :metric metric
+                                            :metric-type :cpa)))
+      [(str "#" metric "-rate")]
+      (e/listen :click
+                #(put! input-queue (assoc stats-msg
+                                     :metric metric
+                                     :metric-type :rate))))))
+
+(defn start-date-picker
+  [renderer start-time]
+  (if-let [picker (get-data renderer [:start-time-picker])]
+    picker
+    (let [picker (tmpl/date-picker
+                  (sel1 :.date-picker#start-time)
+                  (js/Date. start-time) :long-date)]
+      (set-data! renderer [:start-time-picker] picker)
+      picker)))
+
+(defn end-date-picker
+  [renderer end-time]
+  (if-let [picker (get-data renderer [:end-time-picker])]
+            picker
+            (let [picker (tmpl/date-picker
+                          (sel1 :.date-picker#end-time)
+                          (js/Date. end-time) :long-date)]
+              (set-data! renderer [:end-time-picker] picker)
+              picker)))
+
+(defmethod node-update [:dashboard]
+  [renderer [_ path _ {:keys [stats start-time end-time model] :as val}]
+   input-queue parent-id id]
+  (when start-time
+    (let [start-picker (start-date-picker renderer start-time)
+          end-picker (end-date-picker renderer end-time)]
+      (en/at (sel1 (str "#" parent-id))
+        [:#resource-id] (en/content (:name model)))
+      (doseq [[metric cpa rate] tmpl/dashboard-metrics]
+        (let [total (get (:total stats) metric)
+              -cpa (get (:cpa stats) metric)
+              -rate (get (:rate stats) metric)]
+          (en/at (sel1 (css-id parent-id))
+            [(str "#" metric)] (en/content (str total " " metric))
+            [(str "#" metric "-cpa")] (en/content (str -cpa " " cpa))
+            [(str "#" metric "-rate")] (en/content (str -rate " " rate))))))))
 
 (defmethod node-create [:datagrid]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -88,18 +134,7 @@
         start-time (.getTime (js/Date. (:start-time val)))]
     (doseq [series (.-series chart)]
       (.remove series))
-    (.addSeries chart (clj->js {:data (:stats val)
+    (.addSeries chart (clj->js {:data (:stat val)
                                 :pointInterval (* 3600 1000)
                                 :pointStart start-time}))))
-
-;; (defmethod transform-enable [:datagrid]
-;;   [renderer dispatch-val id message]
-;;   [{msg/type :create msg/path [:datagrid]}])
-
-;; (defmethod post-process [:value [:average-count]]
-;;   [[op path n]]
-;;   (letfn [(round [n places]
-;;             (let [p (Math/pow 10 places)]
-;;               (/ (Math/round (* p n)) p)))]
-;;     [[op path (round n 2)]]))
 
