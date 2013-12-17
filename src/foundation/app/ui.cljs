@@ -1,5 +1,15 @@
 (ns foundation.app.ui
-  (:refer-clojure :exclude [-key -val]))
+  (:refer-clojure :exclude [-key -val])
+  (:require [goog.events :as gevents]
+            [goog.dom :as gdom]
+            [cljs.core.async :as async :refer [<! take! put! >! chan close!]]
+            [dommy.core :as dom])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]
+                   [dommy.macros :refer [node]])
+  (:import [goog.ui IdGenerator]
+           [goog.events EventHandler InputHandler FocusHandler KeyHandler
+                        MouseWheelHandler ActionEvent]
+           [goog.dom ViewportSizeMonitor]))
 
 (defprotocol IComponent
   (-render [_])
@@ -41,3 +51,15 @@
   (-value [_])
   (-set-value [_ val]))
 
+(defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
+
+(defn render
+  [component]
+  (-render component))
+
+(defn component
+  [component]
+  (let [id (guid)]
+    (assoc component
+      :id id
+      :handler (EventHandler. component))))
