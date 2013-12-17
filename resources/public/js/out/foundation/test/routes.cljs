@@ -38,6 +38,17 @@
     (PUT "/promoted_tweets/:id" [id] id)
     (DELETE "/promoted_tweets/:id" [id] id)))
 
+(defroutes promoted-products
+  (context "/accounts/:account-id" [account-id]
+    (GET "/promotable_users" [])
+    (GET "/scoped_timeline" []))
+  (GET "/statuses/scoped_timeline" []))
+
+(defroutes funding-instruments
+  (context "/accounts/:account-id" [account-id]
+    (GET "/funding_instruments/:id" [id]))
+  (GET "/bidding_rules" []))
+
 (defroutes targeting-criteria
   (context "/accounts/:account-id" [account-id]
     (GET "/targeting_criteria" [] "")
@@ -59,6 +70,24 @@
   (GET "/targeting_criteria/tv_shows" [])
   (GET "/targeting_criteria/tv_markets" [])
   (GET "/targeting_criteria/platform_versions" []))
+
+(defroutes analytics
+  (GET "/stats/accounts/:id" [id])
+  (context "/stats/accounts/:account-id" [id]
+    (GET "/campaigns" [])
+    (GET "/campaigns/:id" [id])
+    
+    (GET "/line_items" [])
+    (GET "/line_items/:id" [id])
+    
+    (GET "/promoted_accounts" [])
+    (GET "/promoted_accounts/:id" [id])
+    
+    (GET "/promoted_tweets" [])
+    (GET "/promoted_tweets/:id" [id])
+    
+    (GET "/funding_instruments" [])
+    (GET "/funding_instruments/:id" [id])))
 
 (defroutes app
   (GET "/" [] "hello")
