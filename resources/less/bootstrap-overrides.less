@@ -1,0 +1,731 @@
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+.navbar-brand {
+  font-family: futura-pt;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+#content {
+  max-height: 50%;
+  h1 {
+    font-weight: 300;
+    font-size: 18px;
+    display: inline-block;
+  }
+
+  h2 {
+    font-weight: 300;
+    display: inline-block;
+  }
+
+  div.twitter-stats {
+    border: none;
+    background: @body-bg;
+    box-shadow: none;
+    
+    div.panel-heading {
+      border: none;
+      background-color: transparent;
+
+      .panel-title {
+        padding-left: 1em;
+        margin-top: -5px;
+      }
+
+      .date-picker {
+        width: 180px;
+        background-color: @body-bg;
+        display: inline-block;
+        color: lighten(@gray, 10%);
+        font-size: 1em;
+        cursor: pointer;
+        text-transform: uppercase;
+        letter-spacing: 1px; 
+        font-weight: 500;
+        text-shadow: none;
+        border: none;
+      }
+
+      h4 {
+        display: inline-block;
+        color: lighten(@gray, 10%);
+        font-size: 1em;
+        text-transform: uppercase;
+        letter-spacing: 1px; 
+        font-weight: 500;
+        text-shadow: none;
+      }
+      .form-inline {
+        margin-top: -10px;
+      }
+    }
+
+    div.panel-body {
+      margin-right: 2em;
+      margin-left: 2em;
+      padding: 0;
+      margin-bottom: 1em;
+      clear: both;
+    }
+
+    div.panel-footer {
+      margin: 0 auto;
+      background-color: transparent;
+      border: 0;
+
+      div.twitter-stats {
+        
+        ul.list-group {
+          @margin: 0.6%;
+          margin: 0px @margin;
+          display: inline-block;
+          @width: 15.4%;
+          width: @width;
+          background: white;
+          margin-bottom: 0px;
+          box-shadow:0 1px 2px #aaa;
+          border-radius: 3px;
+
+          @media(max-width: @screen-md) {
+            width: @width;
+            margin: @margin;
+          }
+
+          @media(max-width: @screen-xs) {
+            width: 100%;
+            margin-top: 1.5rem;
+          }
+
+          li.list-group-item {
+            border: none;
+            padding: 0.75rem 1.5rem;
+            background: #F7F7F7;
+            border-radius: 0px;
+            transition: 100ms;
+
+            &:first-child {
+              background-color: white;
+              padding-bottom: 1rem;
+              padding-top: 2rem;
+            }
+
+            &:last-child {
+              margin-bottom: 0;
+              border-radius: 3px;
+            }
+
+            &:hover,
+            &:focus {
+              background-color: @gray-lighter;
+              cursor: pointer;
+              transition: 100ms;
+            }
+
+            &.active {
+              background-color: @brand-primary;
+              color: white;
+
+              small {
+                color: white;
+              }
+            }
+
+            h5 {
+              font-weight: 200;
+              font-size: 1.75rem; 
+              margin-bottom: 0.5em; 
+
+              @media (max-width: @screen-lg) {
+                font-size: 1.5rem;
+              }        
+            }
+
+            small {
+              font-weight: 600;
+              color: @gray;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  div.targeting-options {
+    border: none;
+    background: @body-bg;
+    box-shadow: none;
+
+    
+    div.panel-heading {
+      border: none;
+      background-color: transparent;
+
+      h4.panel-title {
+        padding-left: 1em;
+        margin-top: -5px;
+        display: inline-block;
+        color: lighten(@gray, 5%);
+        font-size: 2em;
+        letter-spacing: 1px; 
+        font-weight: 300;
+        text-shadow: none;
+
+        span:first-child {
+          font-weight: 900;
+          text-transform: uppercase;
+          color: #527acb;
+        }
+      }
+    }
+
+    div.panel-body {
+      margin-right: 2em;
+      margin-left: 2em;
+      padding: 0;
+      margin-bottom: 1em;
+      clear: both;
+      height: 175px;
+
+      h4.panel-title {
+        padding-top: 0.25em;
+        display: inline-block;
+        color: lighten(@gray, 5%);
+        font-size: 2em;
+        letter-spacing: 1px; 
+        font-weight: 300;
+        text-shadow: none;
+
+        span:first-child {
+          font-weight: 900;
+          text-transform: uppercase;
+          // color: #527acb;
+          padding-right: 7px;
+          font-size: 0.82em;
+        }
+      }
+
+      h5 {
+        color: lighten(@gray, 15%);
+        margin-bottom: 1.5em;
+        font-size: 1em;
+        font-weight: 400;
+        font-style: italic;
+      }
+    }
+
+    div.panel-footer {
+      margin: 0 auto;
+      background-color: transparent;
+      border: 0;
+
+      div.twitter-targeting-options {
+        
+        ul.list-group {
+          @margin: 0.5%;
+          margin: 0px @margin;
+          display: inline-block;
+          @width: 13.2%;
+          width: @width;
+          background: white;
+          margin-bottom: 0px;
+          box-shadow:0 1px 2px #aaa;
+          border-radius: 3px;
+
+          @media(max-width: @screen-md) {
+            width: @width;
+            margin: @margin;
+          }
+
+          @media(max-width: @screen-xs) {
+            width: 100%;
+            margin-top: 1.5rem;
+          }
+
+          li.list-group-item {
+            div.autocomplete {
+              width: 100%;
+              position: relative;
+              border: none;
+              background-color: transparent;
+              &:focused {
+                border: none;
+                outline: none;
+                background-color: transparent;
+              }
+            }
+          }
+
+          li.list-group-item {
+            border: none;
+            padding: 0.75rem 1.5rem;
+            background: #F7F7F7;
+            transition: 100ms;
+
+            &:first-child {
+              background-color: white;
+              padding-bottom: 1rem;
+              padding-top: 2rem;
+            }
+
+            &:last-child {
+              height: 49px;
+              border-radius: 3px;
+              margin-bottom: 0;
+            }
+
+            &:hover,
+            &:focus {
+              background-color: @gray-lighter;
+              cursor: pointer;
+              transition: 100ms;
+            }
+
+            &.active {
+              background-color: @brand-primary;
+              color: white;
+
+              small {
+                color: white;
+              }
+            }
+
+            h5 {
+              font-weight: 200;
+              font-size: 1.75rem; 
+              margin-bottom: 0.5em; 
+
+              @media (max-width: @screen-lg) {
+                font-size: 1.5rem;
+              }        
+            }
+
+            small {
+              font-weight: 600;
+              color: @gray;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+.panel-title {
+  font-size: 16px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.panel-heading {  
+  padding-top: 0px;
+  padding-bottom: 0px;
+
+  .form-inline .form-group {
+    margin: 0em 0.3em;
+
+    input {
+      background-color: white;
+      border-color: darken(@gray-lighter, 5%);
+      box-shadow: none;
+    }
+  }
+
+  button {
+    margin-left: 0.25em;
+    margin-top: -5px;
+    font-weight: 800;
+    border: none;
+  }
+
+  div.arrow-down {
+    width: 0; 
+    height: 0; 
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-top: 20px solid #d5d5d5;
+    margin: 0 auto;
+    padding-bottom: 5px;
+  }
+
+  div.arrow-up {
+    width: 0; 
+    height: 0; 
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 20px solid #F7F7F7;
+    margin: 0 auto;
+    padding-top: 5px;
+  }
+
+  h4 {
+    color: @gray;
+    padding: .5em 0em;
+    font-weight: 200;
+    font-size: 2em;
+    text-shadow: none;
+
+    a {
+      color: @brand-primary;
+      cursor: pointer;
+    }
+
+    span.divider {
+      margin: 0 0.5em;
+      font-size: 0.85em;
+      font-weight: 100;
+      color: @gray-light;
+    }
+
+    span {
+      font-weight: 400;
+    }
+  }
+
+}
+
+button#pause-button-cell {
+  text-align: center;
+  font-size: 16px;
+  width: 40px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid @table-border-color;
+  line-height: 1em;
+}
+
+button#pause-button-cell.glyphicon.glyphicon-play {
+  color: @brand-success;
+}
+
+button#pause-button-cell.glyphicon.glyphicon-pause {
+  color: @brand-warning;
+}
+
+.autocomplete {
+  &:focus {
+    outline: none;
+  }
+  width: 300px;
+  position: relative;
+}
+
+ul.selection-menu {
+  width: inherit;
+  position: absolute;
+  z-index: 999;
+  background-color: #fff;
+  list-style: none;
+  margin: 0;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  box-shadow: 0px 4px 4px #DCDCDC;
+  padding: 0;
+}
+
+li.field {
+  width: inherit;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+  padding: 3px 0 3px 8px;
+  margin: 0;
+}
+
+li.field.highlighted {
+  background-color: #CCF;
+}
+
+.datagrid-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  // height: 50%;
+  border: none;
+  border-radius: 0px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.datagrid-container .panel-heading {
+  border-bottom: none;
+  background-color: white;
+  width: 100%;  
+  padding-left: 2em;
+  padding-right: 2em;
+}
+
+.datagrid-container > .panel-heading > ol.breadcrumb {
+  background: transparent;
+  padding: 0px;
+  border-radius: 0px;
+  margin-bottom: 0px;
+  font-size: 1.5em;
+  display: inline-block;
+
+  li+li:before {
+    padding-left: 10px;
+    padding-right: 5px;
+  }
+
+  li {
+    a {
+      font-weight: 200;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    &.active {
+      color: @gray-dark;
+
+      a {
+        cursor: auto;
+        color: @gray-dark;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+.datagrid-container > .panel-heading > form {
+  display: inline-block;
+
+  div.form-group {
+    margin-top: 1.75em;
+  }      
+}
+
+.datagrid-container > .panel-body {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  table {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+    white-space: nowrap;
+    margin-bottom: 0;
+    border: none;
+    thead {
+      tr {
+        display: block;
+        background-color: #F7F7F7;
+        border-bottom: 2px solid @table-border-color;
+        th {
+          font-weight: 800;
+          color: @gray;
+          border: none;            
+          padding: 0.75em 1em;
+          text-transform: uppercase;
+          letter-spacing: 1px;
+          font-size: 12px;
+          &:hover {
+            background-color: @gray-lighter;
+            cursor: pointer;
+          }
+          &.asc,
+          &.desc {
+            background-color: darken(@gray-lighter, 5%);
+
+            &:after {
+              font-family: 'Glyphicons Halflings';
+              font-weight: normal;
+              padding-left: 2em;
+              vertical-align: middle;
+              color: @gray;
+              float: right;
+            }
+          }
+
+          &.asc {
+
+            &:after {
+              content: "\e155";
+            }
+          }
+
+          &.desc {
+
+            &:after {
+              content: "\e093";
+            }
+          }
+
+        }
+      }
+    }
+  }
+  tbody {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    tr {
+      height: 60px;
+      border: 1px solid @table-border-color;
+      border-top: none;
+      td {
+        background: white;
+        padding: 0em 1em;
+        transition: 100ms;
+
+        img {
+          border-radius: 3px;
+        }
+
+        input.date-picker {
+          width: 150px;
+          border: none;
+          cursor: pointer;
+          background-color: #fff;
+          box-shadow: none;
+
+          &:focus {
+            outline: none;
+          }
+        }
+
+        blockquote.twitter-tweet {
+          max-width: 520px;
+          min-width: 300px;
+          margin: 0;
+          border-left: none;
+          padding-left: 0px;
+          padding-right: 50px;
+          padding-top: 10px;
+          padding-bottom: 10px;
+          font-family: Arial,"Helvetica Neue",sans-serif;
+          font-weight: 700;
+
+          p {
+            font-family: Arial,"Helvetica Neue",sans-serif;
+            font-size: 1em;
+            font-weight: 500;
+            color: #333;
+            line-height: 1.5;
+            white-space: normal;
+
+            a {
+              color: #3db1b1;
+            }
+          }
+        }
+
+        &:hover {
+          background-color: @gray-lighter;
+          transition: 100ms;
+
+          input.date-picker {
+            transition: 0ms;
+            background-color: @gray-lighter;
+          }
+        }
+        &:focus {
+          background-color: lighten(@brand-primary, 37%);
+          outline: none;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+  thead,
+  tbody,
+  tfoot {
+    > tr {
+      > th,
+      > td {
+        padding: @table-cell-padding;
+        line-height: @line-height-base;
+        vertical-align: middle;
+      }
+    }
+  }
+}
+
+.datagrid-container > .panel-footer {
+  background: #F7F7F7;
+  padding: 1.5em;
+  border-top: 1px solid @gray-lighter;
+  border: none;
+  width: 100%; 
+  // position: fixed;
+  // bottom: 0;
+  margin: 0;
+  
+  .form-inline {
+
+    .form-group {
+      padding: 0px 3px;
+
+      button {
+        font-weight: 800;
+        border: none;
+      }
+    }
+  }
+}
+
+.datagrid-container > .panel-body > table > tbody {
+  tr.dirty td {
+    background-color: lighten(@brand-warning, 45%);    
+  }
+
+  tr.toggled td {
+    background-color: lighten(@brand-primary, 17%);
+    transition: 100ms;
+
+    input.date-picker {
+      transition: 0ms;
+      background-color: lighten(@brand-primary, 17%);
+    }
+
+  }
+}
+
+
+.datagrid-container > .panel-body > table > tbody {
+  tr.selected td {
+    background-color: lighten(@brand-primary, 37%);
+    transition: 100ms;
+
+    input.date-picker {
+      transition: 0ms;
+      background-color: @gray-lighter;
+    }
+
+  }
+}
+
+ul.chosen {
+  list-style: none;
+  background: white;
+  -webkit-padding-start: 15px;
+  border-radius: 3px;
+  box-shadow: 0 1px 2px #aaa;
+
+  li.choice {
+    display: inline-block;
+    border-radius: 3px;
+    padding: 5px 10px;
+    margin: 15px 7px;
+    background: #F7F7F7;
+
+    span {
+
+    }
+
+    button {
+      padding-left: 10px;
+      font-size: 19px;
+    }
+  }
+}
