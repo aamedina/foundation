@@ -34,9 +34,9 @@
    (enlive/html [:script (repls/browser-connected-repl-js)])))
 
 (defroutes app
-  (GET "/" [] (index))
   (route/resources "/" {:root "resources/public"})
-  (route/files "/" {:root "resources/public"}))
+  (route/files "/" {:root "resources/public"})
+  (GET "/*" [] (index)))
 
 (def system
   "A Var containing an object representing the application under

@@ -1,10 +1,12 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.array', 'goog.object', 'goog.string.StringBuffer']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
+goog.addDependency("../secretary/core.js", ['secretary.core'], ['cljs.core', 'clojure.string']);
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core']);
 goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['cljs.core', 'goog.events.EventType', 'goog.events.EventTarget', 'goog.events']);
 goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.net.xpc.CrossPageChannel', 'clojure.browser.event', 'goog.net.xpc.CfgFields', 'cljs.core', 'goog.net.EventType', 'goog.json', 'goog.net.XhrIo']);
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
-goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'foundation.app', 'clojure.browser.repl']);
+goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'secretary.core', 'foundation.app', 'clojure.browser.repl']);
 goog.addDependency("../clojure/set.js", ['clojure.set'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/protocols.js", ['cljs.core.async.impl.protocols'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/ioc_helpers.js", ['cljs.core.async.impl.ioc_helpers'], ['cljs.core', 'cljs.core.async.impl.protocols']);
@@ -16,7 +18,6 @@ goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.asy
 goog.addDependency("../cljs_time/core.js", ['cljs_time.core'], ['goog.date.Interval', 'goog.date.DateTime', 'cljs.core', 'goog.date.Date', 'goog.i18n.TimeZone', 'goog.date.DateRange', 'goog.date.UtcDateTime', 'cljs.core.async', 'goog.date']);
 goog.addDependency("../cljs_time/format.js", ['cljs_time.format'], ['cljs.core', 'goog.i18n.DateTimeFormat', 'clojure.set', 'goog.i18n.DateTimeParse', 'cljs_time.core']);
 goog.addDependency("../cljs_time/coerce.js", ['cljs_time.coerce'], ['goog.date.DateTime', 'cljs.core', 'cljs_time.format', 'goog.date.Date', 'goog.date.UtcDateTime', 'goog.date', 'cljs_time.core']);
-goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../dommy/attrs.js", ['dommy.attrs'], ['cljs.core', 'clojure.string']);
 goog.addDependency("../dommy/template.js", ['dommy.template'], ['dommy.attrs', 'cljs.core', 'clojure.string']);
 goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
