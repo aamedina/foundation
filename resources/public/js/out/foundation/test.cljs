@@ -1,5 +1,6 @@
 (ns foundation.test
-  (:require [clojure.browser.repl]))
+  (:require [clojure.browser.repl]
+            [foundation.app :as app]))
 
 (enable-console-print!)
 

@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 
         pkg: grunt.file.readJSON('package.json'),
         clean: {
-            dist: ['css']
+            dist: ['public/css']
         },
 
         recess: {
@@ -17,14 +17,14 @@ module.exports = function(grunt) {
             },
             bootstrap: {
                 src: ['less/bootstrap.less'],
-                dest: 'css/<%= pkg.name %>.css'
+                dest: 'public/css/<%= pkg.name %>.css'
             },
             min: {
                 options: {
                     compress: true
                 },
                 src: ['less/bootstrap.less'],
-                dest: 'css/<%= pkg.name %>.min.css'
+                dest: 'public/css/<%= pkg.name %>.min.css'
             }
         },
 
