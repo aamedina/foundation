@@ -13,6 +13,5 @@ pom.xml.asc
 .nrepl 
 .repl
 /out
-/resources
 /.repl
 .nrepl-port
