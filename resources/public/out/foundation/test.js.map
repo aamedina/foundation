@@ -1,0 +1,7 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/out/foundation/test.js",
+ "sources":["test.cljs"],
+ "lineCount":9,
+ "mappings":";AAAA;;;AAGA,wBAAA,kBAAA,1CAAeA,0CACb,mCAAA,5BAACC",
+ "names":["foundation.test/-main", "cljs.core/println"]}
