@@ -3,6 +3,6 @@
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/out/foundation/app/message.js",
  "sources":["message.cljs"],
  "lineCount":7,
- "mappings":";AAAC;;AAGA,8BAAA,9BAAKA;AACL,8BAAA,9BAAKC",
+ "mappings":";AAAA;;AAGA,8BAAA,9BAAKA;AACL,8BAAA,9BAAKC",
  "names":
  ["foundation.app.message/type", "foundation.app.message/path"]}

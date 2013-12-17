@@ -5,6 +5,7 @@
             [cljs.core.async :as async :refer [<! take! put! >! chan close!]]
             [dommy.core :as dom])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
+                   [foundation.app.ui :refer [component]]
                    [dommy.macros :refer [node]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
@@ -12,8 +13,7 @@
            [goog.dom ViewportSizeMonitor]))
 
 (defprotocol IComponent
-  (-render [_])
-  (-update [_]))
+  (-render [_ parent]))
 
 (defprotocol IDisposable
   (-dispose [_]))
@@ -57,9 +57,7 @@
   [component]
   (-render component))
 
-(defn component
-  [component]
-  (let [id (guid)]
-    (assoc component
-      :id id
-      :handler (EventHandler. component))))
+(defn root
+  []
+  (let [handler (EventHandler. component)]
+    ))

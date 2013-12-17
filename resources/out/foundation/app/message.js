@@ -1,4 +1,4 @@
-// Compiled by ClojureScript 0.0-2080
+// Compiled by ClojureScript 0.0-2120
 goog.provide('foundation.app.message');
 goog.require('cljs.core');
 foundation.app.message.type = new cljs.core.Keyword("foundation.app.message","type","foundation.app.message/type",2123172454);
