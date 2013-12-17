@@ -9,7 +9,6 @@
                  [org.clojure/tools.namespace "0.2.4"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [org.clojure/core.match "0.2.0"]
-
                  [ring "1.2.0"]
                  [formative "0.8.7"]
                  [cljs-time "0.1.0-SNAPSHOT"]
@@ -25,9 +24,10 @@
             [com.cemerick/clojurescript.test "0.2.1"]
             [lein-cljsbuild "1.0.1"]]
   :hooks [leiningen.cljsbuild]
-  :cljsbuild {:builds [{:source-paths ["src" "test"]
-                        :compiler {:output-to "resources/public/main.js"
-                                   :output-dir "resources/public/out"
-                                   :source-map "resources/public/main.js.map"
-                                   :source-map-path "resources/public/out"
-                                   :optimizations :none}}]})
+  :cljsbuild {:builds
+              [{:source-paths ["src" "test"]
+                :compiler {:output-to "resources/public/js/main.js"
+                           :output-dir "resources/public/js/out"
+                           :source-map "resources/public/js/main.js.map"
+                           :source-map-path "resources/public/js/out"
+                           :optimizations :none}}]})
