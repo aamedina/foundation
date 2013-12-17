@@ -43,13 +43,15 @@
 (defmethod node-create [:dashboard]
   [renderer [_ path _ val] input-queue parent-id id]
   (en/at [(css-id parent-id)]
-    (en/append (tmpl/dashboard id)))
+    (en/append (tmpl/dashboard id))
+    [(str "#Impressions")] (en/add-class "active"))
   (doseq [[metric cpa rate] tmpl/dashboard-metrics]
     (en/at (sel1 (css-id parent-id))
       [(str "#" metric)]
-      (e/listen :click #(put! input-queue (assoc stats-msg
-                                            :metric metric
-                                            :metric-type :total)))
+      (e/listen :click (fn [e]
+                         (put! input-queue (assoc stats-msg
+                                             :metric metric
+                                             :metric-type :total))))
       [(str "#" metric "-cpa")]
       (e/listen :click #(put! input-queue (assoc stats-msg
                                             :metric metric
@@ -106,7 +108,8 @@
 
 (defmethod node-update [:datagrid]
   [renderer [_ path _ val] input-queue parent-id id]
-  (set-data! renderer path (:resource val)))
+  (when-not (= (get-data renderer path) (:resource val))
+    (set-data! renderer path (:resource val))))
 
 (def create-msg {msg/type :create msg/path [:datagrid :collection]})
 (def save-msg {msg/type :save msg/path [:datagrid :collection]})
@@ -128,10 +131,20 @@
   (let [model (get-data renderer [:datagrid])
         row-count (count (.-rows (sel1 :tbody)))]
     (en/at (sel1 (css-id parent-id))
-      [:div.panel-body] (en/content (tmpl/datagrid-table model val)))
+      [:div.panel-body] (en/content (tmpl/datagrid-table model val))
+      [:div.panel-body>tr ] (en/content (tmpl/datagrid-table model val)))
     (set-datagrid-height!)
     (fix-column-widths!)
     ))
+
+;; (defmethod node-create [:datagrid :selected]
+;;   [renderer [_ path _ val] input-queue parent-id id]
+;;   (en/at (sel1 (css-id parent-id))
+;;     (e/listen :click #(println "select!"))))
+
+;; (defmethod node-update [:datagrid :selected]
+;;   [renderer [_ path _ val] input-queue parent-id id]
+;;   (en/at (sel1 (css-id parnt-id))))
 
 (defmethod node-create [:chart]
   [renderer [_ path _ _] input-queue parent-id id]
@@ -173,7 +186,7 @@
 (defn full-td-widths
   [th-widths ths row-width table-width]
   (reduce (fn [ws [width th]]
-            (let [th-width (.-width (style/getBounds th))
+            (let [th-width width
                   new-width (* table-width (/ width row-width))]
               (if (> new-width width)
                 (do (style/setWidth th new-width) (conj ws new-width))
@@ -184,16 +197,16 @@
   []
   (let [[panel-body tbody thead]
         (vec (map #(sel1 %) [:.panel-body :tbody :thead]))
-        table-width (.-width (style/getBounds panel-body))
+        table-width (.-width (style/getBounds tbody))
         rows (.-rows tbody)
         ths (.-cells (first (.-rows thead)))
         td-widths (td-widths rows)
         th-widths (th-widths ths td-widths)
         row-width (reduce + th-widths)
         th-widths (full-td-widths th-widths ths row-width table-width)]
-    (if (> row-width table-width)
-      (style/setWidth (-> thead .-rows first) row-width)
-      (style/setWidth (-> thead .-rows first) table-width))
+    ;; (if (> row-width table-width)
+    ;;   (style/setWidth (-> thead .-rows first) row-width)
+    ;;   (style/setWidth (-> thead .-rows first) table-width))
     (doseq [tr rows]
       (doseq [[width td] (map vector th-widths (.-cells tr))]
         (style/setWidth td width)))))
@@ -212,8 +225,10 @@
 
 (defn as-resizable
   []
-  (set-datagrid-height!)
   (let [viewport-monitor (goog.dom.ViewportSizeMonitor/getInstanceForWindow)]
     (events/listen viewport-monitor goog.events.EventType.RESIZE
                    (fn [e]
-                     (set-datagrid-height!)))))
+                     (set-datagrid-height!)
+                     (when (> (.-width (.getSize viewport-monitor))
+                              (.-width (style/getBounds (sel1 :tbody))))
+                       (fix-column-widths!))))))
