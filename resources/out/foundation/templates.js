@@ -23,118 +23,118 @@ goog.require('dommy.core');
 goog.require('foundation.models');
 goog.require('cljs_time.core');
 cljs.core.enable_console_print_BANG_.call(null);
-foundation.templates.date_picker = (function date_picker(el,init_date,date_pattern){var date_pattern__$1 = (((date_pattern instanceof cljs.core.Keyword))?date_pattern.call(null,cljs_time.format.formatters):date_pattern);var picker = (new goog.ui.InputDatePicker((new goog.i18n.DateTimeFormat(date_pattern__$1)),(new goog.i18n.DateTimeParse(date_pattern__$1))));var G__325334_325336 = picker.getDatePicker();G__325334_325336.setUseSimpleNavigationMenu(true);
-G__325334_325336.setAllowNone(true);
-var G__325335 = picker;G__325335.decorate(el);
-G__325335.setDate(init_date);
-return G__325335;
+foundation.templates.date_picker = (function date_picker(el,init_date,date_pattern){var date_pattern__$1 = (((date_pattern instanceof cljs.core.Keyword))?date_pattern.call(null,cljs_time.format.formatters):date_pattern);var picker = (new goog.ui.InputDatePicker((new goog.i18n.DateTimeFormat(date_pattern__$1)),(new goog.i18n.DateTimeParse(date_pattern__$1))));var G__334511_334513 = picker.getDatePicker();G__334511_334513.setUseSimpleNavigationMenu(true);
+G__334511_334513.setAllowNone(true);
+var G__334512 = picker;G__334512.decorate(el);
+G__334512.setDate(init_date);
+return G__334512;
 });
 foundation.templates.dashboard_metrics = new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Impressions","CPM","Impression Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Engagements","CPE","Engagement Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Clicks","CPC","Click Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Retweets","CPRT","Retweet Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Replies","CPR","Reply Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Follows","CPF","Follow Rate"], null)], null);
-foundation.templates.dashboard_metric = (function dashboard_metric(p__325337){var vec__325346 = p__325337;var metric = cljs.core.nth.call(null,vec__325346,0,null);var cpa = cljs.core.nth.call(null,vec__325346,1,null);var rate = cljs.core.nth.call(null,vec__325346,2,null);var dom325347 = document.createElement("ul");dom325347.className = "list-group";
-dom325347.appendChild((function (){var dom325348 = document.createElement("li");dom325348.className = "list-group-item";
+foundation.templates.dashboard_metric = (function dashboard_metric(p__334514){var vec__334523 = p__334514;var metric = cljs.core.nth.call(null,vec__334523,0,null);var cpa = cljs.core.nth.call(null,vec__334523,1,null);var rate = cljs.core.nth.call(null,vec__334523,2,null);var dom334524 = document.createElement("ul");dom334524.className = "list-group";
+dom334524.appendChild((function (){var dom334525 = document.createElement("li");dom334525.className = "list-group-item";
 if(cljs.core.truth_(metric))
-{dom325348.setAttribute("id",metric);
+{dom334525.setAttribute("id",metric);
 } else
 {}
-dom325348.appendChild((function (){var dom325349 = document.createElement("h5");dom325349.className = "metric-header list-group-item-heading";
-dom325349.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(metric)].join('')));
-return dom325349;
+dom334525.appendChild((function (){var dom334526 = document.createElement("h5");dom334526.className = "metric-header list-group-item-heading";
+dom334526.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(metric)].join('')));
+return dom334526;
 })());
-return dom325348;
+return dom334525;
 })());
-dom325347.appendChild((function (){var dom325350 = document.createElement("li");dom325350.className = "list-group-item";
+dom334524.appendChild((function (){var dom334527 = document.createElement("li");dom334527.className = "list-group-item";
 if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-cpa")].join('')))
-{dom325350.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-cpa")].join(''));
+{dom334527.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-cpa")].join(''));
 } else
 {}
-dom325350.appendChild((function (){var dom325351 = document.createElement("small");dom325351.className = "list-group-item-text";
-dom325351.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(cpa)].join('')));
-return dom325351;
+dom334527.appendChild((function (){var dom334528 = document.createElement("small");dom334528.className = "list-group-item-text";
+dom334528.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(cpa)].join('')));
+return dom334528;
 })());
-return dom325350;
+return dom334527;
 })());
-dom325347.appendChild((function (){var dom325352 = document.createElement("li");dom325352.className = "list-group-item";
+dom334524.appendChild((function (){var dom334529 = document.createElement("li");dom334529.className = "list-group-item";
 if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-rate")].join('')))
-{dom325352.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-rate")].join(''));
+{dom334529.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-rate")].join(''));
 } else
 {}
-dom325352.appendChild((function (){var dom325353 = document.createElement("small");dom325353.className = "list-group-item-text";
-dom325353.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(rate)].join('')));
-return dom325353;
+dom334529.appendChild((function (){var dom334530 = document.createElement("small");dom334530.className = "list-group-item-text";
+dom334530.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(rate)].join('')));
+return dom334530;
 })());
-return dom325352;
+return dom334529;
 })());
-return dom325347;
+return dom334524;
 });
-foundation.templates.dashboard = (function dashboard(id){var dom325372 = document.createElement("div");dom325372.className = "twitter-stats panel panel-default";
+foundation.templates.dashboard = (function dashboard(id){var dom334549 = document.createElement("div");dom334549.className = "twitter-stats panel panel-default";
 if(cljs.core.truth_(id))
-{dom325372.setAttribute("id",id);
+{dom334549.setAttribute("id",id);
 } else
 {}
-dom325372.appendChild((function (){var dom325373 = document.createElement("div");dom325373.className = "panel-heading";
-dom325373.appendChild((function (){var dom325374 = document.createElement("h1");dom325374.className = "panel-title";
+dom334549.appendChild((function (){var dom334550 = document.createElement("div");dom334550.className = "panel-heading";
+dom334550.appendChild((function (){var dom334551 = document.createElement("h1");dom334551.className = "panel-title";
 if("resource-id")
-{dom325374.setAttribute("id","resource-id");
+{dom334551.setAttribute("id","resource-id");
 } else
 {}
-return dom325374;
+return dom334551;
 })());
-dom325373.appendChild((function (){var dom325375 = document.createElement("div");dom325375.className = "form-inline pull-right";
-dom325375.appendChild((function (){var dom325376 = document.createElement("div");dom325376.className = "form-group";
-dom325376.appendChild((function (){var dom325377 = document.createElement("input");dom325377.className = "form-control date-picker";
-dom325377.setAttribute("id","start-time");
+dom334550.appendChild((function (){var dom334552 = document.createElement("div");dom334552.className = "form-inline pull-right";
+dom334552.appendChild((function (){var dom334553 = document.createElement("div");dom334553.className = "form-group";
+dom334553.appendChild((function (){var dom334554 = document.createElement("input");dom334554.className = "form-control date-picker";
+dom334554.setAttribute("id","start-time");
 if(true)
-{dom325377.setAttribute("readonly",true);
+{dom334554.setAttribute("readonly",true);
 } else
 {}
-return dom325377;
+return dom334554;
 })());
-return dom325376;
+return dom334553;
 })());
-dom325375.appendChild((function (){var dom325378 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
-{dom325378.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
+dom334552.appendChild((function (){var dom334555 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
+{dom334555.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
 } else
 {}
-dom325378.appendChild(document.createTextNode("to"));
-return dom325378;
+dom334555.appendChild(document.createTextNode("to"));
+return dom334555;
 })());
-dom325375.appendChild((function (){var dom325379 = document.createElement("div");dom325379.className = "form-group";
-dom325379.appendChild((function (){var dom325380 = document.createElement("input");dom325380.className = "form-control date-picker";
-dom325380.setAttribute("id","end-time");
+dom334552.appendChild((function (){var dom334556 = document.createElement("div");dom334556.className = "form-group";
+dom334556.appendChild((function (){var dom334557 = document.createElement("input");dom334557.className = "form-control date-picker";
+dom334557.setAttribute("id","end-time");
 if(true)
-{dom325380.setAttribute("readonly",true);
+{dom334557.setAttribute("readonly",true);
 } else
 {}
-return dom325380;
+return dom334557;
 })());
-return dom325379;
+return dom334556;
 })());
-dom325375.appendChild((function (){var dom325381 = document.createElement("button");dom325381.className = "btn btn-primary btn-sm";
-dom325381.setAttribute("id","update-stats");
-dom325381.appendChild(document.createTextNode("Update"));
-return dom325381;
+dom334552.appendChild((function (){var dom334558 = document.createElement("button");dom334558.className = "btn btn-primary btn-sm";
+dom334558.setAttribute("id","update-stats");
+dom334558.appendChild(document.createTextNode("Update"));
+return dom334558;
 })());
-return dom325375;
+return dom334552;
 })());
-return dom325373;
+return dom334550;
 })());
-dom325372.appendChild((function (){var dom325382 = document.createElement("div");dom325382.className = "panel-body";
-dom325382.appendChild((function (){var dom325383 = document.createElement("div");dom325383.className = "analytics-highcharts";
-return dom325383;
+dom334549.appendChild((function (){var dom334559 = document.createElement("div");dom334559.className = "panel-body";
+dom334559.appendChild((function (){var dom334560 = document.createElement("div");dom334560.className = "analytics-highcharts";
+return dom334560;
 })());
-return dom325382;
+return dom334559;
 })());
-dom325372.appendChild((function (){var dom325384 = document.createElement("div");dom325384.className = "panel-footer row";
-dom325384.appendChild((function (){var dom325385 = document.createElement("div");dom325385.className = "twitter-stats";
-dom325385.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__325386(s__325387){return (new cljs.core.LazySeq(null,(function (){var s__325387__$1 = s__325387;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__325387__$1);if(temp__4092__auto__)
-{var s__325387__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__325387__$2))
-{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__325387__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__325389 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__325388 = 0;while(true){
-if((i__325388 < size__14515__auto__))
-{var metric = cljs.core._nth.call(null,c__14514__auto__,i__325388);cljs.core.chunk_append.call(null,b__325389,foundation.templates.dashboard_metric.call(null,metric));
+dom334549.appendChild((function (){var dom334561 = document.createElement("div");dom334561.className = "panel-footer row";
+dom334561.appendChild((function (){var dom334562 = document.createElement("div");dom334562.className = "twitter-stats";
+dom334562.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__334563(s__334564){return (new cljs.core.LazySeq(null,(function (){var s__334564__$1 = s__334564;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__334564__$1);if(temp__4092__auto__)
+{var s__334564__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__334564__$2))
+{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__334564__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__334566 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__334565 = 0;while(true){
+if((i__334565 < size__14515__auto__))
+{var metric = cljs.core._nth.call(null,c__14514__auto__,i__334565);cljs.core.chunk_append.call(null,b__334566,foundation.templates.dashboard_metric.call(null,metric));
 {
-var G__325390 = (i__325388 + 1);
-i__325388 = G__325390;
+var G__334567 = (i__334565 + 1);
+i__334565 = G__334567;
 continue;
 }
 } else
@@ -143,12 +143,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325389),iter__325386.call(null,cljs.core.chunk_rest.call(null,s__325387__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334566),iter__334563.call(null,cljs.core.chunk_rest.call(null,s__334564__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325389),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334566),null);
 }
 } else
-{var metric = cljs.core.first.call(null,s__325387__$2);return cljs.core.cons.call(null,foundation.templates.dashboard_metric.call(null,metric),iter__325386.call(null,cljs.core.rest.call(null,s__325387__$2)));
+{var metric = cljs.core.first.call(null,s__334564__$2);return cljs.core.cons.call(null,foundation.templates.dashboard_metric.call(null,metric),iter__334563.call(null,cljs.core.rest.call(null,s__334564__$2)));
 }
 } else
 {return null;
@@ -158,36 +158,36 @@ break;
 }),null,null));
 });return iter__14516__auto__.call(null,foundation.templates.dashboard_metrics);
 })()));
-return dom325385;
+return dom334562;
 })());
-return dom325384;
+return dom334561;
 })());
-return dom325372;
+return dom334549;
 });
-foundation.templates.datagrid_filter = (function datagrid_filter(){var dom325393 = document.createElement("div");dom325393.className = "autocomplete";
-dom325393.appendChild((function (){var dom325394 = document.createElement("input");dom325394.className = "form-control";
+foundation.templates.datagrid_filter = (function datagrid_filter(){var dom334570 = document.createElement("div");dom334570.className = "autocomplete";
+dom334570.appendChild((function (){var dom334571 = document.createElement("input");dom334571.className = "form-control";
 if("text")
-{dom325394.setAttribute("type","text");
+{dom334571.setAttribute("type","text");
 } else
 {}
 if("What are you looking for?")
-{dom325394.setAttribute("placeholder","What are you looking for?");
+{dom334571.setAttribute("placeholder","What are you looking for?");
 } else
 {}
-return dom325394;
+return dom334571;
 })());
-return dom325393;
+return dom334570;
 });
-foundation.templates.datagrid_header = (function datagrid_header(columns){var dom325401 = document.createElement("thead");dom325401.setAttribute("id","datagrid-header");
-dom325401.appendChild((function (){var dom325402 = document.createElement("tr");dom325402.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__325403(s__325404){return (new cljs.core.LazySeq(null,(function (){var s__325404__$1 = s__325404;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__325404__$1);if(temp__4092__auto__)
-{var s__325404__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__325404__$2))
-{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__325404__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__325406 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__325405 = 0;while(true){
-if((i__325405 < size__14515__auto__))
-{var col = cljs.core._nth.call(null,c__14514__auto__,i__325405);cljs.core.chunk_append.call(null,b__325406,foundation.cells.th.call(null,col));
+foundation.templates.datagrid_header = (function datagrid_header(columns){var dom334578 = document.createElement("thead");dom334578.setAttribute("id","datagrid-header");
+dom334578.appendChild((function (){var dom334579 = document.createElement("tr");dom334579.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__334580(s__334581){return (new cljs.core.LazySeq(null,(function (){var s__334581__$1 = s__334581;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__334581__$1);if(temp__4092__auto__)
+{var s__334581__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__334581__$2))
+{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__334581__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__334583 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__334582 = 0;while(true){
+if((i__334582 < size__14515__auto__))
+{var col = cljs.core._nth.call(null,c__14514__auto__,i__334582);cljs.core.chunk_append.call(null,b__334583,foundation.cells.th.call(null,col));
 {
-var G__325407 = (i__325405 + 1);
-i__325405 = G__325407;
+var G__334584 = (i__334582 + 1);
+i__334582 = G__334584;
 continue;
 }
 } else
@@ -196,12 +196,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325406),iter__325403.call(null,cljs.core.chunk_rest.call(null,s__325404__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334583),iter__334580.call(null,cljs.core.chunk_rest.call(null,s__334581__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325406),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334583),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__325404__$2);return cljs.core.cons.call(null,foundation.cells.th.call(null,col),iter__325403.call(null,cljs.core.rest.call(null,s__325404__$2)));
+{var col = cljs.core.first.call(null,s__334581__$2);return cljs.core.cons.call(null,foundation.cells.th.call(null,col),iter__334580.call(null,cljs.core.rest.call(null,s__334581__$2)));
 }
 } else
 {return null;
@@ -211,19 +211,19 @@ break;
 }),null,null));
 });return iter__14516__auto__.call(null,columns);
 })()));
-return dom325402;
+return dom334579;
 })());
-return dom325401;
+return dom334578;
 });
-foundation.templates.datagrid_row = (function datagrid_row(model,columns){var dom325413 = document.createElement("tr");dom325413.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__325414(s__325415){return (new cljs.core.LazySeq(null,(function (){var s__325415__$1 = s__325415;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__325415__$1);if(temp__4092__auto__)
-{var s__325415__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__325415__$2))
-{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__325415__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__325417 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__325416 = 0;while(true){
-if((i__325416 < size__14515__auto__))
-{var col = cljs.core._nth.call(null,c__14514__auto__,i__325416);cljs.core.chunk_append.call(null,b__325417,foundation.cells.td.call(null,col,model));
+foundation.templates.datagrid_row = (function datagrid_row(model,columns){var dom334590 = document.createElement("tr");dom334590.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__334591(s__334592){return (new cljs.core.LazySeq(null,(function (){var s__334592__$1 = s__334592;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__334592__$1);if(temp__4092__auto__)
+{var s__334592__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__334592__$2))
+{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__334592__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__334594 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__334593 = 0;while(true){
+if((i__334593 < size__14515__auto__))
+{var col = cljs.core._nth.call(null,c__14514__auto__,i__334593);cljs.core.chunk_append.call(null,b__334594,foundation.cells.td.call(null,col,model));
 {
-var G__325418 = (i__325416 + 1);
-i__325416 = G__325418;
+var G__334595 = (i__334593 + 1);
+i__334593 = G__334595;
 continue;
 }
 } else
@@ -232,12 +232,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325417),iter__325414.call(null,cljs.core.chunk_rest.call(null,s__325415__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334594),iter__334591.call(null,cljs.core.chunk_rest.call(null,s__334592__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325417),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334594),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__325415__$2);return cljs.core.cons.call(null,foundation.cells.td.call(null,col,model),iter__325414.call(null,cljs.core.rest.call(null,s__325415__$2)));
+{var col = cljs.core.first.call(null,s__334592__$2);return cljs.core.cons.call(null,foundation.cells.td.call(null,col,model),iter__334591.call(null,cljs.core.rest.call(null,s__334592__$2)));
 }
 } else
 {return null;
@@ -247,19 +247,19 @@ break;
 }),null,null));
 });return iter__14516__auto__.call(null,columns);
 })()));
-return dom325413;
+return dom334590;
 });
-foundation.templates.datagrid_body = (function datagrid_body(coll,columns){var dom325424 = document.createElement("tbody");dom325424.className = "datagrid-tbody";
-dom325424.setAttribute("id","datagrid-body");
-dom325424.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__325425(s__325426){return (new cljs.core.LazySeq(null,(function (){var s__325426__$1 = s__325426;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__325426__$1);if(temp__4092__auto__)
-{var s__325426__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__325426__$2))
-{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__325426__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__325428 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__325427 = 0;while(true){
-if((i__325427 < size__14515__auto__))
-{var model = cljs.core._nth.call(null,c__14514__auto__,i__325427);cljs.core.chunk_append.call(null,b__325428,foundation.templates.datagrid_row.call(null,model,columns));
+foundation.templates.datagrid_body = (function datagrid_body(coll,columns){var dom334601 = document.createElement("tbody");dom334601.className = "datagrid-tbody";
+dom334601.setAttribute("id","datagrid-body");
+dom334601.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__14516__auto__ = (function iter__334602(s__334603){return (new cljs.core.LazySeq(null,(function (){var s__334603__$1 = s__334603;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__334603__$1);if(temp__4092__auto__)
+{var s__334603__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__334603__$2))
+{var c__14514__auto__ = cljs.core.chunk_first.call(null,s__334603__$2);var size__14515__auto__ = cljs.core.count.call(null,c__14514__auto__);var b__334605 = cljs.core.chunk_buffer.call(null,size__14515__auto__);if((function (){var i__334604 = 0;while(true){
+if((i__334604 < size__14515__auto__))
+{var model = cljs.core._nth.call(null,c__14514__auto__,i__334604);cljs.core.chunk_append.call(null,b__334605,foundation.templates.datagrid_row.call(null,model,columns));
 {
-var G__325429 = (i__325427 + 1);
-i__325427 = G__325429;
+var G__334606 = (i__334604 + 1);
+i__334604 = G__334606;
 continue;
 }
 } else
@@ -268,12 +268,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325428),iter__325425.call(null,cljs.core.chunk_rest.call(null,s__325426__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334605),iter__334602.call(null,cljs.core.chunk_rest.call(null,s__334603__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__325428),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__334605),null);
 }
 } else
-{var model = cljs.core.first.call(null,s__325426__$2);return cljs.core.cons.call(null,foundation.templates.datagrid_row.call(null,model,columns),iter__325425.call(null,cljs.core.rest.call(null,s__325426__$2)));
+{var model = cljs.core.first.call(null,s__334603__$2);return cljs.core.cons.call(null,foundation.templates.datagrid_row.call(null,model,columns),iter__334602.call(null,cljs.core.rest.call(null,s__334603__$2)));
 }
 } else
 {return null;
@@ -283,112 +283,112 @@ break;
 }),null,null));
 });return iter__14516__auto__.call(null,coll);
 })()));
-return dom325424;
+return dom334601;
 });
-foundation.templates.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom325441 = document.createElement("ol");dom325441.className = "breadcrumb";
-dom325441.appendChild((function (){var dom325442 = document.createElement("li");dom325442.className = "active";
-dom325442.setAttribute("id","account");
-dom325442.appendChild((function (){var dom325443 = document.createElement("div");dom325443.className = "arrow-down";
-return dom325443;
+foundation.templates.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom334618 = document.createElement("ol");dom334618.className = "breadcrumb";
+dom334618.appendChild((function (){var dom334619 = document.createElement("li");dom334619.className = "active";
+dom334619.setAttribute("id","account");
+dom334619.appendChild((function (){var dom334620 = document.createElement("div");dom334620.className = "arrow-down";
+return dom334620;
 })());
-dom325442.appendChild((function (){var dom325444 = document.createElement("a");dom325444.appendChild(document.createTextNode("Accounts"));
-return dom325444;
+dom334619.appendChild((function (){var dom334621 = document.createElement("a");dom334621.appendChild(document.createTextNode("Accounts"));
+return dom334621;
 })());
-dom325442.appendChild((function (){var dom325445 = document.createElement("div");dom325445.className = "arrow-up";
-return dom325445;
+dom334619.appendChild((function (){var dom334622 = document.createElement("div");dom334622.className = "arrow-up";
+return dom334622;
 })());
-return dom325442;
+return dom334619;
 })());
-dom325441.appendChild((function (){var dom325446 = document.createElement("li");dom325446.className = "hidden";
-dom325446.setAttribute("id","campaign");
-dom325446.appendChild((function (){var dom325447 = document.createElement("a");dom325447.appendChild(document.createTextNode("Campaigns"));
-return dom325447;
+dom334618.appendChild((function (){var dom334623 = document.createElement("li");dom334623.className = "hidden";
+dom334623.setAttribute("id","campaign");
+dom334623.appendChild((function (){var dom334624 = document.createElement("a");dom334624.appendChild(document.createTextNode("Campaigns"));
+return dom334624;
 })());
-return dom325446;
+return dom334623;
 })());
-dom325441.appendChild((function (){var dom325448 = document.createElement("li");dom325448.className = "hidden";
-dom325448.setAttribute("id","line_item");
-dom325448.appendChild((function (){var dom325449 = document.createElement("a");dom325449.appendChild(document.createTextNode("Line Items"));
-return dom325449;
+dom334618.appendChild((function (){var dom334625 = document.createElement("li");dom334625.className = "hidden";
+dom334625.setAttribute("id","line_item");
+dom334625.appendChild((function (){var dom334626 = document.createElement("a");dom334626.appendChild(document.createTextNode("Line Items"));
+return dom334626;
 })());
-return dom325448;
+return dom334625;
 })());
-dom325441.appendChild((function (){var dom325450 = document.createElement("li");dom325450.className = "hidden";
-dom325450.setAttribute("id","promoted_tweet");
-dom325450.appendChild((function (){var dom325451 = document.createElement("a");dom325451.appendChild(document.createTextNode("Promoted Products"));
-return dom325451;
+dom334618.appendChild((function (){var dom334627 = document.createElement("li");dom334627.className = "hidden";
+dom334627.setAttribute("id","promoted_tweet");
+dom334627.appendChild((function (){var dom334628 = document.createElement("a");dom334628.appendChild(document.createTextNode("Promoted Products"));
+return dom334628;
 })());
-return dom325450;
+return dom334627;
 })());
-return dom325441;
+return dom334618;
 });
 foundation.templates.datagrid_table = (function datagrid_table(model,coll){return dommy.template.__GT_node_like.call(null,(function (){var cols = foundation.models.columns.call(null,model);return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"table#datagrid-table.table","table#datagrid-table.table",2230740568),foundation.templates.datagrid_header.call(null,cols),foundation.templates.datagrid_body.call(null,coll,cols)], null);
 })());
 });
-foundation.templates.datagrid = (function datagrid(id){var dom325467 = document.createElement("div");dom325467.className = "datagrid-container panel panel-default";
+foundation.templates.datagrid = (function datagrid(id){var dom334644 = document.createElement("div");dom334644.className = "datagrid-container panel panel-default";
 if(cljs.core.truth_(id))
-{dom325467.setAttribute("id",id);
+{dom334644.setAttribute("id",id);
 } else
 {}
-dom325467.appendChild((function (){var dom325468 = document.createElement("div");dom325468.className = "panel-heading";
-dom325468.appendChild(dommy.template.__GT_node_like.call(null,foundation.templates.datagrid_breadcrumb.call(null)));
-dom325468.appendChild((function (){var dom325469 = document.createElement("form");dom325469.className = "form-inline pull-right";
-dom325469.appendChild((function (){var dom325470 = document.createElement("div");dom325470.className = "form-group";
-dom325470.appendChild(dommy.template.__GT_node_like.call(null,foundation.templates.datagrid_filter.call(null)));
-return dom325470;
+dom334644.appendChild((function (){var dom334645 = document.createElement("div");dom334645.className = "panel-heading";
+dom334645.appendChild(dommy.template.__GT_node_like.call(null,foundation.templates.datagrid_breadcrumb.call(null)));
+dom334645.appendChild((function (){var dom334646 = document.createElement("form");dom334646.className = "form-inline pull-right";
+dom334646.appendChild((function (){var dom334647 = document.createElement("div");dom334647.className = "form-group";
+dom334647.appendChild(dommy.template.__GT_node_like.call(null,foundation.templates.datagrid_filter.call(null)));
+return dom334647;
 })());
-return dom325469;
+return dom334646;
 })());
-return dom325468;
+return dom334645;
 })());
-dom325467.appendChild((function (){var dom325471 = document.createElement("div");dom325471.className = "panel-body";
-return dom325471;
+dom334644.appendChild((function (){var dom334648 = document.createElement("div");dom334648.className = "panel-body";
+return dom334648;
 })());
-dom325467.appendChild((function (){var dom325472 = document.createElement("div");dom325472.className = "panel-footer";
-dom325472.appendChild((function (){var dom325473 = document.createElement("div");dom325473.className = "form-inline";
-dom325473.appendChild((function (){var dom325474 = document.createElement("div");dom325474.className = "form-group";
-dom325474.appendChild((function (){var dom325475 = document.createElement("button");dom325475.className = "btn btn-success btn-sm";
-dom325475.setAttribute("id","new");
-dom325475.appendChild(document.createTextNode("New"));
-return dom325475;
+dom334644.appendChild((function (){var dom334649 = document.createElement("div");dom334649.className = "panel-footer";
+dom334649.appendChild((function (){var dom334650 = document.createElement("div");dom334650.className = "form-inline";
+dom334650.appendChild((function (){var dom334651 = document.createElement("div");dom334651.className = "form-group";
+dom334651.appendChild((function (){var dom334652 = document.createElement("button");dom334652.className = "btn btn-success btn-sm";
+dom334652.setAttribute("id","new");
+dom334652.appendChild(document.createTextNode("New"));
+return dom334652;
 })());
-return dom325474;
+return dom334651;
 })());
-dom325473.appendChild((function (){var dom325476 = document.createElement("div");dom325476.className = "form-group";
-dom325476.appendChild((function (){var dom325477 = document.createElement("button");dom325477.className = "btn btn-info btn-sm disabled";
-dom325477.setAttribute("id","save");
-dom325477.appendChild(document.createTextNode("Save"));
-return dom325477;
+dom334650.appendChild((function (){var dom334653 = document.createElement("div");dom334653.className = "form-group";
+dom334653.appendChild((function (){var dom334654 = document.createElement("button");dom334654.className = "btn btn-info btn-sm disabled";
+dom334654.setAttribute("id","save");
+dom334654.appendChild(document.createTextNode("Save"));
+return dom334654;
 })());
-return dom325476;
+return dom334653;
 })());
-dom325473.appendChild((function (){var dom325478 = document.createElement("div");dom325478.className = "form-group";
-dom325478.appendChild((function (){var dom325479 = document.createElement("button");dom325479.className = "btn btn-danger btn-sm disabled";
-dom325479.setAttribute("id","delete");
-dom325479.appendChild(document.createTextNode("Delete"));
-return dom325479;
+dom334650.appendChild((function (){var dom334655 = document.createElement("div");dom334655.className = "form-group";
+dom334655.appendChild((function (){var dom334656 = document.createElement("button");dom334656.className = "btn btn-danger btn-sm disabled";
+dom334656.setAttribute("id","delete");
+dom334656.appendChild(document.createTextNode("Delete"));
+return dom334656;
 })());
-return dom325478;
+return dom334655;
 })());
-dom325473.appendChild((function (){var dom325480 = document.createElement("div");dom325480.className = "form-group";
-dom325480.appendChild((function (){var dom325481 = document.createElement("button");dom325481.className = "btn btn-primary btn-sm disabled";
-dom325481.setAttribute("id","dupe");
-dom325481.appendChild(document.createTextNode("Duplicate"));
-return dom325481;
+dom334650.appendChild((function (){var dom334657 = document.createElement("div");dom334657.className = "form-group";
+dom334657.appendChild((function (){var dom334658 = document.createElement("button");dom334658.className = "btn btn-primary btn-sm disabled";
+dom334658.setAttribute("id","dupe");
+dom334658.appendChild(document.createTextNode("Duplicate"));
+return dom334658;
 })());
-return dom325480;
+return dom334657;
 })());
-return dom325473;
+return dom334650;
 })());
-return dom325472;
+return dom334649;
 })());
-return dom325467;
+return dom334644;
 });
-foundation.templates.twitter_power = (function twitter_power(id){var dom325483 = document.createElement("div");if(cljs.core.truth_(id))
-{dom325483.setAttribute("id",id);
+foundation.templates.twitter_power = (function twitter_power(id){var dom334660 = document.createElement("div");if(cljs.core.truth_(id))
+{dom334660.setAttribute("id",id);
 } else
 {}
-return dom325483;
+return dom334660;
 });
 
 //# sourceMappingURL=templates.js.map

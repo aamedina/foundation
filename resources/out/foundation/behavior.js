@@ -34,15 +34,15 @@ goog.require('foundation.models');
 cljs.core.enable_console_print_BANG_.call(null);
 cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"init","init",1017141378),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"**","**",1013905586)], null)], null),(function (state,message){return cljs.core.PersistentArrayMap.EMPTY;
 }));
-cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"load","load",1017231448),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"dashboard","dashboard",4261010950)], null)], null),(function (state,message){var _STAR_account_STAR_325007 = foundation.models._STAR_account_STAR_;try{foundation.models._STAR_account_STAR_ = new cljs.core.Keyword(null,"account","account",4131552671).cljs$core$IFn$_invoke$arity$1(message);
+cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"load","load",1017231448),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"dashboard","dashboard",4261010950)], null)], null),(function (state,message){var _STAR_account_STAR_334184 = foundation.models._STAR_account_STAR_;try{foundation.models._STAR_account_STAR_ = new cljs.core.Keyword(null,"account","account",4131552671).cljs$core$IFn$_invoke$arity$1(message);
 return new cljs.core.PersistentArrayMap(null, 7, [new cljs.core.Keyword(null,"model","model",1117974171),new cljs.core.Keyword(null,"model","model",1117974171).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"account","account",4131552671),new cljs.core.Keyword(null,"account","account",4131552671).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"stats-model","stats-model",651400173),new cljs.core.Keyword(null,"stats-model","stats-model",651400173).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"start-time","start-time",3689550026),foundation.models.start_time.call(null,new cljs.core.Keyword(null,"model","model",1117974171).cljs$core$IFn$_invoke$arity$1(message)),new cljs.core.Keyword(null,"metrics","metrics",1969730613),new cljs.core.Keyword(null,"metrics","metrics",1969730613).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"granularity","granularity",2833735872),new cljs.core.Keyword(null,"granularity","granularity",2833735872).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"end-time","end-time",2693279729),foundation.models.end_time.call(null,new cljs.core.Keyword(null,"model","model",1117974171).cljs$core$IFn$_invoke$arity$1(message))], null);
-}finally {foundation.models._STAR_account_STAR_ = _STAR_account_STAR_325007;
+}finally {foundation.models._STAR_account_STAR_ = _STAR_account_STAR_334184;
 }}));
 cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"load","load",1017231448),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"datagrid","datagrid",2803534178)], null)], null),(function (state,message){return new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"collection","collection",3567559184),new cljs.core.Keyword(null,"collection","collection",3567559184).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"selected","selected",2205476365),cljs.core.PersistentHashSet.EMPTY,new cljs.core.Keyword(null,"resource","resource",672839552),new cljs.core.Keyword(null,"resource","resource",672839552).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"account","account",4131552671),new cljs.core.Keyword(null,"account","account",4131552671).cljs$core$IFn$_invoke$arity$1(message)], null);
 }));
 foundation.behavior.round = (function round(n,places){var p = Math.pow.call(null,10,places);return (Math.round.call(null,(p * n)) / p);
 });
-foundation.behavior.total_stats = (function total_stats(stats){return cljs.core.zipmap.call(null,cljs.core.map.call(null,cljs.core.first,foundation.templates.dashboard_metrics),cljs.core.map.call(null,(function (ms){return cljs.core.reduce.call(null,cljs.core._PLUS_,cljs.core.reduce.call(null,cljs.core.into,cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__325008_SHARP_){return clojure.string.replace.call(null,p1__325008_SHARP_,/_/,"-");
+foundation.behavior.total_stats = (function total_stats(stats){return cljs.core.zipmap.call(null,cljs.core.map.call(null,cljs.core.first,foundation.templates.dashboard_metrics),cljs.core.map.call(null,(function (ms){return cljs.core.reduce.call(null,cljs.core._PLUS_,cljs.core.reduce.call(null,cljs.core.into,cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__334185_SHARP_){return clojure.string.replace.call(null,p1__334185_SHARP_,/_/,"-");
 }),ms)))));
 }),cljs.core.map.call(null,foundation.models.metrics.call(null,new cljs.core.Keyword(null,"default","default",2558708147)),cljs.core.map.call(null,cljs.core.first,foundation.templates.dashboard_metrics))));
 });
@@ -57,31 +57,31 @@ foundation.behavior.js_number = (function js_number(n){if(cljs.core.truth_((func
 {return foundation.behavior.round.call(null,n,2);
 }
 });
-foundation.behavior.graph_stats = (function graph_stats(stats,metric,metric_type){var impressions = cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__325009_SHARP_){return clojure.string.replace.call(null,p1__325009_SHARP_,/_/,"-");
-}),cljs.core.get.call(null,foundation.models.metrics.call(null,new cljs.core.Keyword(null,"default","default",2558708147)),"Impressions"))));return cljs.core.vec.call(null,(function (p1__325011_SHARP_){var G__325013 = metric_type;if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"rate","rate",1017397330),G__325013))
-{return cljs.core.vec.call(null,cljs.core.map.call(null,foundation.behavior.js_number,cljs.core.map.call(null,cljs.core._SLASH_,cljs.core.first.call(null,impressions),cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__325011_SHARP_))));
+foundation.behavior.graph_stats = (function graph_stats(stats,metric,metric_type){var impressions = cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__334186_SHARP_){return clojure.string.replace.call(null,p1__334186_SHARP_,/_/,"-");
+}),cljs.core.get.call(null,foundation.models.metrics.call(null,new cljs.core.Keyword(null,"default","default",2558708147)),"Impressions"))));return cljs.core.vec.call(null,(function (p1__334188_SHARP_){var G__334190 = metric_type;if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"rate","rate",1017397330),G__334190))
+{return cljs.core.vec.call(null,cljs.core.map.call(null,foundation.behavior.js_number,cljs.core.map.call(null,cljs.core._SLASH_,cljs.core.first.call(null,impressions),cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__334188_SHARP_))));
 } else
-{if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"cpa","cpa",1014002950),G__325013))
-{var billed = cljs.core.map.call(null,cljs.core._SLASH_,new cljs.core.Keyword(null,"estimated-charge-local-micro","estimated-charge-local-micro",2985516268).cljs$core$IFn$_invoke$arity$1(stats),cljs.core.repeat.call(null,1000000.0));return cljs.core.vec.call(null,cljs.core.map.call(null,foundation.behavior.js_number,cljs.core.map.call(null,cljs.core._SLASH_,billed,cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__325011_SHARP_))));
+{if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"cpa","cpa",1014002950),G__334190))
+{var billed = cljs.core.map.call(null,cljs.core._SLASH_,new cljs.core.Keyword(null,"estimated-charge-local-micro","estimated-charge-local-micro",2985516268).cljs$core$IFn$_invoke$arity$1(stats),cljs.core.repeat.call(null,1000000.0));return cljs.core.vec.call(null,cljs.core.map.call(null,foundation.behavior.js_number,cljs.core.map.call(null,cljs.core._SLASH_,billed,cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__334188_SHARP_))));
 } else
-{if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"total","total",1124454070),G__325013))
-{return cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__325011_SHARP_);
+{if(cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"total","total",1124454070),G__334190))
+{return cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__334188_SHARP_);
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{return cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__325011_SHARP_);
+{return cljs.core.apply.call(null,cljs.core.map,cljs.core._PLUS_,p1__334188_SHARP_);
 } else
 {return null;
 }
 }
 }
 }
-}).call(null,cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__325010_SHARP_){return clojure.string.replace.call(null,p1__325010_SHARP_,/_/,"-");
+}).call(null,cljs.core.map.call(null,stats,cljs.core.map.call(null,cljs.core.keyword,cljs.core.map.call(null,(function (p1__334187_SHARP_){return clojure.string.replace.call(null,p1__334187_SHARP_,/_/,"-");
 }),cljs.core.get.call(null,foundation.models.metrics.call(null,new cljs.core.Keyword(null,"default","default",2558708147)),metric))))));
 });
-foundation.behavior.cpa_stats = (function cpa_stats(stats,billed){return cljs.core.zipmap.call(null,cljs.core.keys.call(null,stats),(function (p1__325014_SHARP_){return cljs.core.map.call(null,foundation.behavior.round,p1__325014_SHARP_,cljs.core.repeat.call(null,2));
+foundation.behavior.cpa_stats = (function cpa_stats(stats,billed){return cljs.core.zipmap.call(null,cljs.core.keys.call(null,stats),(function (p1__334191_SHARP_){return cljs.core.map.call(null,foundation.behavior.round,p1__334191_SHARP_,cljs.core.repeat.call(null,2));
 }).call(null,cljs.core.map.call(null,cljs.core._SLASH_,cljs.core.repeat.call(null,(billed / 1000000.0)),cljs.core.vals.call(null,stats))));
 });
-foundation.behavior.rate_stats = (function rate_stats(stats){return cljs.core.zipmap.call(null,cljs.core.keys.call(null,stats),(function (p1__325015_SHARP_){return cljs.core.map.call(null,foundation.behavior.round,p1__325015_SHARP_,cljs.core.repeat.call(null,2));
+foundation.behavior.rate_stats = (function rate_stats(stats){return cljs.core.zipmap.call(null,cljs.core.keys.call(null,stats),(function (p1__334192_SHARP_){return cljs.core.map.call(null,foundation.behavior.round,p1__334192_SHARP_,cljs.core.repeat.call(null,2));
 }).call(null,cljs.core.map.call(null,cljs.core._SLASH_,cljs.core.repeat.call(null,cljs.core.get.call(null,stats,"Impressions")),cljs.core.vals.call(null,stats))));
 });
 cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"stats","stats",1123661841),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"chart","chart",1108527952)], null)], null),(function (state,message){if(cljs.core.truth_(new cljs.core.Keyword(null,"stats","stats",1123661841).cljs$core$IFn$_invoke$arity$1(message)))
@@ -103,7 +103,7 @@ cljs.core._add_method.call(null,foundation.app.transform,new cljs.core.Persisten
 cljs.core._add_method.call(null,foundation.app.derives,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.PersistentHashSet.fromArray([new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"dashboard","dashboard",4261010950)], null),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"datagrid","datagrid",2803534178)], null)], true),new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"chart","chart",1108527952)], null),new cljs.core.Keyword(null,"vals","vals",1017516260)], null),(function (state,message,input){return cljs.core.select_keys.call(null,cljs.core.reduce.call(null,cljs.core.merge,input),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"start-time","start-time",3689550026),new cljs.core.Keyword(null,"end-time","end-time",2693279729)], null));
 }));
 foundation.behavior.select = (function select(state,message){var temp__4090__auto__ = cljs.core.get_in.call(null,state,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"collection","collection",3567559184),new cljs.core.Keyword(null,"id","id",1013907597).cljs$core$IFn$_invoke$arity$1(message)], null));if(cljs.core.truth_(temp__4090__auto__))
-{var model = temp__4090__auto__;var selected = clojure.set.select.call(null,(function (p1__325016_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"id","id",1013907597).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"id","id",1013907597).cljs$core$IFn$_invoke$arity$1(p1__325016_SHARP_));
+{var model = temp__4090__auto__;var selected = clojure.set.select.call(null,(function (p1__334193_SHARP_){return cljs.core._EQ_.call(null,new cljs.core.Keyword(null,"id","id",1013907597).cljs$core$IFn$_invoke$arity$1(message),new cljs.core.Keyword(null,"id","id",1013907597).cljs$core$IFn$_invoke$arity$1(p1__334193_SHARP_));
 }),new cljs.core.Keyword(null,"selected","selected",2205476365).cljs$core$IFn$_invoke$arity$1(state));if(cljs.core.seq.call(null,selected))
 {return cljs.core.update_in.call(null,state,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"selected","selected",2205476365)], null),clojure.set.difference,selected);
 } else
