@@ -35,8 +35,8 @@
 
 (defroutes app
   (GET "/" [] (index))
-  (route/resources "/" {:root "public/resources"})
-  (route/files "/" {:root "piblic/resources"}))
+  (route/resources "/" {:root "resources/public"})
+  (route/files "/" {:root "resources/public"}))
 
 (def system
   "A Var containing an object representing the application under
