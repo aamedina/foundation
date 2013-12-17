@@ -95,4 +95,8 @@
   campaigns
   line-items
   promoted-accounts
-  promoted-tweets)
+  promoted-tweets
+  funding-instruments
+  targeting-criteria
+  promoted-products
+  analytics)

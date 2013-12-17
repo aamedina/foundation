@@ -75,6 +75,6 @@ foundation.test.routes.analytics = foundation.app.router.routes.call(null,founda
 })));
 }))));
 foundation.test.routes.app = foundation.app.router.routes.call(null,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/"),(function (request__8035__auto__){return "hello";
-})),foundation.test.routes.accounts,foundation.test.routes.campaigns,foundation.test.routes.line_items,foundation.test.routes.promoted_accounts,foundation.test.routes.promoted_tweets);
+})),foundation.test.routes.accounts,foundation.test.routes.campaigns,foundation.test.routes.line_items,foundation.test.routes.promoted_accounts,foundation.test.routes.promoted_tweets,foundation.test.routes.funding_instruments,foundation.test.routes.targeting_criteria,foundation.test.routes.promoted_products,foundation.test.routes.analytics);
 
 //# sourceMappingURL=routes.js.map

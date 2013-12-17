@@ -21,7 +21,7 @@ goog.addDependency("../dommy/attrs.js", ['dommy.attrs'], ['cljs.core', 'clojure.
 goog.addDependency("../dommy/template.js", ['dommy.template'], ['dommy.attrs', 'cljs.core', 'clojure.string']);
 goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
 goog.addDependency("../dommy/core.js", ['dommy.core'], ['dommy.attrs', 'cljs.core', 'dommy.template', 'dommy.utils', 'clojure.string']);
-goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'goog.string', 'clojure.string', 'dommy.core']);
+goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'cljs.core.async.impl.channels', 'goog.string', 'clojure.string', 'cljs.core.async', 'dommy.core']);
 goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'foundation.app.router']);
 goog.addDependency("../clojure/walk.js", ['clojure.walk'], ['cljs.core']);
 goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.core', 'goog.string']);

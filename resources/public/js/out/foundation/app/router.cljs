@@ -1,10 +1,13 @@
 (ns foundation.app.router
   (:require [clojure.string :as string]
             [goog.string :as gstring]
-            [dommy.core :as dom])
+            [dommy.core :as dom]
+            [cljs.core.async :as async]
+            [cljs.core.async.impl.channels :refer [ManyToManyChannel]])
   (:require-macros [foundation.app.router
                     :refer [defroutes GET POST PUT DELETE ANY context]]
-                   [dommy.macros :refer [node sel sel1]]))
+                   [dommy.macros :refer [node sel sel1]]
+                   [cljs.core.async.macros :refer [go go-loop]]))
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
@@ -145,7 +148,7 @@
   (-render [_ _] nil)
 
   string
-  (-render [body _] (node body))
+  (-render [body _] body)
 
   function
   (-render [f request]
@@ -155,10 +158,17 @@
   (-render [ref request]
     (-render (deref ref) request))
 
+  PersistentVector
+  (-render [body _] (node body))
+
+  ManyToManyChannel
+  (-render [c _] (async/map> -render c))
+
   default
-  (-render [coll _]
-    (when (sequential? coll)
-      (node coll))))
+  (-render [o _]
+    (if (sequential? o)
+      (map -render o)
+      o)))
 
 (defn method-matches?
   [method request]
@@ -180,7 +190,7 @@
         (assoc :body nil)))))
 
 (defn assoc-route-params
-  [request params]
+  [request params]  
   (merge-with merge request {:route-params params, :params params}))
 
 (defn if-route
@@ -221,25 +231,4 @@
            (update-in [:params] dissoc :__path-info)
            (update-in [:route-params] dissoc :__path-info))))))
 
-(defroutes accounts
-  (GET "/accounts" [] "hallo")
-  (GET "/accounts/:id" [id] id)
-  (POST "/accounts/:id" [id] id)
-  (PUT "/accounts/:id" [id] id)
-  (DELETE "/accounts/:id" [id] id))
 
-(defroutes campaigns
-  (context "/accounts/:id" [id]
-    (GET "/campaigns" [] "campaigns")
-    (GET "/campaigns/:id" [id] id)))
-
-(defroutes line-items
-  (context "/accounts/:account-id/campaigns/:id" [id]
-    (GET "/line_items" [] "campaigns")
-    (GET "/line_items/:id" [id] id)))
-
-(defroutes app
-  (GET "/" [] "")
-  accounts
-  campaigns
-  line-items)
