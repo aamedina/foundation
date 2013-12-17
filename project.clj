@@ -37,8 +37,8 @@
             [lein-cljsbuild "1.0.1"]]
   :hooks [leiningen.cljsbuild]
   :cljsbuild {:builds [{:source-paths ["src" "test"]
-                        :compiler {:output-to "resources/main.js"
-                                   :output-dir "resources/out"
-                                   :source-map "resources/main.js.map"
-                                   :source-map-path "resources/out"
+                        :compiler {:output-to "resources/public/main.js"
+                                   :output-dir "resources/public/out"
+                                   :source-map "resources/public/main.js.map"
+                                   :source-map-path "resources/public/out"
                                    :optimizations :none}}]})
