@@ -30,13 +30,13 @@
                  [com.stuartsierra/component "0.2.0"]
                  [avl.clj "0.0.9"]
                  [criterium "0.4.2"]]
-  :source-paths ["dev" "src"]
+  :source-paths ["dev" "src" "test"]
   :jvm-opts ["-Xmx1g" "-server"]
   :plugins [[com.cemerick/austin "0.1.3"]
             [com.cemerick/clojurescript.test "0.2.1"]
             [lein-cljsbuild "1.0.1"]]
   :hooks [leiningen.cljsbuild]
-  :cljsbuild {:builds [{:source-paths ["src"]
+  :cljsbuild {:builds [{:source-paths ["src" "test"]
                         :compiler {:output-to "resources/main.js"
                                    :output-dir "resources/out"
                                    :source-map "resources/main.js.map"
