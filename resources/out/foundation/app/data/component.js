@@ -3,7 +3,7 @@ goog.provide('foundation.app.data.component');
 goog.require('cljs.core');
 goog.require('foundation.app.data.dependency');
 goog.require('foundation.app.data.dependency');
-foundation.app.data.component.Lifecycle = (function (){var obj350904 = {};return obj350904;
+foundation.app.data.component.Lifecycle = (function (){var obj360036 = {};return obj360036;
 })();
 foundation.app.data.component.start = (function start(component){if((function (){var and__13967__auto__ = component;if(and__13967__auto__)
 {return component.foundation$app$data$component$Lifecycle$start$arity$1;
@@ -85,7 +85,7 @@ return cljs.core.assoc.call(null,system__$1,key,foundation.app.data.component.us
 * com.stuartsierra.dependency, for the components found by
 * (select-keys system component-keys)
 */
-foundation.app.data.component.dependency_graph = (function dependency_graph(system,component_keys){return cljs.core.reduce_kv.call(null,(function (graph,key,component){return cljs.core.reduce.call(null,(function (p1__350905_SHARP_,p2__350906_SHARP_){return foundation.app.data.dependency.depend.call(null,p1__350905_SHARP_,key,p2__350906_SHARP_);
+foundation.app.data.component.dependency_graph = (function dependency_graph(system,component_keys){return cljs.core.reduce_kv.call(null,(function (graph,key,component){return cljs.core.reduce.call(null,(function (p1__360037_SHARP_,p2__360038_SHARP_){return foundation.app.data.dependency.depend.call(null,p1__360037_SHARP_,key,p2__360038_SHARP_);
 }),graph,cljs.core.vals.call(null,foundation.app.data.component.dependencies.call(null,component)));
 }),foundation.app.data.dependency.graph.call(null),cljs.core.select_keys.call(null,system,component_keys));
 });
@@ -95,15 +95,15 @@ foundation.app.data.component.assoc_dependency = (function assoc_dependency(syst
 }
 return cljs.core.assoc.call(null,component,dependency_key,dependency);
 });
-foundation.app.data.component.assoc_dependencies = (function assoc_dependencies(component,system){return cljs.core.reduce_kv.call(null,(function (p1__350907_SHARP_,p2__350908_SHARP_,p3__350909_SHARP_){return foundation.app.data.component.assoc_dependency.call(null,system,p1__350907_SHARP_,p2__350908_SHARP_,p3__350909_SHARP_);
+foundation.app.data.component.assoc_dependencies = (function assoc_dependencies(component,system){return cljs.core.reduce_kv.call(null,(function (p1__360039_SHARP_,p2__360040_SHARP_,p3__360041_SHARP_){return foundation.app.data.component.assoc_dependency.call(null,system,p1__360039_SHARP_,p2__360040_SHARP_,p3__360041_SHARP_);
 }),component,foundation.app.data.component.dependencies.call(null,component));
 });
 foundation.app.data.component.try_action = (function try_action(component,system,f,args){try{return cljs.core.apply.call(null,f,component,args);
-}catch (e350911){if((e350911 instanceof Error))
-{var t = e350911;throw cljs.core.ex_info.call(null,"Error calling function on component",new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"reason","reason",4373906870),new cljs.core.Keyword("foundation.app.data.component","component-function-threw-exception","foundation.app.data.component/component-function-threw-exception",3796519376),new cljs.core.Keyword(null,"function","function",2394842954),f,new cljs.core.Keyword(null,"component","component",3908964463),component,new cljs.core.Keyword(null,"system","system",4421543329),system], null),t);
+}catch (e360043){if((e360043 instanceof Error))
+{var t = e360043;throw cljs.core.ex_info.call(null,"Error calling function on component",new cljs.core.PersistentArrayMap(null, 4, [new cljs.core.Keyword(null,"reason","reason",4373906870),new cljs.core.Keyword("foundation.app.data.component","component-function-threw-exception","foundation.app.data.component/component-function-threw-exception",3796519376),new cljs.core.Keyword(null,"function","function",2394842954),f,new cljs.core.Keyword(null,"component","component",3908964463),component,new cljs.core.Keyword(null,"system","system",4421543329),system], null),t);
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{throw e350911;
+{throw e360043;
 } else
 {return null;
 }
@@ -130,13 +130,13 @@ var args = null;if (arguments.length > 3) {
   args = cljs.core.array_seq(Array.prototype.slice.call(arguments, 3),0);} 
 return update_system__delegate.call(this,system,component_keys,f,args);};
 update_system.cljs$lang$maxFixedArity = 3;
-update_system.cljs$lang$applyTo = (function (arglist__350912){
-var system = cljs.core.first(arglist__350912);
-arglist__350912 = cljs.core.next(arglist__350912);
-var component_keys = cljs.core.first(arglist__350912);
-arglist__350912 = cljs.core.next(arglist__350912);
-var f = cljs.core.first(arglist__350912);
-var args = cljs.core.rest(arglist__350912);
+update_system.cljs$lang$applyTo = (function (arglist__360044){
+var system = cljs.core.first(arglist__360044);
+arglist__360044 = cljs.core.next(arglist__360044);
+var component_keys = cljs.core.first(arglist__360044);
+arglist__360044 = cljs.core.next(arglist__360044);
+var f = cljs.core.first(arglist__360044);
+var args = cljs.core.rest(arglist__360044);
 return update_system__delegate(system,component_keys,f,args);
 });
 update_system.cljs$core$IFn$_invoke$arity$variadic = update_system__delegate;
@@ -156,13 +156,13 @@ var args = null;if (arguments.length > 3) {
   args = cljs.core.array_seq(Array.prototype.slice.call(arguments, 3),0);} 
 return update_system_reverse__delegate.call(this,system,component_keys,f,args);};
 update_system_reverse.cljs$lang$maxFixedArity = 3;
-update_system_reverse.cljs$lang$applyTo = (function (arglist__350913){
-var system = cljs.core.first(arglist__350913);
-arglist__350913 = cljs.core.next(arglist__350913);
-var component_keys = cljs.core.first(arglist__350913);
-arglist__350913 = cljs.core.next(arglist__350913);
-var f = cljs.core.first(arglist__350913);
-var args = cljs.core.rest(arglist__350913);
+update_system_reverse.cljs$lang$applyTo = (function (arglist__360045){
+var system = cljs.core.first(arglist__360045);
+arglist__360045 = cljs.core.next(arglist__360045);
+var component_keys = cljs.core.first(arglist__360045);
+arglist__360045 = cljs.core.next(arglist__360045);
+var f = cljs.core.first(arglist__360045);
+var args = cljs.core.rest(arglist__360045);
 return update_system_reverse__delegate(system,component_keys,f,args);
 });
 update_system_reverse.cljs$core$IFn$_invoke$arity$variadic = update_system_reverse__delegate;

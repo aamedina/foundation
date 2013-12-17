@@ -4,7 +4,7 @@ goog.require('cljs.core');
 goog.require('clojure.set');
 goog.require('clojure.set');
 foundation.app.data.dependency.Number = Number;
-foundation.app.data.dependency.DependencyGraph = (function (){var obj350915 = {};return obj350915;
+foundation.app.data.dependency.DependencyGraph = (function (){var obj360047 = {};return obj360047;
 })();
 foundation.app.data.dependency.immediate_dependencies = (function immediate_dependencies(graph,node){if((function (){var and__13967__auto__ = graph;if(and__13967__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraph$immediate_dependencies$arity$2;
@@ -106,7 +106,7 @@ foundation.app.data.dependency.nodes = (function nodes(graph){if((function (){va
 })().call(null,graph);
 }
 });
-foundation.app.data.dependency.DependencyGraphUpdate = (function (){var obj350917 = {};return obj350917;
+foundation.app.data.dependency.DependencyGraphUpdate = (function (){var obj360049 = {};return obj360049;
 })();
 foundation.app.data.dependency.depend = (function depend(graph,node,dep){if((function (){var and__13967__auto__ = graph;if(and__13967__auto__)
 {return graph.foundation$app$data$dependency$DependencyGraphUpdate$depend$arity$3;
@@ -188,7 +188,7 @@ foundation.app.data.dependency.remove_node = (function remove_node(graph,node){i
 })().call(null,graph,node);
 }
 });
-foundation.app.data.dependency.remove_from_map = (function remove_from_map(amap,x){return cljs.core.reduce.call(null,(function (m,p__350920){var vec__350921 = p__350920;var k = cljs.core.nth.call(null,vec__350921,0,null);var vs = cljs.core.nth.call(null,vec__350921,1,null);return cljs.core.assoc.call(null,m,k,cljs.core.disj.call(null,vs,x));
+foundation.app.data.dependency.remove_from_map = (function remove_from_map(amap,x){return cljs.core.reduce.call(null,(function (m,p__360052){var vec__360053 = p__360052;var k = cljs.core.nth.call(null,vec__360053,0,null);var vs = cljs.core.nth.call(null,vec__360053,1,null);return cljs.core.assoc.call(null,m,k,cljs.core.disj.call(null,vs,x));
 }),cljs.core.PersistentArrayMap.EMPTY,cljs.core.dissoc.call(null,amap,x));
 });
 /**
@@ -279,32 +279,32 @@ foundation.app.data.dependency.dependent_QMARK_ = (function dependent_QMARK_(gra
 * Returns a topologically-sorted list of nodes in graph.
 */
 foundation.app.data.dependency.topo_sort = (function topo_sort(graph){var sorted = cljs.core.List.EMPTY;var g = graph;var todo = cljs.core.set.call(null,cljs.core.filter.call(null,((function (sorted,g){
-return (function (p1__350922_SHARP_){return cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,graph,p1__350922_SHARP_));
+return (function (p1__360054_SHARP_){return cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,graph,p1__360054_SHARP_));
 });})(sorted,g))
 ,foundation.app.data.dependency.nodes.call(null,graph)));while(true){
 if(cljs.core.empty_QMARK_.call(null,todo))
 {return sorted;
 } else
-{var vec__350925 = cljs.core.seq.call(null,todo);var node = cljs.core.nth.call(null,vec__350925,0,null);var more = cljs.core.nthnext.call(null,vec__350925,1);var deps = foundation.app.data.dependency.immediate_dependencies.call(null,g,node);var vec__350926 = (function (){var deps__$1 = deps;var g__$1 = g;var add = cljs.core.PersistentHashSet.EMPTY;while(true){
+{var vec__360057 = cljs.core.seq.call(null,todo);var node = cljs.core.nth.call(null,vec__360057,0,null);var more = cljs.core.nthnext.call(null,vec__360057,1);var deps = foundation.app.data.dependency.immediate_dependencies.call(null,g,node);var vec__360058 = (function (){var deps__$1 = deps;var g__$1 = g;var add = cljs.core.PersistentHashSet.EMPTY;while(true){
 if(cljs.core.seq.call(null,deps__$1))
 {var d = cljs.core.first.call(null,deps__$1);var g_SINGLEQUOTE_ = foundation.app.data.dependency.remove_edge.call(null,g__$1,node,d);if(cljs.core.empty_QMARK_.call(null,foundation.app.data.dependency.immediate_dependents.call(null,g_SINGLEQUOTE_,d)))
 {{
-var G__350927 = cljs.core.rest.call(null,deps__$1);
-var G__350928 = g_SINGLEQUOTE_;
-var G__350929 = cljs.core.conj.call(null,add,d);
-deps__$1 = G__350927;
-g__$1 = G__350928;
-add = G__350929;
+var G__360059 = cljs.core.rest.call(null,deps__$1);
+var G__360060 = g_SINGLEQUOTE_;
+var G__360061 = cljs.core.conj.call(null,add,d);
+deps__$1 = G__360059;
+g__$1 = G__360060;
+add = G__360061;
 continue;
 }
 } else
 {{
-var G__350930 = cljs.core.rest.call(null,deps__$1);
-var G__350931 = g_SINGLEQUOTE_;
-var G__350932 = add;
-deps__$1 = G__350930;
-g__$1 = G__350931;
-add = G__350932;
+var G__360062 = cljs.core.rest.call(null,deps__$1);
+var G__360063 = g_SINGLEQUOTE_;
+var G__360064 = add;
+deps__$1 = G__360062;
+g__$1 = G__360063;
+add = G__360064;
 continue;
 }
 }
@@ -313,13 +313,13 @@ continue;
 }
 break;
 }
-})();var add = cljs.core.nth.call(null,vec__350926,0,null);var g_SINGLEQUOTE_ = cljs.core.nth.call(null,vec__350926,1,null);{
-var G__350933 = cljs.core.cons.call(null,node,sorted);
-var G__350934 = foundation.app.data.dependency.remove_node.call(null,g_SINGLEQUOTE_,node);
-var G__350935 = clojure.set.union.call(null,cljs.core.set.call(null,more),cljs.core.set.call(null,add));
-sorted = G__350933;
-g = G__350934;
-todo = G__350935;
+})();var add = cljs.core.nth.call(null,vec__360058,0,null);var g_SINGLEQUOTE_ = cljs.core.nth.call(null,vec__360058,1,null);{
+var G__360065 = cljs.core.cons.call(null,node,sorted);
+var G__360066 = foundation.app.data.dependency.remove_node.call(null,g_SINGLEQUOTE_,node);
+var G__360067 = clojure.set.union.call(null,cljs.core.set.call(null,more),cljs.core.set.call(null,add));
+sorted = G__360065;
+g = G__360066;
+todo = G__360067;
 continue;
 }
 }

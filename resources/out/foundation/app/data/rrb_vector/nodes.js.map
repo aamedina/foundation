@@ -27,6 +27,6 @@
   "pcnt", "child", "d", "ncnt", "li",
   "foundation.app.data.rrb-vector.nodes/replace-rightmost-child", "j",
   "foundation.app.data.rrb-vector.nodes/new-path*", "reg?", "len",
-  "G__350998", "ret", "a", "e",
+  "G__360130", "ret", "a", "e",
   "foundation.app.data.rrb-vector.nodes/fold-tail", "tail", "tlen",
   "cret", "fold-tail", "cljs.core/mod"]}
