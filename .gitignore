@@ -13,3 +13,6 @@ pom.xml.asc
 .nrepl 
 .repl
 /out
+/resources/out
+/resources/public/css/bootstrap.css
+/resources/public/css/bootstrap.min.css
