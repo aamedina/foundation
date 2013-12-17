@@ -1,26 +1,28 @@
 (ns foundation.app.router
-  (:require [clojure.string :as string]
+  (:require [clojure.string :as str]
             [goog.string :as gstring]
             [dommy.core :as dom]
-            [cljs.core.async :as async]
-            [cljs.core.async.impl.channels :refer [ManyToManyChannel]])
+            [cljs.core.async :as async :refer [put! chan >! <!]]
+            [cljs.core.async.impl.channels :refer [ManyToManyChannel]]
+            [foundation.app.xhr :as xhr])
   (:require-macros [foundation.app.router
                     :refer [defroutes GET POST PUT DELETE ANY context]]
                    [dommy.macros :refer [node sel sel1]]
-                   [cljs.core.async.macros :refer [go go-loop]]))
+                   [cljs.core.async.macros :refer [go go-loop]])
+  (:import [goog.history Html5History]))
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
 (defn- re-escape
   "Escape all special regex chars in a string."
-  [s] (string/escape s re-chars))
+  [s] (str/escape s re-chars))
 
 ;; Route matching
 
 (defn path-decode
   "Decode a path segment in a URI. Defaults to using UTF-8 encoding."
   [path]
-  (-> (string/replace path "+" (js/encodeURI "+"))
+  (-> (str/replace path "+" (js/encodeURI "+"))
       (js/decodeURI)))
 
 (defn- assoc-vec
@@ -231,4 +233,19 @@
            (update-in [:params] dissoc :__path-info)
            (update-in [:route-params] dissoc :__path-info))))))
 
+(defn on-navigate
+  [e]
+  (println e)
+  (when (.-isNavigation e)
+    (if (not= "index" (.-token e))
+      (.-token e)
+      "")))
 
+(def router
+  (doto (Html5History.)
+    (.setUseFragment false)
+    (dom/listen! goog.history.EventType.NAVIGATE on-navigate)))
+
+(defn route!
+  [method uri & {:keys [params]}]
+  (.setToken router uri))

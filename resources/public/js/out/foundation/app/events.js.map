@@ -1,0 +1,7 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/app/events.js",
+ "sources":["events.cljs"],
+ "lineCount":12,
+ "mappings":";AAAA;;;;;;;AAMA,mCAAA,uBAAA,AAAA,1DAAMA",
+ "names":["foundation.app.events/event-chan"]}

@@ -2,14 +2,10 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test.js",
  "sources":["test.cljs"],
- "lineCount":19,
+ "lineCount":18,
  "mappings":
- ";AAAA;;;;;;;AAMA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,AAAAC,+BAAAC,kCAAAC,gBAAA,aAAA,WAAAC,uBAAA,AAAA,IAAAC,aAAAD,0BAAAC,iBAAA,EAAA,AAAAC,+BAAAD,aAAA,AAAAE,0BAAAC,mBAAAH,YAAAA,qBAAA,AAAAI,wBAAAJ,eAAA,kDAAA,9FAA+BK,8FAC7B,OAACC,4BAAQ,eAAA,wBAAcD;;AAEzB,wBAAA,kBAAA,1CAAeE,0CACb,+CAAA,xCAACC",
+ ";AAAA;;;;;;;;AAMA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,4CAAA,2CAAA,mDAAA,IAAA,yDAAA,hMAACC",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
   "js/location.reload", "foundation.test/app-state", "cljs.core/atom",
-  "cljs.core/swap!", "secretary.core/*routes*", "cljs.core/assoc",
-  "params__20281__auto__", "map__25810", "cljs.core/seq?",
-  "cljs.core/apply", "cljs.core/hash-map", "cljs.core/get", "id",
-  "cljs.core/println", "foundation.test/-main",
-  "secretary.core/dispatch!"]}
+  "foundation.test/-main", "foundation.test.routes/app"]}

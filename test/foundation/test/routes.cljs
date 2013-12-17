@@ -3,7 +3,7 @@
              :refer [defroutes GET POST PUT DELETE ANY context]]))
 
 (defroutes accounts
-  (GET "/accounts" [] "")
+  (GET "/accounts" [])
   (GET "/accounts/:id" [id] id))
 
 (defroutes campaigns
@@ -20,7 +20,7 @@
     (GET "/line_items/:id?campaign_ids=:campaign-id" [id] id)
     (POST "/line_items/:id?campaign_ids=:campaign-id" [id] id)
     (PUT "/line_items/:id?campaign_ids=:campaign-id" [id] id)
-    (DELETE "/line_Items/:id?campaign_ids=:campaign-id" [id] id)))
+    (DELETE "/line_items/:id?campaign_ids=:campaign-id" [id] id)))
 
 (defroutes promoted-accounts
   (context "/accounts/:account-id" [account-id]
@@ -90,7 +90,7 @@
     (GET "/funding_instruments/:id" [id])))
 
 (defroutes app
-  (GET "/" [] "hello")
+  (GET "/" [] (println "Hello, world!"))
   accounts
   campaigns
   line-items
