@@ -6,5 +6,7 @@
 
 (defn reset [] (js/location.reload true))
 
+(def app-state (atom {}))
+
 (defn ^:export -main []
-  (println "Hello, world!"))
+  )

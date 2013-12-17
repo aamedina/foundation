@@ -7,7 +7,8 @@ goog.require('clojure.browser.repl');
 cljs.core.enable_console_print_BANG_.call(null);
 foundation.test.reset = (function reset(){return location.reload(true);
 });
-foundation.test._main = (function _main(){return cljs.core.println.call(null,"Hello, world!");
+foundation.test.app_state = cljs.core.atom.call(null,cljs.core.PersistentArrayMap.EMPTY);
+foundation.test._main = (function _main(){return null;
 });
 goog.exportSymbol('foundation.test._main', foundation.test._main);
 

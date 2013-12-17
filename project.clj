@@ -15,6 +15,7 @@
                  [compojure "1.1.6"]
                  [riddley "0.1.6"]
                  [inflections "0.9.5"]
+                 [secretary "0.4.0"]
                  [prismatic/dommy "0.1.2"]
                  [enlive "1.1.4"]
                  [enfocus "2.1.0-SNAPSHOT"]]
