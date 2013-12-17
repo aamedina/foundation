@@ -5,13 +5,15 @@
   :repositories {"sonatype-oss-public"
                  "https://oss.sonatype.org/content/groups/public/"}
   :dependencies [[org.clojure/clojure "1.5.1"]
-                 [org.clojure/clojurescript "0.0-2080"]
+                 [org.clojure/clojurescript "0.0-2120"]
                  [org.clojure/tools.namespace "0.2.4"]
                  [org.clojure/core.async "0.1.267.0-0d7780-alpha"]
                  [org.clojure/math.combinatorics "0.0.7"]
                  [org.clojure/core.match "0.2.0"]
+                 [org.clojure/tools.macro "0.1.5"]
                  [foundation/cljs.core.logic "0.1.0-SNAPSHOT"]
                  [com.stuartsierra/flow "0.1.0"]
+                 [secretary "0.4.0"]
                  [ring "1.2.0"]
                  [formative "0.8.7"]
                  [automat "0.1.0-SNAPSHOT"]

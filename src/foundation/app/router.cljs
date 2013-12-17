@@ -1,10 +1,16 @@
 (ns foundation.app.router
   (:require [clojure.string :as string]
+<<<<<<< HEAD
             [goog.string :as gstring]
             [dommy.core :as dom])
   (:require-macros [foundation.app.router
                     :refer [defroutes GET POST PUT DELETE ANY context]]
                    [dommy.macros :refer [node sel sel1]]))
+=======
+            [goog.string :as gstring])
+  (:require-macros [foundation.app.router
+                    :refer [defroutes GET POST PUT DELETE]]))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
@@ -21,7 +27,11 @@
       (js/decodeURI)))
 
 (defn- assoc-vec
+<<<<<<< HEAD
   "Associate a key with a value. If the key already exists in the map,
+=======
+  "Associate a key with a value. If the key already exists in the map, 
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
   create a vector of values."
   [m k v]
   (assoc m k
@@ -145,12 +155,25 @@
   (-render [_ _] nil)
 
   string
+<<<<<<< HEAD
   (-render [body _] (node body))
+=======
+  (-render [body _]
+    (response body))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 
   function
   (-render [f request]
     (-render (f request) request))
 
+<<<<<<< HEAD
+=======
+  PersistentHashMap
+  (-render [response-map _]
+    (merge (with-meta (response "") (meta response-map))
+           response-map))
+  
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
   Atom
   (-render [ref request]
     (-render (deref ref) request))
@@ -158,11 +181,19 @@
   default
   (-render [coll _]
     (when (sequential? coll)
+<<<<<<< HEAD
       (node coll))))
 
 (defn method-matches?
   [method request]
   (let [request-method (:method request)
+=======
+      (response coll))))
+
+(defn method-matches?
+  [method request]
+  (let [request-method (request :request-method)
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
         form-method    (get-in request [:form-params "_method"])]
     (if (and form-method (= request-method :post))
       (= (str/upper-case (name method))
@@ -175,7 +206,11 @@
     (cond
       (or (nil? method) (method-matches? method request))
       (handler request)
+<<<<<<< HEAD
       (= :get method)
+=======
+      (and (= :get method) (= :head (:request-method request)))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
       (some-> (handler request)
         (assoc :body nil)))))
 
@@ -200,6 +235,7 @@
 
 (defn make-route
   [method route handler]
+<<<<<<< HEAD
   (if-method method
              (if-route route
                        (fn [request]
@@ -243,3 +279,15 @@
   accounts
   campaigns
   line-items)
+=======
+  (if-method
+   method
+   (if-route
+    route
+    (fn [request]
+      (-render (handler request) request)))))
+
+(defroutes app
+  (GET "/accounts/:id" [id] (println id)))
+
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1

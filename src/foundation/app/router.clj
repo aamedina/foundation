@@ -1,5 +1,6 @@
 (ns foundation.app.router
   (:require [clojure.tools.macro :refer [name-with-attributes]]
+<<<<<<< HEAD
             [clojure.string :as str]
             [ring.util.response :refer [response content-type]]
             [riddley.walk :refer [macroexpand-all]]))
@@ -10,13 +11,81 @@
 ;;                (assoc m k (if (seq? v)
 ;;                             (vec v)
 ;;                             v))) {} (route-compile route)))
+=======
+            [clout.core :refer :all]
+            [clojure.string :as str]
+            [ring.util.response :refer [response content-type]]))
+
+(defprotocol IRenderable
+  (-render [_ request]))
+
+(extend-protocol IRenderable
+  nil
+  (-render [_ _] nil)
+
+  String
+  (-render [body _]
+    (response body))
+
+  clojure.lang.APersistentMap
+  (-render [response-map _]
+    (merge (with-meta (response "") (meta response-map))
+           response-map))
+
+  clojure.lang.IFn
+  (-render [f request]
+    (-render (f request) request))
+  
+  clojure.lang.IDeref
+  (-render [ref request]
+    (-render (deref ref) request))
+
+  clojure.lang.ISeq
+  (-render [coll _]
+    (response coll)))
+
+(defn method-matches?
+  [method request]
+  (let [request-method (request :request-method)
+        form-method    (get-in request [:form-params "_method"])]
+    (if (and form-method (= request-method :post))
+      (= (str/upper-case (name method))
+         (str/upper-case form-method))
+      (= method request-method))))
+
+(defn if-method
+  [method handler]
+  (fn [request]
+    (cond
+      (or (nil? method) (method-matches? method request))
+      (handler request)
+      (and (= :get method) (= :head (:request-method request)))
+      (some-> (handler request)
+        (assoc :body nil)))))
+
+(defn assoc-route-params
+  [request params]
+  (merge-with merge request {:route-params params, :params params}))
+
+(defn if-route
+  "Evaluate the handler if the route matches the request."
+  [route handler]
+  (fn [request]
+    (if-let [params (route-matches route request)]
+      (handler (assoc-route-params request params)))))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 
 (defn prepare-route
   [route]
   (cond
     (string? route) `(route-compile ~route)
+<<<<<<< HEAD
     (vector? route) `(route-compile (first ~route)
                                     (apply hash-map (rest ~route)))
+=======
+    (vector? route) `(route-compile ~(first route)
+                                    ~(apply hash-map (rest route)))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
     :else `(if (string? ~route)
              (route-compile ~route)
              ~route)))
@@ -51,11 +120,34 @@
     `(let [~@(vector-bindings bindings request)] ~@body)
     `(let [~bindings ~request] ~@body)))
 
+<<<<<<< HEAD
+=======
+(defn make-route
+  [method route handler]
+  (if-method
+   method
+   (if-route
+    route
+    (fn [request]
+      (-render (handler request) request)))))
+
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 (defn compile-route
   [method route bindings body]
   `(make-route ~method ~(prepare-route route)
                (fn [request#] (let-request [~bindings request#] ~@body))))
 
+<<<<<<< HEAD
+=======
+(defn routing
+  [request & handlers]
+  (some #(% request) handlers))
+
+(defn routes
+  [& handlers]
+  #(apply routing % handlers))
+
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 (defmacro defroutes
   [name & routes]
   (let [[name routes] (name-with-attributes name routes)]
@@ -106,16 +198,28 @@
            (update-in [:route-params] dissoc :__path-info))))))
 
 (defn- context-route [route]
+<<<<<<< HEAD
   (let [re-context {:__path-info #"/.*"}]
+=======
+  (let [re-context {:__path-info #"|/.*"}]
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
     (cond
       (string? route)
       `(route-compile ~(str route ":__path-info") ~re-context)
       (vector? route)
+<<<<<<< HEAD
       `(route-compile*
         ~(str (first route) ":__path-info")
         ~(merge (apply hash-map (rest route)) re-context))
       :else
       `(route-compile* (str ~route ":__path-info") ~re-context))))
+=======
+      `(route-compile
+        ~(str (first route) ":__path-info")
+        ~(merge (apply hash-map (rest route)) re-context))
+      :else
+      `(route-compile (str ~route ":__path-info") ~re-context))))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 
 (defmacro context
   "Give all routes in the form a common path prefix and set of bindings.
@@ -127,16 +231,27 @@
       (GET \"/profile\" [] ...)
       (GET \"/settings\" [] ...))"
   [path args & routes]
+<<<<<<< HEAD
   `(if-route ~(context-route path)
              (wrap-context
               (fn [request#]
                 (let-request [~args request#]
                              (routing request# ~@routes))))))
+=======
+  `(#'if-route ~(context-route path)
+               (#'wrap-context
+                (fn [request#]
+                  (let-request [~args request#]
+                               (routing request# ~@routes))))))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
 
 (defmacro let-routes
   "Takes a vector of bindings and a body of routes. Equivalent to:
   (let [...] (routes ...))"
   [bindings & body]
   `(let ~bindings (routes ~@body)))
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1

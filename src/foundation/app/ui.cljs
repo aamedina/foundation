@@ -9,7 +9,11 @@
                    [dommy.macros :refer [node]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
+<<<<<<< HEAD
             MouseWheelHandler ActionEvent]
+=======
+                        MouseWheelHandler ActionEvent]
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
            [goog.dom ViewportSizeMonitor]))
 
 (defprotocol IComponent
@@ -59,4 +63,9 @@
 
 (defn root
   []
+<<<<<<< HEAD
   (let [handler (EventHandler.)]))
+=======
+  (let [handler (EventHandler.)]
+    ))
+>>>>>>> 0cb24c9585ce5d6066c75a233f011ce4881ecbd1
