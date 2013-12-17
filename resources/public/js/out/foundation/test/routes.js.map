@@ -1,0 +1,11 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/routes.js",
+ "sources":["routes.cljs"],
+ "lineCount":9,
+ "mappings":
+ ";AAAA;;;;AAIA,6BAAA,AAAAA,7BAAWC,oEACT,AAAAC,2CAAA,mDAAA,AAAAC,8CAAA,KAAA,WAAAC,uBAAA,AAAA,AAAA,AAAA",
+ "names":
+ ["foundation.app.router/routes", "foundation.test.routes/app",
+  "foundation.app.router/make-route",
+  "foundation.app.router/route-compile", "request__8035__auto__"]}

@@ -18,10 +18,11 @@ goog.addDependency("../cljs_time/format.js", ['cljs_time.format'], ['cljs.core',
 goog.addDependency("../cljs_time/coerce.js", ['cljs_time.coerce'], ['goog.date.DateTime', 'cljs.core', 'cljs_time.format', 'goog.date.Date', 'goog.date.UtcDateTime', 'goog.date', 'cljs_time.core']);
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../dommy/attrs.js", ['dommy.attrs'], ['cljs.core', 'clojure.string']);
-goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
 goog.addDependency("../dommy/template.js", ['dommy.template'], ['dommy.attrs', 'cljs.core', 'clojure.string']);
+goog.addDependency("../dommy/utils.js", ['dommy.utils'], ['cljs.core']);
 goog.addDependency("../dommy/core.js", ['dommy.core'], ['dommy.attrs', 'cljs.core', 'dommy.template', 'dommy.utils', 'clojure.string']);
 goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'goog.string', 'clojure.string', 'dommy.core']);
+goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'foundation.app.router']);
 goog.addDependency("../clojure/walk.js", ['clojure.walk'], ['cljs.core']);
 goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.core', 'goog.string']);
 goog.addDependency("../foundation/app/xhr.js", ['foundation.app.xhr'], ['cljs_time.coerce', 'goog.net.XhrManager', 'goog.Uri.QueryData', 'cljs.core', 'goog.storage.mechanism.HTML5LocalStorage', 'goog.storage.ExpiringStorage', 'clojure.walk', 'cljs.reader', 'cljs.core.async', 'cljs_time.core']);
