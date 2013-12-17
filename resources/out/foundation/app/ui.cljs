@@ -55,9 +55,9 @@
 
 (defn render
   [component]
-  (-render component))
+  (-render component (guid)))
 
 (defn root
   []
-  (let [handler (EventHandler. component)]
+  (let [handler (EventHandler.)]
     ))

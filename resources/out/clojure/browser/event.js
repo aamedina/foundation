@@ -7,21 +7,21 @@ goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events');
 goog.require('goog.events');
-clojure.browser.event.EventType = (function (){var obj45156 = {};return obj45156;
+clojure.browser.event.EventType = (function (){var obj358352 = {};return obj358352;
 })();
-clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__13942__auto__ = this$;if(and__13942__auto__)
+clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__13967__auto__ = this$;if(and__13967__auto__)
 {return this$.clojure$browser$event$EventType$event_types$arity$1;
 } else
-{return and__13942__auto__;
+{return and__13967__auto__;
 }
 })())
 {return this$.clojure$browser$event$EventType$event_types$arity$1(this$);
 } else
-{var x__14562__auto__ = (((this$ == null))?null:this$);return (function (){var or__13954__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__14562__auto__)]);if(or__13954__auto__)
-{return or__13954__auto__;
+{var x__14587__auto__ = (((this$ == null))?null:this$);return (function (){var or__13979__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__14587__auto__)]);if(or__13979__auto__)
+{return or__13979__auto__;
 } else
-{var or__13954__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__13954__auto____$1)
-{return or__13954__auto____$1;
+{var or__13979__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__13979__auto____$1)
+{return or__13979__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"EventType.event-types",this$);
 }
@@ -30,11 +30,11 @@ clojure.browser.event.event_types = (function event_types(this$){if((function ()
 }
 });
 Element.prototype.clojure$browser$event$EventType$ = true;
-Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__45157){var vec__45158 = p__45157;var k = cljs.core.nth.call(null,vec__45158,0,null);var v = cljs.core.nth.call(null,vec__45158,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__358353){var vec__358354 = p__358353;var k = cljs.core.nth.call(null,vec__358354,0,null);var v = cljs.core.nth.call(null,vec__358354,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = true;
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__45159){var vec__45160 = p__45159;var k = cljs.core.nth.call(null,vec__45160,0,null);var v = cljs.core.nth.call(null,vec__45160,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__358355){var vec__358356 = p__358355;var k = cljs.core.nth.call(null,vec__358356,0,null);var v = cljs.core.nth.call(null,vec__358356,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 clojure.browser.event.listen = (function() {
