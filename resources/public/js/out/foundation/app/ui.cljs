@@ -2,7 +2,10 @@
   (:require [goog.events :as gevents]
             [goog.dom :as gdom]
             [cljs.core.async :as async :refer [<! take! put! >! chan close!]]
-            [dommy.core :as dom])
+            [dommy.core :as dom]
+            [foundation.app.data.component :as c :refer [Lifecycle]]
+            [foundation.app.data.dependency :as d]
+            [foundation.app.data.tracking-map :as tm])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                    [foundation.app.ui :refer [component]]
                    [dommy.macros :refer [node]])
@@ -50,5 +53,24 @@
   (-value [_])
   (-set-value [_ val]))
 
+(defrecord UIComponent [state props children]
+  Lifecycle
+  (start [_])
+  (stop [_]))
+
+(defrecord Renderer [input render dom components]
+  Lifecycle
+  (start [this]
+    (c/start-system this components))
+  (stop [this]
+    (c/stop-system this components)))
+
 (defn root
-  [app app-model input-queue])
+  [{:keys [input render] :as app}]
+  (let []
+    (map->Renderer
+     {:state (atom (tm/tracking-map {}))
+      :components (atom #{})
+      :input input
+      :render render
+      :app app})))

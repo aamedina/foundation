@@ -11,13 +11,10 @@
   until the component is stopped. Returns an updated version of this
   component."))
 
-;; No-op implementation if one is not defined.
 (extend-protocol Lifecycle
   default
-  (start [this]
-    this)
-  (stop [this]
-    this))
+  (start [this] this)
+  (stop [this] this))
 
 (defn dependencies
   "Returns the map of other components on which this component depends."
@@ -137,12 +134,34 @@
 
 (defn start-system
   "Recursively starts components in the system, in dependency order,
-  assoc'ing in their dependencies along the way."
-  [system component-keys]
-  (update-system system component-keys start))
+  assoc'ing in their dependencies along the way. component-keys is a
+  collection of keys (order doesn't matter) in the system specifying
+  the components to start, defaults to all keys in the system."
+  ([system]
+     (start-system system (keys system)))
+  ([system component-keys]
+     (update-system system component-keys start)))
 
 (defn stop-system
   "Recursively stops components in the system, in reverse dependency
-  order."
-  [system component-keys]
-  (update-system-reverse system component-keys stop))
+  order. component-keys is a collection of keys (order doesn't matter)
+  in the system specifying the components to stop, defaults to all
+  keys in the system."
+  ([system]
+     (stop-system system (keys system)))
+  ([system component-keys]
+     (update-system-reverse system component-keys stop)))
+
+(defrecord SystemMap []
+  Lifecycle
+  (start [system]
+    (start-system system))
+  (stop [system]
+    (stop-system system)))
+
+(defn system-map
+  "Returns a system constructed of key/value pairs. The system has
+  default implementations of the Lifecycle 'start' and 'stop' methods
+  which recursively start/stop all components in the system."
+  [& keyvals]
+  (map->SystemMap (apply array-map keyvals)))

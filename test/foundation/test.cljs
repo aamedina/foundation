@@ -12,8 +12,6 @@
 
 (defn reset [] (js/location.reload true))
 
-(def app-state (atom {}))
-
 (defn ^:export -main []
   (binding [*routes* app]
     (navigate! js/document.location.href :method :get)))
