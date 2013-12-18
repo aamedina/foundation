@@ -17,8 +17,6 @@
 
 (enable-console-print!)
 
-(def ^:dynamic *routes* nil)
-
 (defmulti route (fn [req]
                   (->> (replace (set/map-invert (:route-params req))
                                 (str/split (:uri req) #"/"))
@@ -260,20 +258,30 @@
       (.-token e)
       "")))
 
-(def router
-  (if (Html5History/isSupported)
-    (doto (Html5History.)
-      (.setUseFragment false)
-      (.addEventListener goog.history.EventType.NAVIGATE on-navigate)
-      (.setEnabled true))))
+(defprotocol IRouter
+  (-navigate [router uri method params]))
 
-(defn navigate!
-  [uri & {:keys [method params]}]
-  (let [uri (Uri. uri)
-        path (str/replace (.getPath uri) #"^/" "")]
-    (.setToken router path)
-    (*routes* {:uri (.getPath uri)
+(defrecord Router [router routes]
+  IRouter
+  (-navigate [_ uri method params]
+    (let [uri (Uri. uri)
+          path (str/replace (.getPath uri) #"^/" "")]
+      (.setToken router path)
+      (routes {:uri (.getPath uri)
                :method method
                :params (->> (str/split (str (.getQuery uri)) #"=")
                             (apply hash-map)
-                            (clojure.walk/keywordize-keys))})))
+                            (clojure.walk/keywordize-keys))}))))
+
+(defn router [routes]
+  (map->Router {:routes routes
+                :router (if (Html5History/isSupported)
+                          (doto (Html5History.)
+                            (.setUseFragment false)
+                            (.addEventListener goog.history.EventType.NAVIGATE
+                                               on-navigate)
+                            (.setEnabled true)))}))
+
+(defn navigate!
+  [router uri & {:keys [method params] :as args}]
+  (-navigate router uri method params))

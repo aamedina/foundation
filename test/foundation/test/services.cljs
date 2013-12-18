@@ -2,6 +2,7 @@
   (:require [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [goog.date :as date]
             [foundation.app :as app :refer [effect]]
+            [foundation.app.message :as msg]
             [foundation.app.models :as m]
             [foundation.test.models :as models]
             [foundation.app.router :refer [route]]
@@ -11,7 +12,7 @@
 (defmethod route [:get "/"]
   [req]
   (println "Hello, world!")
-  [:h1 "Hello, world!"])
+  [{msg/type :init msg/path [] :value "Hello, world!"}])
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

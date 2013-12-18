@@ -2,11 +2,11 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test.js",
  "sources":["test.cljs"],
- "lineCount":27,
+ "lineCount":24,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;AAUA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,IAAAC,mEAAA,AAAA,IAAA,AAAA,7CAAUC,6CAAAA,2CAASC;AACjB,6EAAA,yDAAA,/HAACC,+CAAUC;UADb,AAAA,2CAAAJ,3CAAUC",
+ ";AAAA;;;;;;;;;;;;;;;AASA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,uFAAA,nFAAMC,SAAO,AAACC,uCAASC,mCACrB,oFAAA,yDAAA,tIAACC,+CAAUH,OAAOI",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
-  "js/location.reload", "foundation.test/-main", "*routes*30986",
-  "foundation.app.router/*routes*", "foundation.test.routes/app",
+  "js/location.reload", "foundation.test/-main", "router",
+  "foundation.app.router/router", "foundation.test.routes/app-routes",
   "foundation.app.router/navigate!", "js/document.location.href"]}

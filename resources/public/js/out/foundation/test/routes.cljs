@@ -92,7 +92,7 @@
     (GET "/funding_instruments" [] route)
     (GET "/funding_instruments/:id" [id] route)))
 
-(defroutes app
+(defroutes app-routes
   (GET "/" [] route)
   accounts
   campaigns

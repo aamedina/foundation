@@ -2,10 +2,9 @@
   (:require [clojure.browser.repl]
             [clojure.string :as str]
             [foundation.app :as app]
-            [foundation.app.util :refer [*debug*]]
-            [foundation.app.router :refer [router *routes* navigate! route]]
+            [foundation.app.router :as r :refer [navigate! route]]
             [foundation.test.services :as services]
-            [foundation.test.routes :as routes :refer [app]])
+            [foundation.test.routes :as routes :refer [app-routes]])
   (:require-macros [secretary.macros :refer [defroute]]))
 
 (enable-console-print!)
@@ -13,5 +12,5 @@
 (defn reset [] (js/location.reload true))
 
 (defn ^:export -main []
-  (binding [*routes* app]
-    (navigate! js/document.location.href :method :get)))
+  (let [router (r/router app-routes)]
+    (navigate! router js/document.location.href :method :get)))

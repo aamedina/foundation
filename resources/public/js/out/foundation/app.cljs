@@ -25,7 +25,9 @@
   (let [input-queue (chan (sliding-buffer 32))]
     (go-loop []
       (let [message (<! input-queue)]
-        (swap! app-state transact-one message))
+        (println message)
+        ;; (swap! app-state transact-one message)
+        )
       (recur))
     input-queue))
 
