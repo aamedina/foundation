@@ -262,6 +262,7 @@
       (.addEventListener goog.history.EventType.NAVIGATE
                          (partial -on-navigation router))
       (.setEnabled true))
+    (-navigate router js/document.location.href :get nil)
     router)
   
   (stop [router]
@@ -288,10 +289,10 @@
         ""))))
 
 (defn router [app-state input-queue routes]
-  (c/start (map->Router {:routes routes
-                         :router (Html5History.)
-                         :app-state app-state
-                         :input input-queue})))
+  (map->Router {:routes routes
+                :router (Html5History.)
+                :app-state app-state
+                :input input-queue}))
 
 (defn navigate!
   [router uri & {:keys [method params] :as args}]

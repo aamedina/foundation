@@ -53,5 +53,5 @@
         router (r/router app-state input routes)
         renderer (render/renderer root-id)
         render-queue (render/push-render-queue renderer input)]
-    (r/navigate! router js/document.location.href :method :get)
+    (c/start router)
     (Dataflow. app-state input output renderer render-queue router)))
