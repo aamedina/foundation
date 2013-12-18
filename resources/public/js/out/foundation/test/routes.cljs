@@ -90,7 +90,7 @@
     (GET "/funding_instruments/:id" [id])))
 
 (defroutes app
-  (GET "/" [] (println "Hello, world!"))
+  (GET "/" [] [:h1 "Hello, world!"])
   accounts
   campaigns
   line-items

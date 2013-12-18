@@ -11,6 +11,8 @@
                    [cljs.core.async.macros :refer [go go-loop]])
   (:import [goog.history Html5History]))
 
+(enable-console-print!)
+
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
 (defn- re-escape
@@ -235,16 +237,16 @@
 
 (defn on-navigate
   [e]
-  (println e)
   (when (.-isNavigation e)
     (if (not= "index" (.-token e))
       (.-token e)
       "")))
 
 (def router
-  (doto (Html5History.)
-    (.setUseFragment false)
-    (dom/listen! goog.history.EventType.NAVIGATE on-navigate)))
+  (if (Html5History/isSupported)
+    (doto (Html5History.)
+      (.setUseFragment false)
+      (.addEventListener goog.history.EventType.NAVIGATE on-navigate))))
 
 (defn route!
   [method uri & {:keys [params]}]

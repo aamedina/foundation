@@ -1,6 +1,7 @@
 (ns foundation.test
   (:require [clojure.browser.repl]
             [foundation.app :as app]
+            [foundation.app.router :refer [router]]
             [foundation.test.routes :as routes :refer [app]])
   (:require-macros [secretary.macros :refer [defroute]]))
 
@@ -11,4 +12,4 @@
 (def app-state (atom {}))
 
 (defn ^:export -main []
-  (app {:uri "/" :method :get}))
+  (.setEnabled router true))
