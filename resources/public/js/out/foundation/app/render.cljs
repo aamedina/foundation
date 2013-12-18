@@ -7,7 +7,7 @@
   (:require-macros [cljs.core.async.macros :refer [go-loop go]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
-            MouseWheelHandler ActionEvent EventType]))
+            MouseWheelHandler ActionEvent EventType KeyEvent]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
@@ -40,16 +40,22 @@
   (-get-data [_ path])
   (-drop-data [_ path]))
 
-(defrecord Renderer [env render-fn]
+(defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
-    (let [handler (doto (EventHandler. renderer)
+    (let [key-handler (KeyHandler. js/document)
+          handler (doto (EventHandler. renderer)
                     (.listen js/document.body EventType.CLICK
+                             (fn [e] (js/console.log e)))
+                    (.listen key-handler KeyHandler.EventType.KEY
                              (fn [e] (js/console.log e))))
+          
           rootf (fn []
                   (set! refresh-queued false)
                   )]
-      (js/console.log handler)
+      (swap! handlers assoc
+             :key key-handler
+             :event handler)
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
@@ -100,7 +106,7 @@
   ([root-id]
      (renderer root-id log-fn))
   ([root-id render-fn]
-     (->Renderer (atom {:id root-id}) render-fn)))
+     (->Renderer (atom {:id root-id}) render-fn (atom {}))))
 
 (defmethod render :default
   [renderer [op path _ _] pid id]
