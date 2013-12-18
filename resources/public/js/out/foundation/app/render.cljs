@@ -3,7 +3,7 @@
             [cljs.core.async :as async :refer [<! put! >! take! chan]])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
-(defmulti render-delta (fn [[op _ _ _] & args] op))
+(defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
 (defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
 
@@ -64,8 +64,8 @@
       (let [delta (<! render-queue)
             [op path] delta]
         (if-let [id (-get-id renderer path)]
-          (render-delta renderer delta path (-parent-id renderer path) id)
-          (render-delta renderer delta path (-parent-id renderer path)
+          (render renderer delta (-parent-id renderer path) id)
+          (render renderer delta (-parent-id renderer path)
                         (-new-id renderer path))))
       (recur))
     render-queue))
@@ -79,18 +79,8 @@
            (render-fn deltas))
          (doseq [[op path :as d] deltas]
            (if-let [id (-get-id renderer path)]
-             (render-delta renderer d path (-parent-id renderer path) id)
-             (render-delta renderer d path (-parent-id renderer path)
+             (render renderer d (-parent-id renderer path) id)
+             (render renderer d (-parent-id renderer path)
                            (-new-id renderer path))))))))
 
-(defmethod render-delta :node-create
-  [renderer delta path pid id])
-
-(defmethod render-delta :node-destroy
-  [renderer delta path pid id])
-
-(defmethod render-delta :value
-  [renderer delta path pid id])
-
-(defmethod render-delta :attr
-  [renderer delta path pid id])
+(defmethod render :default [renderer delta pid id] (println delta))

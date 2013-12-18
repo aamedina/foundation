@@ -77,6 +77,31 @@
   (-value [_])
   (-set-value [_ val]))
 
+(defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
+
+(defn node-seq
+  [env]
+  (tree-seq (constantly true)
+            (fn [n]
+              (map #(get n %) (remove #{:id :on-destroy :_data} (keys n))))
+            env))
+
+(defn run-on-destroy!
+  [env]
+  (let [nodes (node-seq env)]
+    (doseq [f (mapcat :on-destroy nodes)]
+      (f))))
+
+(defprotocol IRenderer
+  (-get-id [_ path])
+  (-parent-id [_ path])
+  (-new-id [_ path] [_ path id])
+  (-delete-id [_ path])
+  (-on-destroy [_ path f])
+  (-set-data [_ path data])
+  (-get-data [_ path])
+  (-drop-data [_ path]))
+
 (defn focusable
   [component root])
 
@@ -138,12 +163,35 @@
       (satisfies? IWillUpdate reified) will-update))
   (stop [_]))
 
-(defrecord Renderer [handler app dom components]
+(defrecord Renderer [handler app env components]
   Lifecycle
   (start [this]
     (c/start-system this components))
   (stop [this]
-    (c/stop-system this components)))
+    (c/stop-system this components))
+
+  IRenderer
+  (-get-id [_ path]
+    (if (seq path)
+      (get-in @env (conj path :id))
+      (:id @env)))
+  (-parent-id [r path]
+    (when (seq path)
+      (-get-id r (vec (butlast path)))))
+  (-new-id [r path] (-new-id r path (guid)))
+  (-new-id [_ path id] (swap! env assoc-in (conj path :id) id) id)
+  (-delete-id [_ path]
+    (run-on-destroy! (get-in @env path))
+    (swap! env assoc-in path nil))
+  (-on-destroy [_ path f]
+    (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
+  (-set-data [_ path data]
+    (swap! env assoc-in (concat [:_data] path) data))
+  (-get-data [_ path]
+    (get-in @env (concat [:_data] path)))
+  (-drop-data [_ path]
+    (swap! env update-in
+           (concat [:_data] (butlast path)) dissoc (last path))))
 
 (def refresh-queued false)
 
