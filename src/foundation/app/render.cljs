@@ -3,11 +3,13 @@
             [cljs.core.async :as async :refer [<! put! >! take! chan]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d]
-            [goog.events :as e])
-  (:require-macros [cljs.core.async.macros :refer [go-loop go]])
+            [goog.events :as e]
+            [dommy.core :as dom])
+  (:require-macros [cljs.core.async.macros :refer [go-loop go]]
+                   [dommy.macros :refer [node sel sel1]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
-            MouseWheelHandler ActionEvent EventType KeyEvent]))
+            MouseWheelHandler ActionEvent EventType KeyEvent ActionHandler]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
@@ -43,27 +45,38 @@
 (defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
-    (let [key-handler (KeyHandler. js/document)
+    (let [action-handler (ActionHandler. js/document)
+          key-handler (KeyHandler. js/document)
+          focus-handler (FocusHandler. js/document)
           handler (doto (EventHandler. renderer)
-                    (.listen js/document.body EventType.CLICK
+                    (.listen action-handler
+                             ActionHandler.EventType.BEFOREACTION
+                             (fn [e] (js/console.log e)))
+                    (.listen action-handler ActionHandler.EventType.ACTION
                              (fn [e] (js/console.log e)))
                     (.listen key-handler KeyHandler.EventType.KEY
+                             (fn [e] (js/console.log e)))
+                    (.listen focus-handler FocusHandler.EventType.FOCUSIN
+                             (fn [e] (js/console.log e)))
+                    (.listen focus-handler FocusHandler.EventType.FOCUSOUT
                              (fn [e] (js/console.log e))))
           
-          rootf (fn []
-                  (set! refresh-queued false)
-                  )]
+          render-fn (fn []
+                      (set! refresh-queued false)
+                      )]
       (swap! handlers assoc
+             :action action-handler
              :key key-handler
-             :event handler)
+             :event handler
+             :focus focus-handler)
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
                      (set! refresh-queued true)
                      (if (exists? js/requestAnimationFrame)
-                       (js/requestAnimationFrame rootf)
-                       (js/setTimeout rootf 16)))))
-      (rootf)))
+                       (js/requestAnimationFrame render-fn)
+                       (js/setTimeout render-fn 16)))))
+      (render-fn)))
   (stop [this])
   
   IRenderer
