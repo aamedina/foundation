@@ -5,7 +5,6 @@
             [clojure.string :as str]))
 
 (defmulti render (fn [req]
-                   (println req)
                    (->> (replace (set/map-invert (:route-params req))
                                  (str/split (:uri req) #"/"))
                         (str/join "/")

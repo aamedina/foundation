@@ -33,9 +33,10 @@ goog.addDependency("../foundation/app/data/component.js", ['foundation.app.data.
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
 goog.addDependency("../foundation/app/data/change.js", ['foundation.app.data.change'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/tracking_map.js", ['foundation.app.data.tracking_map'], ['cljs.core', 'foundation.app.data.change']);
-goog.addDependency("../foundation/test/models.js", ['foundation.test.models'], ['cljs.core', 'goog.Uri']);
-goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/app/models.js", ['foundation.app.models'], ['goog.Uri.QueryData', 'cljs.core', 'foundation.app.xhr', 'clojure.walk', 'clojure.string', 'cljs.core.async', 'foundation.app.data.dependency']);
+goog.addDependency("../foundation/test/models.js", ['foundation.test.models'], ['cljs_time.coerce', 'cljs.core', 'foundation.app.models', 'cljs_time.format', 'clojure.string', 'goog.date', 'foundation.app.data.dependency', 'goog.Uri', 'cljs_time.core']);
+goog.addDependency("../foundation/test/rendering.js", ['foundation.test.rendering'], ['cljs.core']);
+goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/test/templates.js", ['foundation.test.templates'], ['cljs.core']);
 goog.addDependency("../foundation/app/ui.js", ['foundation.app.ui'], ['goog.events.EventHandler', 'cljs.core', 'goog.events.ActionEvent', 'goog.dom', 'goog.events.InputHandler', 'goog.events.FocusHandler', 'goog.ui.IdGenerator', 'goog.events.MouseWheelHandler', 'cljs.core.async', 'goog.events', 'dommy.core', 'goog.events.KeyHandler']);
 goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.util', 'cljs.core.async']);
