@@ -13,9 +13,6 @@
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
             MouseWheelHandler ActionEvent]))
 
-(defprotocol IComponent
-  (-render [_]))
-
 (defprotocol IInitState
   (-init-state [_ owner]))
 
@@ -122,7 +119,7 @@
 (defn render
   [component])
 
-(defrecord UIComponent [reified props children]
+(defrecord UIComponent [root reified props children]
   Lifecycle
   (start [_]
     (cond-> reified
@@ -141,19 +138,37 @@
       (satisfies? IWillUpdate reified) will-update))
   (stop [_]))
 
-(defrecord Renderer [input render dom components]
+(defrecord Renderer [handler app dom components]
   Lifecycle
   (start [this]
     (c/start-system this components))
   (stop [this]
     (c/stop-system this components)))
 
+(def refresh-queued false)
+
 (defn root
-  [{:keys [input render] :as app}]
-  (let []
-    (map->Renderer
-     {:state (atom (tm/tracking-map {}))
-      :components (atom {})
-      :input input
-      :render render
-      :app app})))
+  [app f node]
+  (let [handler (EventHandler.)
+        root (map->Renderer
+              {:state (atom (tm/tracking-map {}))
+               :components (atom {})
+               :app app
+               :handler handler})
+        rootf (fn []
+                (set! refresh-queued false)
+                (let [path []]
+                  (-render (map->UIComponent
+                            {:root root
+                             :reified (f (:state app) path)
+                             :props {}
+                             :children []}) root)
+                  node))]
+    (add-watch (:state app) ::root
+               (fn [_ _ _ _]
+                 (when-not refresh-queued
+                   (set! refresh-queued true)
+                   (if (exists? js/requestAnimationFrame)
+                     (js/requestAnimationFrame rootf)
+                     (js/setTimeout rootf 16)))))
+    (rootf)))
