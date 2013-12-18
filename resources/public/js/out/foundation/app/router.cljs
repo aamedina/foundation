@@ -24,7 +24,7 @@
                        (#(if (empty? %) "/" %))
                        (vector (:method req)))))
 
-(defmethod route :default [req] (println req))
+(defmethod route :default [req] nil)
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 

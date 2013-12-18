@@ -15,5 +15,4 @@
 
 (defn ^:export -main []
   (let [app (app/build :root-id "content" :routes app-routes)]
-    (put! (:input app) {msg/type :init msg/path [:datagrid :collection]})
     app))
