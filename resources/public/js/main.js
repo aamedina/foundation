@@ -30,4 +30,4 @@ goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['c
 goog.addDependency("../foundation/app/util.js", ['foundation.app.util'], ['cljs.core', 'cljs.reader']);
 goog.addDependency("../foundation/test/templates.js", ['foundation.test.templates'], ['cljs.core']);
 goog.addDependency("../foundation/app/ui.js", ['foundation.app.ui'], ['goog.events.EventHandler', 'cljs.core', 'goog.events.ActionEvent', 'goog.dom', 'goog.events.InputHandler', 'goog.events.FocusHandler', 'goog.ui.IdGenerator', 'goog.events.MouseWheelHandler', 'cljs.core.async', 'goog.events', 'dommy.core', 'goog.events.KeyHandler']);
-goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.util']);
+goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.util', 'cljs.core.async']);

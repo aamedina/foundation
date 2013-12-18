@@ -50,7 +50,5 @@
   (-value [_])
   (-set-value [_ val]))
 
-(defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
-
 (defn root
   [])
