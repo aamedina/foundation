@@ -12,5 +12,5 @@
 (defn reset [] (js/location.reload true))
 
 (defn ^:export -main []
-  (let [router (r/router app-routes)]
-    (navigate! router js/document.location.href :method :get)))
+  (let [app (app/build :root-id "content" :routes app-routes)]
+    app))

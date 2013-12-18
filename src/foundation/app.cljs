@@ -5,6 +5,7 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [foundation.app.render :as render]
+            [foundation.app.router :as r]
             [foundation.app.data.tracking-map :as tm]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d])
@@ -39,11 +40,16 @@
                  (put! output-queue new)))
     output-queue))
 
-(defrecord Dataflow [state input output renderer])
+(defrecord Dataflow [state input output renderer router]
+  Lifecycle
+  (start [df])
+  (stop [df]))
 
 (defn build
-  [root-id]
+  [& {:keys [root-id routes] :as config}]
   (let [app-state (atom {:data-model (tm/tracking-map {})})
+        router (r/router app-state routes)
         [input output renderer]
-        ((juxt input-queue output-queue render/root) app-state)]
-    (Dataflow. app-state input output renderer)))
+        ((juxt input-queue output-queue identity) app-state)]
+    (r/navigate! router js/document.location.href :method :get)
+    (Dataflow. app-state input output renderer router)))

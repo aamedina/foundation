@@ -4,7 +4,6 @@
             [clojure.set :as set]
             [dommy.core :as dom]
             [foundation.app.ui :as ui]
-            [foundation.app :as app :refer [*app*]]
             [cljs.core.async :as async :refer [put! chan >! <!]]
             [cljs.core.async.impl.channels :refer [ManyToManyChannel]]
             [foundation.app.xhr :as xhr]
@@ -172,9 +171,9 @@
 
   PersistentVector
   (-response [messages _]
-    (when-let [input-queue (:input *app*)]
+    (when-let [input-queue (:input messages)]
       (doseq [message messages]
-        (put! (:input *app*) message))))
+        (put! (:input messages) message))))
 
   ManyToManyChannel
   (-response [c request] (async/map> #(-response % request) c))
@@ -255,7 +254,7 @@
   (-navigate [router uri method params])
   (-on-navigation [router e]))
 
-(defrecord Router [router routes]
+(defrecord Router [router routes app]
   Lifecycle
   (start [router]
     (doto (.-router router)
@@ -286,9 +285,10 @@
         (.-token e)
         ""))))
 
-(defn router [routes]
+(defn router [app routes]
   (c/start (map->Router {:routes routes
-                         :router (Html5History.)})))
+                         :router (Html5History.)
+                         :app app})))
 
 (defn navigate!
   [router uri & {:keys [method params] :as args}]

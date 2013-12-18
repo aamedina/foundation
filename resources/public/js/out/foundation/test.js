@@ -17,7 +17,7 @@ goog.require('foundation.app.router');
 cljs.core.enable_console_print_BANG_.call(null);
 foundation.test.reset = (function reset(){return location.reload(true);
 });
-foundation.test._main = (function _main(){var router = foundation.app.router.router.call(null,foundation.test.routes.app_routes);return foundation.app.router.navigate_BANG_.call(null,router,document.location.href,new cljs.core.Keyword(null,"method","method",4231316563),new cljs.core.Keyword(null,"get","get",1014006472));
+foundation.test._main = (function _main(){var app = foundation.app.build.call(null,new cljs.core.Keyword(null,"root-id","root-id",2393957720),"content",new cljs.core.Keyword(null,"routes","routes",4383738556),foundation.test.routes.app_routes);return app;
 });
 goog.exportSymbol('foundation.test._main', foundation.test._main);
 
