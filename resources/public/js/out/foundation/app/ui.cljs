@@ -78,25 +78,25 @@
   (-set-value [_ val]))
 
 (defn focusable
-  [component])
+  [component root])
 
 (defn clickable
-  [component])
+  [component root])
 
 (defn key-target
-  [component])
+  [component root])
 
 (defn mouse-target
-  [component])
+  [component root])
 
 (defn resizable
-  [component])
+  [component root])
 
 (defn scrollable
-  [component])
+  [component root])
 
 (defn input
-  [component])
+  [component root])
 
 (defn init-state
   [component])
@@ -123,13 +123,13 @@
   Lifecycle
   (start [_]
     (cond-> reified
-      (satisfies? IFocusable reified) focusable
-      (satisfies? IClickable reified) clickable
-      (satisfies? IKeyTarget reified) key-target
-      (satisfies? IMouseTarget reified) mouse-target
-      (satisfies? IResizeable reified) resizable
-      (satisfies? IScrollable reified) scrollable
-      (satisfies? IInput reified) input
+      (satisfies? IFocusable reified) (focusable root)
+      (satisfies? IClickable reified) (clickable root)
+      (satisfies? IKeyTarget reified) (key-target root)
+      (satisfies? IMouseTarget reified) (mouse-target root)
+      (satisfies? IResizeable reified) (resizable root)
+      (satisfies? IScrollable reified) (scrollable root)
+      (satisfies? IInput reified) (input root)
       (satisfies? IInitState reified) init-state
       (satisfies? IShouldUpdate reified) should-update
       (satisfies? IWillMount reified) will-mount
@@ -164,6 +164,7 @@
                              :props {}
                              :children []}) root)
                   node))]
+    (c/start root)
     (add-watch (:state app) ::root
                (fn [_ _ _ _]
                  (when-not refresh-queued

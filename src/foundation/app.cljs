@@ -35,29 +35,11 @@
                  (put! output-queue new)))
     output-queue))
 
-(def refresh-queued false)
-
-(defn render-queue
-  [app-state]
-  (let [render-queue (chan (sliding-buffer 32))
-        rootf (fn []
-                (set! refresh-queued false)
-                (let [path []]
-                  ))]
-    (add-watch app-state :render
-               (fn [_ _ old new]
-                 (when-not refresh-queued
-                   (if (exists? js/requestAnimationFrame)
-                     (js/requestAnimationFrame rootf)
-                     (js/setTimeout rootf 16)))
-                 (put! render-queue new)))
-    render-queue))
-
 (defrecord Dataflow [state input output renderer])
 
-(defn root
+(defn build
   [root-id]
   (let [app-state (atom {:data-model (tm/tracking-map {})})
         [input output renderer]
-        ((juxt input-queue output-queue render-queue) app-state)]
+        ((juxt input-queue output-queue render/root) app-state)]
     (Dataflow. app-state input output renderer)))
