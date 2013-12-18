@@ -163,32 +163,30 @@
       (satisfies? IWillUpdate reified) will-update))
   (stop [_]))
 
-(def refresh-queued false)
-
-(defn root
-  [app f node]
-  (let [handler (EventHandler.)
-        ;; root (map->Renderer
-        ;;       {:state (atom (tm/tracking-map {}))
-        ;;        :components (atom {})
-        ;;        :app app
-        ;;        :handler handler})
-        root {}
-        rootf (fn []
-                (set! refresh-queued false)
-                (let [path []]
-                  (-render (map->UIComponent
-                            {:root root
-                             :reified (f (:state app) path)
-                             :props {}
-                             :children []}) root)
-                  node))]
-    (c/start root)
-    (add-watch (:state app) :root
-               (fn [_ _ _ _]
-                 (when-not refresh-queued
-                   (set! refresh-queued true)
-                   (if (exists? js/requestAnimationFrame)
-                     (js/requestAnimationFrame rootf)
-                     (js/setTimeout rootf 16)))))
-    (rootf)))
+;; (defn root
+;;   [app f node]
+;;   (let [handler (EventHandler.)
+;;         ;; root (map->Renderer
+;;         ;;       {:state (atom (tm/tracking-map {}))
+;;         ;;        :components (atom {})
+;;         ;;        :app app
+;;         ;;        :handler handler})
+;;         root {}
+;;         rootf (fn []
+;;                 (set! refresh-queued false)
+;;                 (let [path []]
+;;                   (-render (map->UIComponent
+;;                             {:root root
+;;                              :reified (f (:state app) path)
+;;                              :props {}
+;;                              :children []}) root)
+;;                   node))]
+;;     (c/start root)
+;;     (add-watch (:state app) :root
+;;                (fn [_ _ _ _]
+;;                  (when-not refresh-queued
+;;                    (set! refresh-queued true)
+;;                    (if (exists? js/requestAnimationFrame)
+;;                      (js/requestAnimationFrame rootf)
+;;                      (js/setTimeout rootf 16)))))
+;;     (rootf)))

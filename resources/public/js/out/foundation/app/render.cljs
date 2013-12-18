@@ -24,6 +24,8 @@
     (doseq [f (mapcat :on-destroy nodes)]
       (f))))
 
+(def refresh-queued false)
+
 (defprotocol IRenderer
   (-get-id [_ path])
   (-parent-id [_ path])
@@ -36,12 +38,18 @@
 
 (defrecord Renderer [env render-fn]
   Lifecycle
-  (start [this]
-    ;; (c/start-system this components)
-    )
-  (stop [this]
-    ;; (c/stop-system this components)
-    )
+  (start [renderer]
+    (let [rootf (fn []
+                  (set! refresh-queued false))]
+      (add-watch (:app-state renderer) :root
+                 (fn [_ _ _ _]
+                   (when-not refresh-queued
+                     (set! refresh-queued true)
+                     (if (exists? js/requestAnimationFrame)
+                       (js/requestAnimationFrame rootf)
+                       (js/setTimeout rootf 16)))))
+      (rootf)))
+  (stop [this])
   
   IRenderer
   (-get-id [_ path]

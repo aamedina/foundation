@@ -16,7 +16,7 @@ this.cljs$lang$protocol_mask$partition0$ = 2163640079;
 })
 foundation.app.data.tracking_map.TrackingMap.cljs$lang$type = true;
 foundation.app.data.tracking_map.TrackingMap.cljs$lang$ctorStr = "foundation.app.data.tracking-map/TrackingMap";
-foundation.app.data.tracking_map.TrackingMap.cljs$lang$ctorPrWriter = (function (this__8777__auto__,writer__8778__auto__,opt__8779__auto__){return cljs.core._write.call(null,writer__8778__auto__,"foundation.app.data.tracking-map/TrackingMap");
+foundation.app.data.tracking_map.TrackingMap.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.app.data.tracking-map/TrackingMap");
 });
 foundation.app.data.tracking_map.TrackingMap.prototype.cljs$core$IEditableCollection$_as_transient$arity$1 = (function (_){var self__ = this;
 var ___$1 = this;return cljs.core._as_transient.call(null,self__.map);
@@ -53,27 +53,27 @@ foundation.app.data.tracking_map.TrackingMap.prototype.cljs$core$IAssociative$_c
 var ___$1 = this;return cljs.core._contains_key_QMARK_.call(null,self__.map,k);
 });
 foundation.app.data.tracking_map.TrackingMap.prototype.call = (function() {
-var G__79923 = null;
-var G__79923__2 = (function (self__,k){var self__ = this;
+var G__10915 = null;
+var G__10915__2 = (function (self__,k){var self__ = this;
 var self____$1 = this;var _ = self____$1;return cljs.core._lookup.call(null,self__.map,k);
 });
-var G__79923__3 = (function (self__,k,not_found){var self__ = this;
+var G__10915__3 = (function (self__,k,not_found){var self__ = this;
 var self____$1 = this;var _ = self____$1;return cljs.core._lookup.call(null,self__.map,k,not_found);
 });
-G__79923 = function(self__,k,not_found){
+G__10915 = function(self__,k,not_found){
 switch(arguments.length){
 case 2:
-return G__79923__2.call(this,self__,k);
+return G__10915__2.call(this,self__,k);
 case 3:
-return G__79923__3.call(this,self__,k,not_found);
+return G__10915__3.call(this,self__,k,not_found);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__79923;
+return G__10915;
 })()
 ;
-foundation.app.data.tracking_map.TrackingMap.prototype.apply = (function (self__,args79922){var self__ = this;
-var self____$1 = this;return self____$1.call.apply(self____$1,[self____$1].concat(cljs.core.aclone.call(null,args79922)));
+foundation.app.data.tracking_map.TrackingMap.prototype.apply = (function (self__,args10914){var self__ = this;
+var self____$1 = this;return self____$1.call.apply(self____$1,[self____$1].concat(cljs.core.aclone.call(null,args10914)));
 });
 foundation.app.data.tracking_map.TrackingMap.prototype.cljs$core$IFn$_invoke$arity$1 = (function (k){var self__ = this;
 var _ = this;return cljs.core._lookup.call(null,self__.map,k);
@@ -131,10 +131,10 @@ foundation.app.data.tracking_map.plain_map = (function plain_map(m){if((m instan
 });
 foundation.app.data.tracking_map.merge_when_tracking_map = (function merge_when_tracking_map(change_map,tracking_map){return cljs.core.merge_with.call(null,cljs.core.comp.call(null,cljs.core.set,cljs.core.concat),change_map,(((tracking_map instanceof foundation.app.data.tracking_map.TrackingMap))?cljs.core.dissoc.call(null,tracking_map.change_map,new cljs.core.Keyword(null,"context","context",1965435169)):null));
 });
-foundation.app.data.tracking_map.record_change = (function record_change(action,map,key,val,change_map){var map__79925 = change_map;var map__79925__$1 = ((cljs.core.seq_QMARK_.call(null,map__79925))?cljs.core.apply.call(null,cljs.core.hash_map,map__79925):map__79925);var cs = map__79925__$1;var updated = cljs.core.get.call(null,map__79925__$1,new cljs.core.Keyword(null,"updated","updated",779473965));var context = cljs.core.get.call(null,map__79925__$1,new cljs.core.Keyword(null,"context","context",1965435169));var change = ((cljs.core.seq.call(null,context))?cljs.core.conj.call(null,context,key):new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [key], null));var cs__$1 = ((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"dissoc","dissoc",3977329067)))?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"removed","removed",2105740242)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):(cljs.core.truth_((function (){var and__8216__auto__ = cljs.core.get.call(null,map,key);if(cljs.core.truth_(and__8216__auto__))
+foundation.app.data.tracking_map.record_change = (function record_change(action,map,key,val,change_map){var map__10917 = change_map;var map__10917__$1 = ((cljs.core.seq_QMARK_.call(null,map__10917))?cljs.core.apply.call(null,cljs.core.hash_map,map__10917):map__10917);var cs = map__10917__$1;var updated = cljs.core.get.call(null,map__10917__$1,new cljs.core.Keyword(null,"updated","updated",779473965));var context = cljs.core.get.call(null,map__10917__$1,new cljs.core.Keyword(null,"context","context",1965435169));var change = ((cljs.core.seq.call(null,context))?cljs.core.conj.call(null,context,key):new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [key], null));var cs__$1 = ((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"dissoc","dissoc",3977329067)))?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"removed","removed",2105740242)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):(cljs.core.truth_((function (){var and__8211__auto__ = cljs.core.get.call(null,map,key);if(cljs.core.truth_(and__8211__auto__))
 {return cljs.core.not_EQ_.call(null,cljs.core.get.call(null,map,key),foundation.app.data.tracking_map.plain_map.call(null,val));
 } else
-{return and__8216__auto__;
+{return and__8211__auto__;
 }
 })())?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"updated","updated",779473965)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):((cljs.core.not.call(null,cljs.core.get.call(null,map,key)))?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"added","added",1106564210)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):((new cljs.core.Keyword(null,"else","else",1017020587))?cs:null))));var cs__$2 = (((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"assoc","assoc",1107025799))) && (cljs.core.map_QMARK_.call(null,val)) && (!((val instanceof foundation.app.data.tracking_map.TrackingMap))))?cljs.core.update_in.call(null,cs__$1,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"inspect","inspect",2971358598)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):(((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"assoc","assoc",1107025799))) && ((val == null)))?cljs.core.update_in.call(null,cs__$1,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"inspect","inspect",2971358598)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):((new cljs.core.Keyword(null,"else","else",1017020587))?cs__$1:null)));return foundation.app.data.tracking_map.merge_when_tracking_map.call(null,cs__$2,val);
 });

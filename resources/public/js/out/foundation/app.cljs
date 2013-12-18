@@ -62,6 +62,10 @@
   (let [output-queue (chan (sliding-buffer 32))]
     (add-watch app-state :output
                (fn [_ _ old new]
+                 (log-group
+                  "State Transitition"
+                  [(:data-model old)
+                   (:data-model new)])
                  (put! output-queue new)))
     output-queue))
 
