@@ -26,8 +26,14 @@ goog.addDependency("../dommy/core.js", ['dommy.core'], ['dommy.attrs', 'cljs.cor
 goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'cljs.core.async.impl.channels', 'goog.history.Html5History', 'goog.string', 'foundation.app.xhr', 'clojure.string', 'cljs.core.async', 'dommy.core']);
 goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'foundation.app.router']);
 goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'foundation.app', 'clojure.browser.repl', 'foundation.test.routes', 'foundation.app.router']);
+goog.addDependency("../foundation/app/data/combinatorics.js", ['foundation.app.data.combinatorics'], ['cljs.core']);
+goog.addDependency("../foundation/app/data/dependency.js", ['foundation.app.data.dependency'], ['cljs.core', 'clojure.set']);
+goog.addDependency("../foundation/app/data/component.js", ['foundation.app.data.component'], ['cljs.core', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
+goog.addDependency("../foundation/app/data/change.js", ['foundation.app.data.change'], ['cljs.core']);
+goog.addDependency("../foundation/app/data/tracking_map.js", ['foundation.app.data.tracking_map'], ['cljs.core', 'foundation.app.data.change']);
 goog.addDependency("../foundation/app/util.js", ['foundation.app.util'], ['cljs.core', 'cljs.reader']);
+goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/test/templates.js", ['foundation.test.templates'], ['cljs.core']);
 goog.addDependency("../foundation/app/ui.js", ['foundation.app.ui'], ['goog.events.EventHandler', 'cljs.core', 'goog.events.ActionEvent', 'goog.dom', 'goog.events.InputHandler', 'goog.events.FocusHandler', 'goog.ui.IdGenerator', 'goog.events.MouseWheelHandler', 'cljs.core.async', 'goog.events', 'dommy.core', 'goog.events.KeyHandler']);
 goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.util', 'cljs.core.async']);

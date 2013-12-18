@@ -86,8 +86,11 @@
 (defmethod render-delta :node-create
   [renderer delta path pid id])
 
-(defmethod render-delta :node-update
+(defmethod render-delta :node-destroy
   [renderer delta path pid id])
 
-(defmethod render-delta :node-destroy
+(defmethod render-delta :value
+  [renderer delta path pid id])
+
+(defmethod render-delta :attr
   [renderer delta path pid id])
