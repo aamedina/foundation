@@ -163,46 +163,17 @@
       (satisfies? IWillUpdate reified) will-update))
   (stop [_]))
 
-(defrecord Renderer [handler app env components]
-  Lifecycle
-  (start [this]
-    (c/start-system this components))
-  (stop [this]
-    (c/stop-system this components))
-
-  IRenderer
-  (-get-id [_ path]
-    (if (seq path)
-      (get-in @env (conj path :id))
-      (:id @env)))
-  (-parent-id [r path]
-    (when (seq path)
-      (-get-id r (vec (butlast path)))))
-  (-new-id [r path] (-new-id r path (guid)))
-  (-new-id [_ path id] (swap! env assoc-in (conj path :id) id) id)
-  (-delete-id [_ path]
-    (run-on-destroy! (get-in @env path))
-    (swap! env assoc-in path nil))
-  (-on-destroy [_ path f]
-    (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
-  (-set-data [_ path data]
-    (swap! env assoc-in (concat [:_data] path) data))
-  (-get-data [_ path]
-    (get-in @env (concat [:_data] path)))
-  (-drop-data [_ path]
-    (swap! env update-in
-           (concat [:_data] (butlast path)) dissoc (last path))))
-
 (def refresh-queued false)
 
 (defn root
   [app f node]
   (let [handler (EventHandler.)
-        root (map->Renderer
-              {:state (atom (tm/tracking-map {}))
-               :components (atom {})
-               :app app
-               :handler handler})
+        ;; root (map->Renderer
+        ;;       {:state (atom (tm/tracking-map {}))
+        ;;        :components (atom {})
+        ;;        :app app
+        ;;        :handler handler})
+        root {}
         rootf (fn []
                 (set! refresh-queued false)
                 (let [path []]

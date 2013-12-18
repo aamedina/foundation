@@ -16,7 +16,7 @@ goog.addDependency("../cljs/core/async/impl/timers.js", ['cljs.core.async.impl.t
 goog.addDependency("../cljs/core/async.js", ['cljs.core.async'], ['cljs.core.async.impl.ioc_helpers', 'cljs.core.async.impl.buffers', 'cljs.core', 'cljs.core.async.impl.channels', 'cljs.core.async.impl.dispatch', 'cljs.core.async.impl.protocols', 'cljs.core.async.impl.timers']);
 goog.addDependency("../foundation/app/data/change.js", ['foundation.app.data.change'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/tracking_map.js", ['foundation.app.data.tracking_map'], ['cljs.core', 'foundation.app.data.change']);
-goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.util', 'cljs.core.async']);
+goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.data.component', 'foundation.app.util', 'cljs.core.async', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core', 'foundation.app.data.component', 'clojure.string', 'cljs.core.match', 'clojure.set', 'cljs.core.async', 'foundation.app.data.tracking_map', 'foundation.app.data.dependency', 'foundation.app.render']);
 goog.addDependency("../cljs_time/core.js", ['cljs_time.core'], ['goog.date.Interval', 'goog.date.DateTime', 'cljs.core', 'goog.date.Date', 'goog.i18n.TimeZone', 'goog.date.DateRange', 'goog.date.UtcDateTime', 'cljs.core.async', 'goog.date']);
 goog.addDependency("../cljs_time/format.js", ['cljs_time.format'], ['cljs.core', 'goog.i18n.DateTimeFormat', 'clojure.set', 'goog.i18n.DateTimeParse', 'cljs_time.core']);

@@ -1,6 +1,8 @@
 (ns foundation.app.render
   (:require [foundation.app.util :as util]
-            [cljs.core.async :as async :refer [<! put! >! take! chan]])
+            [cljs.core.async :as async :refer [<! put! >! take! chan]]
+            [foundation.app.data.component :as c :refer [Lifecycle]]
+            [foundation.app.data.dependency :as d])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
@@ -33,6 +35,14 @@
   (-drop-data [_ path]))
 
 (defrecord Renderer [env]
+  Lifecycle
+  (start [this]
+    ;; (c/start-system this components)
+    )
+  (stop [this]
+    ;; (c/stop-system this components)
+    )
+  
   IRenderer
   (-get-id [_ path]
     (if (seq path)
@@ -83,4 +93,6 @@
              (render renderer d (-parent-id renderer path)
                            (-new-id renderer path))))))))
 
-(defmethod render :default [renderer delta pid id] (println delta))
+(defmethod render :default
+  [renderer [op path _ _] pid id]
+  (println [op path]))
