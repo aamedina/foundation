@@ -16,6 +16,30 @@
 (defprotocol IComponent
   (-render [_]))
 
+(defprotocol IInitState
+  (-init-state [_ owner]))
+
+(defprotocol IShouldUpdate
+  (-should-update [_ owner next-props next-state]))
+
+(defprotocol IWillMount
+  (-will-mount [_ owner]))
+
+(defprotocol IDidMount
+  (-did-mount [_ this owner node]))
+
+(defprotocol IWillUnmount
+  (-will-unmount [_ owner]))
+
+(defprotocol IWillUpdate
+  (-will-update [_ owner next-props next-state]))
+
+(defprotocol IDidUpdate
+  (-did-update [_ owner prev-props prev-state root-node]))
+
+(defprotocol IRender
+  (-render [_ owner]))
+
 (defprotocol IDisposable
   (-dispose [_]))
 
@@ -70,7 +94,7 @@
   (let []
     (map->Renderer
      {:state (atom (tm/tracking-map {}))
-      :components (atom #{})
+      :components (atom {})
       :input input
       :render render
       :app app})))
