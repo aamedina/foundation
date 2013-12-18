@@ -7,7 +7,8 @@
             [foundation.app :as app :refer [*app*]]
             [cljs.core.async :as async :refer [put! chan >! <!]]
             [cljs.core.async.impl.channels :refer [ManyToManyChannel]]
-            [foundation.app.xhr :as xhr])
+            [foundation.app.xhr :as xhr]
+            [foundation.app.data.component :as c :refer [Lifecycle]])
   (:require-macros [foundation.app.router
                     :refer [defroutes GET POST PUT DELETE ANY context]]
                    [dommy.macros :refer [node sel sel1]]
@@ -250,18 +251,24 @@
            (update-in [:params] dissoc :__path-info)
            (update-in [:route-params] dissoc :__path-info))))))
 
-(defn on-navigate
-  [e]
-  ;; (println "Navigation: " (if (empty? (.-token e)) "\"\"" (.-token e)))
-  (when (.-isNavigation e)
-    (if (not= "index" (.-token e))
-      (.-token e)
-      "")))
-
 (defprotocol IRouter
-  (-navigate [router uri method params]))
+  (-navigate [router uri method params])
+  (-on-navigation [router e]))
 
 (defrecord Router [router routes]
+  Lifecycle
+  (start [router]
+    (doto (.-router router)
+      (.setUseFragment false)
+      (.addEventListener goog.history.EventType.NAVIGATE
+                         (partial -on-navigation router))
+      (.setEnabled true))
+    router)
+  (stop [router]
+    (doto (.-router router)
+      (.setEnabled false))
+    router)
+  
   IRouter
   (-navigate [_ uri method params]
     (let [uri (Uri. uri)
@@ -271,16 +278,17 @@
                :method method
                :params (->> (str/split (str (.getQuery uri)) #"=")
                             (apply hash-map)
-                            (clojure.walk/keywordize-keys))}))))
+                            (clojure.walk/keywordize-keys))})))
+
+  (-on-navigation [router e]
+    (when (.-isNavigation e)
+      (if (not= "index" (.-token e))
+        (.-token e)
+        ""))))
 
 (defn router [routes]
-  (map->Router {:routes routes
-                :router (if (Html5History/isSupported)
-                          (doto (Html5History.)
-                            (.setUseFragment false)
-                            (.addEventListener goog.history.EventType.NAVIGATE
-                                               on-navigate)
-                            (.setEnabled true)))}))
+  (c/start (map->Router {:routes routes
+                         :router (Html5History.)})))
 
 (defn navigate!
   [router uri & {:keys [method params] :as args}]
