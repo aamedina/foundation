@@ -1,5 +1,6 @@
 (ns foundation.test
   (:require [clojure.browser.repl]
+            [clojure.string :as str]
             [foundation.app :as app]
             [foundation.app.util :refer [*debug*]]
             [foundation.app.router :refer [router *routes* navigate!]]
@@ -15,4 +16,4 @@
 
 (defn ^:export -main []
   (binding [*routes* app]
-    (navigate! (.getPath (Uri. js/document.location.href)) :method :get)))
+    (navigate! js/document.location.href :method :get)))

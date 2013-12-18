@@ -2,13 +2,12 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test.js",
  "sources":["test.cljs"],
- "lineCount":25,
+ "lineCount":27,
  "mappings":
- ";AAAA;;;;;;;;;;;;;AASA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,IAAAC,mEAAA,AAAA,IAAA,AAAA,7CAAUC,6CAAAA,2CAASC;AACjB,uGAAA,yDAAA,zJAACC,+CAAU,AAAU,KAAAC,SAAMC;UAD7B,AAAA,2CAAAL,3CAAUC",
+ ";AAAA;;;;;;;;;;;;;;;AAUA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,IAAAC,mEAAA,AAAA,IAAA,AAAA,7CAAUC,6CAAAA,2CAASC;AACjB,6EAAA,yDAAA,/HAACC,+CAAUC;UADb,AAAA,2CAAAJ,3CAAUC",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
   "js/location.reload", "foundation.test/app-state", "cljs.core/atom",
-  "foundation.test/-main", "*routes*21210",
+  "foundation.test/-main", "*routes*26878",
   "foundation.app.router/*routes*", "foundation.test.routes/app",
-  "foundation.app.router/navigate!", "goog/Uri",
-  "js/document.location.href"]}
+  "foundation.app.router/navigate!", "js/document.location.href"]}

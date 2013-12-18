@@ -259,6 +259,11 @@
 
 (defn navigate!
   [uri & {:keys [method params]}]
-  (let [token (str/replace uri #"^/" "")]
-    (.setToken router token)
-    (*routes* {:uri uri :method method})))
+  (let [uri (Uri. uri)
+        path (str/replace (.getPath uri) #"^/" "")]
+    (.setToken router path)
+    (*routes* {:uri (.getPath uri)
+               :method method
+               :params (->> (str/split (str (.getQuery uri)) #"=")
+                            (apply hash-map)
+                            (clojure.walk/keywordize-keys))})))
