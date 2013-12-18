@@ -1,7 +1,7 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.array', 'goog.object', 'goog.string.StringBuffer']);
-goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../clojure/set.js", ['clojure.set'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/dependency.js", ['foundation.app.data.dependency'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/app/data/component.js", ['foundation.app.data.component'], ['cljs.core', 'foundation.app.data.dependency']);
@@ -30,6 +30,7 @@ goog.addDependency("../foundation/app/ui.js", ['foundation.app.ui'], ['goog.even
 goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'cljs.core.async.impl.channels', 'goog.history.Html5History', 'goog.string', 'foundation.app.data.component', 'foundation.app.xhr', 'clojure.string', 'clojure.set', 'cljs.core.async', 'foundation.app.ui', 'goog.Uri', 'dommy.core']);
 goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['cljs.core', 'foundation.app.data.component', 'foundation.app.util', 'cljs.core.async', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core', 'foundation.app.message', 'foundation.app.data.component', 'foundation.app.util', 'clojure.string', 'cljs.core.match', 'clojure.set', 'cljs.core.async', 'foundation.app.data.tracking_map', 'foundation.app.router', 'foundation.app.data.dependency', 'foundation.app.render']);
+goog.addDependency("../foundation/test/behavior.js", ['foundation.test.behavior'], ['cljs.core', 'foundation.app']);
 goog.addDependency("../foundation/app/models.js", ['foundation.app.models'], ['goog.Uri.QueryData', 'cljs.core', 'foundation.app.xhr', 'clojure.walk', 'clojure.string', 'cljs.core.async', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/test/models.js", ['foundation.test.models'], ['cljs_time.coerce', 'cljs.core', 'foundation.app.models', 'cljs_time.format', 'clojure.string', 'goog.date', 'foundation.app.data.dependency', 'goog.Uri', 'cljs_time.core']);
 goog.addDependency("../foundation/test/services.js", ['foundation.test.services'], ['cljs.core', 'foundation.app.message', 'foundation.app.models', 'foundation.app.xhr', 'foundation.test.models', 'foundation.app', 'cljs.core.async', 'foundation.app.router', 'goog.date']);
@@ -37,7 +38,7 @@ goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['c
 goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.net.xpc.CrossPageChannel', 'clojure.browser.event', 'goog.net.xpc.CfgFields', 'cljs.core', 'goog.net.EventType', 'goog.json', 'goog.net.XhrIo']);
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
 goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'clojure.string', 'clojure.set', 'foundation.app.router']);
-goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'clojure.string', 'foundation.app', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes']);
+goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'foundation.app.message', 'clojure.string', 'foundation.app', 'foundation.test.behavior', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes', 'cljs.core.async']);
 goog.addDependency("../foundation/app/data/combinatorics.js", ['foundation.app.data.combinatorics'], ['cljs.core']);
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
 goog.addDependency("../foundation/test/components/chart.js", ['foundation.test.components.chart'], ['cljs.core', 'dommy.core', 'cljs_time.core']);
@@ -52,7 +53,6 @@ goog.addDependency("../enfocus/core.js", ['enfocus.core'], ['goog.dom.classes', 
 goog.addDependency("../enfocus/events.js", ['enfocus.events'], ['cljs.core', 'goog.dom', 'enfocus.core', 'goog.events']);
 goog.addDependency("../foundation/test/cells.js", ['foundation.test.cells'], ['cljs.core', 'enfocus.events', 'cljs_time.format', 'enfocus.core', 'dommy.core', 'cljs_time.core']);
 goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
-goog.addDependency("../foundation/test/behavior.js", ['foundation.test.behavior'], ['cljs.core']);
 goog.addDependency("../foundation/test/templates.js", ['foundation.test.templates'], ['cljs.core', 'enfocus.events', 'cljs_time.format', 'enfocus.core', 'goog.i18n.DateTimeFormat', 'foundation.cells', 'goog.i18n.DateTimeParse', 'goog.date', 'goog.ui.InputDatePicker', 'dommy.core', 'foundation.models', 'cljs_time.core']);
 goog.addDependency("../foundation/test/components/dashboard.js", ['foundation.test.components.dashboard'], ['cljs.core']);
 goog.addDependency("../foundation/test/components/autocomplete.js", ['foundation.test.components.autocomplete'], ['cljs.core']);
