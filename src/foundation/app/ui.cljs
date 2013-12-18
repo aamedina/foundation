@@ -26,7 +26,7 @@
   (-will-mount [_ owner]))
 
 (defprotocol IDidMount
-  (-did-mount [_ this owner node]))
+  (-did-mount [_ owner node]))
 
 (defprotocol IWillUnmount
   (-will-unmount [_ owner]))
@@ -50,6 +50,9 @@
 (defprotocol IKeyTarget
   (-keydown [_ e])
   (-keyup [_ e]))
+
+(defprotocol IResizeable
+  (-resize [_ e]))
 
 (defprotocol IClickable
   (-click [_ e]))
@@ -77,9 +80,65 @@
   (-value [_])
   (-set-value [_ val]))
 
-(defrecord UIComponent [state props children]
+(defn focusable
+  [component])
+
+(defn clickable
+  [component])
+
+(defn key-target
+  [component])
+
+(defn mouse-target
+  [component])
+
+(defn resizable
+  [component])
+
+(defn scrollable
+  [component])
+
+(defn input
+  [component])
+
+(defn init-state
+  [component])
+
+(defn should-update
+  [component])
+
+(defn will-mount
+  [component])
+
+(defn did-mount
+  [component])
+
+(defn will-unmount
+  [component])
+
+(defn will-update
+  [component])
+
+(defn render
+  [component])
+
+(defrecord UIComponent [reified props children]
   Lifecycle
-  (start [_])
+  (start [_]
+    (cond-> reified
+      (satisfies? IFocusable reified) focusable
+      (satisfies? IClickable reified) clickable
+      (satisfies? IKeyTarget reified) key-target
+      (satisfies? IMouseTarget reified) mouse-target
+      (satisfies? IResizeable reified) resizable
+      (satisfies? IScrollable reified) scrollable
+      (satisfies? IInput reified) input
+      (satisfies? IInitState reified) init-state
+      (satisfies? IShouldUpdate reified) should-update
+      (satisfies? IWillMount reified) will-mount
+      (satisfies? IDidMount reified) did-mount
+      (satisfies? IWillUnmount reified) will-unmount
+      (satisfies? IWillUpdate reified) will-update))
   (stop [_]))
 
 (defrecord Renderer [input render dom components]
