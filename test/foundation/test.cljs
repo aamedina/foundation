@@ -3,10 +3,10 @@
             [clojure.string :as str]
             [foundation.app :as app]
             [foundation.app.util :refer [*debug*]]
-            [foundation.app.router :refer [router *routes* navigate!]]
+            [foundation.app.router :refer [router *routes* navigate! route]]
+            [foundation.test.services :as services]
             [foundation.test.routes :as routes :refer [app]])
-  (:require-macros [secretary.macros :refer [defroute]])
-  (:import [goog Uri]))
+  (:require-macros [secretary.macros :refer [defroute]]))
 
 (enable-console-print!)
 

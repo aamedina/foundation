@@ -4,5 +4,5 @@
   [body]
   `(reify
      foundation.app.ui/IComponent
-     (~'-render [this# parent#]
+     (~'-render [this#]
        (dommy.macros/node ~body))))

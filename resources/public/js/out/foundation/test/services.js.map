@@ -1,0 +1,9 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/services.js",
+ "sources":["services.cljs"],
+ "lineCount":22,
+ "mappings":
+ ";AAAA;;;;;;;;;;;;;;;;;AAUA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,iDAAA,hJACGC",
+ "names":
+ ["cljs.core/-add-method", "foundation.app.router/route", "req"]}

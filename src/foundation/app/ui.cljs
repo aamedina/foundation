@@ -11,7 +11,7 @@
             MouseWheelHandler ActionEvent]))
 
 (defprotocol IComponent
-  (-render [_ parent]))
+  (-render [_]))
 
 (defprotocol IDisposable
   (-dispose [_]))
@@ -51,4 +51,4 @@
   (-set-value [_ val]))
 
 (defn root
-  [])
+  [app app-model input-queue])

@@ -17,15 +17,15 @@ goog.require('goog.ui.IdGenerator');
 goog.require('cljs.core.async');
 goog.require('goog.events');
 goog.require('dommy.core');
-foundation.app.ui.IComponent = (function (){var obj21019 = {};return obj21019;
+foundation.app.ui.IComponent = (function (){var obj47201 = {};return obj47201;
 })();
-foundation.app.ui._render = (function _render(_,parent){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
-{return _.foundation$app$ui$IComponent$_render$arity$2;
+foundation.app.ui._render = (function _render(_){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
+{return _.foundation$app$ui$IComponent$_render$arity$1;
 } else
 {return and__8233__auto__;
 }
 })())
-{return _.foundation$app$ui$IComponent$_render$arity$2(_,parent);
+{return _.foundation$app$ui$IComponent$_render$arity$1(_);
 } else
 {var x__8853__auto__ = (((_ == null))?null:_);return (function (){var or__8245__auto__ = (foundation.app.ui._render[goog.typeOf(x__8853__auto__)]);if(or__8245__auto__)
 {return or__8245__auto__;
@@ -36,10 +36,10 @@ foundation.app.ui._render = (function _render(_,parent){if((function (){var and_
 {throw cljs.core.missing_protocol.call(null,"IComponent.-render",_);
 }
 }
-})().call(null,_,parent);
+})().call(null,_);
 }
 });
-foundation.app.ui.IDisposable = (function (){var obj21021 = {};return obj21021;
+foundation.app.ui.IDisposable = (function (){var obj47203 = {};return obj47203;
 })();
 foundation.app.ui._dispose = (function _dispose(_){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IDisposable$_dispose$arity$1;
@@ -61,7 +61,7 @@ foundation.app.ui._dispose = (function _dispose(_){if((function (){var and__8233
 })().call(null,_);
 }
 });
-foundation.app.ui.IFocusable = (function (){var obj21023 = {};return obj21023;
+foundation.app.ui.IFocusable = (function (){var obj47205 = {};return obj47205;
 })();
 foundation.app.ui._focus = (function _focus(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IFocusable$_focus$arity$2;
@@ -103,7 +103,7 @@ foundation.app.ui._blur = (function _blur(_,e){if((function (){var and__8233__au
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IKeyTarget = (function (){var obj21025 = {};return obj21025;
+foundation.app.ui.IKeyTarget = (function (){var obj47207 = {};return obj47207;
 })();
 foundation.app.ui._keydown = (function _keydown(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IKeyTarget$_keydown$arity$2;
@@ -145,7 +145,7 @@ foundation.app.ui._keyup = (function _keyup(_,e){if((function (){var and__8233__
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IClickable = (function (){var obj21027 = {};return obj21027;
+foundation.app.ui.IClickable = (function (){var obj47209 = {};return obj47209;
 })();
 foundation.app.ui._click = (function _click(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IClickable$_click$arity$2;
@@ -167,7 +167,7 @@ foundation.app.ui._click = (function _click(_,e){if((function (){var and__8233__
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IMouseTarget = (function (){var obj21029 = {};return obj21029;
+foundation.app.ui.IMouseTarget = (function (){var obj47211 = {};return obj47211;
 })();
 foundation.app.ui._mouseover = (function _mouseover(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IMouseTarget$_mouseover$arity$2;
@@ -249,7 +249,7 @@ foundation.app.ui._mouseup = (function _mouseup(_,e){if((function (){var and__82
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IScrollable = (function (){var obj21031 = {};return obj21031;
+foundation.app.ui.IScrollable = (function (){var obj47213 = {};return obj47213;
 })();
 foundation.app.ui._scroll = (function _scroll(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IScrollable$_scroll$arity$2;
@@ -271,7 +271,7 @@ foundation.app.ui._scroll = (function _scroll(_,e){if((function (){var and__8233
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IHideable = (function (){var obj21033 = {};return obj21033;
+foundation.app.ui.IHideable = (function (){var obj47215 = {};return obj47215;
 })();
 foundation.app.ui._hide = (function _hide(_){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IHideable$_hide$arity$1;
@@ -313,7 +313,7 @@ foundation.app.ui._show = (function _show(_){if((function (){var and__8233__auto
 })().call(null,_);
 }
 });
-foundation.app.ui.ISelect = (function (){var obj21035 = {};return obj21035;
+foundation.app.ui.ISelect = (function (){var obj47217 = {};return obj47217;
 })();
 foundation.app.ui._set_selection = (function _set_selection(_,val){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$ISelect$_set_selection$arity$2;
@@ -375,7 +375,7 @@ foundation.app.ui._selected = (function _selected(_){if((function (){var and__82
 })().call(null,_);
 }
 });
-foundation.app.ui.IInput = (function (){var obj21037 = {};return obj21037;
+foundation.app.ui.IInput = (function (){var obj47219 = {};return obj47219;
 })();
 foundation.app.ui._input = (function _input(_,e){if((function (){var and__8233__auto__ = _;if(and__8233__auto__)
 {return _.foundation$app$ui$IInput$_input$arity$2;
@@ -437,7 +437,7 @@ foundation.app.ui._set_value = (function _set_value(_,val){if((function (){var a
 })().call(null,_,val);
 }
 });
-foundation.app.ui.root = (function root(){return null;
+foundation.app.ui.root = (function root(app,app_model,input_queue){return null;
 });
 
 //# sourceMappingURL=ui.js.map

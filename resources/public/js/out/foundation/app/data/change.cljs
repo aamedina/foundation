@@ -1,6 +1,6 @@
 (ns foundation.app.data.change)
 
-(defn- find-changes [changes old-map new-map path]
+(defn find-changes [changes old-map new-map path]
   (let [parent-path (butlast path)
         k (last path)
         old-m (if (seq parent-path) (get-in old-map parent-path) old-map)
@@ -24,16 +24,16 @@
 
       :else changes)))
 
-(defn- merge-changes [c1 c2]
+(defn merge-changes [c1 c2]
   (merge-with (comp set concat) c1 c2))
 
-(defn- descendent? [path-a path-b]
+(defn descendent? [path-a path-b]
   (let [[small large] (if (< (count path-a) (count path-b))
                         [path-a path-b]
                         [path-b path-a])]
     (= small (take (count small) large))))
 
-(defn- remove-redundant-updates [updates]
+(defn remove-redundant-updates [updates]
   (reduce (fn [a update]
             (if (some #(descendent? % update) a)
               a
@@ -41,7 +41,7 @@
           #{}
           (reverse (sort-by count updates))))
 
-(defn- remove-redundant-adds [adds]
+(defn remove-redundant-adds [adds]
   (reduce (fn [a add]
             (if (some #(descendent? % add) a)
               a
@@ -49,14 +49,14 @@
           #{}
           (sort-by count adds)))
 
-(defn- remove-updates-covered-by-adds [updates adds]
+(defn remove-updates-covered-by-adds [updates adds]
   (set (remove (fn [u]
                  (some (fn [a]
                          (descendent? a u))
                        adds))
                updates)))
 
-(defn- remove-updates-covered-by-removes [updates removes]
+(defn remove-updates-covered-by-removes [updates removes]
   (set (remove (fn [u]
                  (some (fn [r]
                          (descendent? r u))

@@ -82,17 +82,16 @@
   IDeref
   (-deref [o] map))
 
-(defn- plain-map [m]
+(defn plain-map [m]
   (if (instance? TrackingMap m) (.-map m) m))
 
-(defn- merge-when-tracking-map [change-map tracking-map]
+(defn merge-when-tracking-map [change-map tracking-map]
   (merge-with (comp set concat)
               change-map
-              (dissoc (when (instance? TrackingMap tracking-map)
-                        (.-change-map tracking-map))
-                      :context)))
+              (when (instance? TrackingMap tracking-map)
+                (dissoc (.-change-map tracking-map) :context))))
 
-(defn- record-change [action map key val change-map]
+(defn record-change [action map key val change-map]
   (let [{:keys [context updated] :as cs} change-map
         change (if (seq context)
                  (conj context key)

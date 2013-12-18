@@ -53,27 +53,27 @@ foundation.app.data.tracking_map.TrackingMap.prototype.cljs$core$IAssociative$_c
 var ___$1 = this;return cljs.core._contains_key_QMARK_.call(null,self__.map,k);
 });
 foundation.app.data.tracking_map.TrackingMap.prototype.call = (function() {
-var G__10930 = null;
-var G__10930__2 = (function (self__,k){var self__ = this;
+var G__49041 = null;
+var G__49041__2 = (function (self__,k){var self__ = this;
 var self____$1 = this;var _ = self____$1;return cljs.core._lookup.call(null,self__.map,k);
 });
-var G__10930__3 = (function (self__,k,not_found){var self__ = this;
+var G__49041__3 = (function (self__,k,not_found){var self__ = this;
 var self____$1 = this;var _ = self____$1;return cljs.core._lookup.call(null,self__.map,k,not_found);
 });
-G__10930 = function(self__,k,not_found){
+G__49041 = function(self__,k,not_found){
 switch(arguments.length){
 case 2:
-return G__10930__2.call(this,self__,k);
+return G__49041__2.call(this,self__,k);
 case 3:
-return G__10930__3.call(this,self__,k,not_found);
+return G__49041__3.call(this,self__,k,not_found);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
-return G__10930;
+return G__49041;
 })()
 ;
-foundation.app.data.tracking_map.TrackingMap.prototype.apply = (function (self__,args10929){var self__ = this;
-var self____$1 = this;return self____$1.call.apply(self____$1,[self____$1].concat(cljs.core.aclone.call(null,args10929)));
+foundation.app.data.tracking_map.TrackingMap.prototype.apply = (function (self__,args49040){var self__ = this;
+var self____$1 = this;return self____$1.call.apply(self____$1,[self____$1].concat(cljs.core.aclone.call(null,args49040)));
 });
 foundation.app.data.tracking_map.TrackingMap.prototype.cljs$core$IFn$_invoke$arity$1 = (function (k){var self__ = this;
 var _ = this;return cljs.core._lookup.call(null,self__.map,k);
@@ -129,9 +129,9 @@ foundation.app.data.tracking_map.plain_map = (function plain_map(m){if((m instan
 {return m;
 }
 });
-foundation.app.data.tracking_map.merge_when_tracking_map = (function merge_when_tracking_map(change_map,tracking_map){return cljs.core.merge_with.call(null,cljs.core.comp.call(null,cljs.core.set,cljs.core.concat),change_map,cljs.core.dissoc.call(null,(((tracking_map instanceof foundation.app.data.tracking_map.TrackingMap))?tracking_map.change_map:null),new cljs.core.Keyword(null,"context","context",1965435169)));
+foundation.app.data.tracking_map.merge_when_tracking_map = (function merge_when_tracking_map(change_map,tracking_map){return cljs.core.merge_with.call(null,cljs.core.comp.call(null,cljs.core.set,cljs.core.concat),change_map,(((tracking_map instanceof foundation.app.data.tracking_map.TrackingMap))?cljs.core.dissoc.call(null,tracking_map.change_map,new cljs.core.Keyword(null,"context","context",1965435169)):null));
 });
-foundation.app.data.tracking_map.record_change = (function record_change(action,map,key,val,change_map){var map__10932 = change_map;var map__10932__$1 = ((cljs.core.seq_QMARK_.call(null,map__10932))?cljs.core.apply.call(null,cljs.core.hash_map,map__10932):map__10932);var cs = map__10932__$1;var updated = cljs.core.get.call(null,map__10932__$1,new cljs.core.Keyword(null,"updated","updated",779473965));var context = cljs.core.get.call(null,map__10932__$1,new cljs.core.Keyword(null,"context","context",1965435169));var change = ((cljs.core.seq.call(null,context))?cljs.core.conj.call(null,context,key):new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [key], null));var cs__$1 = ((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"dissoc","dissoc",3977329067)))?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"removed","removed",2105740242)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):(cljs.core.truth_((function (){var and__8233__auto__ = cljs.core.get.call(null,map,key);if(cljs.core.truth_(and__8233__auto__))
+foundation.app.data.tracking_map.record_change = (function record_change(action,map,key,val,change_map){var map__49043 = change_map;var map__49043__$1 = ((cljs.core.seq_QMARK_.call(null,map__49043))?cljs.core.apply.call(null,cljs.core.hash_map,map__49043):map__49043);var cs = map__49043__$1;var updated = cljs.core.get.call(null,map__49043__$1,new cljs.core.Keyword(null,"updated","updated",779473965));var context = cljs.core.get.call(null,map__49043__$1,new cljs.core.Keyword(null,"context","context",1965435169));var change = ((cljs.core.seq.call(null,context))?cljs.core.conj.call(null,context,key):new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [key], null));var cs__$1 = ((cljs.core._EQ_.call(null,action,new cljs.core.Keyword(null,"dissoc","dissoc",3977329067)))?cljs.core.update_in.call(null,cs,new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"removed","removed",2105740242)], null),cljs.core.fnil.call(null,cljs.core.conj,cljs.core.PersistentHashSet.EMPTY),change):(cljs.core.truth_((function (){var and__8233__auto__ = cljs.core.get.call(null,map,key);if(cljs.core.truth_(and__8233__auto__))
 {return cljs.core.not_EQ_.call(null,cljs.core.get.call(null,map,key),foundation.app.data.tracking_map.plain_map.call(null,val));
 } else
 {return and__8233__auto__;

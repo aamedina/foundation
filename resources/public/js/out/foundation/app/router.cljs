@@ -1,7 +1,9 @@
 (ns foundation.app.router
   (:require [clojure.string :as str]
             [goog.string :as gstring]
+            [clojure.set :as set]
             [dommy.core :as dom]
+            [foundation.app.ui :as ui]
             [cljs.core.async :as async :refer [put! chan >! <!]]
             [cljs.core.async.impl.channels :refer [ManyToManyChannel]]
             [foundation.app.xhr :as xhr])
@@ -15,6 +17,15 @@
 (enable-console-print!)
 
 (def ^:dynamic *routes* nil)
+
+(defmulti route (fn [req]
+                  (->> (replace (set/map-invert (:route-params req))
+                                (str/split (:uri req) #"/"))
+                       (str/join "/")
+                       (#(if (empty? %) "/" %))
+                       (vector (:method req)))))
+
+(defmethod route :default [req] (println req))
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
@@ -177,9 +188,10 @@
 
   default
   (-render [o _]
-    (if (sequential? o)
-      (map -render o)
-      o)))
+    (cond
+      (implements? ui/IComponent o) (ui/-render o)
+      (sequential? o) (map -render o)
+      :else o)))
 
 (defn method-matches?
   [method request]
@@ -244,7 +256,7 @@
 
 (defn on-navigate
   [e]
-  (println "Navigation: " (if (empty? (.-token e)) "\"\"" (.-token e)))
+  ;; (println "Navigation: " (if (empty? (.-token e)) "\"\"" (.-token e)))
   (when (.-isNavigation e)
     (if (not= "index" (.-token e))
       (.-token e)

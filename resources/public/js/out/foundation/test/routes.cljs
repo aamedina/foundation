@@ -1,58 +1,51 @@
 (ns foundation.test.routes
   (:require [foundation.app.router :as router :include-macros true
              :refer [defroutes GET POST PUT DELETE ANY context]]
+            [foundation.app.router :refer [route]]
             [clojure.set :as set]
             [clojure.string :as str]))
 
-(defmulti render (fn [req]
-                   (->> (replace (set/map-invert (:route-params req))
-                                 (str/split (:uri req) #"/"))
-                        (str/join "/")
-                        (vector (:method req)))))
-
-(defmethod render :default [req] (println req))
-
 (defroutes accounts
-  (GET "/accounts" [] render)
-  (GET "/accounts/:id" [id] render))
+  (GET "/accounts" [] route)
+  (GET "/accounts/:id" [id] route))
 
 (defroutes campaigns
   (context "/accounts/:account-id" [account-id]
-    (GET "/campaigns" [] render)
-    (GET "/campaigns/:id" [id] render)
-    (POST "/campaigns/:id" [id] render)
-    (PUT "/campaigns/:id" [id] render)
-    (DELETE "/campaigns/:id" [id] render)))
+    (GET "/campaigns" [] route)
+    (GET "/campaigns/:id" [id] route)
+    (POST "/campaigns/:id" [id] route)
+    (PUT "/campaigns/:id" [id] route)
+    (DELETE "/campaigns/:id" [id] route)))
 
 (defroutes line-items
   (context "/accounts/:account-id" [account-id]
-    (GET "/line_items" [] render)
-    (GET "/line_items/:id" [id] render)
-    (POST "/line_items/:id" [id] render)
-    (PUT "/line_items/:id" [id] render)
-    (DELETE "/line_items/:id" [id] render)))
+    (GET "/line_items" [] route)
+    (GET "/line_items/:id" [id] route)
+    (POST "/line_items/:id" [id] route)
+    (PUT "/line_items/:id" [id] route)
+    (DELETE "/line_items/:id" [id] route)))
 
 (defroutes promoted-accounts
   (context "/accounts/:account-id" [account-id]
-    (GET "/promoted_accounts" [] render)
-    (GET "/promoted_accounts/:id" [id] render)
-    (POST "/promoted_accounts/:id" [id] render)
-    (PUT "/promoted_accounts/:id" [id] render)
-    (DELETE "/promoted_accounts/:id" [id] render)))
+    (GET "/promoted_accounts" [] route)
+    (GET "/promoted_accounts/:id" [id] route)
+    (POST "/promoted_accounts/:id" [id] route)
+    (PUT "/promoted_accounts/:id" [id] route)
+    (DELETE "/promoted_accounts/:id" [id] route)))
 
 (defroutes promoted-tweets
   (context "/accounts/:account-id" [account-id]
-    (GET "/promoted_tweets" [] render)
-    (GET "/promoted_tweets/:id" [id] render)
-    (POST "/promoted_tweets/:id" [id] render)
-    (PUT "/promoted_tweets/:id" [id] render)
-    (DELETE "/promoted_tweets/:id" [id] render)))
+    (GET "/promoted_tweets" [] route)
+    (GET "/promoted_tweets/:id" [id] route)
+    (POST "/promoted_tweets/:id" [id] route)
+    (PUT "/promoted_tweets/:id" [id] route)
+    (DELETE "/promoted_tweets/:id" [id] route)))
 
 (defroutes promoted-products
   (context "/accounts/:account-id" [account-id]
-    (GET "/promotable_users" [] render)
-    (GET "/scoped_timeline" [] render))
-  (GET "/statuses/scoped_timeline" [] render))
+    (GET "/promotable_users" [] route)
+    (GET "/scoped_timeline" [] route))
+  (GET "/statuses/scoped_timeline" [] route))
 
 (defroutes funding-instruments
   (context "/accounts/:account-id" [account-id]
@@ -61,46 +54,46 @@
 
 (defroutes targeting-criteria
   (context "/accounts/:account-id" [account-id]
-    (GET "/targeting_criteria" [] render)
-    (GET "/targeting_criteria/:id" [id] render)
-    (POST "/targeting_criteria/:id" [id] render)
-    (PUT "/targeting_criteria/:id" [id] render)
-    (DELETE "/targeting_criteria/:id" [id] render)
+    (GET "/targeting_criteria" [] route)
+    (GET "/targeting_criteria/:id" [id] route)
+    (POST "/targeting_criteria/:id" [id] route)
+    (PUT "/targeting_criteria/:id" [id] route)
+    (DELETE "/targeting_criteria/:id" [id] route)
 
-    (GET "/targeting_criteria/tailored_audiences" [] render)
+    (GET "/targeting_criteria/tailored_audiences" [] route)
 
-    (GET "/reach_estimate" [id] render)
-    (GET "/brands_tv" [id] render)
-    (GET "/targeting_suggestions" [id] render))
+    (GET "/reach_estimate" [id] route)
+    (GET "/brands_tv" [id] route)
+    (GET "/targeting_suggestions" [id] route))
   
-  (GET "/targeting_criteria/locations" [] render)
-  (GET "/targeting_criteria/interests" [] render)
-  (GET "/targeting_criteria/platforms" [] render)
-  (GET "/targeting_criteria/devices" [] render)
-  (GET "/targeting_criteria/tv_shows" [] render)
-  (GET "/targeting_criteria/tv_markets" [] render)
-  (GET "/targeting_criteria/platform_versions" [] render))
+  (GET "/targeting_criteria/locations" [] route)
+  (GET "/targeting_criteria/interests" [] route)
+  (GET "/targeting_criteria/platforms" [] route)
+  (GET "/targeting_criteria/devices" [] route)
+  (GET "/targeting_criteria/tv_shows" [] route)
+  (GET "/targeting_criteria/tv_markets" [] route)
+  (GET "/targeting_criteria/platform_versions" [] route))
 
 (defroutes analytics
-  (GET "/stats/accounts/:id" [id] render)
+  (GET "/stats/accounts/:id" [id] route)
   (context "/stats/accounts/:account-id" [id]
-    (GET "/campaigns" [] render)
-    (GET "/campaigns/:id" [id] render)
+    (GET "/campaigns" [] route)
+    (GET "/campaigns/:id" [id] route)
     
-    (GET "/line_items" [] render)
-    (GET "/line_items/:id" [id] render)
+    (GET "/line_items" [] route)
+    (GET "/line_items/:id" [id] route)
     
-    (GET "/promoted_accounts" [] render)
-    (GET "/promoted_accounts/:id" [id] render)
+    (GET "/promoted_accounts" [] route)
+    (GET "/promoted_accounts/:id" [id] route)
     
-    (GET "/promoted_tweets" [] render)
-    (GET "/promoted_tweets/:id" [id] render)
+    (GET "/promoted_tweets" [] route)
+    (GET "/promoted_tweets/:id" [id] route)
     
-    (GET "/funding_instruments" [] render)
-    (GET "/funding_instruments/:id" [id] render)))
+    (GET "/funding_instruments" [] route)
+    (GET "/funding_instruments/:id" [id] route)))
 
 (defroutes app
-  (GET "/" [:as req] render)
+  (GET "/" [] route)
   accounts
   campaigns
   line-items
