@@ -19,6 +19,59 @@
 
 (defn log-fn [deltas] (util/log-group "Rendering Deltas" deltas))
 
+(defprotocol IEventDelegate
+  (-find-dispatches [_ e])
+  (-dispatch-action [_ e])
+  (-dispatch-key [_ e])
+  (-dispatch-focus [_ e])
+  (-dispatch-scroll [_ e])
+  (-dispatch-drop [_ e])
+  (-dispatch-online [_ e]))
+
+(defn event-delegate
+  [renderer]
+  (let [action-handler (ActionHandler. js/document)
+        key-handler (KeyHandler. js/document)
+        focus-handler (FocusHandler. js/document)
+        file-drop-handler (FileDropHandler. js/document)
+        scroll-handler (MouseWheelHandler. js/document)
+        online-handler (OnlineHandler. js/document)
+        handler (doto (EventHandler. renderer)
+                  (.listen action-handler
+                           ActionHandler.EventType.BEFOREACTION
+                           (fn [e] (-dispatch-action renderer e)))
+                  (.listen action-handler
+                           ActionHandler.EventType.ACTION
+                           (fn [e] (-dispatch-action renderer e)))
+                  (.listen key-handler
+                           KeyHandler.EventType.KEY
+                           (fn [e] (-dispatch-key renderer e)))
+                  (.listen focus-handler
+                           FocusHandler.EventType.FOCUSIN
+                           (fn [e] (-dispatch-focus renderer e)))
+                  (.listen focus-handler
+                           FocusHandler.EventType.FOCUSOUT
+                           (fn [e] (-dispatch-focus renderer e)))
+                  (.listen file-drop-handler
+                           FileDropHandler.EventType.DROP
+                           (fn [e] (-dispatch-drop renderer e)))
+                  (.listen scroll-handler
+                           MouseWheelHandler.EventType.MOUSEWHEEL
+                           (fn [e] (-dispatch-scroll renderer e)))
+                  (.listen online-handler
+                           OnlineHandler.EventType.ONLINE
+                           (fn [e] (-dispatch-online renderer e)))
+                  (.listen online-handler
+                           OnlineHandler.EventType.OFFLINE
+                           (fn [e] (-dispatch-online renderer e))))]
+    {:action action-handler
+     :key key-handler
+     :event handler
+     :focus focus-handler
+     :file file-drop-handler
+     :online online-handler
+     :scroll scroll-handler}))
+
 (defn node-seq
   [env]
   (tree-seq (constantly true)
@@ -47,64 +100,10 @@
 (defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
-    (let [[action key focus drop scroll online]
-          (repeatedly 6 #(chan (sliding-buffer 32)))
-          action-handler (ActionHandler. js/document)
-          key-handler (KeyHandler. js/document)
-          focus-handler (FocusHandler. js/document)
-          file-drop-handler (FileDropHandler. js/document)
-          scroll-handler (MouseWheelHandler. js/document)
-          online-handler (OnlineHandler. js/document)
-          handler (doto (EventHandler. renderer)
-                    (.listen action-handler
-                             ActionHandler.EventType.BEFOREACTION
-                             (fn [e] (put! action e)))
-                    (.listen action-handler
-                             ActionHandler.EventType.ACTION
-                             (fn [e] (put! action e)))
-                    (.listen key-handler
-                             KeyHandler.EventType.KEY
-                             (fn [e] (put! key e)))
-                    (.listen focus-handler
-                             FocusHandler.EventType.FOCUSIN
-                             (fn [e] (put! focus e)))
-                    (.listen focus-handler
-                             FocusHandler.EventType.FOCUSOUT
-                             (fn [e] (put! focus e)))
-                    (.listen file-drop-handler
-                             FileDropHandler.EventType.DROP
-                             (fn [e] (put! drop e)))
-                    (.listen scroll-handler
-                             MouseWheelHandler.EventType.MOUSEWHEEL
-                             (fn [e] (put! scroll e)))
-                    (.listen online-handler
-                             OnlineHandler.EventType.ONLINE
-                             (fn [e] (put! online e)))
-                    (.listen online-handler
-                             OnlineHandler.EventType.OFFLINE
-                             (fn [e] (put! online e))))
+    (let [handlers (swap! handlers (event-delegate renderer))
           render-fn (fn []
                       (set! refresh-queued false)
-                      )]
-      (go-loop []
-        (let [[e ch] (alts! [action key focus drop scroll online])]
-          (condp = ch
-            action (js/console.log e)
-            key (js/console.log e)
-            focus (js/console.log e)
-            drop (js/console.log e)
-            scroll (js/console.log e)
-            online (js/console.log e)
-            nil))
-        (recur))
-      (swap! handlers assoc
-             :action action-handler
-             :key key-handler
-             :event handler
-             :focus focus-handler
-             :file file-drop-handler
-             :online online-handler
-             :scroll scroll-handler)
+                      )]      
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
@@ -113,9 +112,19 @@
                        (js/requestAnimationFrame render-fn)
                        (js/setTimeout render-fn 16)))))
       (render-fn)))
+  
   (stop [this]
-    (doseq [handler @handlers]
+    (doseq [handler (vals @handlers)]
       (.dispose handler)))
+
+  IEventDelegate
+  (-find-dispatches [_ e])
+  (-dispatch-action [_ e])
+  (-dispatch-key [_ e])
+  (-dispatch-focus [_ e])
+  (-dispatch-scroll [_ e])
+  (-dispatch-drop [_ e])
+  (-dispatch-online [_ e])
   
   IRenderer
   (-get-id [_ path]
