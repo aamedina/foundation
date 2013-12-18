@@ -2,8 +2,9 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/services.js",
  "sources":["services.cljs"],
- "lineCount":22,
+ "lineCount":23,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;;AAUA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,iDAAA,hJACGC",
+ ";AAAA;;;;;;;;;;;;;;;;;AAUA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,LACGC,KACD,4BAAA,5BAACC;AAFH,0FAAA,iDAAA",
  "names":
- ["cljs.core/-add-method", "foundation.app.router/route", "req"]}
+ ["cljs.core/-add-method", "foundation.app.router/route", "req",
+  "cljs.core/println"]}

@@ -10,6 +10,7 @@
 
 (defmethod route [:get "/"]
   [req]
+  (println "Hello, world!")
   [:h1 "Hello, world!"])
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]

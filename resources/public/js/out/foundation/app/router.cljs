@@ -152,45 +152,39 @@
   (route-matches [route request]
     (route-matches (route-compile route) request)))
 
-(defn response
-  [body]
-  {:status 200
-   :headers {}
-   :body body})
+(defprotocol IResponse
+  (-response [body request]))
 
-(defprotocol IRenderable
-  (-render [_ request]))
-
-(extend-protocol IRenderable
+(extend-protocol IResponse
   nil
-  (-render [_ _] nil)
+  (-response [_ _] nil)
 
   string
-  (-render [body _] body)
+  (-response [body _] body)
 
   function
-  (-render [f request]
-    (-render (f request) request))
+  (-response [f request]
+    (-response (f request) request))
 
   Atom
-  (-render [ref request]
-    (-render (deref ref) request))
+  (-response [ref request]
+    (-response (deref ref) request))
 
   PersistentVector
-  (-render [body _] (node body))
+  (-response [body _] (node body))
 
   ManyToManyChannel
-  (-render [c _] (async/map> -render c))
+  (-response [c _] (async/map> -response c))
 
   MultiFn
-  (-render [multifn req]
-    (-render (multifn req) req))
+  (-response [multifn req]
+    (-response (multifn req) req))
 
   default
-  (-render [o _]
+  (-response [o _]
     (cond
-      (implements? ui/IComponent o) (ui/-render o)
-      (sequential? o) (map -render o)
+      (implements? ui/IComponent o) (ui/render o)
+      (sequential? o) (map -response o)
       :else o)))
 
 (defn method-matches?
@@ -236,7 +230,7 @@
   (if-method method
              (if-route route
                        (fn [request]
-                         (-render (handler request) request)))))
+                         (-response (handler request) request)))))
 
 (defn- remove-suffix [path suffix]
   (subs path 0 (- (count path) (count suffix))))

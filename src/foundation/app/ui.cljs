@@ -184,7 +184,7 @@
                              :children []}) root)
                   node))]
     (c/start root)
-    (add-watch (:state app) ::root
+    (add-watch (:state app) :root
                (fn [_ _ _ _]
                  (when-not refresh-queued
                    (set! refresh-queued true)
