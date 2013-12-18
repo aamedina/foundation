@@ -1,6 +1,7 @@
 (ns foundation.app.render
   (:require [foundation.app.util :as util]
-            [cljs.core.async :as async :refer [<! put! >! take! chan]]
+            [cljs.core.async :as async :refer [<! put! >! take! chan
+                                               sliding-buffer alts!]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d]
             [goog.events :as e]
@@ -46,7 +47,9 @@
 (defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
-    (let [action-handler (ActionHandler. js/document)
+    (let [[action key focus drop scroll online]
+          (repeatedly 6 #(chan (sliding-buffer 32)))
+          action-handler (ActionHandler. js/document)
           key-handler (KeyHandler. js/document)
           focus-handler (FocusHandler. js/document)
           file-drop-handler (FileDropHandler. js/document)
@@ -55,35 +58,45 @@
           handler (doto (EventHandler. renderer)
                     (.listen action-handler
                              ActionHandler.EventType.BEFOREACTION
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! action e)))
                     (.listen action-handler
                              ActionHandler.EventType.ACTION
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! action e)))
                     (.listen key-handler
                              KeyHandler.EventType.KEY
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! key e)))
                     (.listen focus-handler
                              FocusHandler.EventType.FOCUSIN
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! focus e)))
                     (.listen focus-handler
                              FocusHandler.EventType.FOCUSOUT
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! focus e)))
                     (.listen file-drop-handler
                              FileDropHandler.EventType.DROP
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! drop e)))
                     (.listen scroll-handler
                              MouseWheelHandler.EventType.MOUSEWHEEL
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! scroll e)))
                     (.listen online-handler
                              OnlineHandler.EventType.ONLINE
-                             (fn [e] (js/console.log e)))
+                             (fn [e] (put! online e)))
                     (.listen online-handler
                              OnlineHandler.EventType.OFFLINE
-                             (fn [e] (js/console.log e))))
-          
+                             (fn [e] (put! online e))))
           render-fn (fn []
                       (set! refresh-queued false)
                       )]
+      (go-loop []
+        (let [[e ch] (alts! [action key focus drop scroll online])]
+          (condp = ch
+            action (js/console.log e)
+            key (js/console.log e)
+            focus (js/console.log e)
+            drop (js/console.log e)
+            scroll (js/console.log e)
+            online (js/console.log e)
+            nil))
+        (recur))
       (swap! handlers assoc
              :action action-handler
              :key key-handler
@@ -100,7 +113,9 @@
                        (js/requestAnimationFrame render-fn)
                        (js/setTimeout render-fn 16)))))
       (render-fn)))
-  (stop [this])
+  (stop [this]
+    (doseq [handler @handlers]
+      (.dispose handler)))
   
   IRenderer
   (-get-id [_ path]
