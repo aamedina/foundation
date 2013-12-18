@@ -41,17 +41,27 @@
 (defrecord Dataflow [state input output renderer render-queue router]
   Lifecycle
   (start [df]
-    )
+    (c/start-system df #{:router :renderer}))
   (stop [df]
-    ))
+    (c/stop-system df #{:router :renderer})))
 
 (defn build
   [& {:keys [root-id routes] :as config}]
   (let [app-state (atom {:data-model (tm/tracking-map {})})
         input (input-queue app-state)
         output (output-queue app-state)
-        router (r/router app-state input routes)
         renderer (render/renderer root-id)
         render-queue (render/push-render-queue renderer input)]
-    (c/start router)
-    (Dataflow. app-state input output renderer render-queue router)))
+    (try (c/start (map->Dataflow
+                   {:state app-state
+                    :input input
+                    :output output
+                    :renderer (c/using renderer
+                                {:input :input
+                                 :app-state :state})
+                    :render-queue render-queue
+                    :router (c/using (r/router routes)
+                              {:input :input
+                               :app-state :state})}))
+         (catch js/Error e
+           (println e)))))

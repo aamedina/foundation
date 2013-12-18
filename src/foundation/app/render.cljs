@@ -37,9 +37,11 @@
 (defrecord Renderer [env render-fn]
   Lifecycle
   (start [this]
+    (println "Starting renderer ... ")
     ;; (c/start-system this components)
     )
   (stop [this]
+    (println "Stopping renderer ... ")
     ;; (c/stop-system this components)
     )
   
@@ -80,7 +82,8 @@
     render-queue))
 
 (defn renderer
-  ([root-id] (renderer root-id log-fn))
+  ([root-id]
+     (renderer root-id log-fn))
   ([root-id render-fn]
      (->Renderer (atom {:id root-id}) render-fn)))
 

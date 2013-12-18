@@ -254,9 +254,11 @@
   (-navigate [router uri method params])
   (-on-navigation [router e]))
 
-(defrecord Router [router routes app-state input]
+(defrecord Router [router routes]
   Lifecycle
   (start [router]
+    (println "Starting router ... ")
+    
     (doto (.-router router)
       (.setUseFragment false)
       (.addEventListener goog.history.EventType.NAVIGATE
@@ -266,6 +268,8 @@
     router)
   
   (stop [router]
+    (println "Stopping router ... ")
+    
     (doto (.-router router)
       (.setEnabled false))
     router)
@@ -288,11 +292,9 @@
         (.-token e)
         ""))))
 
-(defn router [app-state input-queue routes]
+(defn router [routes]
   (map->Router {:routes routes
-                :router (Html5History.)
-                :app-state app-state
-                :input input-queue}))
+                :router (Html5History.)}))
 
 (defn navigate!
   [router uri & {:keys [method params] :as args}]
