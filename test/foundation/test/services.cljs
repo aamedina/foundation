@@ -11,7 +11,8 @@
 
 (defmethod route [:get "/"]
   [req]
-  [{msg/type :init msg/path [] :value "Hello, world!"}])
+  [{msg/type :init msg/path [:datagrid]}
+   {msg/type :init msg/path [:dashboard]}])
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

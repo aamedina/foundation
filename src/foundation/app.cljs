@@ -5,6 +5,7 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [foundation.app.render :as render]
+            [foundation.app.message :as msg]
             [foundation.app.router :as r :refer [route]]
             [foundation.app.util :refer [log-group]]
             [foundation.app.data.tracking-map :as tm]
@@ -13,21 +14,37 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                    [cljs.core.match.macros :refer [match]]))
 
+(defmulti transform
+  (fn [state message]
+    [(msg/type message) (msg/path message)]))
+
+(defmethod transform :default
+  [state message]
+  (println state message)
+  state)
+
 (defn transact-one
   [state message]
   (let [state (-> state (assoc :input message) (dissoc :effect))
-        old-state state
-        new-state state]
-    new-state))
+        old-state (get-in state (into [:data-model] (msg/path message)))
+        new-state (update-in state (into [:data-model] (msg/path message))
+                             transform message)
+        deltas []]
+    (-> new-state
+        (assoc :deltas deltas))))
+
+(defn transact-batch
+  [state messages]
+  (reduce transact-one state messages))
 
 (defn input-queue
   [app-state]
   (let [input-queue (chan (sliding-buffer 32))]
     (go-loop []
-      (let [message (<! input-queue)]
-        (println message)
-        ;; (swap! app-state transact-one message)
-        )
+      (let [input (<! input-queue)]
+        (if (vector? input)
+          (swap! app-state transact-batch input)
+          (swap! app-state transact-one input)))
       (recur))
     input-queue))
 

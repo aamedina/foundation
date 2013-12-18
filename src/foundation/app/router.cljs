@@ -172,8 +172,7 @@
   PersistentVector
   (-response [messages request]
     (when-let [input-queue (get-in request [:router :input])]
-      (doseq [message messages]
-        (put! input-queue message))))
+      (put! input-queue messages)))
 
   ManyToManyChannel
   (-response [c request] (async/map> #(-response % request) c))
