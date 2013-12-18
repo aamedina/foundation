@@ -11,6 +11,8 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                    [cljs.core.match.macros :refer [match]]))
 
+(def ^:dynamic *app* nil)
+
 (defn transact-one
   [state message]
   (let [state (-> state (assoc :input message) (dissoc :effect))

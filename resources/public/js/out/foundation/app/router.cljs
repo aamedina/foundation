@@ -4,6 +4,7 @@
             [clojure.set :as set]
             [dommy.core :as dom]
             [foundation.app.ui :as ui]
+            [foundation.app :as app :refer [*app*]]
             [cljs.core.async :as async :refer [put! chan >! <!]]
             [cljs.core.async.impl.channels :refer [ManyToManyChannel]]
             [foundation.app.xhr :as xhr])
@@ -171,7 +172,10 @@
     (-response (deref ref) request))
 
   PersistentVector
-  (-response [body _] (node body))
+  (-response [messages _]
+    (when-let [input-queue (:input *app*)]
+      (doseq [message messages]
+        (put! (:input *app*) message))))
 
   ManyToManyChannel
   (-response [c _] (async/map> -response c))
