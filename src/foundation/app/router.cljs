@@ -178,17 +178,17 @@
         (put! (:input *app*) message))))
 
   ManyToManyChannel
-  (-response [c _] (async/map> -response c))
+  (-response [c request] (async/map> #(-response % request) c))
 
   MultiFn
   (-response [multifn req]
     (-response (multifn req) req))
 
   default
-  (-response [o _]
+  (-response [o req]
     (cond
       (implements? ui/IComponent o) (ui/render o)
-      (sequential? o) (map -response o)
+      (sequential? o) (map #(-response % req) o)
       :else o)))
 
 (defn method-matches?
