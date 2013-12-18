@@ -4,8 +4,8 @@
  "sources":["test.cljs"],
  "lineCount":20,
  "mappings":
- ";AAAA;;;;;;;;;;AAOA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,+CAAA,xCAAaC",
+ ";AAAA;;;;;;;;;;AAOA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,AAAKC,4BAAU,yBAAA,zBAACC;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,4CAAA,2CAAA,mDAAA,IAAA,yDAAA,hMAACC",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
   "js/location.reload", "foundation.test/app-state", "cljs.core/atom",
-  "foundation.test/-main", "foundation.app.router/router"]}
+  "foundation.test/-main", "foundation.test.routes/app"]}

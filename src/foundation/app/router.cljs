@@ -168,6 +168,10 @@
   ManyToManyChannel
   (-render [c _] (async/map> -render c))
 
+  MultiFn
+  (-render [multifn req]
+    (-render (multifn req) req))
+
   default
   (-render [o _]
     (if (sequential? o)
@@ -246,7 +250,8 @@
   (if (Html5History/isSupported)
     (doto (Html5History.)
       (.setUseFragment false)
-      (.addEventListener goog.history.EventType.NAVIGATE on-navigate))))
+      (.addEventListener goog.history.EventType.NAVIGATE on-navigate)
+      (.setEnabled true))))
 
 (defn route!
   [method uri & {:keys [params]}]

@@ -7,21 +7,21 @@ goog.require('goog.events.EventTarget');
 goog.require('goog.events.EventTarget');
 goog.require('goog.events');
 goog.require('goog.events');
-clojure.browser.event.EventType = (function (){var obj45976 = {};return obj45976;
+clojure.browser.event.EventType = (function (){var obj26429 = {};return obj26429;
 })();
-clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__8186__auto__ = this$;if(and__8186__auto__)
+clojure.browser.event.event_types = (function event_types(this$){if((function (){var and__8218__auto__ = this$;if(and__8218__auto__)
 {return this$.clojure$browser$event$EventType$event_types$arity$1;
 } else
-{return and__8186__auto__;
+{return and__8218__auto__;
 }
 })())
 {return this$.clojure$browser$event$EventType$event_types$arity$1(this$);
 } else
-{var x__8806__auto__ = (((this$ == null))?null:this$);return (function (){var or__8198__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__8806__auto__)]);if(or__8198__auto__)
-{return or__8198__auto__;
+{var x__8838__auto__ = (((this$ == null))?null:this$);return (function (){var or__8230__auto__ = (clojure.browser.event.event_types[goog.typeOf(x__8838__auto__)]);if(or__8230__auto__)
+{return or__8230__auto__;
 } else
-{var or__8198__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__8198__auto____$1)
-{return or__8198__auto____$1;
+{var or__8230__auto____$1 = (clojure.browser.event.event_types["_"]);if(or__8230__auto____$1)
+{return or__8230__auto____$1;
 } else
 {throw cljs.core.missing_protocol.call(null,"EventType.event-types",this$);
 }
@@ -30,11 +30,11 @@ clojure.browser.event.event_types = (function event_types(this$){if((function ()
 }
 });
 Element.prototype.clojure$browser$event$EventType$ = true;
-Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__45977){var vec__45978 = p__45977;var k = cljs.core.nth.call(null,vec__45978,0,null);var v = cljs.core.nth.call(null,vec__45978,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+Element.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__26430){var vec__26431 = p__26430;var k = cljs.core.nth.call(null,vec__26431,0,null);var v = cljs.core.nth.call(null,vec__26431,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 goog.events.EventTarget.prototype.clojure$browser$event$EventType$ = true;
-goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__45979){var vec__45980 = p__45979;var k = cljs.core.nth.call(null,vec__45980,0,null);var v = cljs.core.nth.call(null,vec__45980,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
+goog.events.EventTarget.prototype.clojure$browser$event$EventType$event_types$arity$1 = (function (this$){var this$__$1 = this;return cljs.core.into.call(null,cljs.core.PersistentArrayMap.EMPTY,cljs.core.map.call(null,(function (p__26432){var vec__26433 = p__26432;var k = cljs.core.nth.call(null,vec__26433,0,null);var v = cljs.core.nth.call(null,vec__26433,1,null);return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.keyword.call(null,k.toLowerCase()),v], null);
 }),cljs.core.merge.call(null,cljs.core.js__GT_clj.call(null,goog.events.EventType))));
 });
 clojure.browser.event.listen = (function() {

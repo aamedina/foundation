@@ -2,6 +2,10 @@
   (:require [foundation.app.router :as router :include-macros true
              :refer [defroutes GET POST PUT DELETE ANY context]]))
 
+(defmulti render-route (fn [req] (:uri req)))
+
+(defmethod render-route :default [req] (println req))
+
 (defroutes accounts
   (GET "/accounts" [])
   (GET "/accounts/:id" [id] id))
@@ -90,7 +94,7 @@
     (GET "/funding_instruments/:id" [id])))
 
 (defroutes app
-  (GET "/" [] [:h1 "Hello, world!"])
+  (GET "/" [:as req] render-route)
   accounts
   campaigns
   line-items
