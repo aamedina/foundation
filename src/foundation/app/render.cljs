@@ -9,7 +9,8 @@
                    [dommy.macros :refer [node sel sel1]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
-            MouseWheelHandler ActionEvent EventType KeyEvent ActionHandler]))
+            MouseWheelHandler ActionEvent EventType KeyEvent ActionHandler
+            FileDropHandler MouseWheelEvent OnlineHandler]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
@@ -48,17 +49,36 @@
     (let [action-handler (ActionHandler. js/document)
           key-handler (KeyHandler. js/document)
           focus-handler (FocusHandler. js/document)
+          file-drop-handler (FileDropHandler. js/document)
+          scroll-handler (MouseWheelHandler. js/document)
+          online-handler (OnlineHandler. js/document)
           handler (doto (EventHandler. renderer)
                     (.listen action-handler
                              ActionHandler.EventType.BEFOREACTION
                              (fn [e] (js/console.log e)))
-                    (.listen action-handler ActionHandler.EventType.ACTION
+                    (.listen action-handler
+                             ActionHandler.EventType.ACTION
                              (fn [e] (js/console.log e)))
-                    (.listen key-handler KeyHandler.EventType.KEY
+                    (.listen key-handler
+                             KeyHandler.EventType.KEY
                              (fn [e] (js/console.log e)))
-                    (.listen focus-handler FocusHandler.EventType.FOCUSIN
+                    (.listen focus-handler
+                             FocusHandler.EventType.FOCUSIN
                              (fn [e] (js/console.log e)))
-                    (.listen focus-handler FocusHandler.EventType.FOCUSOUT
+                    (.listen focus-handler
+                             FocusHandler.EventType.FOCUSOUT
+                             (fn [e] (js/console.log e)))
+                    (.listen file-drop-handler
+                             FileDropHandler.EventType.DROP
+                             (fn [e] (js/console.log e)))
+                    (.listen scroll-handler
+                             MouseWheelHandler.EventType.MOUSEWHEEL
+                             (fn [e] (js/console.log e)))
+                    (.listen online-handler
+                             OnlineHandler.EventType.ONLINE
+                             (fn [e] (js/console.log e)))
+                    (.listen online-handler
+                             OnlineHandler.EventType.OFFLINE
                              (fn [e] (js/console.log e))))
           
           render-fn (fn []
@@ -68,7 +88,10 @@
              :action action-handler
              :key key-handler
              :event handler
-             :focus focus-handler)
+             :focus focus-handler
+             :file file-drop-handler
+             :online online-handler
+             :scroll scroll-handler)
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
