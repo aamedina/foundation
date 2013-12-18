@@ -1,0 +1,10 @@
+{"version":3,
+ "file":
+ "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/models.js",
+ "sources":["models.cljs"],
+ "lineCount":9,
+ "mappings":
+ ";AAAA;;;AAGA,AAAKA,iCAAQ,KAAAC,SAAA;AACb,AAAKC,kCAAS,KAAAD,SAAA;AAEd,AAAeE,yCAAMH",
+ "names":
+ ["foundation.test.models/ads-api", "goog/Uri",
+  "foundation.test.models/rest-api", "foundation.test.models/*api*"]}

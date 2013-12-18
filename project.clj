@@ -12,7 +12,7 @@
                  [ring "1.2.0"]
                  [formative "0.8.7"]
                  [cljs-time "0.1.0-SNAPSHOT"]
-                 [compojure "1.1.6"]
+                 [compojure "1.1.5"]
                  [riddley "0.1.6"]
                  [inflections "0.9.5"]
                  [secretary "0.4.0"]

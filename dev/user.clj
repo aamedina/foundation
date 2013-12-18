@@ -20,10 +20,11 @@
    [clojure.tools.namespace.repl :refer (refresh refresh-all)]
    [cemerick.austin]
    [cemerick.austin.repls :as repls :refer [browser-repl-env exec]]
-   [compojure.core :refer (GET POST defroutes)]
+   [compojure.core :refer (GET ANY POST defroutes)]
    [compojure.route :as route]
-   [compojure.handler]
+   [compojure.handler :refer [site]]
    [net.cgrand.enlive-html :as enlive :refer [deftemplate]]
+   [ring.util.response :as res]
    [ring.adapter.jetty :refer (run-jetty)]))
 
 (deftemplate index
@@ -34,9 +35,29 @@
    (enlive/html [:script (repls/browser-connected-repl-js)])))
 
 (defroutes app
-  (route/resources "/" {:root "resources/public"})
-  (route/files "/" {:root "resources/public"})
-  (GET "/*" [] (index)))
+  (route/resources "/")
+  (ANY "*" req (index)))
+
+;; (def ^:dynamic *base-url* nil)
+
+;; (defmacro with-base-url
+;;   "Sets a base URL that will be prepended onto relative URIs. Note that for 
+;;   this to work correctly, it needs to be placed outside the html macro."
+;;   [base-url & body]
+;;   `(binding [*base-url* ~base-url]
+;;      ~@body))
+
+;; (defn wrap-base-url
+;;   "Ring middleware that wraps the handler in the with-base-url function. The
+;;   base URL may be specified as an argument. Otherwise, the :context key on the
+;;   request map is used."
+;;   [handler & [base-url]]
+;;   (fn [request]
+;;     (with-base-url (or base-url (:context request))
+;;       (handler request))))
+
+;; (def app (-> (site app-routes)
+;;              (wrap-base-url)))
 
 (def system
   "A Var containing an object representing the application under
@@ -51,15 +72,14 @@
    #'system
    (fn [system]
      (if-not (:server system)
-       {:server (doto (run-jetty #'app {:port 3000 :join? false})
-                  (.start))
+       {:server (run-jetty #'app {:port 3000 :join? false})
         :repl-env (reset! browser-repl-env (cemerick.austin/repl-env))}
        (do (.start (:server system)) system)))))
+
 (defn start
   "Starts the system running, updates the Var #'system."
   []
-  (cemerick.austin.repls/cljs-repl (:repl-env system)
-                                   :optimizations :none))
+  (cemerick.austin.repls/cljs-repl (:repl-env system) :optimizations :none))
 
 (defn stop
   "Stops the system if it is currently running, updates the Var

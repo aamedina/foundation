@@ -9,9 +9,12 @@
                     :refer [defroutes GET POST PUT DELETE ANY context]]
                    [dommy.macros :refer [node sel sel1]]
                    [cljs.core.async.macros :refer [go go-loop]])
-  (:import [goog.history Html5History]))
+  (:import [goog.history Html5History]
+           [goog Uri]))
 
 (enable-console-print!)
+
+(def ^:dynamic *routes* nil)
 
 (def re-chars (reduce #(assoc %1 %2 (str \\ %2)) {} (set "\\.*+|?()[]{}$^")))
 
@@ -241,6 +244,7 @@
 
 (defn on-navigate
   [e]
+  (println "Navigation: " (if (empty? (.-token e)) "\"\"" (.-token e)))
   (when (.-isNavigation e)
     (if (not= "index" (.-token e))
       (.-token e)
@@ -253,6 +257,8 @@
       (.addEventListener goog.history.EventType.NAVIGATE on-navigate)
       (.setEnabled true))))
 
-(defn route!
-  [method uri & {:keys [params]}]
-  (.setToken router uri))
+(defn navigate!
+  [uri & {:keys [method params]}]
+  (let [token (str/replace uri #"^/" "")]
+    (.setToken router token)
+    (*routes* {:uri uri :method method})))

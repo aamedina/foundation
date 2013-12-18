@@ -1,6 +1,8 @@
 (ns foundation.app.util
   (:require [cljs.reader :as reader]))
 
+(def ^:dynamic *debug* false)
+
 (defn safe-read-string [s]
   (reader/read-string s))
 
