@@ -11,7 +11,6 @@
 
 (defmethod route [:get "/"]
   [req]
-  (println "Hello, world!")
   [{msg/type :init msg/path [] :value "Hello, world!"}])
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]

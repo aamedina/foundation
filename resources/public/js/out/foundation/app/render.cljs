@@ -37,11 +37,9 @@
 (defrecord Renderer [env render-fn]
   Lifecycle
   (start [this]
-    (println "Starting renderer ... ")
     ;; (c/start-system this components)
     )
   (stop [this]
-    (println "Stopping renderer ... ")
     ;; (c/stop-system this components)
     )
   

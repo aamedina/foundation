@@ -6,6 +6,7 @@
             [clojure.string :as str]
             [foundation.app.render :as render]
             [foundation.app.router :as r :refer [route]]
+            [foundation.app.util :refer [log-group]]
             [foundation.app.data.tracking-map :as tm]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d])
@@ -41,7 +42,13 @@
 (defrecord Dataflow [state input output renderer render-queue router]
   Lifecycle
   (start [df]
-    (c/start-system df #{:router :renderer}))
+    (c/start-system df #{:router :renderer})
+    (log-group
+     "System initialization"
+     [["Router initialized."]
+      ["Renderer initialized."]
+      [(c/dependency-graph df [:router :renderer])]])
+    df)
   (stop [df]
     (c/stop-system df #{:router :renderer})))
 

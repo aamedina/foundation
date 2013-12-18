@@ -257,8 +257,6 @@
 (defrecord Router [router routes]
   Lifecycle
   (start [router]
-    (println "Starting router ... ")
-    
     (doto (.-router router)
       (.setUseFragment false)
       (.addEventListener goog.history.EventType.NAVIGATE
@@ -268,8 +266,6 @@
     router)
   
   (stop [router]
-    (println "Stopping router ... ")
-    
     (doto (.-router router)
       (.setEnabled false))
     router)
