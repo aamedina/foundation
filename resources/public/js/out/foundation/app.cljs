@@ -5,14 +5,12 @@
             [clojure.set :as set]
             [clojure.string :as str]
             [foundation.app.render :as render]
-            [foundation.app.router :as r]
+            [foundation.app.router :as r :refer [route]]
             [foundation.app.data.tracking-map :as tm]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                    [cljs.core.match.macros :refer [match]]))
-
-(def ^:dynamic *app* nil)
 
 (defn transact-one
   [state message]
@@ -40,16 +38,20 @@
                  (put! output-queue new)))
     output-queue))
 
-(defrecord Dataflow [state input output renderer router]
+(defrecord Dataflow [state input output renderer render-queue router]
   Lifecycle
-  (start [df])
-  (stop [df]))
+  (start [df]
+    )
+  (stop [df]
+    ))
 
 (defn build
   [& {:keys [root-id routes] :as config}]
   (let [app-state (atom {:data-model (tm/tracking-map {})})
-        router (r/router app-state routes)
-        [input output renderer]
-        ((juxt input-queue output-queue identity) app-state)]
+        input (input-queue app-state)
+        output (output-queue app-state)
+        router (r/router app-state input routes)
+        renderer (render/renderer root-id)
+        render-queue (render/push-render-queue renderer input)]
     (r/navigate! router js/document.location.href :method :get)
-    (Dataflow. app-state input output renderer router)))
+    (Dataflow. app-state input output renderer render-queue router)))

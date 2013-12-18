@@ -2,9 +2,9 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test.js",
  "sources":["test.cljs"],
- "lineCount":24,
+ "lineCount":21,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;AASA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,0MAAA,tMAAMC,MAAI,+BAAA,2DAAA,UAAA,pGAACC,6JAAqCC,mCAC9CF",
+ ";AAAA;;;;;;;;;;;;AAQA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,0MAAA,tMAAMC,MAAI,+BAAA,2DAAA,UAAA,pGAACC,6JAAqCC,mCAC9CF",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
   "js/location.reload", "foundation.test/-main", "app",

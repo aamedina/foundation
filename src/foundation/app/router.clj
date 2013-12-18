@@ -82,22 +82,6 @@
   [path args & body]
   (compile-route nil path args body))
 
-(defn- remove-suffix [path suffix]
-  (subs path 0 (- (count path) (count suffix))))
-
-(defn- wrap-context [handler]
-  (fn [request]
-    (let [uri     (:uri request)
-          path    (:path-info request uri)
-          context (or (:context request) "")
-          subpath (-> request :route-params :__path-info)]
-      (handler
-       (-> request
-           (assoc :path-info (if (= subpath "") "/" subpath))
-           (assoc :context (remove-suffix uri subpath))
-           (update-in [:params] dissoc :__path-info)
-           (update-in [:route-params] dissoc :__path-info))))))
-
 (defn- context-route [route]
   (let [re-context {:__path-info #"/.*"}]
     (cond

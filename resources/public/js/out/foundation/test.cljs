@@ -2,7 +2,6 @@
   (:require [clojure.browser.repl]
             [clojure.string :as str]
             [foundation.app :as app]
-            [foundation.app.router :as r :refer [navigate! route]]
             [foundation.test.services :as services]
             [foundation.test.routes :as routes :refer [app-routes]])
   (:require-macros [secretary.macros :refer [defroute]]))

@@ -170,10 +170,10 @@
     (-response (deref ref) request))
 
   PersistentVector
-  (-response [messages _]
-    (when-let [input-queue (:input messages)]
+  (-response [messages request]
+    (when-let [input-queue (get-in request [:router :input])]
       (doseq [message messages]
-        (put! (:input messages) message))))
+        (put! input-queue message))))
 
   ManyToManyChannel
   (-response [c request] (async/map> #(-response % request) c))
@@ -254,7 +254,7 @@
   (-navigate [router uri method params])
   (-on-navigation [router e]))
 
-(defrecord Router [router routes app]
+(defrecord Router [router routes app-state input]
   Lifecycle
   (start [router]
     (doto (.-router router)
@@ -263,21 +263,23 @@
                          (partial -on-navigation router))
       (.setEnabled true))
     router)
+  
   (stop [router]
     (doto (.-router router)
       (.setEnabled false))
     router)
   
   IRouter
-  (-navigate [_ uri method params]
+  (-navigate [router uri method params]
     (let [uri (Uri. uri)
           path (str/replace (.getPath uri) #"^/" "")]
-      (.setToken router path)
+      (.setToken (.-router router) path)
       (routes {:uri (.getPath uri)
                :method method
                :params (->> (str/split (str (.getQuery uri)) #"=")
                             (apply hash-map)
-                            (clojure.walk/keywordize-keys))})))
+                            (clojure.walk/keywordize-keys))
+               :router router})))
 
   (-on-navigation [router e]
     (when (.-isNavigation e)
@@ -285,10 +287,11 @@
         (.-token e)
         ""))))
 
-(defn router [app routes]
+(defn router [app-state input-queue routes]
   (c/start (map->Router {:routes routes
                          :router (Html5History.)
-                         :app app})))
+                         :app-state app-state
+                         :input input-queue})))
 
 (defn navigate!
   [router uri & {:keys [method params] :as args}]

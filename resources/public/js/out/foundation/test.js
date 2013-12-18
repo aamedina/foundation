@@ -1,19 +1,16 @@
 // Compiled by ClojureScript 0.0-2120
 goog.provide('foundation.test');
 goog.require('cljs.core');
-goog.require('foundation.app.router');
 goog.require('foundation.test.routes');
-goog.require('foundation.app');
 goog.require('foundation.test.routes');
-goog.require('foundation.app.router');
+goog.require('foundation.test.routes');
 goog.require('foundation.test.services');
-goog.require('clojure.string');
+goog.require('foundation.test.services');
+goog.require('foundation.app');
 goog.require('foundation.app');
 goog.require('clojure.string');
-goog.require('foundation.test.services');
+goog.require('clojure.string');
 goog.require('clojure.browser.repl');
-goog.require('foundation.test.routes');
-goog.require('foundation.app.router');
 cljs.core.enable_console_print_BANG_.call(null);
 foundation.test.reset = (function reset(){return location.reload(true);
 });

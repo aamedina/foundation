@@ -34,7 +34,7 @@
   (-get-data [_ path])
   (-drop-data [_ path]))
 
-(defrecord Renderer [env]
+(defrecord Renderer [env render-fn]
   Lifecycle
   (start [this]
     ;; (c/start-system this components)
@@ -67,12 +67,11 @@
            (concat [:_data] (butlast path)) dissoc (last path))))
 
 (defn push-render-queue
-  [root-id input-queue]
-  (let [renderer (->Renderer (atom {:id root-id}))
-        render-queue (chan)]
+  [renderer input-queue]
+  (let [render-queue (chan)]
     (go-loop []
       (let [delta (<! render-queue)
-            [op path] delta]
+            [op path _ _ :as d] delta]
         (if-let [id (-get-id renderer path)]
           (render renderer delta (-parent-id renderer path) id)
           (render renderer delta (-parent-id renderer path)
@@ -81,18 +80,11 @@
     render-queue))
 
 (defn renderer
-  ([root-id] (renderer root-id identity))
+  ([root-id] (renderer root-id log-fn))
   ([root-id render-fn]
-     (let [renderer (->Renderer (atom {:id root-id}))]
-       (fn [deltas input-queue]
-         (when (seq deltas)
-           (render-fn deltas))
-         (doseq [[op path :as d] deltas]
-           (if-let [id (-get-id renderer path)]
-             (render renderer d (-parent-id renderer path) id)
-             (render renderer d (-parent-id renderer path)
-                           (-new-id renderer path))))))))
+     (->Renderer (atom {:id root-id}) render-fn)))
 
 (defmethod render :default
   [renderer [op path _ _] pid id]
+  "Default render implementation. Implemented as a no-op and returns nil."
   (println [op path]))

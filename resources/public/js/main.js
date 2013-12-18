@@ -37,7 +37,7 @@ goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['c
 goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.net.xpc.CrossPageChannel', 'clojure.browser.event', 'goog.net.xpc.CfgFields', 'cljs.core', 'goog.net.EventType', 'goog.json', 'goog.net.XhrIo']);
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
 goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'clojure.string', 'clojure.set', 'foundation.app.router']);
-goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'clojure.string', 'foundation.app', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes', 'foundation.app.router']);
+goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'clojure.string', 'foundation.app', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes']);
 goog.addDependency("../foundation/app/data/combinatorics.js", ['foundation.app.data.combinatorics'], ['cljs.core']);
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
 goog.addDependency("../foundation/test/components/chart.js", ['foundation.test.components.chart'], ['cljs.core', 'dommy.core', 'cljs_time.core']);
