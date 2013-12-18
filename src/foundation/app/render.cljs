@@ -3,7 +3,10 @@
             [cljs.core.async :as async :refer [<! put! >! take! chan]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d])
-  (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
+  (:require-macros [cljs.core.async.macros :refer [go-loop go]])
+  (:import [goog.ui IdGenerator]
+           [goog.events EventHandler InputHandler FocusHandler KeyHandler
+            MouseWheelHandler ActionEvent]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
@@ -39,8 +42,11 @@
 (defrecord Renderer [env render-fn]
   Lifecycle
   (start [renderer]
-    (let [rootf (fn []
-                  (set! refresh-queued false))]
+    (let [handler (EventHandler. renderer)
+          rootf (fn []
+                  (set! refresh-queued false)
+                  )]
+      (js/console.log handler)
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
