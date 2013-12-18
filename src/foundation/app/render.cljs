@@ -2,11 +2,12 @@
   (:require [foundation.app.util :as util]
             [cljs.core.async :as async :refer [<! put! >! take! chan]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
-            [foundation.app.data.dependency :as d])
+            [foundation.app.data.dependency :as d]
+            [goog.events :as e])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]])
   (:import [goog.ui IdGenerator]
            [goog.events EventHandler InputHandler FocusHandler KeyHandler
-            MouseWheelHandler ActionEvent]))
+            MouseWheelHandler ActionEvent EventType]))
 
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
@@ -42,7 +43,9 @@
 (defrecord Renderer [env render-fn]
   Lifecycle
   (start [renderer]
-    (let [handler (EventHandler. renderer)
+    (let [handler (doto (EventHandler. renderer)
+                    (.listen js/document.body EventType.CLICK
+                             (fn [e] (js/console.log e))))
           rootf (fn []
                   (set! refresh-queued false)
                   )]
