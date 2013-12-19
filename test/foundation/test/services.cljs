@@ -115,8 +115,10 @@
 (defmethod route [:get "/accounts/:account-id/promoted_accounts"]
   [req]
   (go (let [account-id (get-in req [:params :account-id])
+            line-item-id (get-in req [:params :line_item_id])
             models (<! (m/fetch models/promoted-accounts
-                                :params {:account-id account-id}))
+                                :params {:account-id account-id
+                                         :line_item_id line-item-id}))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
@@ -129,8 +131,10 @@
   [req]
   (go (let [id (get-in req [:params :id])
             account-id (get-in req [:params :id])
+            line-item-id (get-in req [:params :line_item_id])
             models (<! (m/fetch models/promoted-accounts
-                                :params {:account-id account-id}))
+                                :params {:account-id account-id
+                                         :line_item_id line-item-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-account-stats))]
@@ -141,8 +145,10 @@
 (defmethod route [:get "/accounts/:account-id/promoted_tweets"]
   [req]
   (go (let [account-id (get-in req [:params :account-id])
+            line-item-id (get-in req [:params :line_item_id])
             models (<! (m/fetch models/promoted-tweets
-                                :params {:account-id account-id}))
+                                :params {:account-id account-id
+                                         :line_item_id line-item-id}))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
@@ -155,8 +161,10 @@
   [req]
   (go (let [id (get-in req [:params :id])
             account-id (get-in req [:params :account-id])
+            line-item-id (get-in req [:params :line_item_id])
             models (<! (m/fetch models/promoted-tweets
-                                :params {:account-id account-id}))
+                                :params {:account-id account-id
+                                         :line_item_id line-item-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-tweet-stats))]
