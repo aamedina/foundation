@@ -184,11 +184,7 @@
     (-response (multifn req) req))
 
   default
-  (-response [o req]
-    (cond
-      (implements? ui/IComponent o) (ui/render o)
-      (sequential? o) (map #(-response % req) o)
-      :else o)))
+  (-response [o req] o))
 
 (defn method-matches?
   [method request]
@@ -274,9 +270,6 @@
   (-navigate [router uri method params]
     (let [uri (Uri. uri)
           path (str/replace (.getPath uri) #"^/" "")]
-      ;; (when-not (= (.getPath (Uri. js/window.location.href)) (.getPath uri))
-      ;;   (set! js/document.location.href
-      ;;         (str (.setPath (Uri. js/window.location.href) path))))
       (.setToken (.-router router) path)
       (routes {:uri (.getPath uri)
                :method method

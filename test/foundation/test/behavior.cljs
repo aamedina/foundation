@@ -8,7 +8,7 @@
 
 (defmethod transform [:init [:dashboard]]
   [state message]
-  {})
+  {:model (:model message)})
 
 (defmethod transform [:load [:datagrid :collection]]
   [state message]

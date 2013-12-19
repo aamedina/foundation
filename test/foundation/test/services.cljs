@@ -1,17 +1,23 @@
 (ns foundation.test.services
   (:require [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [goog.date :as date]
-            [foundation.app :as app :refer [effect]]
+            [clojure.set :as set]
+            [foundation.app :as app]
             [foundation.app.message :as msg]
             [foundation.app.models :as m]
             [foundation.test.models :as models]
+            [foundation.test.routes :refer [app-routes]]
             [foundation.app.router :refer [route]]
             [foundation.app.xhr :as xhr])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]))
 
-(defn init [resource]
-  [{msg/type :init msg/path [:dashboard]}
+(defn init [resource model]
+  [{msg/type :init msg/path [:dashboard] :model model}
    {msg/type :init msg/path [:datagrid] :resource resource}])
+
+(defn get-route
+  [path params]
+  (app-routes {:uri path :method :get :params params}))
 
 (defmethod route [:get "/"]
   [req]
@@ -23,14 +29,19 @@
 
 (defmethod route [:get "/accounts"]
   [req]
-  (go (->> [{msg/type :load msg/path [:datagrid :collection]             
-             :collection (<! (m/fetch models/accounts))}]
-           (into (init models/accounts)))))
+  (go (let [models (<! (m/fetch models/accounts))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/accounts (first models)))))))
 
 (defmethod route [:get "/accounts/:id"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/accounts))
+            model (set/select #(= (:id %) id) (set models))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/accounts model))))))
 
 (defmethod route [:get "/accounts/account-id/campaigns"]
   [req]
@@ -123,6 +134,21 @@
                      "HOUR"
                      (models/start-time models/promoted-tweet-stats)
                      (models/end-time models/promoted-tweet-stats))))
+
+(defn simple-get
+  [req query-params]
+  (let [uri (str models/ads-api (:uri req)
+                 (when (seq query-params)
+                   (m/query-params query-params)))]
+    (go (set (<! (xhr/GET uri))))))
+
+(defmethod route [:get "/targeting_criteria/locations"]
+  [req]
+  (go (set (<! (xhr/GET (str models/ads-api (:uri req)))))))
+
+(defmethod route [:get "/targeting_criteria/interests"]
+  [req]
+  (go (set (<! (xhr/GET (str models/ads-api (:uri req)))))))
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

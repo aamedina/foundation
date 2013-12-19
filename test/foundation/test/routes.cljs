@@ -2,8 +2,15 @@
   (:require [foundation.app.router :as router :include-macros true
              :refer [defroutes GET POST PUT DELETE ANY context]]
             [foundation.app.router :refer [route]]
+            [foudnation.app.xhr :as xhr]
+            [foundation.app.models :as m]
+            [foundation.test.models :as models]
+            [cljs.core.async :refer [<! >! put! take! chan]]
             [clojure.set :as set]
-            [clojure.string :as str]))
+            [clojure.string :as str])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+
+(declare simple-get)
 
 (defroutes accounts
   (GET "/accounts" [] route)
@@ -45,12 +52,12 @@
   (context "/accounts/:account-id" [account-id]
     (GET "/promotable_users" [] route)
     (GET "/scoped_timeline" [] route))
-  (GET "/statuses/scoped_timeline" [] route))
+  (GET "/statuses/scoped_timeline" [] simple-get))
 
 (defroutes funding-instruments
   (context "/accounts/:account-id" [account-id]
-    (GET "/funding_instruments/:id" [id]))
-  (GET "/bidding_rules" []))
+    (GET "/funding_instruments/:id" [id] route))
+  (GET "/bidding_rules" [] simple-get))
 
 (defroutes targeting-criteria
   (context "/accounts/:account-id" [account-id]
@@ -60,19 +67,19 @@
     (PUT "/targeting_criteria/:id" [id] route)
     (DELETE "/targeting_criteria/:id" [id] route)
 
-    (GET "/targeting_criteria/tailored_audiences" [] route)
+    (GET "/targeting_criteria/tailored_audiences" [] simple-get)
 
-    (GET "/reach_estimate" [id] route)
-    (GET "/brands_tv" [id] route)
-    (GET "/targeting_suggestions" [id] route))
+    (GET "/reach_estimate" [id] simple-get)
+    (GET "/brands_tv" [id] simple-get)
+    (GET "/targeting_suggestions" [id] simple-get))
   
-  (GET "/targeting_criteria/locations" [] route)
-  (GET "/targeting_criteria/interests" [] route)
-  (GET "/targeting_criteria/platforms" [] route)
-  (GET "/targeting_criteria/devices" [] route)
-  (GET "/targeting_criteria/tv_shows" [] route)
-  (GET "/targeting_criteria/tv_markets" [] route)
-  (GET "/targeting_criteria/platform_versions" [] route))
+  (GET "/targeting_criteria/locations" [] simple-get)
+  (GET "/targeting_criteria/interests" [] simple-get)
+  (GET "/targeting_criteria/platforms" [] simple-get)
+  (GET "/targeting_criteria/devices" [] simple-get)
+  (GET "/targeting_criteria/tv_shows" [] simple-get)
+  (GET "/targeting_criteria/tv_markets" [] simple-get)
+  (GET "/targeting_criteria/platform_versions" [] simple-get))
 
 (defroutes analytics
   (GET "/stats/accounts/:id" [id] route)
@@ -103,3 +110,10 @@
   targeting-criteria
   promoted-products
   analytics)
+
+(defn simple-get
+  [req query-params]
+  (let [uri (str models/ads-api (:uri req)
+                 (when (seq query-params)
+                   (m/query-params query-params)))]
+    (go (set (<! (xhr/GET uri))))))
