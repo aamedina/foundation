@@ -2,7 +2,7 @@
   (:require [foundation.app.router :as router :include-macros true
              :refer [defroutes GET POST PUT DELETE ANY context]]
             [foundation.app.router :refer [route]]
-            [foudnation.app.xhr :as xhr]
+            [foundation.app.xhr :as xhr]
             [foundation.app.models :as m]
             [foundation.test.models :as models]
             [cljs.core.async :refer [<! >! put! take! chan]]
@@ -10,7 +10,7 @@
             [clojure.string :as str])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(declare simple-get)
+(declare simple-get stats-request)
 
 (defroutes accounts
   (GET "/accounts" [] route)
@@ -82,22 +82,22 @@
   (GET "/targeting_criteria/platform_versions" [] simple-get))
 
 (defroutes analytics
-  (GET "/stats/accounts/:id" [id] route)
+  (GET "/stats/accounts/:id" [id] stats-request)
   (context "/stats/accounts/:account-id" [id]
-    (GET "/campaigns" [] route)
-    (GET "/campaigns/:id" [id] route)
+    (GET "/campaigns" [] stats-request)
+    (GET "/campaigns/:id" [id] stats-request)
     
-    (GET "/line_items" [] route)
-    (GET "/line_items/:id" [id] route)
+    (GET "/line_items" [] stats-request)
+    (GET "/line_items/:id" [id] stats-request)
     
-    (GET "/promoted_accounts" [] route)
-    (GET "/promoted_accounts/:id" [id] route)
+    (GET "/promoted_accounts" [] stats-request)
+    (GET "/promoted_accounts/:id" [id] stats-request)
     
-    (GET "/promoted_tweets" [] route)
-    (GET "/promoted_tweets/:id" [id] route)
+    (GET "/promoted_tweets" [] stats-request)
+    (GET "/promoted_tweets/:id" [id] stats-request)
     
-    (GET "/funding_instruments" [] route)
-    (GET "/funding_instruments/:id" [id] route)))
+    (GET "/funding_instruments" [] stats-request)
+    (GET "/funding_instruments/:id" [id] stats-request)))
 
 (defroutes app-routes
   (GET "/" [] route)
@@ -117,3 +117,7 @@
                  (when (seq query-params)
                    (m/query-params query-params)))]
     (go (set (<! (xhr/GET uri))))))
+
+(defn stats-request
+  [{:keys [uri stats-params params query-params model] :as req}]
+  (go (<! (xhr/GET (m/reify-url model params query-params)))))

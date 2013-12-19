@@ -4,8 +4,8 @@ goog.require('cljs.core');
 goog.require('cljs.core.async');
 goog.require('foundation.app.router');
 goog.require('foundation.app.router');
-goog.require('foudnation.app.xhr');
 goog.require('foundation.app.models');
+goog.require('foundation.app.xhr');
 goog.require('foundation.test.models');
 goog.require('clojure.set');
 goog.require('clojure.string');
@@ -14,7 +14,7 @@ goog.require('clojure.set');
 goog.require('foundation.test.models');
 goog.require('foundation.app.models');
 goog.require('cljs.core.async');
-goog.require('foudnation.app.xhr');
+goog.require('foundation.app.xhr');
 goog.require('foundation.app.router');
 foundation.test.routes.accounts = foundation.app.router.routes.call(null,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/accounts"),(function (request__183918__auto__){return foundation.app.router.route;
 })),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/accounts/:id"),(function (request__183918__auto__){var id = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
@@ -74,26 +74,26 @@ foundation.test.routes.targeting_criteria = foundation.app.router.routes.call(nu
 })),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/targeting_criteria/tv_markets"),(function (request__183918__auto__){return foundation.test.routes.simple_get;
 })),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/targeting_criteria/platform_versions"),(function (request__183918__auto__){return foundation.test.routes.simple_get;
 })));
-foundation.test.routes.analytics = foundation.app.router.routes.call(null,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/stats/accounts/:id"),(function (request__183918__auto__){var id = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
-})),foundation.app.router.if_route.call(null,foundation.app.router.route_compile.call(null,"/stats/accounts/:account-id:__path-info",new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"__path-info","__path-info",4484183272),/\/.*/], null)),foundation.app.router.wrap_context.call(null,(function (request__183962__auto__){var id = cljs.core.get_in.call(null,request__183962__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183962__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.routing.call(null,request__183962__auto__,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/campaigns"),(function (request__183918__auto__){return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/campaigns/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/line_items"),(function (request__183918__auto__){return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/line_items/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_accounts"),(function (request__183918__auto__){return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_accounts/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_tweets"),(function (request__183918__auto__){return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_tweets/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/funding_instruments"),(function (request__183918__auto__){return foundation.app.router.route;
-})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/funding_instruments/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.route;
+foundation.test.routes.analytics = foundation.app.router.routes.call(null,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/stats/accounts/:id"),(function (request__183918__auto__){var id = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
+})),foundation.app.router.if_route.call(null,foundation.app.router.route_compile.call(null,"/stats/accounts/:account-id:__path-info",new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"__path-info","__path-info",4484183272),/\/.*/], null)),foundation.app.router.wrap_context.call(null,(function (request__183962__auto__){var id = cljs.core.get_in.call(null,request__183962__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183962__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.app.router.routing.call(null,request__183962__auto__,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/campaigns"),(function (request__183918__auto__){return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/campaigns/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/line_items"),(function (request__183918__auto__){return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/line_items/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_accounts"),(function (request__183918__auto__){return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_accounts/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_tweets"),(function (request__183918__auto__){return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/promoted_tweets/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/funding_instruments"),(function (request__183918__auto__){return foundation.test.routes.stats_request;
+})),foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/funding_instruments/:id"),(function (request__183918__auto__){var id__$1 = cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),new cljs.core.Keyword(null,"id","id",1013907597)], null),cljs.core.get_in.call(null,request__183918__auto__,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"params","params",4313443576),"id"], null)));return foundation.test.routes.stats_request;
 })));
 }))));
 foundation.test.routes.app_routes = foundation.app.router.routes.call(null,foundation.app.router.make_route.call(null,new cljs.core.Keyword(null,"get","get",1014006472),foundation.app.router.route_compile.call(null,"/"),(function (request__183918__auto__){return foundation.app.router.route;
 })),foundation.test.routes.accounts,foundation.test.routes.campaigns,foundation.test.routes.line_items,foundation.test.routes.promoted_accounts,foundation.test.routes.promoted_tweets,foundation.test.routes.funding_instruments,foundation.test.routes.targeting_criteria,foundation.test.routes.promoted_products,foundation.test.routes.analytics);
-foundation.test.routes.simple_get = (function simple_get(req,query_params){var uri = [cljs.core.str(foundation.test.models.ads_api),cljs.core.str(new cljs.core.Keyword(null,"uri","uri",1014020318).cljs$core$IFn$_invoke$arity$1(req)),cljs.core.str(((cljs.core.seq.call(null,query_params))?foundation.app.models.query_params.call(null,query_params):null))].join('');var c__12187__auto__ = cljs.core.async.chan.call(null,1);cljs.core.async.impl.dispatch.run.call(null,(function (){var f__12188__auto__ = (function (){var switch__12117__auto__ = (function (state_202605){var state_val_202606 = (state_202605[1]);if((state_val_202606 === 2))
-{var inst_202602 = (state_202605[2]);var inst_202603 = cljs.core.set.call(null,inst_202602);var state_202605__$1 = state_202605;return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_202605__$1,inst_202603);
+foundation.test.routes.simple_get = (function simple_get(req,query_params){var uri = [cljs.core.str(foundation.test.models.ads_api),cljs.core.str(new cljs.core.Keyword(null,"uri","uri",1014020318).cljs$core$IFn$_invoke$arity$1(req)),cljs.core.str(((cljs.core.seq.call(null,query_params))?foundation.app.models.query_params.call(null,query_params):null))].join('');var c__12187__auto__ = cljs.core.async.chan.call(null,1);cljs.core.async.impl.dispatch.run.call(null,(function (){var f__12188__auto__ = (function (){var switch__12117__auto__ = (function (state_203902){var state_val_203903 = (state_203902[1]);if((state_val_203903 === 2))
+{var inst_203899 = (state_203902[2]);var inst_203900 = cljs.core.set.call(null,inst_203899);var state_203902__$1 = state_203902;return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_203902__$1,inst_203900);
 } else
-{if((state_val_202606 === 1))
-{var inst_202600 = foudnation.app.xhr.GET.call(null,uri);var state_202605__$1 = state_202605;return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_202605__$1,2,inst_202600);
+{if((state_val_203903 === 1))
+{var inst_203897 = foundation.app.xhr.GET.call(null,uri);var state_203902__$1 = state_203902;return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_203902__$1,2,inst_203897);
 } else
 {return null;
 }
@@ -101,13 +101,13 @@ foundation.test.routes.simple_get = (function simple_get(req,query_params){var u
 });return ((function (switch__12117__auto__){
 return (function() {
 var state_machine__12118__auto__ = null;
-var state_machine__12118__auto____0 = (function (){var statearr_202610 = [null,null,null,null,null,null,null];(statearr_202610[0] = state_machine__12118__auto__);
-(statearr_202610[1] = 1);
-return statearr_202610;
+var state_machine__12118__auto____0 = (function (){var statearr_203907 = [null,null,null,null,null,null,null];(statearr_203907[0] = state_machine__12118__auto__);
+(statearr_203907[1] = 1);
+return statearr_203907;
 });
-var state_machine__12118__auto____1 = (function (state_202605){while(true){
+var state_machine__12118__auto____1 = (function (state_203902){while(true){
 var ret_value__12119__auto__ = (function (){try{while(true){
-var result__12120__auto__ = switch__12117__auto__.call(null,state_202605);if(cljs.core.keyword_identical_QMARK_.call(null,result__12120__auto__,new cljs.core.Keyword(null,"recur","recur",1122293407)))
+var result__12120__auto__ = switch__12117__auto__.call(null,state_203902);if(cljs.core.keyword_identical_QMARK_.call(null,result__12120__auto__,new cljs.core.Keyword(null,"recur","recur",1122293407)))
 {{
 continue;
 }
@@ -116,21 +116,21 @@ continue;
 }
 break;
 }
-}catch (e202611){if((e202611 instanceof Object))
-{var ex__12121__auto__ = e202611;var statearr_202612_202614 = state_202605;(statearr_202612_202614[5] = ex__12121__auto__);
-cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_202605);
+}catch (e203908){if((e203908 instanceof Object))
+{var ex__12121__auto__ = e203908;var statearr_203909_203911 = state_203902;(statearr_203909_203911[5] = ex__12121__auto__);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_203902);
 return new cljs.core.Keyword(null,"recur","recur",1122293407);
 } else
 {if(new cljs.core.Keyword(null,"else","else",1017020587))
-{throw e202611;
+{throw e203908;
 } else
 {return null;
 }
 }
 }})();if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__12119__auto__,new cljs.core.Keyword(null,"recur","recur",1122293407)))
 {{
-var G__202615 = state_202605;
-state_202605 = G__202615;
+var G__203912 = state_203902;
+state_203902 = G__203912;
 continue;
 }
 } else
@@ -139,12 +139,12 @@ continue;
 break;
 }
 });
-state_machine__12118__auto__ = function(state_202605){
+state_machine__12118__auto__ = function(state_203902){
 switch(arguments.length){
 case 0:
 return state_machine__12118__auto____0.call(this);
 case 1:
-return state_machine__12118__auto____1.call(this,state_202605);
+return state_machine__12118__auto____1.call(this,state_203902);
 }
 throw(new Error('Invalid arity: ' + arguments.length));
 };
@@ -153,8 +153,78 @@ state_machine__12118__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__1211
 return state_machine__12118__auto__;
 })()
 ;})(switch__12117__auto__))
-})();var state__12189__auto__ = (function (){var statearr_202613 = f__12188__auto__.call(null);(statearr_202613[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__12187__auto__);
-return statearr_202613;
+})();var state__12189__auto__ = (function (){var statearr_203910 = f__12188__auto__.call(null);(statearr_203910[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__12187__auto__);
+return statearr_203910;
+})();return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__12189__auto__);
+}));
+return c__12187__auto__;
+});
+foundation.test.routes.stats_request = (function stats_request(p__203913){var map__203929 = p__203913;var map__203929__$1 = ((cljs.core.seq_QMARK_.call(null,map__203929))?cljs.core.apply.call(null,cljs.core.hash_map,map__203929):map__203929);var req = map__203929__$1;var model = cljs.core.get.call(null,map__203929__$1,new cljs.core.Keyword(null,"model","model",1117974171));var query_params = cljs.core.get.call(null,map__203929__$1,new cljs.core.Keyword(null,"query-params","query-params",1080249757));var params = cljs.core.get.call(null,map__203929__$1,new cljs.core.Keyword(null,"params","params",4313443576));var stats_params = cljs.core.get.call(null,map__203929__$1,new cljs.core.Keyword(null,"stats-params","stats-params",2734551526));var uri = cljs.core.get.call(null,map__203929__$1,new cljs.core.Keyword(null,"uri","uri",1014020318));var c__12187__auto__ = cljs.core.async.chan.call(null,1);cljs.core.async.impl.dispatch.run.call(null,(function (){var f__12188__auto__ = (function (){var switch__12117__auto__ = (function (state_203935){var state_val_203936 = (state_203935[1]);if((state_val_203936 === 2))
+{var inst_203933 = (state_203935[2]);var state_203935__$1 = state_203935;return cljs.core.async.impl.ioc_helpers.return_chan.call(null,state_203935__$1,inst_203933);
+} else
+{if((state_val_203936 === 1))
+{var inst_203930 = foundation.app.models.reify_url.call(null,model,params,query_params);var inst_203931 = foundation.app.xhr.GET.call(null,inst_203930);var state_203935__$1 = state_203935;return cljs.core.async.impl.ioc_helpers.take_BANG_.call(null,state_203935__$1,2,inst_203931);
+} else
+{return null;
+}
+}
+});return ((function (switch__12117__auto__){
+return (function() {
+var state_machine__12118__auto__ = null;
+var state_machine__12118__auto____0 = (function (){var statearr_203940 = [null,null,null,null,null,null,null];(statearr_203940[0] = state_machine__12118__auto__);
+(statearr_203940[1] = 1);
+return statearr_203940;
+});
+var state_machine__12118__auto____1 = (function (state_203935){while(true){
+var ret_value__12119__auto__ = (function (){try{while(true){
+var result__12120__auto__ = switch__12117__auto__.call(null,state_203935);if(cljs.core.keyword_identical_QMARK_.call(null,result__12120__auto__,new cljs.core.Keyword(null,"recur","recur",1122293407)))
+{{
+continue;
+}
+} else
+{return result__12120__auto__;
+}
+break;
+}
+}catch (e203941){if((e203941 instanceof Object))
+{var ex__12121__auto__ = e203941;var statearr_203942_203944 = state_203935;(statearr_203942_203944[5] = ex__12121__auto__);
+cljs.core.async.impl.ioc_helpers.process_exception.call(null,state_203935);
+return new cljs.core.Keyword(null,"recur","recur",1122293407);
+} else
+{if(new cljs.core.Keyword(null,"else","else",1017020587))
+{throw e203941;
+} else
+{return null;
+}
+}
+}})();if(cljs.core.keyword_identical_QMARK_.call(null,ret_value__12119__auto__,new cljs.core.Keyword(null,"recur","recur",1122293407)))
+{{
+var G__203945 = state_203935;
+state_203935 = G__203945;
+continue;
+}
+} else
+{return ret_value__12119__auto__;
+}
+break;
+}
+});
+state_machine__12118__auto__ = function(state_203935){
+switch(arguments.length){
+case 0:
+return state_machine__12118__auto____0.call(this);
+case 1:
+return state_machine__12118__auto____1.call(this,state_203935);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+state_machine__12118__auto__.cljs$core$IFn$_invoke$arity$0 = state_machine__12118__auto____0;
+state_machine__12118__auto__.cljs$core$IFn$_invoke$arity$1 = state_machine__12118__auto____1;
+return state_machine__12118__auto__;
+})()
+;})(switch__12117__auto__))
+})();var state__12189__auto__ = (function (){var statearr_203943 = f__12188__auto__.call(null);(statearr_203943[cljs.core.async.impl.ioc_helpers.USER_START_IDX] = c__12187__auto__);
+return statearr_203943;
 })();return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped.call(null,state__12189__auto__);
 }));
 return c__12187__auto__;

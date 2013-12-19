@@ -19,13 +19,20 @@
   [path params]
   (app-routes {:uri path :method :get :params params}))
 
+(defn get-stats
+  [path params model]
+  (app-routes {:uri path
+               :method :get
+               :params params
+               :model model
+               :query-params
+               {:start-time (models/start-time models/campaign-stats)
+                :end-time (models/end-time models/campaign-stats)
+                :granularity "HOUR"}}))
+
 (defmethod route [:get "/"]
   [req]
   [{msg/type :navigate msg/path [:router] :to-path "/accounts"}])
-
-(defn get-resource
-  [resource params query-params]
-  )
 
 (defmethod route [:get "/accounts"]
   [req]
@@ -38,7 +45,8 @@
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/accounts))
-            model (set/select #(= (:id %) id) (set models))]
+            model (set/select #(= (:id %) id) (set models))
+            stats (get-stats (:uri req) {} models/accounts)]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
              (into (init models/accounts model))))))
@@ -83,72 +91,49 @@
   (->> []
        (into init)))
 
-(defn stats-request
-  [model params granularity start-time end-time]
-  (let [metrics (models/metrics model)]
-    (xhr/GET (m/reify-url model params
-                          {:granularity granularity
-                           :start-time start-time
-                           :end-time end-time}))))
+;; (defmethod route [:get "/stats/accounts/:id"]
+;;   [req]
+;;   (go (let [account-id (get-in req [:params :id])]
+;;         (stats-request models/account-stats {:id account-id}
+;;                        "HOUR"
+;;                        (models/start-time models/account-stats)
+;;                        (models/end-time models/account-stats)))))
 
-(defmethod route [:get "/stats/accounts/:id"]
-  [req]
-  (go (let [account-id (get-in req [:params :id])]
-        (stats-request models/account-stats {:id account-id}
-                       "HOUR"
-                       (models/start-time models/account-stats)
-                       (models/end-time models/account-stats)))))
+;; (defmethod route [:get "/stats/accounts/:account-id/campaigns/:id"]
+;;   [req]
+;;   (go (stats-request models/campaign-stats
+;;                      {:account-id (get-in req [:params :account-id])
+;;                       :id (get-in req [:params :id])}
+;;                      "HOUR"
+;;                      (models/start-time models/campaign-stats)
+;;                      (models/end-time models/campaign-stats))))
 
-(defmethod route [:get "/stats/accounts/:account-id/campaigns/:id"]
-  [req]
-  (go (stats-request models/campaign-stats
-                     {:account-id (get-in req [:params :account-id])
-                      :id (get-in req [:params :id])}
-                     "HOUR"
-                     (models/start-time models/campaign-stats)
-                     (models/end-time models/campaign-stats))))
+;; (defmethod route [:get "/stats/accounts/:account-id/line_items/:id"]
+;;   [req]
+;;   (go (stats-request models/line-item-stats
+;;                      {:account-id (get-in req [:params :account-id])
+;;                       :id (get-in req [:params :id])}
+;;                      "HOUR"
+;;                      (models/start-time models/line-item-stats)
+;;                      (models/end-time models/line-item-stats))))
 
-(defmethod route [:get "/stats/accounts/:account-id/line_items/:id"]
-  [req]
-  (go (stats-request models/line-item-stats
-                     {:account-id (get-in req [:params :account-id])
-                      :id (get-in req [:params :id])}
-                     "HOUR"
-                     (models/start-time models/line-item-stats)
-                     (models/end-time models/line-item-stats))))
+;; (defmethod route [:get "/stats/accounts/:account-id/promoted_accounts/:id"]
+;;   [req]
+;;   (go (stats-request models/promoted-account-stats
+;;                      {:account-id (get-in req [:params :account-id])
+;;                       :id (get-in req [:params :id])}
+;;                      "HOUR"
+;;                      (models/start-time models/promoted-account-stats)
+;;                      (models/end-time models/promoted-account-stats))))
 
-(defmethod route [:get "/stats/accounts/:account-id/promoted_accounts/:id"]
-  [req]
-  (go (stats-request models/promoted-account-stats
-                     {:account-id (get-in req [:params :account-id])
-                      :id (get-in req [:params :id])}
-                     "HOUR"
-                     (models/start-time models/promoted-account-stats)
-                     (models/end-time models/promoted-account-stats))))
-
-(defmethod route [:get "/stats/accounts/:account-id/promoted_tweets/:id"]
-  [req]
-  (go (stats-request models/promoted-tweet-stats
-                     {:account-id (get-in req [:params :account-id])
-                      :id (get-in req [:params :id])}
-                     "HOUR"
-                     (models/start-time models/promoted-tweet-stats)
-                     (models/end-time models/promoted-tweet-stats))))
-
-(defn simple-get
-  [req query-params]
-  (let [uri (str models/ads-api (:uri req)
-                 (when (seq query-params)
-                   (m/query-params query-params)))]
-    (go (set (<! (xhr/GET uri))))))
-
-(defmethod route [:get "/targeting_criteria/locations"]
-  [req]
-  (go (set (<! (xhr/GET (str models/ads-api (:uri req)))))))
-
-(defmethod route [:get "/targeting_criteria/interests"]
-  [req]
-  (go (set (<! (xhr/GET (str models/ads-api (:uri req)))))))
+;; (defmethod route [:get "/stats/accounts/:account-id/promoted_tweets/:id"]
+;;   [req]
+;;   (go (stats-request models/promoted-tweet-stats
+;;                      {:account-id (get-in req [:params :account-id])
+;;                       :id (get-in req [:params :id])}
+;;                      "HOUR"
+;;                      (models/start-time models/promoted-tweet-stats)
+;;                      (models/end-time models/promoted-tweet-stats))))
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]
