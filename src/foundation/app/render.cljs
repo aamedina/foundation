@@ -172,7 +172,7 @@
                                         [delta f]
                                         (if (= op :node-destroy)
                                           [delta nil])))) deltas))]
-              (log-fn (map first deltas))
+              (log-fn (map #(vec (take 2 %)) (map first deltas)))
               (doseq [[[op path _ _ :as d] f] deltas]
                 (let [id (or (-get-id renderer path)
                              (-new-id renderer path))

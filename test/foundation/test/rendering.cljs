@@ -24,7 +24,6 @@
 
 (defmethod render [:node-update [:datagrid]]
   [renderer [op path old new] pid id]
-  (println "hello")
   )
 
 (defmethod render [:node-create [:dashboard]]
@@ -33,8 +32,9 @@
 
 (defmethod render [:node-create [:chart]]
   [renderer [op path old new] pid id]
-  (r/-set-data renderer (conj path :chart) (highchart))
-  nil)
+  (dorun [(r/-set-data renderer (conj path :chart) (highchart))
+          (start-date-picker renderer (:start-time new))
+          (end-date-picker renderer (:end-time new))]))
 
 (defn start-date-picker
   [renderer start-time]
