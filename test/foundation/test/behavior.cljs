@@ -1,5 +1,5 @@
 (ns foundation.test.behavior
-  (:require [foundation.app :as app :refer [transform]]))
+  (:require [foundation.app :as app :refer [transform derives]]))
 
 (defmethod transform [:init [:datagrid]]
   [state message]
@@ -20,3 +20,8 @@
 (defmethod transform [:delete [:datagrid :collection]]
   [state message]
   nil)
+
+(defmethod derives [#{[:datagrid] [:dashboard]} [:chart] :vals]
+  [state message input]
+  (println state message)
+  input)

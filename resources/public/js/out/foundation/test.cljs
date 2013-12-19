@@ -1,8 +1,8 @@
 (ns foundation.test
   (:require [clojure.browser.repl]
             [clojure.string :as str]
-            [foundation.app :as app]
             [foundation.test.behavior :as b]
+            [foundation.app :as app]
             [foundation.app.message :as msg]
             [foundation.test.services :as services]
             [foundation.test.rendering :as render]

@@ -30,5 +30,11 @@
 
 (defmethod render [:node-create [:dashboard]]
   [renderer [op path old new] pid id]
-  (r/-set-data renderer (conj path :chart) (highchart))
   (dashboard id new))
+
+(defmethod render [:node-create [:chart]]
+  [renderer [op path old new] pid id]
+  (r/-set-data renderer (conj path :chart) (highchart))
+  nil)
+
+

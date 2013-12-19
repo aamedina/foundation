@@ -22,6 +22,37 @@
 
 (defmethod transform :default [state message] state)
 
+(defmulti derives
+  (fn [state message input]
+    [(msg/type message) (msg/path message)]))
+
+(defmethod derives :default [state message inputs] state)
+
+(defn matching-path?
+  [path1 path2]
+  (= (loop [a (vec (flatten path1))
+            b (vec (flatten path2))]
+       (match [(first a) (first b)]
+         [[] []] :succeed
+         [nil nil] :succeed
+         [:** _] (if-not (seq (rest a)) :succeed :fail)
+         [_ :**] (if-not (seq (rest b)) :succeed :fail)
+         [:* _] (recur (vec (rest a)) (vec (rest b)))
+         [_ :*] (recur (vec (rest a)) (vec (rest b)))
+         :else (if (= (first a) (first b))
+                 (recur (vec (rest a)) (vec (rest b)))
+                 :fail)))
+     :succeed))
+
+(defn derives-dependencies
+  []
+  (reduce (fn [graph [[input-paths output-path input-spec] f]]
+            (let [input-paths (if (map? input-paths)
+                                (keys input-paths)
+                                input-paths)]
+              (reduce #(d/depend %1 output-path %2) graph input-paths)))
+          (d/graph) (dissoc (methods derives) :default)))
+
 (defn rendering-deltas
   [old new]
   (letfn [(make-delta [op path]
@@ -37,6 +68,32 @@
                    (into deltas)))
             [] (tm/changes new))))
 
+(defn dependents
+  [state message]
+  (let [deps (derives-dependencies)
+        nodes (d/nodes deps)
+        path (msg/path message)
+        node-for-path (first (filter #(matching-path? path %) nodes))]
+    (->> (d/transitive-dependents deps node-for-path)
+         (sort (d/topo-comparator deps))
+         seq)))
+
+(defn transform-phase
+  [state message]
+  (update-in state (into [:data-model] (msg/path message))
+             transform message))
+
+(defn derives-phase
+  [new-state message deps]
+  (reduce (fn [state [[input-paths output-path input-spec] f]]
+            (if (contains? (set deps) output-path)
+              (update-in state (into [:data-model] output-path)
+                         f message
+                         (map #(get-in (:data-model new-state) %)
+                              input-paths))
+              state))
+          new-state (dissoc (methods derives) :default)))
+
 (defn transact-one
   ([state message]
      (let [in-transaction? (instance? tm/TrackingMap (:data-model state))
@@ -47,8 +104,9 @@
                      (assoc :input message)
                      (dissoc :effect))
            old-state state
-           new-state (update-in state (into [:data-model] (msg/path message))
-                                transform message)
+           new-state (-> state
+                         (transform-phase message)
+                         (derives-phase message (dependents state message)))
            deltas (rendering-deltas (:data-model old-state)
                                     (:data-model new-state))]
        (-> (if in-transaction?
@@ -83,7 +141,7 @@
     (add-watch app-state :output (fn [_ _ old new] (put! output-queue new)))
     output-queue))
 
-(defrecord Dataflow [state input output renderer render-queue router]
+(defrecord Dataflow [state input output deps renderer render-queue router]
   Lifecycle
   (start [df]
     (c/start-system df #{:router :renderer})
@@ -97,11 +155,13 @@
   (let [app-state (atom {:data-model {}})
         input (input-queue app-state)
         output (output-queue app-state)
-        renderer (render/renderer root-id)]
+        renderer (render/renderer root-id)
+        deps (derives-dependencies)]
     (try (c/start (map->Dataflow
                    {:state app-state
                     :input input
                     :output output
+                    :deps deps
                     :renderer (c/using renderer
                                 {:input :input
                                  :app-state :state})
