@@ -21,7 +21,6 @@
   [state message]
   nil)
 
-(defmethod derives [#{[:datagrid] [:dashboard]} [:chart] :vals]
+(defmethod derives [#{[:datagrid] [:dashboard]} [:chart] :default]
   [state message input]
-  (println input)
   input)
