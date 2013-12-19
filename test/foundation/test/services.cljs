@@ -84,7 +84,11 @@
 
 (defmethod route [:get "/accounts/:account-id/line_items"]
   [req]
-  (go (let [models (<! (m/fetch models/line-items))
+  (go (let [account-id (get-in req [:params :account-id])
+            campaign-id (get-in req [:params :campaign_ids])
+            models (<! (m/fetch models/line-items
+                                :params {:account-id account-id}
+                                :query-params {:campaign-ids campaign-id}))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
@@ -96,7 +100,11 @@
 (defmethod route [:get "/accounts/:account-id/line_items/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/line-items))
+            account-id (get-in req [:params :account-id])
+            campaign-id (get-in req [:params :campaign_ids])
+            models (<! (m/fetch models/line-items
+                                :params [:account-id account-id]
+                                :query-params {:campaign-ids campaign-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/line-item-stats))]
@@ -106,19 +114,23 @@
 
 (defmethod route [:get "/accounts/:account-id/promoted_accounts"]
   [req]
-  (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/promoted-accounts))
-            model (set/select #(= (:id %) id) (set models))
-            stats (<! (get-stats (str "/stats" (:uri req)) {}
+  (go (let [account-id (get-in req [:params :account-id])
+            models (<! (m/fetch models/promoted-accounts
+                                :params {:account-id account-id}))
+            model (first models)
+            stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
+                                 model
                                  models/promoted-account-stats))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-accounts model stats))))))
+             (into (init models/promoted-accounts (first models) stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_accounts/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/promoted-accounts))
+            account-id (get-in req [:params :id])
+            models (<! (m/fetch models/promoted-accounts
+                                :params {:account-id account-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-account-stats))]
@@ -128,19 +140,23 @@
 
 (defmethod route [:get "/accounts/:account-id/promoted_tweets"]
   [req]
-  (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/promoted-tweets))
-            model (set/select #(= (:id %) id) (set models))
-            stats (<! (get-stats (str "/stats" (:uri req)) {}
+  (go (let [account-id (get-in req [:params :account-id])
+            models (<! (m/fetch models/promoted-tweets
+                                :params {:account-id account-id}))
+            model (first models)
+            stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
+                                 model
                                  models/promoted-tweet-stats))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-tweets model stats))))))
+             (into (init models/promoted-tweets (first models) stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_tweets/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/promoted-tweets))
+            account-id (get-in req [:params :account-id])
+            models (<! (m/fetch models/promoted-tweets
+                                :params {:account-id account-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-tweet-stats))]
