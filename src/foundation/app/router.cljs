@@ -273,6 +273,9 @@
   (-navigate [router uri method params]
     (let [uri (Uri. uri)
           path (str/replace (.getPath uri) #"^/" "")]
+      ;; (when-not (= (.getPath (Uri. js/window.location.href)) (.getPath uri))
+      ;;   (set! js/document.location.href
+      ;;         (str (.setPath (Uri. js/window.location.href) path))))
       (.setToken (.-router router) path)
       (routes {:uri (.getPath uri)
                :method method
@@ -295,5 +298,4 @@
   [router uri & {:keys [method params] :as args}]
   (-navigate router uri method params))
 
-(defn redirect
-  [router ])
+

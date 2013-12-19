@@ -134,9 +134,13 @@
         t (msg/type message)]
     (case topic
       [:router] (case t
-                  :navigate (r/navigate! (:router system)
-                                         (:to-path message)
-                                         :method :get)
+                  :navigate
+                  (let [messages (r/route {:router (:router system)
+                                           :uri (:to-path message)
+                                           :method :get
+                                           :params {}})]
+                    (doseq [message messages]
+                      (put! (:input system) message)))
                   nil)
       [:renderer] nil
       nil)))
