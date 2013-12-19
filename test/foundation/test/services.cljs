@@ -56,8 +56,9 @@
                :collection models}]
              (into (init models/accounts model stats))))))
 
-(defmethod route [:get "/accounts/account-id/campaigns"]
+(defmethod route [:get "/accounts/:account-id/campaigns"]
   [req]
+  (println req)
   (go (let [models (<! (m/fetch models/campaigns))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
@@ -67,7 +68,7 @@
                :collection models}]
              (into (init models/campaigns (first models) stats))))))
 
-(defmethod route [:get "/accounts/account-id/campaigns/:id"]
+(defmethod route [:get "/accounts/:account-id/campaigns/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/campaigns))
@@ -78,7 +79,7 @@
                :collection models}]
              (into (init models/campaigns model stats))))))
 
-(defmethod route [:get "/accounts/account-id/line_items"]
+(defmethod route [:get "/accounts/:account-id/line_items"]
   [req]
   (go (let [models (<! (m/fetch models/line-items))
             model (first models)
@@ -89,7 +90,7 @@
                :collection models}]
              (into (init models/line-items (first models) stats))))))
 
-(defmethod route [:get "/accounts/account-id/line_items/:id"]
+(defmethod route [:get "/accounts/:account-id/line_items/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/line-items))
@@ -100,7 +101,7 @@
                :collection models}]
              (into (init models/line-items model stats))))))
 
-(defmethod route [:get "/accounts/account-id/promoted_accounts"]
+(defmethod route [:get "/accounts/:account-id/promoted_accounts"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/promoted-accounts))
@@ -111,7 +112,7 @@
                :collection models}]
              (into (init models/promoted-accounts model stats))))))
 
-(defmethod route [:get "/accounts/account-id/promoted_accounts/:id"]
+(defmethod route [:get "/accounts/:account-id/promoted_accounts/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/promoted-accounts))
@@ -122,7 +123,7 @@
                :collection models}]
              (into (init models/promoted-accounts model stats))))))
 
-(defmethod route [:get "/accounts/account-id/promoted_tweets"]
+(defmethod route [:get "/accounts/:account-id/promoted_tweets"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/promoted-tweets))
@@ -133,7 +134,7 @@
                :collection models}]
              (into (init models/promoted-tweets model stats))))))
 
-(defmethod route [:get "/accounts/account-id/promoted_tweets/:id"]
+(defmethod route [:get "/accounts/:account-id/promoted_tweets/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/promoted-tweets))
