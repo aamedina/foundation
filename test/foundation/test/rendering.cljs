@@ -2,6 +2,7 @@
   (:require [cljs.core.async :refer [chan <! >! <! put! take! timeout alts!]]
             [foundation.app :as app :refer [transform]]
             [foundation.app.render :as r :refer [render]]
+            [foundation.test.models :as m]
             [foundation.app.ui :as ui]
             [foundation.test.templates :as t]
             [dommy.core :as dom])
@@ -14,20 +15,16 @@
 
 (defmethod render [:node-create [:datagrid]]
   [renderer [op path old new] pid id]
-  [:table {:id id}
-   [:thead]
-   [:tbody]])
+  (t/datagrid id))
 
 (defmethod render [:node-create [:datagrid :collection]]
   [renderer [op path old new] pid id]
   (reify
     ui/IRender
     (-render [_]
-      [:ul {:id id}
-       (for [n (range 10)]
-         [:li n])])
+      (t/datagrid-table m/accounts []))
     ui/IParentNode
-    (-parent-node [_] #(sel1 % :thead))))
+    (-parent-node [_] #(sel1 % :div.panel-body))))
 
 (defmethod render [:node-update [:datagrid :collection]]
   [renderer [op path old new] pid id]

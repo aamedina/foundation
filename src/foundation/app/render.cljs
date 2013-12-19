@@ -120,6 +120,14 @@
   (-set-data renderer [:_event event-type] component)
   component)
 
+(extend-type js/Element
+  IMeta
+  (-meta [el] (.-meta el))
+  IWithMeta
+  (-with-meta [el meta]
+    (set! (.-meta el) meta)
+    el))
+
 (extend-protocol IRender
   nil
   (-render [_ _] nil)
