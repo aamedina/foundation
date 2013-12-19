@@ -58,8 +58,9 @@
 
 (defmethod route [:get "/accounts/:account-id/campaigns"]
   [req]
-  (println req)
-  (go (let [models (<! (m/fetch models/campaigns))
+  (go (let [account-id (get-in req [:params :account-id])
+            models (<! (m/fetch models/campaigns
+                                :params {:account-id account-id}))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
@@ -71,7 +72,9 @@
 (defmethod route [:get "/accounts/:account-id/campaigns/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
-            models (<! (m/fetch models/campaigns))
+            account-id (get-in req [:params :account-id])
+            models (<! (m/fetch models/campaigns
+                                :params {:account-id account-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/campaign-stats))]

@@ -92,3 +92,9 @@
   (if (:key column)
     [:td {:value (:id record)} ((:key column) record)]
     [:td {:value (:id record)} (:content column)]))
+
+(defmethod td :total-budget-spent
+  [column record])
+
+(defmethod td :daily-budget-spent
+  [column record])
