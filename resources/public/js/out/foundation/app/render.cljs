@@ -13,6 +13,8 @@
             MouseWheelHandler ActionEvent EventType KeyEvent ActionHandler
             FileDropHandler MouseWheelEvent OnlineHandler]))
 
+(enable-console-print!)
+
 (defmulti render (fn [renderer [op path _ _] pid id] [op path]))
 
 (defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
@@ -31,8 +33,7 @@
 (defn event-delegate
   [renderer]
   (if (and (seq @(:handlers renderer))
-           (every? (fn [h] (not (.isDisposed h)))
-                   (vals @(:handlers renderer))))
+           (every? #(not (.isDisposed %)) (vals @(:handlers renderer))))
     @(:handlers renderer)
     (let [action-handler (ActionHandler. js/document)
           key-handler (KeyHandler. js/document)
@@ -104,6 +105,7 @@
 (defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
+    (enable-console-print!)
     (let [handlers (reset! handlers (event-delegate renderer))
           render-fn (fn []
                       (set! refresh-queued false)
@@ -123,12 +125,18 @@
 
   IEventDelegate
   (-find-dispatches [_ e])
-  (-dispatch-action [_ e])
-  (-dispatch-key [_ e])
-  (-dispatch-focus [_ e])
-  (-dispatch-scroll [_ e])
-  (-dispatch-drop [_ e])
-  (-dispatch-online [_ e])
+  (-dispatch-action [_ e]
+    (println "action!"))
+  (-dispatch-key [_ e]
+    (println "key!"))
+  (-dispatch-focus [_ e]
+    (println "focus!"))
+  (-dispatch-scroll [_ e]
+    (println "scroll!"))
+  (-dispatch-drop [_ e]
+    (println "drop!"))
+  (-dispatch-online [_ e]
+    (println "online!"))
   
   IRenderer
   (-get-id [_ path]
