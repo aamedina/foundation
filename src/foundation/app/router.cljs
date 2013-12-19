@@ -171,12 +171,14 @@
 
   PersistentVector
   (-response [messages request]
+    (println messages)
     (when-let [input-queue (or (get-in request [:router :input])
                                (:input request))]
       (put! input-queue messages)))
 
   ManyToManyChannel
-  (-response [c request] (async/map> #(-response % request) c))
+  (-response [c request]
+    (go (-response (<! c) request)))
 
   MultiFn
   (-response [multifn req]

@@ -44,7 +44,6 @@
 
 (defn dashboard
   [id state]
-  (println id state)
   (reify
     ui/IRender
     (-render [_]

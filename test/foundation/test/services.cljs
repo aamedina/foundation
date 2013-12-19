@@ -17,10 +17,16 @@
   [req]
   [{msg/type :navigate msg/path [:router] :to-path "/accounts"}])
 
+(defn get-resource
+  [resource params query-params]
+  )
+
 (defmethod route [:get "/accounts"]
   [req]
-  (->> []
-       (into init)))
+  (go (->> [{msg/type :load msg/path [:datagrid :collection]
+             :resource models/accounts
+             :collection (<! (m/fetch models/accounts))}]
+           (into init))))
 
 (defmethod route [:get "/accounts/:id"]
   [req]
