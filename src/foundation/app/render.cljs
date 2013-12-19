@@ -109,7 +109,14 @@
   default
   (-render [_] nil)
 
-  )
+  PersistentVector
+  (-render [r] (node r)))
+
+(defn sort-deps
+  [deps pid]
+  (->> (d/transitive-dependents @deps pid)
+       (remove nil?)
+       (sort (d/topo-comparator @deps))))
 
 (defprotocol IRenderer
   (-get-id [_ path])
@@ -126,30 +133,51 @@
   (start [renderer]
     (let [handlers (reset! handlers (event-delegate renderer))
           render-fns (methods render)
-          render-fn (fn []
-            (set! refresh-queued false)
-            (when-let [deltas (seq (:deltas @(:app-state renderer)))]
-              (log-fn deltas)
-              (doseq [[op path _ _ :as d] deltas]
-                (when-let [f (get render-fns [op path])]
-                  (let [id (or (-get-id renderer path)
-                               (-new-id renderer path))
-                        pid (-parent-id renderer path)]
-                    (case op
-                      :added (doseq [dependent deps]
-                               (-render (f renderer d pid id)))
-                      :updated (doseq [dependent deps]
-                                 (-render (f renderer d pid id)))
-                      :removed (doseq [dependent deps]
-                                 (-render (f renderer d pid id)))))))))]
+          render-fn
+          (fn [deltas]
+            (when-let [deltas
+                       (seq (keep (fn [[op path _ _ :as delta]]
+                                    (let [f (get render-fns [op path])]
+                                      (if f
+                                        [delta f]
+                                        (if (= op :node-destroy)
+                                          [delta nil])))) deltas))]
+              (log-fn (map first deltas))
+              (doseq [[[op path _ _ :as d] f] deltas]
+                (let [id (or (-get-id renderer path)
+                             (-new-id renderer path))
+                      pid (-parent-id renderer path)]
+                  (case op
+                    :node-create
+                    (when-let [dom-content (-render (f renderer d pid id))]
+                      (-set-data renderer [id] dom-content)
+                      (if-let [parent (-get-data renderer [pid])]
+                        (dom/append! parent dom-content)
+                        (dom/append! js/document.body dom-content))
+                      (dom/set-attr! dom-content :id id)
+                      (swap! deps depend id pid))
+                    :node-update
+                    (doseq [dep (sort-deps deps pid)]
+                      (let [dep-pid (-parent-id renderer dep)]
+                        (when-let [dom-content
+                                   (-render (f renderer d dep-pid dep))]
+                          (when-let [old-content (-get-data renderer [dep])]
+                            (dom/replace! old-content dom-content))
+                          (dom/set-attr! dom-content :id dep)
+                          (-set-data renderer [dep] dom-content))))
+                    :node-destroy
+                    (doseq [dep (sort-deps deps pid)]
+                      (let [dep-pid (-parent-id renderer dep)]
+                        (when-let [old-content (-get-data renderer [dep])]
+                          (dom/remove! old-content))
+                        (-delete-id renderer [dep])
+                        (-drop-data renderer [dep]))))))))]
       (add-watch (:app-state renderer) :root
-                 (fn [_ _ _ _]
-                   (when-not refresh-queued
-                     (set! refresh-queued true)
-                     (if (exists? js/requestAnimationFrame)
-                       (js/requestAnimationFrame render-fn)
-                       (js/setTimeout render-fn 16)))))
-      (render-fn)))
+                 (fn [_ _ _ {:keys [deltas]}]
+                   (if (exists? js/requestAnimationFrame)
+                     (js/requestAnimationFrame #(render-fn deltas))
+                     (js/setTimeout render-fn 16))))
+      (render-fn [[:node-create [] nil nil]])))
   
   (stop [renderer]
     (doseq [handler (vals @handlers)]
@@ -189,12 +217,18 @@
   (-on-destroy [_ path f]
     (swap! env update-in (conj path :on-destroy) (fnil conj []) f))
   (-set-data [_ path data]
-    (swap! env assoc-in (concat [:_data] path) data))
+    (if (seq path)
+      (swap! env assoc-in (concat [:_data] path) data)
+      (swap! env assoc-in [:_data :id] data)))
   (-get-data [_ path]
-    (get-in @env (concat [:_data] path)))
+    (if (seq path)
+      (get-in @env (concat [:_data] path))
+      (get-in @env [:_data :id])))
   (-drop-data [_ path]
-    (swap! env update-in
-           (concat [:_data] (butlast path)) dissoc (last path))))
+    (if (seq path)
+      (swap! env update-in
+             (concat [:_data] (butlast path)) dissoc (last path))
+      (swap! env update-in [:_data :id] dissoc (last path)))))
 
 (defn push-render-queue
   [renderer input-queue]

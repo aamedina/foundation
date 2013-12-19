@@ -2,9 +2,9 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/behavior.js",
  "sources":["behavior.cljs"],
- "lineCount":14,
+ "lineCount":18,
  "mappings":
- ";AAAA;;;;;AAGA,AAAAA,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,6EAAA,0BAAA,AAAA,fACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,6DAAA,iFAAA,0BAAA,AAAA,fACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,+EAAA,0BAAA,AAAA,fACGC,MAAMC",
+ ";AAAA;;;;;AAGA,AAAAA,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,6EAAA,0BAAA,AAAA,fACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,6DAAA,iFAAA,0BAAA,AAAA,fACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,qDAAA,mFAAA,+EAAA,0BAAA,AAAA,fACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,mDAAA,mFAAA,6DAAA,iFAAA,0BAAA,AAAA,0FAAA,zGACGC,MAAMC;;AAGT,AAAAH,gCAAAC,yBAAA,mFAAA,yDAAA,mFAAA,6DAAA,iFAAA,0BAAA,AAAA,fACGC,MAAMC",
  "names":
  ["cljs.core/-add-method", "foundation.app/transform", "state",
   "message"]}

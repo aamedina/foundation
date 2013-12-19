@@ -25,7 +25,13 @@
 (defn rendering-deltas
   [old new]
   (letfn [(make-delta [op path]
-            (vector op path (get-in old path) (get-in new path)))]
+            (let [op (case op
+                       :added :node-create
+                       :updated (if (get-in new path)
+                                  :node-update
+                                  :node-destroy)
+                       :removed :node-destroy)]
+              (vector op path (get-in old path) (get-in new path))))]
     (reduce (fn [deltas [op paths :as delta]]
               (->> (map make-delta (repeat op) paths)
                    (into deltas)))
@@ -45,13 +51,11 @@
                                 transform message)
            deltas (rendering-deltas (:data-model old-state)
                                     (:data-model new-state))]
-       (if (get-in new-state (into [:data-model] (msg/path message)))
-         (-> (if in-transaction?
-               new-state
-               (assoc new-state
-                 :data-model (into {} (:data-model new-state))))
-             (assoc :deltas deltas))
-         old-state))))
+       (-> (if in-transaction?
+             new-state
+             (assoc new-state
+               :data-model (into {} (:data-model new-state))))
+           (assoc :deltas deltas)))))
 
 (defn transact-batch
   [state messages]
@@ -76,13 +80,7 @@
 (defn output-queue
   [app-state]
   (let [output-queue (chan (sliding-buffer 32))]
-    (add-watch app-state :output
-               (fn [_ _ old new]
-                 (log-group
-                  "State Transitition"
-                  [(:data-model old)
-                   (:data-model new)])
-                 (put! output-queue new)))
+    (add-watch app-state :output (fn [_ _ old new] (put! output-queue new)))
     output-queue))
 
 (defrecord Dataflow [state input output renderer render-queue router]
