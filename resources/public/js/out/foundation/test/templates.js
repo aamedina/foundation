@@ -23,118 +23,118 @@ goog.require('goog.ui.InputDatePicker');
 goog.require('dommy.core');
 goog.require('cljs_time.core');
 cljs.core.enable_console_print_BANG_.call(null);
-foundation.test.templates.date_picker = (function date_picker(el,init_date,date_pattern){var date_pattern__$1 = (((date_pattern instanceof cljs.core.Keyword))?date_pattern.call(null,cljs_time.format.formatters):date_pattern);var picker = (new goog.ui.InputDatePicker((new goog.i18n.DateTimeFormat(date_pattern__$1)),(new goog.i18n.DateTimeParse(date_pattern__$1))));var G__177403_177405 = picker.getDatePicker();G__177403_177405.setUseSimpleNavigationMenu(true);
-G__177403_177405.setAllowNone(true);
-var G__177404 = picker;G__177404.decorate(el);
-G__177404.setDate(init_date);
-return G__177404;
+foundation.test.templates.date_picker = (function date_picker(el,init_date,date_pattern){var date_pattern__$1 = (((date_pattern instanceof cljs.core.Keyword))?date_pattern.call(null,cljs_time.format.formatters):date_pattern);var picker = (new goog.ui.InputDatePicker((new goog.i18n.DateTimeFormat(date_pattern__$1)),(new goog.i18n.DateTimeParse(date_pattern__$1))));var G__185279_185281 = picker.getDatePicker();G__185279_185281.setUseSimpleNavigationMenu(true);
+G__185279_185281.setAllowNone(true);
+var G__185280 = picker;G__185280.decorate(el);
+G__185280.setDate(init_date);
+return G__185280;
 });
 foundation.test.templates.dashboard_metrics = new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Impressions","CPM","Impression Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Engagements","CPE","Engagement Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Clicks","CPC","Click Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Retweets","CPRT","Retweet Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Replies","CPR","Reply Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Follows","CPF","Follow Rate"], null)], null);
-foundation.test.templates.dashboard_metric = (function dashboard_metric(p__177406){var vec__177415 = p__177406;var metric = cljs.core.nth.call(null,vec__177415,0,null);var cpa = cljs.core.nth.call(null,vec__177415,1,null);var rate = cljs.core.nth.call(null,vec__177415,2,null);var dom177416 = document.createElement("ul");dom177416.className = "list-group";
-dom177416.appendChild((function (){var dom177417 = document.createElement("li");dom177417.className = "list-group-item";
+foundation.test.templates.dashboard_metric = (function dashboard_metric(p__185282){var vec__185291 = p__185282;var metric = cljs.core.nth.call(null,vec__185291,0,null);var cpa = cljs.core.nth.call(null,vec__185291,1,null);var rate = cljs.core.nth.call(null,vec__185291,2,null);var dom185292 = document.createElement("ul");dom185292.className = "list-group";
+dom185292.appendChild((function (){var dom185293 = document.createElement("li");dom185293.className = "list-group-item";
 if(cljs.core.truth_(metric))
-{dom177417.setAttribute("id",metric);
+{dom185293.setAttribute("id",metric);
 } else
 {}
-dom177417.appendChild((function (){var dom177418 = document.createElement("h5");dom177418.className = "metric-header list-group-item-heading";
-dom177418.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(metric)].join('')));
-return dom177418;
+dom185293.appendChild((function (){var dom185294 = document.createElement("h5");dom185294.className = "metric-header list-group-item-heading";
+dom185294.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(metric)].join('')));
+return dom185294;
 })());
-return dom177417;
+return dom185293;
 })());
-dom177416.appendChild((function (){var dom177419 = document.createElement("li");dom177419.className = "list-group-item";
+dom185292.appendChild((function (){var dom185295 = document.createElement("li");dom185295.className = "list-group-item";
 if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-cpa")].join('')))
-{dom177419.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-cpa")].join(''));
+{dom185295.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-cpa")].join(''));
 } else
 {}
-dom177419.appendChild((function (){var dom177420 = document.createElement("small");dom177420.className = "list-group-item-text";
-dom177420.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(cpa)].join('')));
-return dom177420;
+dom185295.appendChild((function (){var dom185296 = document.createElement("small");dom185296.className = "list-group-item-text";
+dom185296.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(cpa)].join('')));
+return dom185296;
 })());
-return dom177419;
+return dom185295;
 })());
-dom177416.appendChild((function (){var dom177421 = document.createElement("li");dom177421.className = "list-group-item";
+dom185292.appendChild((function (){var dom185297 = document.createElement("li");dom185297.className = "list-group-item";
 if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-rate")].join('')))
-{dom177421.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-rate")].join(''));
+{dom185297.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-rate")].join(''));
 } else
 {}
-dom177421.appendChild((function (){var dom177422 = document.createElement("small");dom177422.className = "list-group-item-text";
-dom177422.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(rate)].join('')));
-return dom177422;
+dom185297.appendChild((function (){var dom185298 = document.createElement("small");dom185298.className = "list-group-item-text";
+dom185298.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(rate)].join('')));
+return dom185298;
 })());
-return dom177421;
+return dom185297;
 })());
-return dom177416;
+return dom185292;
 });
-foundation.test.templates.dashboard = (function dashboard(id){var dom177441 = document.createElement("div");dom177441.className = "twitter-stats panel panel-default";
+foundation.test.templates.dashboard = (function dashboard(id){var dom185317 = document.createElement("div");dom185317.className = "twitter-stats panel panel-default";
 if(cljs.core.truth_(id))
-{dom177441.setAttribute("id",id);
+{dom185317.setAttribute("id",id);
 } else
 {}
-dom177441.appendChild((function (){var dom177442 = document.createElement("div");dom177442.className = "panel-heading";
-dom177442.appendChild((function (){var dom177443 = document.createElement("h1");dom177443.className = "panel-title";
+dom185317.appendChild((function (){var dom185318 = document.createElement("div");dom185318.className = "panel-heading";
+dom185318.appendChild((function (){var dom185319 = document.createElement("h1");dom185319.className = "panel-title";
 if("resource-id")
-{dom177443.setAttribute("id","resource-id");
+{dom185319.setAttribute("id","resource-id");
 } else
 {}
-return dom177443;
+return dom185319;
 })());
-dom177442.appendChild((function (){var dom177444 = document.createElement("div");dom177444.className = "form-inline pull-right";
-dom177444.appendChild((function (){var dom177445 = document.createElement("div");dom177445.className = "form-group";
-dom177445.appendChild((function (){var dom177446 = document.createElement("input");dom177446.className = "form-control date-picker";
-dom177446.setAttribute("id","start-time");
+dom185318.appendChild((function (){var dom185320 = document.createElement("div");dom185320.className = "form-inline pull-right";
+dom185320.appendChild((function (){var dom185321 = document.createElement("div");dom185321.className = "form-group";
+dom185321.appendChild((function (){var dom185322 = document.createElement("input");dom185322.className = "form-control date-picker";
+dom185322.setAttribute("id","start-time");
 if(true)
-{dom177446.setAttribute("readonly",true);
+{dom185322.setAttribute("readonly",true);
 } else
 {}
-return dom177446;
+return dom185322;
 })());
-return dom177445;
+return dom185321;
 })());
-dom177444.appendChild((function (){var dom177447 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
-{dom177447.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
+dom185320.appendChild((function (){var dom185323 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
+{dom185323.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
 } else
 {}
-dom177447.appendChild(document.createTextNode("to"));
-return dom177447;
+dom185323.appendChild(document.createTextNode("to"));
+return dom185323;
 })());
-dom177444.appendChild((function (){var dom177448 = document.createElement("div");dom177448.className = "form-group";
-dom177448.appendChild((function (){var dom177449 = document.createElement("input");dom177449.className = "form-control date-picker";
-dom177449.setAttribute("id","end-time");
+dom185320.appendChild((function (){var dom185324 = document.createElement("div");dom185324.className = "form-group";
+dom185324.appendChild((function (){var dom185325 = document.createElement("input");dom185325.className = "form-control date-picker";
+dom185325.setAttribute("id","end-time");
 if(true)
-{dom177449.setAttribute("readonly",true);
+{dom185325.setAttribute("readonly",true);
 } else
 {}
-return dom177449;
+return dom185325;
 })());
-return dom177448;
+return dom185324;
 })());
-dom177444.appendChild((function (){var dom177450 = document.createElement("button");dom177450.className = "btn btn-primary btn-sm";
-dom177450.setAttribute("id","update-stats");
-dom177450.appendChild(document.createTextNode("Update"));
-return dom177450;
+dom185320.appendChild((function (){var dom185326 = document.createElement("button");dom185326.className = "btn btn-primary btn-sm";
+dom185326.setAttribute("id","update-stats");
+dom185326.appendChild(document.createTextNode("Update"));
+return dom185326;
 })());
-return dom177444;
+return dom185320;
 })());
-return dom177442;
+return dom185318;
 })());
-dom177441.appendChild((function (){var dom177451 = document.createElement("div");dom177451.className = "panel-body";
-dom177451.appendChild((function (){var dom177452 = document.createElement("div");dom177452.className = "analytics-highcharts";
-return dom177452;
+dom185317.appendChild((function (){var dom185327 = document.createElement("div");dom185327.className = "panel-body";
+dom185327.appendChild((function (){var dom185328 = document.createElement("div");dom185328.className = "analytics-highcharts";
+return dom185328;
 })());
-return dom177451;
+return dom185327;
 })());
-dom177441.appendChild((function (){var dom177453 = document.createElement("div");dom177453.className = "panel-footer row";
-dom177453.appendChild((function (){var dom177454 = document.createElement("div");dom177454.className = "twitter-stats";
-dom177454.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__177455(s__177456){return (new cljs.core.LazySeq(null,(function (){var s__177456__$1 = s__177456;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__177456__$1);if(temp__4092__auto__)
-{var s__177456__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__177456__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__177456__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__177458 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__177457 = 0;while(true){
-if((i__177457 < size__8920__auto__))
-{var metric = cljs.core._nth.call(null,c__8919__auto__,i__177457);cljs.core.chunk_append.call(null,b__177458,foundation.test.templates.dashboard_metric.call(null,metric));
+dom185317.appendChild((function (){var dom185329 = document.createElement("div");dom185329.className = "panel-footer row";
+dom185329.appendChild((function (){var dom185330 = document.createElement("div");dom185330.className = "twitter-stats";
+dom185330.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__185331(s__185332){return (new cljs.core.LazySeq(null,(function (){var s__185332__$1 = s__185332;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__185332__$1);if(temp__4092__auto__)
+{var s__185332__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__185332__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__185332__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__185334 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__185333 = 0;while(true){
+if((i__185333 < size__8920__auto__))
+{var metric = cljs.core._nth.call(null,c__8919__auto__,i__185333);cljs.core.chunk_append.call(null,b__185334,foundation.test.templates.dashboard_metric.call(null,metric));
 {
-var G__177459 = (i__177457 + 1);
-i__177457 = G__177459;
+var G__185335 = (i__185333 + 1);
+i__185333 = G__185335;
 continue;
 }
 } else
@@ -143,12 +143,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177458),iter__177455.call(null,cljs.core.chunk_rest.call(null,s__177456__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185334),iter__185331.call(null,cljs.core.chunk_rest.call(null,s__185332__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177458),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185334),null);
 }
 } else
-{var metric = cljs.core.first.call(null,s__177456__$2);return cljs.core.cons.call(null,foundation.test.templates.dashboard_metric.call(null,metric),iter__177455.call(null,cljs.core.rest.call(null,s__177456__$2)));
+{var metric = cljs.core.first.call(null,s__185332__$2);return cljs.core.cons.call(null,foundation.test.templates.dashboard_metric.call(null,metric),iter__185331.call(null,cljs.core.rest.call(null,s__185332__$2)));
 }
 } else
 {return null;
@@ -158,36 +158,36 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,foundation.test.templates.dashboard_metrics);
 })()));
-return dom177454;
+return dom185330;
 })());
-return dom177453;
+return dom185329;
 })());
-return dom177441;
+return dom185317;
 });
-foundation.test.templates.datagrid_filter = (function datagrid_filter(){var dom177462 = document.createElement("div");dom177462.className = "autocomplete";
-dom177462.appendChild((function (){var dom177463 = document.createElement("input");dom177463.className = "form-control";
+foundation.test.templates.datagrid_filter = (function datagrid_filter(){var dom185338 = document.createElement("div");dom185338.className = "autocomplete";
+dom185338.appendChild((function (){var dom185339 = document.createElement("input");dom185339.className = "form-control";
 if("text")
-{dom177463.setAttribute("type","text");
+{dom185339.setAttribute("type","text");
 } else
 {}
 if("What are you looking for?")
-{dom177463.setAttribute("placeholder","What are you looking for?");
+{dom185339.setAttribute("placeholder","What are you looking for?");
 } else
 {}
-return dom177463;
+return dom185339;
 })());
-return dom177462;
+return dom185338;
 });
-foundation.test.templates.datagrid_header = (function datagrid_header(columns){var dom177470 = document.createElement("thead");dom177470.setAttribute("id","datagrid-header");
-dom177470.appendChild((function (){var dom177471 = document.createElement("tr");dom177471.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__177472(s__177473){return (new cljs.core.LazySeq(null,(function (){var s__177473__$1 = s__177473;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__177473__$1);if(temp__4092__auto__)
-{var s__177473__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__177473__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__177473__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__177475 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__177474 = 0;while(true){
-if((i__177474 < size__8920__auto__))
-{var col = cljs.core._nth.call(null,c__8919__auto__,i__177474);cljs.core.chunk_append.call(null,b__177475,foundation.test.cells.th.call(null,col));
+foundation.test.templates.datagrid_header = (function datagrid_header(columns){var dom185346 = document.createElement("thead");dom185346.setAttribute("id","datagrid-header");
+dom185346.appendChild((function (){var dom185347 = document.createElement("tr");dom185347.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__185348(s__185349){return (new cljs.core.LazySeq(null,(function (){var s__185349__$1 = s__185349;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__185349__$1);if(temp__4092__auto__)
+{var s__185349__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__185349__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__185349__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__185351 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__185350 = 0;while(true){
+if((i__185350 < size__8920__auto__))
+{var col = cljs.core._nth.call(null,c__8919__auto__,i__185350);cljs.core.chunk_append.call(null,b__185351,foundation.test.cells.th.call(null,col));
 {
-var G__177476 = (i__177474 + 1);
-i__177474 = G__177476;
+var G__185352 = (i__185350 + 1);
+i__185350 = G__185352;
 continue;
 }
 } else
@@ -196,12 +196,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177475),iter__177472.call(null,cljs.core.chunk_rest.call(null,s__177473__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185351),iter__185348.call(null,cljs.core.chunk_rest.call(null,s__185349__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177475),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185351),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__177473__$2);return cljs.core.cons.call(null,foundation.test.cells.th.call(null,col),iter__177472.call(null,cljs.core.rest.call(null,s__177473__$2)));
+{var col = cljs.core.first.call(null,s__185349__$2);return cljs.core.cons.call(null,foundation.test.cells.th.call(null,col),iter__185348.call(null,cljs.core.rest.call(null,s__185349__$2)));
 }
 } else
 {return null;
@@ -211,19 +211,19 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,columns);
 })()));
-return dom177471;
+return dom185347;
 })());
-return dom177470;
+return dom185346;
 });
-foundation.test.templates.datagrid_row = (function datagrid_row(model,columns){var dom177482 = document.createElement("tr");dom177482.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__177483(s__177484){return (new cljs.core.LazySeq(null,(function (){var s__177484__$1 = s__177484;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__177484__$1);if(temp__4092__auto__)
-{var s__177484__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__177484__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__177484__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__177486 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__177485 = 0;while(true){
-if((i__177485 < size__8920__auto__))
-{var col = cljs.core._nth.call(null,c__8919__auto__,i__177485);cljs.core.chunk_append.call(null,b__177486,foundation.test.cells.td.call(null,col,model));
+foundation.test.templates.datagrid_row = (function datagrid_row(model,columns){var dom185358 = document.createElement("tr");dom185358.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__185359(s__185360){return (new cljs.core.LazySeq(null,(function (){var s__185360__$1 = s__185360;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__185360__$1);if(temp__4092__auto__)
+{var s__185360__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__185360__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__185360__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__185362 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__185361 = 0;while(true){
+if((i__185361 < size__8920__auto__))
+{var col = cljs.core._nth.call(null,c__8919__auto__,i__185361);cljs.core.chunk_append.call(null,b__185362,foundation.test.cells.td.call(null,col,model));
 {
-var G__177487 = (i__177485 + 1);
-i__177485 = G__177487;
+var G__185363 = (i__185361 + 1);
+i__185361 = G__185363;
 continue;
 }
 } else
@@ -232,12 +232,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177486),iter__177483.call(null,cljs.core.chunk_rest.call(null,s__177484__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185362),iter__185359.call(null,cljs.core.chunk_rest.call(null,s__185360__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177486),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185362),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__177484__$2);return cljs.core.cons.call(null,foundation.test.cells.td.call(null,col,model),iter__177483.call(null,cljs.core.rest.call(null,s__177484__$2)));
+{var col = cljs.core.first.call(null,s__185360__$2);return cljs.core.cons.call(null,foundation.test.cells.td.call(null,col,model),iter__185359.call(null,cljs.core.rest.call(null,s__185360__$2)));
 }
 } else
 {return null;
@@ -247,19 +247,19 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,columns);
 })()));
-return dom177482;
+return dom185358;
 });
-foundation.test.templates.datagrid_body = (function datagrid_body(coll,columns){var dom177493 = document.createElement("tbody");dom177493.className = "datagrid-tbody";
-dom177493.setAttribute("id","datagrid-body");
-dom177493.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__177494(s__177495){return (new cljs.core.LazySeq(null,(function (){var s__177495__$1 = s__177495;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__177495__$1);if(temp__4092__auto__)
-{var s__177495__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__177495__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__177495__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__177497 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__177496 = 0;while(true){
-if((i__177496 < size__8920__auto__))
-{var model = cljs.core._nth.call(null,c__8919__auto__,i__177496);cljs.core.chunk_append.call(null,b__177497,foundation.test.templates.datagrid_row.call(null,model,columns));
+foundation.test.templates.datagrid_body = (function datagrid_body(coll,columns){var dom185369 = document.createElement("tbody");dom185369.className = "datagrid-tbody";
+dom185369.setAttribute("id","datagrid-body");
+dom185369.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__185370(s__185371){return (new cljs.core.LazySeq(null,(function (){var s__185371__$1 = s__185371;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__185371__$1);if(temp__4092__auto__)
+{var s__185371__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__185371__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__185371__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__185373 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__185372 = 0;while(true){
+if((i__185372 < size__8920__auto__))
+{var model = cljs.core._nth.call(null,c__8919__auto__,i__185372);cljs.core.chunk_append.call(null,b__185373,foundation.test.templates.datagrid_row.call(null,model,columns));
 {
-var G__177498 = (i__177496 + 1);
-i__177496 = G__177498;
+var G__185374 = (i__185372 + 1);
+i__185372 = G__185374;
 continue;
 }
 } else
@@ -268,12 +268,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177497),iter__177494.call(null,cljs.core.chunk_rest.call(null,s__177495__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185373),iter__185370.call(null,cljs.core.chunk_rest.call(null,s__185371__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__177497),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__185373),null);
 }
 } else
-{var model = cljs.core.first.call(null,s__177495__$2);return cljs.core.cons.call(null,foundation.test.templates.datagrid_row.call(null,model,columns),iter__177494.call(null,cljs.core.rest.call(null,s__177495__$2)));
+{var model = cljs.core.first.call(null,s__185371__$2);return cljs.core.cons.call(null,foundation.test.templates.datagrid_row.call(null,model,columns),iter__185370.call(null,cljs.core.rest.call(null,s__185371__$2)));
 }
 } else
 {return null;
@@ -283,112 +283,112 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,coll);
 })()));
-return dom177493;
+return dom185369;
 });
-foundation.test.templates.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom177510 = document.createElement("ol");dom177510.className = "breadcrumb";
-dom177510.appendChild((function (){var dom177511 = document.createElement("li");dom177511.className = "active";
-dom177511.setAttribute("id","account");
-dom177511.appendChild((function (){var dom177512 = document.createElement("div");dom177512.className = "arrow-down";
-return dom177512;
+foundation.test.templates.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom185386 = document.createElement("ol");dom185386.className = "breadcrumb";
+dom185386.appendChild((function (){var dom185387 = document.createElement("li");dom185387.className = "active";
+dom185387.setAttribute("id","account");
+dom185387.appendChild((function (){var dom185388 = document.createElement("div");dom185388.className = "arrow-down";
+return dom185388;
 })());
-dom177511.appendChild((function (){var dom177513 = document.createElement("a");dom177513.appendChild(document.createTextNode("Accounts"));
-return dom177513;
+dom185387.appendChild((function (){var dom185389 = document.createElement("a");dom185389.appendChild(document.createTextNode("Accounts"));
+return dom185389;
 })());
-dom177511.appendChild((function (){var dom177514 = document.createElement("div");dom177514.className = "arrow-up";
-return dom177514;
+dom185387.appendChild((function (){var dom185390 = document.createElement("div");dom185390.className = "arrow-up";
+return dom185390;
 })());
-return dom177511;
+return dom185387;
 })());
-dom177510.appendChild((function (){var dom177515 = document.createElement("li");dom177515.className = "hidden";
-dom177515.setAttribute("id","campaign");
-dom177515.appendChild((function (){var dom177516 = document.createElement("a");dom177516.appendChild(document.createTextNode("Campaigns"));
-return dom177516;
+dom185386.appendChild((function (){var dom185391 = document.createElement("li");dom185391.className = "hidden";
+dom185391.setAttribute("id","campaign");
+dom185391.appendChild((function (){var dom185392 = document.createElement("a");dom185392.appendChild(document.createTextNode("Campaigns"));
+return dom185392;
 })());
-return dom177515;
+return dom185391;
 })());
-dom177510.appendChild((function (){var dom177517 = document.createElement("li");dom177517.className = "hidden";
-dom177517.setAttribute("id","line_item");
-dom177517.appendChild((function (){var dom177518 = document.createElement("a");dom177518.appendChild(document.createTextNode("Line Items"));
-return dom177518;
+dom185386.appendChild((function (){var dom185393 = document.createElement("li");dom185393.className = "hidden";
+dom185393.setAttribute("id","line_item");
+dom185393.appendChild((function (){var dom185394 = document.createElement("a");dom185394.appendChild(document.createTextNode("Line Items"));
+return dom185394;
 })());
-return dom177517;
+return dom185393;
 })());
-dom177510.appendChild((function (){var dom177519 = document.createElement("li");dom177519.className = "hidden";
-dom177519.setAttribute("id","promoted_tweet");
-dom177519.appendChild((function (){var dom177520 = document.createElement("a");dom177520.appendChild(document.createTextNode("Promoted Products"));
-return dom177520;
+dom185386.appendChild((function (){var dom185395 = document.createElement("li");dom185395.className = "hidden";
+dom185395.setAttribute("id","promoted_tweet");
+dom185395.appendChild((function (){var dom185396 = document.createElement("a");dom185396.appendChild(document.createTextNode("Promoted Products"));
+return dom185396;
 })());
-return dom177519;
+return dom185395;
 })());
-return dom177510;
+return dom185386;
 });
 foundation.test.templates.datagrid_table = (function datagrid_table(model,coll){return dommy.template.__GT_node_like.call(null,(function (){var cols = foundation.test.models.columns.call(null,model);return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"table#datagrid-table.table","table#datagrid-table.table",2230740568),foundation.test.templates.datagrid_header.call(null,cols),foundation.test.templates.datagrid_body.call(null,coll,cols)], null);
 })());
 });
-foundation.test.templates.datagrid = (function datagrid(id){var dom177536 = document.createElement("div");dom177536.className = "datagrid-container panel panel-default";
+foundation.test.templates.datagrid = (function datagrid(id){var dom185412 = document.createElement("div");dom185412.className = "datagrid-container panel panel-default";
 if(cljs.core.truth_(id))
-{dom177536.setAttribute("id",id);
+{dom185412.setAttribute("id",id);
 } else
 {}
-dom177536.appendChild((function (){var dom177537 = document.createElement("div");dom177537.className = "panel-heading";
-dom177537.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.templates.datagrid_breadcrumb.call(null)));
-dom177537.appendChild((function (){var dom177538 = document.createElement("form");dom177538.className = "form-inline pull-right";
-dom177538.appendChild((function (){var dom177539 = document.createElement("div");dom177539.className = "form-group";
-dom177539.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.templates.datagrid_filter.call(null)));
-return dom177539;
+dom185412.appendChild((function (){var dom185413 = document.createElement("div");dom185413.className = "panel-heading";
+dom185413.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.templates.datagrid_breadcrumb.call(null)));
+dom185413.appendChild((function (){var dom185414 = document.createElement("form");dom185414.className = "form-inline pull-right";
+dom185414.appendChild((function (){var dom185415 = document.createElement("div");dom185415.className = "form-group";
+dom185415.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.templates.datagrid_filter.call(null)));
+return dom185415;
 })());
-return dom177538;
+return dom185414;
 })());
-return dom177537;
+return dom185413;
 })());
-dom177536.appendChild((function (){var dom177540 = document.createElement("div");dom177540.className = "panel-body";
-return dom177540;
+dom185412.appendChild((function (){var dom185416 = document.createElement("div");dom185416.className = "panel-body";
+return dom185416;
 })());
-dom177536.appendChild((function (){var dom177541 = document.createElement("div");dom177541.className = "panel-footer";
-dom177541.appendChild((function (){var dom177542 = document.createElement("div");dom177542.className = "form-inline";
-dom177542.appendChild((function (){var dom177543 = document.createElement("div");dom177543.className = "form-group";
-dom177543.appendChild((function (){var dom177544 = document.createElement("button");dom177544.className = "btn btn-success btn-sm";
-dom177544.setAttribute("id","new");
-dom177544.appendChild(document.createTextNode("New"));
-return dom177544;
+dom185412.appendChild((function (){var dom185417 = document.createElement("div");dom185417.className = "panel-footer";
+dom185417.appendChild((function (){var dom185418 = document.createElement("div");dom185418.className = "form-inline";
+dom185418.appendChild((function (){var dom185419 = document.createElement("div");dom185419.className = "form-group";
+dom185419.appendChild((function (){var dom185420 = document.createElement("button");dom185420.className = "btn btn-success btn-sm";
+dom185420.setAttribute("id","new");
+dom185420.appendChild(document.createTextNode("New"));
+return dom185420;
 })());
-return dom177543;
+return dom185419;
 })());
-dom177542.appendChild((function (){var dom177545 = document.createElement("div");dom177545.className = "form-group";
-dom177545.appendChild((function (){var dom177546 = document.createElement("button");dom177546.className = "btn btn-info btn-sm disabled";
-dom177546.setAttribute("id","save");
-dom177546.appendChild(document.createTextNode("Save"));
-return dom177546;
+dom185418.appendChild((function (){var dom185421 = document.createElement("div");dom185421.className = "form-group";
+dom185421.appendChild((function (){var dom185422 = document.createElement("button");dom185422.className = "btn btn-info btn-sm disabled";
+dom185422.setAttribute("id","save");
+dom185422.appendChild(document.createTextNode("Save"));
+return dom185422;
 })());
-return dom177545;
+return dom185421;
 })());
-dom177542.appendChild((function (){var dom177547 = document.createElement("div");dom177547.className = "form-group";
-dom177547.appendChild((function (){var dom177548 = document.createElement("button");dom177548.className = "btn btn-danger btn-sm disabled";
-dom177548.setAttribute("id","delete");
-dom177548.appendChild(document.createTextNode("Delete"));
-return dom177548;
+dom185418.appendChild((function (){var dom185423 = document.createElement("div");dom185423.className = "form-group";
+dom185423.appendChild((function (){var dom185424 = document.createElement("button");dom185424.className = "btn btn-danger btn-sm disabled";
+dom185424.setAttribute("id","delete");
+dom185424.appendChild(document.createTextNode("Delete"));
+return dom185424;
 })());
-return dom177547;
+return dom185423;
 })());
-dom177542.appendChild((function (){var dom177549 = document.createElement("div");dom177549.className = "form-group";
-dom177549.appendChild((function (){var dom177550 = document.createElement("button");dom177550.className = "btn btn-primary btn-sm disabled";
-dom177550.setAttribute("id","dupe");
-dom177550.appendChild(document.createTextNode("Duplicate"));
-return dom177550;
+dom185418.appendChild((function (){var dom185425 = document.createElement("div");dom185425.className = "form-group";
+dom185425.appendChild((function (){var dom185426 = document.createElement("button");dom185426.className = "btn btn-primary btn-sm disabled";
+dom185426.setAttribute("id","dupe");
+dom185426.appendChild(document.createTextNode("Duplicate"));
+return dom185426;
 })());
-return dom177549;
+return dom185425;
 })());
-return dom177542;
+return dom185418;
 })());
-return dom177541;
+return dom185417;
 })());
-return dom177536;
+return dom185412;
 });
-foundation.test.templates.twitter_power = (function twitter_power(id){var dom177552 = document.createElement("div");if(cljs.core.truth_(id))
-{dom177552.setAttribute("id",id);
+foundation.test.templates.twitter_power = (function twitter_power(id){var dom185428 = document.createElement("div");if(cljs.core.truth_(id))
+{dom185428.setAttribute("id",id);
 } else
 {}
-return dom177552;
+return dom185428;
 });
 
 //# sourceMappingURL=templates.js.map

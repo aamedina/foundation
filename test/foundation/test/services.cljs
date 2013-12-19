@@ -27,20 +27,97 @@
   (->> []
        (into init)))
 
-(defmethod route [:get "/campaigns"]
+(defmethod route [:get "/accounts/account-id/campaigns"]
   [req]
   (->> []
        (into init)))
 
-(defmethod route [:get "/campaigns/:id"]
+(defmethod route [:get "/accounts/account-id/campaigns/:id"]
   [req]
   (->> []
        (into init)))
+
+(defmethod route [:get "/accounts/account-id/line_items"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/account-id/line_items/:id"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/account-id/promoted_accounts"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/account-id/promoted_accounts/:id"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/account-id/promoted_tweets"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/account-id/promoted_tweets/:id"]
+  [req]
+  (->> []
+       (into init)))
+
+(defn stats-request
+  [model params granularity start-time end-time]
+  (let [metrics (models/metrics model)]
+    (xhr/GET (m/reify-url model params
+                          {:granularity granularity
+                           :start-time start-time
+                           :end-time end-time}))))
 
 (defmethod route [:get "/stats/accounts/:id"]
   [req]
   (go (let [account-id (get-in req [:params :id])]
-        )))
+        (stats-request models/account-stats {:id account-id}
+                       "HOUR"
+                       (models/start-time models/account-stats)
+                       (models/end-time models/account-stats)))))
+
+(defmethod route [:get "/stats/accounts/:account-id/campaigns/:id"]
+  [req]
+  (go (stats-request models/campaign-stats
+                     {:account-id (get-in req [:params :account-id])
+                      :id (get-in req [:params :id])}
+                     "HOUR"
+                     (models/start-time models/campaign-stats)
+                     (models/end-time models/campaign-stats))))
+
+(defmethod route [:get "/stats/accounts/:account-id/line_items/:id"]
+  [req]
+  (go (stats-request models/line-item-stats
+                     {:account-id (get-in req [:params :account-id])
+                      :id (get-in req [:params :id])}
+                     "HOUR"
+                     (models/start-time models/line-item-stats)
+                     (models/end-time models/line-item-stats))))
+
+(defmethod route [:get "/stats/accounts/:account-id/promoted_accounts/:id"]
+  [req]
+  (go (stats-request models/promoted-account-stats
+                     {:account-id (get-in req [:params :account-id])
+                      :id (get-in req [:params :id])}
+                     "HOUR"
+                     (models/start-time models/promoted-account-stats)
+                     (models/end-time models/promoted-account-stats))))
+
+(defmethod route [:get "/stats/accounts/:account-id/promoted_tweets/:id"]
+  [req]
+  (go (stats-request models/promoted-tweet-stats
+                     {:account-id (get-in req [:params :account-id])
+                      :id (get-in req [:params :id])}
+                     "HOUR"
+                     (models/start-time models/promoted-tweet-stats)
+                     (models/end-time models/promoted-tweet-stats))))
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

@@ -7,8 +7,8 @@
  ";AAAA;;;;;;;;;AAOA,iDAAA,8BAAA,/EAAMA,qEACHE,GAAGC,OACJ,AAAA,GAAA,OAAAC;CAAA;CAAA,AAAA,AAAA;;;;;;;;;;;;AAAA,AAAA,AAAAA,8DAAA;AAAA,AAAA,AAAAA,iEAAA;AAAA,AAAA,AAAAA,sEAAA,WAAAC,mBAAAC,qBAAAC,mBAAA,AAAA,OAAAC,2BAAAF,qBAAA;;AAAA,AAAA,AAAA,AAAA,AAAAF,oFAAA;AAAA,AAAA,AAAA,AAAAA,mGAAA,WAEYQ;AAFZ,AAAA,YAAA,KAAA,bAEYA,aACR,OAACC,8CAAYX;;AAHjB,AAAA,AAAA,AAAAE,uFAAA,WAAAK;AAAA,AAAA,IAAAA,cAAA,KAAA,AAAAC;;AAAA,AAAA,AAAA,AAAAN,gGAAA,WAAAK,QAAAC;uGAFIT,VACHC,bAAGC,hFACJ,AAAA,IAAAM,cAAA,KAAA,AAAA,YAAAL,qFAAAM;;4FAFIT,oGAAAA,3GACHC,oGAAAA,9GAAGC,oGAAAA,/KACJ,AAAAQ,oDAAA,sDAAAD,YAAA,AAAA,YAAAN,4EAAAM;;AAAAN;kEAFIH,HACHC,NAAGC,zDACJ,YAAAC,gEAAA",
  "names":
  ["foundation.test.components.dashboard/dashboard", "dashboard", "id",
-  "state", "foundation.test.components.dashboard/t177354",
+  "state", "foundation.test.components.dashboard/t185230",
   "this__8772__auto__", "writer__8773__auto__", "opt__8774__auto__",
-  "cljs.core/-write", "_177356", "meta177355",
-  "foundation.test.components.dashboard/->t177354", "_",
+  "cljs.core/-write", "_185232", "meta185231",
+  "foundation.test.components.dashboard/->t185230", "_",
   "foundation.test.templates/dashboard"]}

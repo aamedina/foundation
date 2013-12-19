@@ -315,10 +315,10 @@
         (at-midnight)
         (#(fmt/unparse (fmt/formatters :date-time-no-ms) %)))))
 
-(defmethod start-time :campaigns
-  [model]
-  (fmt/unparse (fmt/formatters :date-time-no-ms)
-               (coerce/from-string (:start-time model))))
+;; (defmethod start-time :campaigns
+;;   [model]
+;;   (fmt/unparse (fmt/formatters :date-time-no-ms)
+;;                (coerce/from-string (:start-time model))))
 
 (defmulti end-time
   (fn [model] (when-let [n (:name model)] (keyword (name n)))))
