@@ -87,14 +87,10 @@
   Lifecycle
   (start [df]
     (c/start-system df #{:router :renderer})
-    (log-group
-     "System initialization"
-     [["Router initialized."]
-      ["Renderer initialized."]
-      [(c/dependency-graph df [:router :renderer])]])
     df)
   (stop [df]
-    (c/stop-system df #{:router :renderer})))
+    (c/stop-system df #{:router :renderer})
+    df))
 
 (defn build
   [& {:keys [root-id routes] :as config}]
