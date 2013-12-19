@@ -4,8 +4,11 @@
                                                sliding-buffer alts!]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
             [foundation.app.data.dependency :as d :refer [graph depend]]
+            [foundation.app.ui :as ui]
             [goog.events :as e]
-            [dommy.core :as dom])
+            [goog.dom :as gdom]
+            [dommy.core :as dom]
+            [dommy.template :as tmpl])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]
                    [dommy.macros :refer [node sel sel1]])
   (:import [goog.ui IdGenerator]
@@ -23,7 +26,7 @@
 (defn log-fn [deltas] (util/log-group "Rendering Deltas" deltas))
 
 (defprotocol IEventDelegate
-  (-find-dispatches [_ e])
+  (-find-dispatches [_ t e])
   (-dispatch-action [_ e])
   (-dispatch-key [_ e])
   (-dispatch-focus [_ e])
@@ -99,25 +102,6 @@
 
 (def refresh-queued false)
 
-(defprotocol IRender
-  (-render [_]))
-
-(extend-protocol IRender
-  nil
-  (-render [_] nil)
-
-  default
-  (-render [_] nil)
-
-  PersistentVector
-  (-render [r] (node r)))
-
-(defn sort-deps
-  [deps pid]
-  (->> (d/transitive-dependents @deps pid)
-       (remove nil?)
-       (sort (d/topo-comparator @deps))))
-
 (defprotocol IRenderer
   (-get-id [_ path])
   (-parent-id [_ path])
@@ -127,6 +111,41 @@
   (-set-data [_ path data])
   (-get-data [_ path])
   (-drop-data [_ path]))
+
+(defprotocol IRender
+  (-render [_ renderer]))
+
+(defn extend-component
+  [component renderer event-type]
+  (-set-data renderer [:_event event-type] component)
+  component)
+
+(extend-protocol IRender
+  nil
+  (-render [_ _] nil)
+
+  default
+  (-render [x renderer]
+    (let [dom-content
+          (cond-> x
+            (satisfies? ui/IFocusable x) (extend-component renderer :focus)
+            (satisfies? ui/IClickable x) (extend-component renderer :action)
+            (satisfies? ui/IKeyTarget x) (extend-component renderer :key)
+            (satisfies? ui/IResizeable x) (extend-component renderer :resize)
+            (satisfies? ui/IScrollable x) (extend-component renderer :scroll)
+            (satisfies? ui/IInput x) (extend-component renderer :input)
+            (satisfies? ui/IOnline x) (extend-component renderer :online)
+            (satisfies? ui/IRender x) (ui/-render))]
+      (with-meta dom-content {:component x})))
+
+  PersistentVector
+  (-render [x renderer] (node x)))
+
+(defn sort-deps
+  [deps pid]
+  (->> (d/transitive-dependents @deps pid)
+       (remove nil?)
+       (sort (d/topo-comparator @deps))))
 
 (defrecord Renderer [env deps render-fn handlers]
   Lifecycle
@@ -149,21 +168,28 @@
                       pid (-parent-id renderer path)]
                   (case op
                     :node-create
-                    (when-let [dom-content (-render (f renderer d pid id))]
-                      (-set-data renderer [id] dom-content)
-                      (if-let [parent (-get-data renderer [pid])]
-                        (dom/append! parent dom-content)
-                        (dom/append! js/document.body dom-content))
-                      (dom/set-attr! dom-content :id id)
+                    (when-let [dom (-render (f renderer d pid id) renderer)]
+                      (-set-data renderer [id] dom)
+                      (if-let [parent
+                               (if (and (meta dom)
+                                        (satisfies? ui/IParentNode
+                                                    (:component (meta dom))))
+                                 ((ui/-parent-node (:component (meta dom)))
+                                  (-get-data renderer [pid]))
+                                 (-get-data renderer [pid]))]
+                        (dom/append! parent dom)
+                        (dom/append! js/document.body dom))
+                      ;; (dom/set-attr! dom :id id)
                       (swap! deps depend id pid))
                     :node-update
                     (doseq [dep (sort-deps deps pid)]
                       (let [dep-pid (-parent-id renderer dep)]
                         (when-let [dom-content
-                                   (-render (f renderer d dep-pid dep))]
+                                   (-render (f renderer d dep-pid dep)
+                                            renderer)]
                           (when-let [old-content (-get-data renderer [dep])]
                             (dom/replace! old-content dom-content))
-                          (dom/set-attr! dom-content :id dep)
+                          ;; (dom/set-attr! dom-content :id dep)
                           (-set-data renderer [dep] dom-content))))
                     :node-destroy
                     (doseq [dep (sort-deps deps pid)]
@@ -184,22 +210,30 @@
       (.dispose handler)))
 
   IEventDelegate
-  (-find-dispatches [renderer e]
-    )
+  (-find-dispatches [renderer event-type e]
+    (let [registered (-get-data renderer [event-type])]
+      (filter #(dom/descendant? % (.-target e)) registered)))
   (-dispatch-action [renderer e]
-    (println "action!"))
+    (doseq [component (-find-dispatches renderer :action e)]
+      (js/console.log component)))
   (-dispatch-key [renderer e]
-    (println "key!"))
+    (doseq [component (-find-dispatches renderer :key e)]
+      (js/console.log component)))
   (-dispatch-focus [renderer e]
-    (println "focus!"))
+    (doseq [component (-find-dispatches renderer :focus e)]
+      (js/console.log component)))
   (-dispatch-scroll [renderer e]
-    (println "scroll!"))
+    (doseq [component (-find-dispatches renderer :scroll e)]
+      (js/console.log component)))
   (-dispatch-drop [renderer e]
-    (println "drop!"))
+    (doseq [component (-find-dispatches renderer :drop e)]
+      (js/console.log component)))
   (-dispatch-online [renderer e]
-    (println "online!"))
+    (doseq [component (-find-dispatches renderer :online e)]
+      (js/console.log component)))
   (-dispatch-resize [renderer e]
-    (println "resize!"))
+    (doseq [component (-find-dispatches renderer :resize e)]
+      (js/console.log component)))
   
   IRenderer
   (-get-id [_ path]
@@ -229,19 +263,6 @@
       (swap! env update-in
              (concat [:_data] (butlast path)) dissoc (last path))
       (swap! env update-in [:_data :id] dissoc (last path)))))
-
-(defn push-render-queue
-  [renderer input-queue]
-  (let [render-queue (chan)]
-    (go-loop []
-      (let [delta (<! render-queue)
-            [op path _ _ :as d] delta]
-        (if-let [id (-get-id renderer path)]
-          (render renderer delta (-parent-id renderer path) id)
-          (render renderer delta (-parent-id renderer path)
-                  (-new-id renderer path))))
-      (recur))
-    render-queue))
 
 (defn renderer
   ([root-id]

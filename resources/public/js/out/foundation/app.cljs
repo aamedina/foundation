@@ -101,8 +101,7 @@
   (let [app-state (atom {:data-model {}})
         input (input-queue app-state)
         output (output-queue app-state)
-        renderer (render/renderer root-id)
-        render-queue (render/push-render-queue renderer input)]
+        renderer (render/renderer root-id)]
     (try (c/start (map->Dataflow
                    {:state app-state
                     :input input
@@ -110,7 +109,6 @@
                     :renderer (c/using renderer
                                 {:input :input
                                  :app-state :state})
-                    :render-queue render-queue
                     :router (c/using (r/router routes)
                               {:input :input
                                :app-state :state})}))

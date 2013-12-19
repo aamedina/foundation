@@ -2,9 +2,9 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test.js",
  "sources":["test.cljs"],
- "lineCount":32,
+ "lineCount":30,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;;;;;AAYA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,0MAAA,tMAAMC,MAAI,+BAAA,2DAAA,UAAA,pGAACC,6JAAqCC,mCAC9C,8HAAA,wEAAA,iFAAA,mFAAA,6DAAA,vaAACC,oCAAK,AAAA,qFAAQH,iDACPI,iFAAeC;AACtB,8HAAA,wEAAA,+EAAA,mFAAA,6DAAA,raAACF,oCAAK,AAAA,qFAAQH,iDACPI,+EAAcC;AACrB,8HAAA,wEAAA,qFAAA,mFAAA,6DAAA,3aAACF,oCAAK,AAAA,qFAAQH,iDACPI,qFAAiBC;AACxBL",
+ ";AAAA;;;;;;;;;;;;;;;;;;;;AAYA,AAACA;AAED,wBAAA,kBAAA,1CAAMC,0CAAS,uBAAA,hBAACC;;AAEhB,wBAAA,kBAAA,1CAAeC,0CACb,0MAAA,tMAAMC,MAAI,+BAAA,2DAAA,UAAA,pGAACC,6JAAqCC,mCAC9C,8HAAA,wEAAA,iFAAA,mFAAA,6DAAA,vaAACC,oCAAK,AAAA,qFAAQH,iDACPI,iFAAeC;AAKtBL",
  "names":
  ["cljs.core/enable-console-print!", "foundation.test/reset",
   "js/location.reload", "foundation.test/-main", "app",
