@@ -13,14 +13,23 @@
   [state message]
   {})
 
-(defmethod transform [:add [:datagrid :collection]]
+(defmethod transform [:create [:datagrid :collection]]
   [state message]
-  [1])
+  (into [((fnil identity {} (:model message)))] state))
+
+(defmethod transform [:save [:datagrid :collection]]
+  [state message]
+  (into (conj (subvec state 0 (:nth message)) (:model message))
+        (subvec state (inc (:nth message)) (count state))))
 
 (defmethod transform [:delete [:datagrid :collection]]
   [state message]
-  nil)
+  (into (subvec state 0 (:nth message))
+        (subvec state (inc (:nth message)) (count state))))
 
 (defmethod derives [#{[:datagrid] [:dashboard]} [:chart] :default]
   [state message input]
-  input)
+  (let [dashboard (get input [:dashboard])
+        datagrid (get input [:datagrid])]
+    {:resource (:resource datagrid)
+     :model (:model dashboard)}))
