@@ -11,8 +11,8 @@
 
 (defmethod route [:get "/"]
   [req]
-  [{msg/type :init msg/path [:datagrid]}
-   {msg/type :init msg/path [:dashboard]}])
+  [{msg/type :init msg/path [:dashboard]}
+   {msg/type :init msg/path [:datagrid]}])
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

@@ -4,7 +4,7 @@
  "sources":["services.cljs"],
  "lineCount":24,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;;;;AAWA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,wEAAA,iFAAA,mFAAA,oFAAA,wEAAA,iFAAA,mFAAA,3oBACGC,2IACCC,iFAAeC,+OACfD,iFAAeC",
+ ";AAAA;;;;;;;;;;;;;;;;;;;AAWA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,wEAAA,iFAAA,mFAAA,sFAAA,wEAAA,iFAAA,mFAAA,7oBACGC,2IACCC,iFAAeC,iPACfD,iFAAeC",
  "names":
  ["cljs.core/-add-method", "foundation.app.router/route", "req",
   "foundation.app.message/type", "foundation.app.message/path"]}

@@ -7169,7 +7169,6 @@ body {
 
 #content div.twitter-stats div.panel-footer div.twitter-stats ul.list-group li.list-group-item:first-child {
   padding-top: 2rem;
-  padding-bottom: 1rem;
   background-color: white;
 }
 
@@ -7195,14 +7194,13 @@ body {
 }
 
 #content div.twitter-stats div.panel-footer div.twitter-stats ul.list-group li.list-group-item h5 {
-  margin-bottom: 0.5em;
-  font-size: 1.75rem;
+  font-size: 1.25rem;
   font-weight: 200;
 }
 
 @media (max-width: 1200px) {
   #content div.twitter-stats div.panel-footer div.twitter-stats ul.list-group li.list-group-item h5 {
-    font-size: 1.5rem;
+    font-size: 1.0rem;
   }
 }
 
