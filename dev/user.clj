@@ -38,27 +38,6 @@
   (route/resources "/")
   (ANY "*" req (index)))
 
-;; (def ^:dynamic *base-url* nil)
-
-;; (defmacro with-base-url
-;;   "Sets a base URL that will be prepended onto relative URIs. Note that for 
-;;   this to work correctly, it needs to be placed outside the html macro."
-;;   [base-url & body]
-;;   `(binding [*base-url* ~base-url]
-;;      ~@body))
-
-;; (defn wrap-base-url
-;;   "Ring middleware that wraps the handler in the with-base-url function. The
-;;   base URL may be specified as an argument. Otherwise, the :context key on the
-;;   request map is used."
-;;   [handler & [base-url]]
-;;   (fn [request]
-;;     (with-base-url (or base-url (:context request))
-;;       (handler request))))
-
-;; (def app (-> (site app-routes)
-;;              (wrap-base-url)))
-
 (def system
   "A Var containing an object representing the application under
   development."

@@ -149,6 +149,9 @@
   PersistentVector
   (-render [x renderer] (node x))
 
+  Keyword
+  (-render [x renderer] (sel1 x))
+
   js/Element
   (-render [x renderer] x))
 

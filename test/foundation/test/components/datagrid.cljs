@@ -60,6 +60,14 @@
      [:div.form-group
       [:button#dupe.btn.btn-primary.btn-sm.disabled "Duplicate"]]]]])
 
+(defn add-model
+  []
+  (reify
+    ui/IRender
+    (-render [_] :#new)
+    ui/IClickable
+    (-click [_]
+      (println "CLICK!"))))
 
 (defn datagrid
   [id state]
