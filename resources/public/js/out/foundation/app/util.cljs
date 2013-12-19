@@ -1,8 +1,6 @@
 (ns foundation.app.util
   (:require [cljs.reader :as reader]))
 
-(def ^:dynamic *debug* false)
-
 (defn safe-read-string [s]
   (reader/read-string s))
 
@@ -20,7 +18,7 @@
 (defn log-group [group-name coll]
   (.group js/console group-name)
   (doseq [d coll]
-    (.log js/console (pr-str (vec (take 2 d)))))
+    (.log js/console (pr-str d)))
   (.groupEnd js/console))
 
 (defn log-exceptions [f & args]

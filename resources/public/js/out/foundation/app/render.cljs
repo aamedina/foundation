@@ -9,9 +9,10 @@
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]
                    [dommy.macros :refer [node sel sel1]])
   (:import [goog.ui IdGenerator]
-           [goog.events EventHandler InputHandler FocusHandler KeyHandler
+           [goog.events EventHandler InputHandler FocusHandler MouseWheelEvent
             MouseWheelHandler ActionEvent EventType KeyEvent ActionHandler
-            FileDropHandler MouseWheelEvent OnlineHandler]))
+            FileDropHandler OnlineHandler KeyHandler]
+           [goog.dom ViewportSizeMonitor]))
 
 (enable-console-print!)
 
@@ -28,7 +29,8 @@
   (-dispatch-focus [_ e])
   (-dispatch-scroll [_ e])
   (-dispatch-drop [_ e])
-  (-dispatch-online [_ e]))
+  (-dispatch-online [_ e])
+  (-dispatch-resize [_ e]))
 
 (defn event-delegate
   [renderer]
@@ -41,6 +43,7 @@
           file-drop-handler (FileDropHandler. js/document)
           scroll-handler (MouseWheelHandler. js/document)
           online-handler (OnlineHandler. js/document)
+          resize-handler (ViewportSizeMonitor/getInstanceForWindow)
           handler (doto (EventHandler. renderer)
                     (.listen action-handler
                              ActionHandler.EventType.BEFOREACTION
@@ -68,14 +71,18 @@
                              (fn [e] (-dispatch-online renderer e)))
                     (.listen online-handler
                              OnlineHandler.EventType.OFFLINE
-                             (fn [e] (-dispatch-online renderer e))))]
+                             (fn [e] (-dispatch-online renderer e)))
+                    (.listen resize-handler
+                             EventType.RESIZE
+                             (fn [e] (-dispatch-resize renderer e))))]
       {:action action-handler
        :key key-handler
        :event handler
        :focus focus-handler
        :file file-drop-handler
        :online online-handler
-       :scroll scroll-handler})))
+       :scroll scroll-handler
+       :resize resize-handler})))
 
 (defn node-seq
   [env]
@@ -105,11 +112,20 @@
 (defrecord Renderer [env render-fn handlers]
   Lifecycle
   (start [renderer]
-    (enable-console-print!)
     (let [handlers (reset! handlers (event-delegate renderer))
-          render-fn (fn []
-                      (set! refresh-queued false)
-                      )]      
+          render-fns (methods render)
+          render-fn
+          (fn []
+            (set! refresh-queued false)
+            (when-let [deltas (:deltas @(:app-state renderer))]
+              (log-fn deltas)
+              (doseq [delta deltas]                
+                (let [[op path _ _ :as d] delta]
+                  (when-let [f (get render-fns [op path])]                    
+                    (if-let [id (-get-id renderer path)]
+                      (f renderer d (-parent-id renderer path) id)
+                      (let [id (-new-id renderer path)]
+                        (f renderer d (-parent-id renderer path) id))))))))]
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
@@ -119,24 +135,27 @@
                        (js/setTimeout render-fn 16)))))
       (render-fn)))
   
-  (stop [this]
+  (stop [renderer]
     (doseq [handler (vals @handlers)]
       (.dispose handler)))
 
   IEventDelegate
-  (-find-dispatches [_ e])
-  (-dispatch-action [_ e]
+  (-find-dispatches [renderer e]
+    )
+  (-dispatch-action [renderer e]
     (println "action!"))
-  (-dispatch-key [_ e]
+  (-dispatch-key [renderer e]
     (println "key!"))
-  (-dispatch-focus [_ e]
+  (-dispatch-focus [renderer e]
     (println "focus!"))
-  (-dispatch-scroll [_ e]
+  (-dispatch-scroll [renderer e]
     (println "scroll!"))
-  (-dispatch-drop [_ e]
+  (-dispatch-drop [renderer e]
     (println "drop!"))
-  (-dispatch-online [_ e]
+  (-dispatch-online [renderer e]
     (println "online!"))
+  (-dispatch-resize [renderer e]
+    (println "resize!"))
   
   IRenderer
   (-get-id [_ path]
@@ -183,4 +202,4 @@
 (defmethod render :default
   [renderer [op path _ _] pid id]
   "Default render implementation. Implemented as a no-op and returns nil."
-  (println [op path]))
+  (println "No matching render method for:" [op path]))

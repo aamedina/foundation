@@ -8,3 +8,7 @@
 (defmethod transform [:init [:datagrid :collection]]
   [state message]
   [])
+
+(defmethod transform [:init [:dashboard]]
+  [state message]
+  {})

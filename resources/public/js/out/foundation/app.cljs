@@ -14,11 +14,22 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]
                    [cljs.core.match.macros :refer [match]]))
 
+(enable-console-print!)
+
 (defmulti transform
   (fn [state message]
     [(msg/type message) (msg/path message)]))
 
 (defmethod transform :default [state message] state)
+
+(defn rendering-deltas
+  [old new]
+  (letfn [(make-delta [op path]
+            (vector op path (get-in old path) (get-in new path)))]
+    (reduce (fn [deltas [op paths :as delta]]
+              (->> (map make-delta (repeat op) paths)
+                   (into deltas)))
+            [] (tm/changes new))))
 
 (defn transact-one
   ([state message]
@@ -29,13 +40,18 @@
                          :data-model (tm/tracking-map (:data-model state))))
                      (assoc :input message)
                      (dissoc :effect))
+           old-state state
            new-state (update-in state (into [:data-model] (msg/path message))
                                 transform message)
-           deltas (tm/changes (:data-model new-state))]
-       (-> (if in-transaction?
-             new-state
-             (assoc new-state :data-model (into {} (:data-model new-state))))
-           (assoc :deltas deltas)))))
+           deltas (rendering-deltas (:data-model old-state)
+                                    (:data-model new-state))]
+       (if (get-in new-state (into [:data-model] (msg/path message)))
+         (-> (if in-transaction?
+               new-state
+               (assoc new-state
+                 :data-model (into {} (:data-model new-state))))
+             (assoc :deltas deltas))
+         old-state))))
 
 (defn transact-batch
   [state messages]
@@ -53,7 +69,7 @@
         (let [new-state (if (vector? input)
                           (swap! app-state transact-batch input)
                           (swap! app-state transact-one input))]
-          (log-group "Data Model Deltas" (:deltas new-state))))
+          new-state))
       (recur))
     input-queue))
 
