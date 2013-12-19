@@ -24,9 +24,23 @@
 
 (defmethod route [:get "/accounts/:id"]
   [req]
-  (println "ACCOUNT ID IS: " (get-in req [:params :id]))
   (->> []
        (into init)))
+
+(defmethod route [:get "/campaigns"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/campaigns/:id"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/stats/accounts/:id"]
+  [req]
+  (go (let [account-id (get-in req [:params :id])]
+        )))
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

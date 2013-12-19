@@ -1,63 +1,65 @@
 (ns foundation.test.models
   (:require [foundation.app.data.dependency :as d :refer [graph depend]]
             [foundation.app.models]
+            [foundation.app]
             [goog.date :as date]
             [clojure.string :as str]
             [cljs-time.format :as fmt]
             [cljs-time.core :as time]
             [cljs-time.coerce :as coerce])
-  (:import [goog Uri]))
+  (:import [goog Uri])
+  (:require-macros [foundation.app :refer [defmodel]]))
 
 (def ads-api (Uri. "http://192.241.130.213:8080/user/15/ads-api"))
 (def rest-api (Uri. "http://192.241.130.213:8080/user/15/rest-api"))
 
 (def ^:dynamic *api* ads-api)
 
-(def accounts
+(defmodel accounts
   {:url "/accounts/:id"
    :api ads-api})
 
-(def campaigns
+(defmodel campaigns
   {:url "/accounts/:account-id/campaigns/:id"
    :api ads-api})
 
-(def line-items
+(defmodel line-items
   {:url "/accounts/:account-id/line_items/:id"
    :api ads-api})
 
-(def promoted-tweets
+(defmodel promoted-tweets
   {:url "/accounts/:account-id/promoted_tweets/:id"
    :api ads-api})
 
-(def promoted-accounts
+(defmodel promoted-accounts
   {:url "/accounts/:account-id/promoted_accounts/:id"
    :api ads-api})
 
-(def targeting-criteria
+(defmodel targeting-criteria
   {:url "/accounts/:account-id/targeting_criteria/:id"
    :api ads-api})
 
-(def account-stats
+(defmodel account-stats
   {:url "/stats/accounts/:id"
    :api ads-api
    :query-params [:start-time :end-time :granularity :metrics]})
 
-(def campaign-stats
+(defmodel campaign-stats
   {:url "/stats/accounts/:account-id/campaigns/:id"
    :api ads-api
    :query-params [:start-time :end-time :granularity :metrics]})
 
-(def line-item-stats
+(defmodel line-item-stats
   {:url "/stats/accounts/:account-id/line_items/:id"
    :api ads-api
    :query-params [:start-time :end-time :granularity :metrics]})
 
-(def promoted-account-stats
+(defmodel promoted-account-stats
   {:url "/stats/accounts/:account-id/promoted_tweets/:id"
    :api ads-api
    :query-params [:start-time :end-time :granularity :metrics]})
 
-(def promoted-tweet-stats
+(defmodel promoted-tweet-stats
   {:url "/stats/accounts/:account-id/promoted_accounts/:id"
    :api ads-api
    :query-params [:start-time :end-time :granularity :metrics]})

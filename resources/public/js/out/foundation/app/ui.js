@@ -1,7 +1,7 @@
 // Compiled by ClojureScript 0.0-2120
 goog.provide('foundation.app.ui');
 goog.require('cljs.core');
-foundation.app.ui.IRender = (function (){var obj100726 = {};return obj100726;
+foundation.app.ui.IRender = (function (){var obj176990 = {};return obj176990;
 })();
 foundation.app.ui._render = (function _render(_){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IRender$_render$arity$1;
@@ -23,7 +23,7 @@ foundation.app.ui._render = (function _render(_){if((function (){var and__8211__
 })().call(null,_);
 }
 });
-foundation.app.ui.IFocusable = (function (){var obj100728 = {};return obj100728;
+foundation.app.ui.IFocusable = (function (){var obj176992 = {};return obj176992;
 })();
 foundation.app.ui._focus = (function _focus(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IFocusable$_focus$arity$2;
@@ -65,7 +65,7 @@ foundation.app.ui._blur = (function _blur(_,e){if((function (){var and__8211__au
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IKeyTarget = (function (){var obj100730 = {};return obj100730;
+foundation.app.ui.IKeyTarget = (function (){var obj176994 = {};return obj176994;
 })();
 foundation.app.ui._keydown = (function _keydown(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IKeyTarget$_keydown$arity$2;
@@ -107,7 +107,7 @@ foundation.app.ui._keyup = (function _keyup(_,e){if((function (){var and__8211__
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IResizeable = (function (){var obj100732 = {};return obj100732;
+foundation.app.ui.IResizeable = (function (){var obj176996 = {};return obj176996;
 })();
 foundation.app.ui._resize = (function _resize(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IResizeable$_resize$arity$2;
@@ -129,7 +129,7 @@ foundation.app.ui._resize = (function _resize(_,e){if((function (){var and__8211
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IClickable = (function (){var obj100734 = {};return obj100734;
+foundation.app.ui.IClickable = (function (){var obj176998 = {};return obj176998;
 })();
 foundation.app.ui._click = (function _click(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IClickable$_click$arity$2;
@@ -151,7 +151,7 @@ foundation.app.ui._click = (function _click(_,e){if((function (){var and__8211__
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IMouseTarget = (function (){var obj100736 = {};return obj100736;
+foundation.app.ui.IMouseTarget = (function (){var obj177000 = {};return obj177000;
 })();
 foundation.app.ui._mouseover = (function _mouseover(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IMouseTarget$_mouseover$arity$2;
@@ -233,7 +233,7 @@ foundation.app.ui._mouseup = (function _mouseup(_,e){if((function (){var and__82
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IScrollable = (function (){var obj100738 = {};return obj100738;
+foundation.app.ui.IScrollable = (function (){var obj177002 = {};return obj177002;
 })();
 foundation.app.ui._scroll = (function _scroll(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IScrollable$_scroll$arity$2;
@@ -255,7 +255,7 @@ foundation.app.ui._scroll = (function _scroll(_,e){if((function (){var and__8211
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IHideable = (function (){var obj100740 = {};return obj100740;
+foundation.app.ui.IHideable = (function (){var obj177004 = {};return obj177004;
 })();
 foundation.app.ui._hide = (function _hide(_){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IHideable$_hide$arity$1;
@@ -297,7 +297,7 @@ foundation.app.ui._show = (function _show(_){if((function (){var and__8211__auto
 })().call(null,_);
 }
 });
-foundation.app.ui.ISelect = (function (){var obj100742 = {};return obj100742;
+foundation.app.ui.ISelect = (function (){var obj177006 = {};return obj177006;
 })();
 foundation.app.ui._set_selection = (function _set_selection(_,val){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$ISelect$_set_selection$arity$2;
@@ -359,7 +359,7 @@ foundation.app.ui._selected = (function _selected(_){if((function (){var and__82
 })().call(null,_);
 }
 });
-foundation.app.ui.IInput = (function (){var obj100744 = {};return obj100744;
+foundation.app.ui.IInput = (function (){var obj177008 = {};return obj177008;
 })();
 foundation.app.ui._input = (function _input(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IInput$_input$arity$2;
@@ -421,7 +421,7 @@ foundation.app.ui._set_value = (function _set_value(_,val){if((function (){var a
 })().call(null,_,val);
 }
 });
-foundation.app.ui.IOnline = (function (){var obj100746 = {};return obj100746;
+foundation.app.ui.IOnline = (function (){var obj177010 = {};return obj177010;
 })();
 foundation.app.ui._online = (function _online(_,e){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IOnline$_online$arity$2;
@@ -463,7 +463,7 @@ foundation.app.ui._offline = (function _offline(_,e){if((function (){var and__82
 })().call(null,_,e);
 }
 });
-foundation.app.ui.IParentNode = (function (){var obj100748 = {};return obj100748;
+foundation.app.ui.IParentNode = (function (){var obj177012 = {};return obj177012;
 })();
 foundation.app.ui._parent_node = (function _parent_node(_){if((function (){var and__8211__auto__ = _;if(and__8211__auto__)
 {return _.foundation$app$ui$IParentNode$_parent_node$arity$1;

@@ -129,18 +129,17 @@
       :data-model (into {} (:data-model new-state)))))
 
 (defn process-special-message
-  [message]
+  [input-queue message]
   (let [topic (msg/path message)
         t (msg/type message)]
     (case topic
       [:router] (case t
                   :navigate
-                  (let [messages (r/route {:router (:router system)
+                  (let [messages (r/route {:input input-queue
                                            :uri (:to-path message)
                                            :method :get
                                            :params {}})]
-                    (doseq [message messages]
-                      (put! (:input system) message)))
+                    (r/-response messages {:input input-queue}))
                   nil)
       [:renderer] nil
       nil)))
@@ -154,7 +153,7 @@
           (and (vector? input)
                (= (count input) 1)
                (contains? #{[:router] [:renderer]} (msg/path (first input))))
-          (process-special-message (first input))
+          (process-special-message input-queue (first input))
           (and (vector? input)
                (= (count input) 1))
           (swap! app-state transact-one input)

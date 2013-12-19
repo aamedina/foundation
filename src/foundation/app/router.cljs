@@ -156,7 +156,7 @@
 
 (extend-protocol IResponse
   nil
-  (-response [_ _] nil)
+  (-response [body _] nil)
 
   string
   (-response [body _] body)
@@ -171,7 +171,8 @@
 
   PersistentVector
   (-response [messages request]
-    (when-let [input-queue (get-in request [:router :input])]
+    (when-let [input-queue (or (get-in request [:router :input])
+                               (:input request))]
       (put! input-queue messages)))
 
   ManyToManyChannel
@@ -204,8 +205,7 @@
       (or (nil? method) (method-matches? method request))
       (handler request)
       (= :get method)
-      (some-> (handler request)
-        (assoc :body nil)))))
+      (handler request))))
 
 (defn assoc-route-params
   [request params]  

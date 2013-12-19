@@ -2,11 +2,25 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/services.js",
  "sources":["services.cljs"],
- "lineCount":30,
+ "lineCount":101,
  "mappings":
- "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",
+ "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",
  "names":
  ["foundation.test.services/init", "foundation.app.message/type",
   "foundation.app.message/path", "cljs.core/-add-method",
   "foundation.app.router/route", "req", "cljs.core/into",
-  "cljs.core/println", "cljs.core/get-in"]}
+  "c__12187__auto__", "cljs.core.async/chan",
+  "cljs.core.async.impl.dispatch/run", "f__12188__auto__",
+  "switch__12117__auto__", "state_177389", "state_val_177390",
+  "inst_177385", "inst_177386", "cljs/core.PersistentVector",
+  "cljs/core.PersistentVector.EMPTY_NODE", "inst_177387",
+  "statearr-177391", "cljs.core.async.impl.ioc-helpers/return-chan",
+  "statearr-177395", "state-machine__12118__auto__",
+  "ret-value__12119__auto__", "result__12120__auto__",
+  "cljs.core/keyword-identical?", "e177396", "js/Object",
+  "ex__12121__auto__", "statearr-177397",
+  "cljs.core.async.impl.ioc-helpers/process-exception",
+  "state__12189__auto__", "statearr-177398",
+  "cljs.core.async.impl.ioc-helpers/USER-START-IDX",
+  "cljs.core.async.impl.ioc-helpers/run-state-machine-wrapped",
+  "cljs.core/get-in"]}
