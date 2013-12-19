@@ -39,7 +39,8 @@
   (go (let [models (<! (m/fetch models/accounts))
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
-                                 model models/account-stats))]
+                                 model
+                                 models/account-stats))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
              (into (init models/accounts (first models) stats))))))
@@ -57,43 +58,91 @@
 
 (defmethod route [:get "/accounts/account-id/campaigns"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [models (<! (m/fetch models/campaigns))
+            model (first models)
+            stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
+                                 model
+                                 models/campaign-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/campaigns (first models) stats))))))
 
 (defmethod route [:get "/accounts/account-id/campaigns/:id"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/campaigns))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/campaign-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/campaigns model stats))))))
 
 (defmethod route [:get "/accounts/account-id/line_items"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [models (<! (m/fetch models/line-items))
+            model (first models)
+            stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
+                                 model
+                                 models/line-item-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/line-items (first models) stats))))))
 
 (defmethod route [:get "/accounts/account-id/line_items/:id"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/line-items))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/line-item-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/line-items model stats))))))
 
 (defmethod route [:get "/accounts/account-id/promoted_accounts"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/promoted-accounts))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/promoted-account-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/promoted-accounts model stats))))))
 
 (defmethod route [:get "/accounts/account-id/promoted_accounts/:id"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/promoted-accounts))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/promoted-account-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/promoted-accounts model stats))))))
 
 (defmethod route [:get "/accounts/account-id/promoted_tweets"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/promoted-tweets))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/promoted-tweet-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/promoted-tweets model stats))))))
 
 (defmethod route [:get "/accounts/account-id/promoted_tweets/:id"]
   [req]
-  (->> []
-       (into init)))
+  (go (let [id (get-in req [:params :id])
+            models (<! (m/fetch models/promoted-tweets))
+            model (set/select #(= (:id %) id) (set models))
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/promoted-tweet-stats))]
+        (->> [{msg/type :load msg/path [:datagrid :collection]
+               :collection models}]
+             (into (init models/promoted-tweets model stats))))))
 
 ;; (defmethod route [:get "/stats/accounts/:id"]
 ;;   [req]
