@@ -2,6 +2,10 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/rendering.js",
  "sources":["rendering.cljs"],
- "lineCount":7,
- "mappings":";AAAA",
- "names":[]}
+ "lineCount":15,
+ "mappings":
+ ";AAAA;;;;;;;;;;AAMA,AAAAA,gCAAAC,6BAAA,mFAAA,uDAAA,mFAAA,6EAAA,oBAAAC,iBAAA,AAAA,IAAAC,aAAAD,kBAAA,AAAAE,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,gBAAA,AAAAC,wBAAAD,WAAA,EAAA,iBAAA,AAAAC,wBAAAD,WAAA,EAAA,MAAA,AAAA,0FAAA,iDAAA,pZACGE,wDAAUC,oDAAGC,sDAAKC,qDAAIC,rMAAKC,IAAIC",
+ "names":
+ ["cljs.core/-add-method", "foundation.app.render/render", "p__54525",
+  "vec__54526", "cljs.core/nth", "renderer", "op", "path", "old",
+  "new", "pid", "id"]}

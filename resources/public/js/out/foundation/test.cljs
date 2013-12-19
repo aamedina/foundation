@@ -5,6 +5,7 @@
             [foundation.test.behavior :as b]
             [foundation.app.message :as msg]
             [foundation.test.services :as services]
+            [foundation.test.rendering :as render]
             [foundation.test.routes :as routes :refer [app-routes]]
             [cljs.core.async :refer [put!]])
   (:require-macros [secretary.macros :refer [defroute]]))

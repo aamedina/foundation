@@ -1,12 +1,12 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.array', 'goog.object', 'goog.string.StringBuffer']);
 goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);
-goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../clojure/set.js", ['clojure.set'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/dependency.js", ['foundation.app.data.dependency'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/app/data/component.js", ['foundation.app.data.component'], ['cljs.core', 'foundation.app.data.dependency']);
 goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.core', 'goog.string']);
 goog.addDependency("../foundation/app/util.js", ['foundation.app.util'], ['cljs.core', 'cljs.reader']);
+goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../cljs/core/match.js", ['cljs.core.match'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/protocols.js", ['cljs.core.async.impl.protocols'], ['cljs.core']);
 goog.addDependency("../cljs/core/async/impl/ioc_helpers.js", ['cljs.core.async.impl.ioc_helpers'], ['cljs.core', 'cljs.core.async.impl.protocols']);
@@ -30,6 +30,7 @@ goog.addDependency("../foundation/app/ui.js", ['foundation.app.ui'], ['goog.even
 goog.addDependency("../foundation/app/router.js", ['foundation.app.router'], ['cljs.core', 'cljs.core.async.impl.channels', 'goog.history.Html5History', 'goog.string', 'foundation.app.data.component', 'foundation.app.xhr', 'clojure.string', 'clojure.set', 'cljs.core.async', 'foundation.app.ui', 'goog.Uri', 'dommy.core']);
 goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['goog.events.EventHandler', 'goog.events.KeyEvent', 'cljs.core', 'goog.events.MouseWheelEvent', 'goog.events.ActionEvent', 'goog.dom.ViewportSizeMonitor', 'foundation.app.data.component', 'goog.events.EventType', 'goog.events.InputHandler', 'goog.events.FocusHandler', 'foundation.app.util', 'goog.events.OnlineHandler', 'goog.ui.IdGenerator', 'goog.events.MouseWheelHandler', 'goog.events.ActionHandler', 'cljs.core.async', 'goog.events', 'foundation.app.data.dependency', 'dommy.core', 'goog.events.FileDropHandler', 'goog.events.KeyHandler']);
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core', 'foundation.app.message', 'foundation.app.data.component', 'foundation.app.util', 'clojure.string', 'cljs.core.match', 'clojure.set', 'cljs.core.async', 'foundation.app.data.tracking_map', 'foundation.app.router', 'foundation.app.data.dependency', 'foundation.app.render']);
+goog.addDependency("../foundation/test/rendering.js", ['foundation.test.rendering'], ['cljs.core', 'foundation.app', 'cljs.core.async', 'foundation.app.render']);
 goog.addDependency("../foundation/test/behavior.js", ['foundation.test.behavior'], ['cljs.core', 'foundation.app']);
 goog.addDependency("../foundation/app/models.js", ['foundation.app.models'], ['goog.Uri.QueryData', 'cljs.core', 'foundation.app.xhr', 'clojure.walk', 'clojure.string', 'cljs.core.async', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/test/models.js", ['foundation.test.models'], ['cljs_time.coerce', 'cljs.core', 'foundation.app.models', 'cljs_time.format', 'clojure.string', 'goog.date', 'foundation.app.data.dependency', 'goog.Uri', 'cljs_time.core']);
@@ -38,7 +39,7 @@ goog.addDependency("../clojure/browser/event.js", ['clojure.browser.event'], ['c
 goog.addDependency("../clojure/browser/net.js", ['clojure.browser.net'], ['goog.net.xpc.CrossPageChannel', 'clojure.browser.event', 'goog.net.xpc.CfgFields', 'cljs.core', 'goog.net.EventType', 'goog.json', 'goog.net.XhrIo']);
 goog.addDependency("../clojure/browser/repl.js", ['clojure.browser.repl'], ['clojure.browser.event', 'clojure.browser.net', 'cljs.core']);
 goog.addDependency("../foundation/test/routes.js", ['foundation.test.routes'], ['cljs.core', 'clojure.string', 'clojure.set', 'foundation.app.router']);
-goog.addDependency("../foundation/test.js", ['foundation.test'], ['cljs.core', 'foundation.app.message', 'clojure.string', 'foundation.app', 'foundation.test.behavior', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes', 'cljs.core.async']);
+goog.addDependency("../foundation/test.js", ['foundation.test'], ['foundation.test.rendering', 'cljs.core', 'foundation.app.message', 'clojure.string', 'foundation.app', 'foundation.test.behavior', 'foundation.test.services', 'clojure.browser.repl', 'foundation.test.routes', 'cljs.core.async']);
 goog.addDependency("../foundation/app/data/combinatorics.js", ['foundation.app.data.combinatorics'], ['cljs.core']);
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
 goog.addDependency("../foundation/test/components/chart.js", ['foundation.test.components.chart'], ['cljs.core', 'dommy.core', 'cljs_time.core']);
@@ -46,7 +47,6 @@ goog.addDependency("../foundation/test/components/datagrid.js", ['foundation.tes
 goog.addDependency("../domina/support.js", ['domina.support'], ['cljs.core', 'goog.dom', 'goog.events']);
 goog.addDependency("../domina.js", ['domina'], ['goog.dom.classes', 'cljs.core', 'goog.string', 'goog.dom', 'clojure.string', 'goog.dom.xml', 'goog.style', 'goog.dom.forms', 'domina.support', 'goog.events']);
 goog.addDependency("../domina/xpath.js", ['domina.xpath'], ['cljs.core', 'goog.dom', 'domina']);
-goog.addDependency("../foundation/test/rendering.js", ['foundation.test.rendering'], ['cljs.core', 'cljs.core.async']);
 goog.addDependency("../domina/css.js", ['domina.css'], ['cljs.core', 'goog.dom', 'domina', 'goog.dom.query']);
 goog.addDependency("../enfocus/enlive/syntax.js", ['enfocus.enlive.syntax'], ['cljs.core']);
 goog.addDependency("../enfocus/core.js", ['enfocus.core'], ['goog.dom.classes', 'goog.Timer', 'cljs.core', 'enfocus.enlive.syntax', 'goog.dom.ViewportSizeMonitor', 'goog.async.Delay', 'goog.dom', 'domina.xpath', 'clojure.string', 'domina', 'goog.net.XhrIo', 'goog.style', 'goog.dom.query', 'domina.css', 'goog.events']);

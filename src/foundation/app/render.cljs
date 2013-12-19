@@ -3,7 +3,7 @@
             [cljs.core.async :as async :refer [<! put! >! take! chan
                                                sliding-buffer alts!]]
             [foundation.app.data.component :as c :refer [Lifecycle]]
-            [foundation.app.data.dependency :as d]
+            [foundation.app.data.dependency :as d :refer [graph depend]]
             [goog.events :as e]
             [dommy.core :as dom])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]
@@ -99,6 +99,18 @@
 
 (def refresh-queued false)
 
+(defprotocol IRender
+  (-render [_]))
+
+(extend-protocol IRender
+  nil
+  (-render [_] nil)
+
+  default
+  (-render [_] nil)
+
+  )
+
 (defprotocol IRenderer
   (-get-id [_ path])
   (-parent-id [_ path])
@@ -109,23 +121,27 @@
   (-get-data [_ path])
   (-drop-data [_ path]))
 
-(defrecord Renderer [env render-fn handlers]
+(defrecord Renderer [env deps render-fn handlers]
   Lifecycle
   (start [renderer]
     (let [handlers (reset! handlers (event-delegate renderer))
           render-fns (methods render)
-          render-fn
-          (fn []
+          render-fn (fn []
             (set! refresh-queued false)
-            (when-let [deltas (:deltas @(:app-state renderer))]
+            (when-let [deltas (seq (:deltas @(:app-state renderer)))]
               (log-fn deltas)
-              (doseq [delta deltas]                
-                (let [[op path _ _ :as d] delta]
-                  (when-let [f (get render-fns [op path])]                    
-                    (if-let [id (-get-id renderer path)]
-                      (f renderer d (-parent-id renderer path) id)
-                      (let [id (-new-id renderer path)]
-                        (f renderer d (-parent-id renderer path) id))))))))]
+              (doseq [[op path _ _ :as d] deltas]
+                (when-let [f (get render-fns [op path])]
+                  (let [id (or (-get-id renderer path)
+                               (-new-id renderer path))
+                        pid (-parent-id renderer path)]
+                    (case op
+                      :added (doseq [dependent deps]
+                               (-render (f renderer d pid id)))
+                      :updated (doseq [dependent deps]
+                                 (-render (f renderer d pid id)))
+                      :removed (doseq [dependent deps]
+                                 (-render (f renderer d pid id)))))))))]
       (add-watch (:app-state renderer) :root
                  (fn [_ _ _ _]
                    (when-not refresh-queued
@@ -197,7 +213,10 @@
   ([root-id]
      (renderer root-id log-fn))
   ([root-id render-fn]
-     (->Renderer (atom {:id root-id}) render-fn (atom {}))))
+     (map->Renderer {:env (atom {:id root-id})
+                     :deps (atom (graph))
+                     :render-fn render-fn
+                     :handlers (atom {})})))
 
 (defmethod render :default
   [renderer [op path _ _] pid id]
