@@ -2,38 +2,40 @@
 goog.provide('foundation.test.components.datagrid');
 goog.require('cljs.core');
 goog.require('foundation.test.models');
-goog.require('dommy.core');
-goog.require('dommy.core');
-goog.require('foundation.test.models');
-goog.require('foundation.test.models');
-goog.require('foundation.test.templates');
 goog.require('foundation.test.templates');
 goog.require('foundation.app.ui');
+goog.require('dommy.core');
+goog.require('foundation.test.cells');
+goog.require('foundation.test.templates');
+goog.require('foundation.test.models');
+goog.require('foundation.test.models');
+goog.require('foundation.test.cells');
 goog.require('foundation.app.ui');
-foundation.test.components.datagrid.datagrid_filter = (function datagrid_filter(){var dom194581 = document.createElement("div");dom194581.className = "autocomplete";
-dom194581.appendChild((function (){var dom194582 = document.createElement("input");dom194582.className = "form-control";
+goog.require('dommy.core');
+foundation.test.components.datagrid.datagrid_filter = (function datagrid_filter(){var dom196205 = document.createElement("div");dom196205.className = "autocomplete";
+dom196205.appendChild((function (){var dom196206 = document.createElement("input");dom196206.className = "form-control";
 if("text")
-{dom194582.setAttribute("type","text");
+{dom196206.setAttribute("type","text");
 } else
 {}
 if("What are you looking for?")
-{dom194582.setAttribute("placeholder","What are you looking for?");
+{dom196206.setAttribute("placeholder","What are you looking for?");
 } else
 {}
-return dom194582;
+return dom196206;
 })());
-return dom194581;
+return dom196205;
 });
-foundation.test.components.datagrid.datagrid_header = (function datagrid_header(columns){var dom194589 = document.createElement("thead");dom194589.setAttribute("id","datagrid-header");
-dom194589.appendChild((function (){var dom194590 = document.createElement("tr");dom194590.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__194591(s__194592){return (new cljs.core.LazySeq(null,(function (){var s__194592__$1 = s__194592;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__194592__$1);if(temp__4092__auto__)
-{var s__194592__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__194592__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__194592__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__194594 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__194593 = 0;while(true){
-if((i__194593 < size__8920__auto__))
-{var col = cljs.core._nth.call(null,c__8919__auto__,i__194593);cljs.core.chunk_append.call(null,b__194594,cells.th.call(null,col));
+foundation.test.components.datagrid.datagrid_header = (function datagrid_header(columns){var dom196213 = document.createElement("thead");dom196213.setAttribute("id","datagrid-header");
+dom196213.appendChild((function (){var dom196214 = document.createElement("tr");dom196214.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__196215(s__196216){return (new cljs.core.LazySeq(null,(function (){var s__196216__$1 = s__196216;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__196216__$1);if(temp__4092__auto__)
+{var s__196216__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__196216__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__196216__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__196218 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__196217 = 0;while(true){
+if((i__196217 < size__8920__auto__))
+{var col = cljs.core._nth.call(null,c__8919__auto__,i__196217);cljs.core.chunk_append.call(null,b__196218,foundation.test.cells.th.call(null,col));
 {
-var G__194595 = (i__194593 + 1);
-i__194593 = G__194595;
+var G__196219 = (i__196217 + 1);
+i__196217 = G__196219;
 continue;
 }
 } else
@@ -42,12 +44,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194594),iter__194591.call(null,cljs.core.chunk_rest.call(null,s__194592__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196218),iter__196215.call(null,cljs.core.chunk_rest.call(null,s__196216__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194594),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196218),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__194592__$2);return cljs.core.cons.call(null,cells.th.call(null,col),iter__194591.call(null,cljs.core.rest.call(null,s__194592__$2)));
+{var col = cljs.core.first.call(null,s__196216__$2);return cljs.core.cons.call(null,foundation.test.cells.th.call(null,col),iter__196215.call(null,cljs.core.rest.call(null,s__196216__$2)));
 }
 } else
 {return null;
@@ -57,19 +59,19 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,columns);
 })()));
-return dom194590;
+return dom196214;
 })());
-return dom194589;
+return dom196213;
 });
-foundation.test.components.datagrid.datagrid_row = (function datagrid_row(model,columns){var dom194601 = document.createElement("tr");dom194601.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__194602(s__194603){return (new cljs.core.LazySeq(null,(function (){var s__194603__$1 = s__194603;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__194603__$1);if(temp__4092__auto__)
-{var s__194603__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__194603__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__194603__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__194605 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__194604 = 0;while(true){
-if((i__194604 < size__8920__auto__))
-{var col = cljs.core._nth.call(null,c__8919__auto__,i__194604);cljs.core.chunk_append.call(null,b__194605,cells.td.call(null,col,model));
+foundation.test.components.datagrid.datagrid_row = (function datagrid_row(model,columns){var dom196225 = document.createElement("tr");dom196225.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__196226(s__196227){return (new cljs.core.LazySeq(null,(function (){var s__196227__$1 = s__196227;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__196227__$1);if(temp__4092__auto__)
+{var s__196227__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__196227__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__196227__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__196229 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__196228 = 0;while(true){
+if((i__196228 < size__8920__auto__))
+{var col = cljs.core._nth.call(null,c__8919__auto__,i__196228);cljs.core.chunk_append.call(null,b__196229,foundation.test.cells.td.call(null,col,model));
 {
-var G__194606 = (i__194604 + 1);
-i__194604 = G__194606;
+var G__196230 = (i__196228 + 1);
+i__196228 = G__196230;
 continue;
 }
 } else
@@ -78,12 +80,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194605),iter__194602.call(null,cljs.core.chunk_rest.call(null,s__194603__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196229),iter__196226.call(null,cljs.core.chunk_rest.call(null,s__196227__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194605),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196229),null);
 }
 } else
-{var col = cljs.core.first.call(null,s__194603__$2);return cljs.core.cons.call(null,cells.td.call(null,col,model),iter__194602.call(null,cljs.core.rest.call(null,s__194603__$2)));
+{var col = cljs.core.first.call(null,s__196227__$2);return cljs.core.cons.call(null,foundation.test.cells.td.call(null,col,model),iter__196226.call(null,cljs.core.rest.call(null,s__196227__$2)));
 }
 } else
 {return null;
@@ -93,19 +95,19 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,columns);
 })()));
-return dom194601;
+return dom196225;
 });
-foundation.test.components.datagrid.datagrid_body = (function datagrid_body(coll,columns){var dom194612 = document.createElement("tbody");dom194612.className = "datagrid-tbody";
-dom194612.setAttribute("id","datagrid-body");
-dom194612.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__194613(s__194614){return (new cljs.core.LazySeq(null,(function (){var s__194614__$1 = s__194614;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__194614__$1);if(temp__4092__auto__)
-{var s__194614__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__194614__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__194614__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__194616 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__194615 = 0;while(true){
-if((i__194615 < size__8920__auto__))
-{var model = cljs.core._nth.call(null,c__8919__auto__,i__194615);cljs.core.chunk_append.call(null,b__194616,foundation.test.components.datagrid.datagrid_row.call(null,model,columns));
+foundation.test.components.datagrid.datagrid_body = (function datagrid_body(coll,columns){var dom196236 = document.createElement("tbody");dom196236.className = "datagrid-tbody";
+dom196236.setAttribute("id","datagrid-body");
+dom196236.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__196237(s__196238){return (new cljs.core.LazySeq(null,(function (){var s__196238__$1 = s__196238;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__196238__$1);if(temp__4092__auto__)
+{var s__196238__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__196238__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__196238__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__196240 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__196239 = 0;while(true){
+if((i__196239 < size__8920__auto__))
+{var model = cljs.core._nth.call(null,c__8919__auto__,i__196239);cljs.core.chunk_append.call(null,b__196240,foundation.test.components.datagrid.datagrid_row.call(null,model,columns));
 {
-var G__194617 = (i__194615 + 1);
-i__194615 = G__194617;
+var G__196241 = (i__196239 + 1);
+i__196239 = G__196241;
 continue;
 }
 } else
@@ -114,12 +116,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194616),iter__194613.call(null,cljs.core.chunk_rest.call(null,s__194614__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196240),iter__196237.call(null,cljs.core.chunk_rest.call(null,s__196238__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__194616),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__196240),null);
 }
 } else
-{var model = cljs.core.first.call(null,s__194614__$2);return cljs.core.cons.call(null,foundation.test.components.datagrid.datagrid_row.call(null,model,columns),iter__194613.call(null,cljs.core.rest.call(null,s__194614__$2)));
+{var model = cljs.core.first.call(null,s__196238__$2);return cljs.core.cons.call(null,foundation.test.components.datagrid.datagrid_row.call(null,model,columns),iter__196237.call(null,cljs.core.rest.call(null,s__196238__$2)));
 }
 } else
 {return null;
@@ -129,139 +131,140 @@ break;
 }),null,null));
 });return iter__8921__auto__.call(null,coll);
 })()));
-return dom194612;
+return dom196236;
 });
-foundation.test.components.datagrid.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom194629 = document.createElement("ol");dom194629.className = "breadcrumb";
-dom194629.appendChild((function (){var dom194630 = document.createElement("li");dom194630.className = "active";
-dom194630.setAttribute("id","account");
-dom194630.appendChild((function (){var dom194631 = document.createElement("div");dom194631.className = "arrow-down";
-return dom194631;
+foundation.test.components.datagrid.datagrid_breadcrumb = (function datagrid_breadcrumb(){var dom196253 = document.createElement("ol");dom196253.className = "breadcrumb";
+dom196253.appendChild((function (){var dom196254 = document.createElement("li");dom196254.className = "active";
+dom196254.setAttribute("id","account");
+dom196254.appendChild((function (){var dom196255 = document.createElement("div");dom196255.className = "arrow-down";
+return dom196255;
 })());
-dom194630.appendChild((function (){var dom194632 = document.createElement("a");dom194632.appendChild(document.createTextNode("Accounts"));
-return dom194632;
+dom196254.appendChild((function (){var dom196256 = document.createElement("a");dom196256.appendChild(document.createTextNode("Accounts"));
+return dom196256;
 })());
-dom194630.appendChild((function (){var dom194633 = document.createElement("div");dom194633.className = "arrow-up";
-return dom194633;
+dom196254.appendChild((function (){var dom196257 = document.createElement("div");dom196257.className = "arrow-up";
+return dom196257;
 })());
-return dom194630;
+return dom196254;
 })());
-dom194629.appendChild((function (){var dom194634 = document.createElement("li");dom194634.className = "hidden";
-dom194634.setAttribute("id","campaign");
-dom194634.appendChild((function (){var dom194635 = document.createElement("a");dom194635.appendChild(document.createTextNode("Campaigns"));
-return dom194635;
+dom196253.appendChild((function (){var dom196258 = document.createElement("li");dom196258.className = "hidden";
+dom196258.setAttribute("id","campaign");
+dom196258.appendChild((function (){var dom196259 = document.createElement("a");dom196259.appendChild(document.createTextNode("Campaigns"));
+return dom196259;
 })());
-return dom194634;
+return dom196258;
 })());
-dom194629.appendChild((function (){var dom194636 = document.createElement("li");dom194636.className = "hidden";
-dom194636.setAttribute("id","line_item");
-dom194636.appendChild((function (){var dom194637 = document.createElement("a");dom194637.appendChild(document.createTextNode("Line Items"));
-return dom194637;
+dom196253.appendChild((function (){var dom196260 = document.createElement("li");dom196260.className = "hidden";
+dom196260.setAttribute("id","line_item");
+dom196260.appendChild((function (){var dom196261 = document.createElement("a");dom196261.appendChild(document.createTextNode("Line Items"));
+return dom196261;
 })());
-return dom194636;
+return dom196260;
 })());
-dom194629.appendChild((function (){var dom194638 = document.createElement("li");dom194638.className = "hidden";
-dom194638.setAttribute("id","promoted_tweet");
-dom194638.appendChild((function (){var dom194639 = document.createElement("a");dom194639.appendChild(document.createTextNode("Promoted Products"));
-return dom194639;
+dom196253.appendChild((function (){var dom196262 = document.createElement("li");dom196262.className = "hidden";
+dom196262.setAttribute("id","promoted_tweet");
+dom196262.appendChild((function (){var dom196263 = document.createElement("a");dom196263.appendChild(document.createTextNode("Promoted Products"));
+return dom196263;
 })());
-return dom194638;
+return dom196262;
 })());
-return dom194629;
+return dom196253;
 });
 foundation.test.components.datagrid.datagrid_table = (function datagrid_table(model,coll){return dommy.template.__GT_node_like.call(null,(function (){var cols = foundation.test.models.columns.call(null,model);return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"table#datagrid-table.table","table#datagrid-table.table",2230740568),foundation.test.components.datagrid.datagrid_header.call(null,cols),foundation.test.components.datagrid.datagrid_body.call(null,coll,cols)], null);
 })());
 });
-foundation.test.components.datagrid.datagrid_template = (function datagrid_template(id){var dom194655 = document.createElement("div");dom194655.className = "datagrid-container panel panel-default";
+foundation.test.components.datagrid.datagrid_template = (function datagrid_template(id,model,coll){var dom196279 = document.createElement("div");dom196279.className = "datagrid-container panel panel-default";
 if(cljs.core.truth_(id))
-{dom194655.setAttribute("id",id);
+{dom196279.setAttribute("id",id);
 } else
 {}
-dom194655.appendChild((function (){var dom194656 = document.createElement("div");dom194656.className = "panel-heading";
-dom194656.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.datagrid.datagrid_breadcrumb.call(null)));
-dom194656.appendChild((function (){var dom194657 = document.createElement("form");dom194657.className = "form-inline pull-right";
-dom194657.appendChild((function (){var dom194658 = document.createElement("div");dom194658.className = "form-group";
-dom194658.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.datagrid.datagrid_filter.call(null)));
-return dom194658;
+dom196279.appendChild((function (){var dom196280 = document.createElement("div");dom196280.className = "panel-heading";
+dom196280.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.datagrid.datagrid_breadcrumb.call(null)));
+dom196280.appendChild((function (){var dom196281 = document.createElement("form");dom196281.className = "form-inline pull-right";
+dom196281.appendChild((function (){var dom196282 = document.createElement("div");dom196282.className = "form-group";
+dom196282.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.datagrid.datagrid_filter.call(null)));
+return dom196282;
 })());
-return dom194657;
+return dom196281;
 })());
-return dom194656;
+return dom196280;
 })());
-dom194655.appendChild((function (){var dom194659 = document.createElement("div");dom194659.className = "panel-body";
-return dom194659;
+dom196279.appendChild((function (){var dom196283 = document.createElement("div");dom196283.className = "panel-body";
+dom196283.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.datagrid.datagrid_table.call(null,model,coll)));
+return dom196283;
 })());
-dom194655.appendChild((function (){var dom194660 = document.createElement("div");dom194660.className = "panel-footer";
-dom194660.appendChild((function (){var dom194661 = document.createElement("div");dom194661.className = "form-inline";
-dom194661.appendChild((function (){var dom194662 = document.createElement("div");dom194662.className = "form-group";
-dom194662.appendChild((function (){var dom194663 = document.createElement("button");dom194663.className = "btn btn-success btn-sm";
-dom194663.setAttribute("id","new");
-dom194663.appendChild(document.createTextNode("New"));
-return dom194663;
+dom196279.appendChild((function (){var dom196284 = document.createElement("div");dom196284.className = "panel-footer";
+dom196284.appendChild((function (){var dom196285 = document.createElement("div");dom196285.className = "form-inline";
+dom196285.appendChild((function (){var dom196286 = document.createElement("div");dom196286.className = "form-group";
+dom196286.appendChild((function (){var dom196287 = document.createElement("button");dom196287.className = "btn btn-success btn-sm";
+dom196287.setAttribute("id","new");
+dom196287.appendChild(document.createTextNode("New"));
+return dom196287;
 })());
-return dom194662;
+return dom196286;
 })());
-dom194661.appendChild((function (){var dom194664 = document.createElement("div");dom194664.className = "form-group";
-dom194664.appendChild((function (){var dom194665 = document.createElement("button");dom194665.className = "btn btn-info btn-sm disabled";
-dom194665.setAttribute("id","save");
-dom194665.appendChild(document.createTextNode("Save"));
-return dom194665;
+dom196285.appendChild((function (){var dom196288 = document.createElement("div");dom196288.className = "form-group";
+dom196288.appendChild((function (){var dom196289 = document.createElement("button");dom196289.className = "btn btn-info btn-sm disabled";
+dom196289.setAttribute("id","save");
+dom196289.appendChild(document.createTextNode("Save"));
+return dom196289;
 })());
-return dom194664;
+return dom196288;
 })());
-dom194661.appendChild((function (){var dom194666 = document.createElement("div");dom194666.className = "form-group";
-dom194666.appendChild((function (){var dom194667 = document.createElement("button");dom194667.className = "btn btn-danger btn-sm disabled";
-dom194667.setAttribute("id","delete");
-dom194667.appendChild(document.createTextNode("Delete"));
-return dom194667;
+dom196285.appendChild((function (){var dom196290 = document.createElement("div");dom196290.className = "form-group";
+dom196290.appendChild((function (){var dom196291 = document.createElement("button");dom196291.className = "btn btn-danger btn-sm disabled";
+dom196291.setAttribute("id","delete");
+dom196291.appendChild(document.createTextNode("Delete"));
+return dom196291;
 })());
-return dom194666;
+return dom196290;
 })());
-dom194661.appendChild((function (){var dom194668 = document.createElement("div");dom194668.className = "form-group";
-dom194668.appendChild((function (){var dom194669 = document.createElement("button");dom194669.className = "btn btn-primary btn-sm disabled";
-dom194669.setAttribute("id","dupe");
-dom194669.appendChild(document.createTextNode("Duplicate"));
-return dom194669;
+dom196285.appendChild((function (){var dom196292 = document.createElement("div");dom196292.className = "form-group";
+dom196292.appendChild((function (){var dom196293 = document.createElement("button");dom196293.className = "btn btn-primary btn-sm disabled";
+dom196293.setAttribute("id","dupe");
+dom196293.appendChild(document.createTextNode("Duplicate"));
+return dom196293;
 })());
-return dom194668;
+return dom196292;
 })());
-return dom194661;
+return dom196285;
 })());
-return dom194660;
+return dom196284;
 })());
-return dom194655;
+return dom196279;
 });
-foundation.test.components.datagrid.datagrid = (function datagrid(id,state){if(typeof foundation.test.components.datagrid.t194673 !== 'undefined')
+foundation.test.components.datagrid.datagrid = (function datagrid(id,state){if(typeof foundation.test.components.datagrid.t196297 !== 'undefined')
 {} else
 {
 /**
 * @constructor
 */
-foundation.test.components.datagrid.t194673 = (function (state,id,datagrid,meta194674){
+foundation.test.components.datagrid.t196297 = (function (state,id,datagrid,meta196298){
 this.state = state;
 this.id = id;
 this.datagrid = datagrid;
-this.meta194674 = meta194674;
+this.meta196298 = meta196298;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 })
-foundation.test.components.datagrid.t194673.cljs$lang$type = true;
-foundation.test.components.datagrid.t194673.cljs$lang$ctorStr = "foundation.test.components.datagrid/t194673";
-foundation.test.components.datagrid.t194673.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.test.components.datagrid/t194673");
+foundation.test.components.datagrid.t196297.cljs$lang$type = true;
+foundation.test.components.datagrid.t196297.cljs$lang$ctorStr = "foundation.test.components.datagrid/t196297";
+foundation.test.components.datagrid.t196297.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.test.components.datagrid/t196297");
 });
-foundation.test.components.datagrid.t194673.prototype.foundation$app$ui$IRender$ = true;
-foundation.test.components.datagrid.t194673.prototype.foundation$app$ui$IRender$_render$arity$1 = (function (_){var self__ = this;
-var ___$1 = this;return foundation.test.components.datagrid.datagrid_template.call(null,self__.id);
+foundation.test.components.datagrid.t196297.prototype.foundation$app$ui$IRender$ = true;
+foundation.test.components.datagrid.t196297.prototype.foundation$app$ui$IRender$_render$arity$1 = (function (_){var self__ = this;
+var ___$1 = this;return foundation.test.components.datagrid.datagrid_template.call(null,self__.id,new cljs.core.Keyword(null,"resource","resource",672839552).cljs$core$IFn$_invoke$arity$1(self__.state),new cljs.core.Keyword(null,"collection","collection",3567559184).cljs$core$IFn$_invoke$arity$1(self__.state));
 });
-foundation.test.components.datagrid.t194673.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_194675){var self__ = this;
-var _194675__$1 = this;return self__.meta194674;
+foundation.test.components.datagrid.t196297.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_196299){var self__ = this;
+var _196299__$1 = this;return self__.meta196298;
 });
-foundation.test.components.datagrid.t194673.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_194675,meta194674__$1){var self__ = this;
-var _194675__$1 = this;return (new foundation.test.components.datagrid.t194673(self__.state,self__.id,self__.datagrid,meta194674__$1));
+foundation.test.components.datagrid.t196297.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_196299,meta196298__$1){var self__ = this;
+var _196299__$1 = this;return (new foundation.test.components.datagrid.t196297(self__.state,self__.id,self__.datagrid,meta196298__$1));
 });
-foundation.test.components.datagrid.__GT_t194673 = (function __GT_t194673(state__$1,id__$1,datagrid__$1,meta194674){return (new foundation.test.components.datagrid.t194673(state__$1,id__$1,datagrid__$1,meta194674));
+foundation.test.components.datagrid.__GT_t196297 = (function __GT_t196297(state__$1,id__$1,datagrid__$1,meta196298){return (new foundation.test.components.datagrid.t196297(state__$1,id__$1,datagrid__$1,meta196298));
 });
 }
-return (new foundation.test.components.datagrid.t194673(state,id,datagrid,null));
+return (new foundation.test.components.datagrid.t196297(state,id,datagrid,null));
 });
 
 //# sourceMappingURL=datagrid.js.map

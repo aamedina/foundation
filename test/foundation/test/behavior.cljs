@@ -3,15 +3,16 @@
 
 (defmethod transform [:init [:datagrid]]
   [state message]
-  {})
-
-(defmethod transform [:init [:datagrid :collection]]
-  [state message]
-  [])
+  {:collection []
+   :resource (:resource message)})
 
 (defmethod transform [:init [:dashboard]]
   [state message]
   {})
+
+(defmethod transform [:load [:datagrid :collection]]
+  [state message]
+  (into state (:collection message)))
 
 (defmethod transform [:create [:datagrid :collection]]
   [state message]

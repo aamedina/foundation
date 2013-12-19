@@ -9,9 +9,9 @@
             [foundation.app.xhr :as xhr])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]))
 
-(def init
+(defn init [resource]
   [{msg/type :init msg/path [:dashboard]}
-   {msg/type :init msg/path [:datagrid]}])
+   {msg/type :init msg/path [:datagrid] :resource resource}])
 
 (defmethod route [:get "/"]
   [req]
@@ -23,10 +23,9 @@
 
 (defmethod route [:get "/accounts"]
   [req]
-  (go (->> [{msg/type :load msg/path [:datagrid :collection]
-             :resource models/accounts
+  (go (->> [{msg/type :load msg/path [:datagrid :collection]             
              :collection (<! (m/fetch models/accounts))}]
-           (into init))))
+           (into (init models/accounts)))))
 
 (defmethod route [:get "/accounts/:id"]
   [req]

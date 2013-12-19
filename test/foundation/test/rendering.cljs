@@ -22,12 +22,9 @@
   [renderer [op path old new] pid id]
   (datagrid id new))
 
-(defmethod render [:node-create [:datagrid :collection]]
+(defmethod render [:node-update [:datagrid]]
   [renderer [op path old new] pid id]
-  )
-
-(defmethod render [:node-update [:datagrid :collection]]
-  [renderer [op path old new] pid id]
+  (println "hello")
   )
 
 (defmethod render [:node-create [:dashboard]]

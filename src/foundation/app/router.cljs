@@ -171,7 +171,6 @@
 
   PersistentVector
   (-response [messages request]
-    (println messages)
     (when-let [input-queue (or (get-in request [:router :input])
                                (:input request))]
       (put! input-queue messages)))
