@@ -2,9 +2,11 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/services.js",
  "sources":["services.cljs"],
- "lineCount":24,
+ "lineCount":30,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;;;;AAWA,AAAAA,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,wEAAA,iFAAA,mFAAA,sFAAA,wEAAA,iFAAA,mFAAA,7oBACGC,2IACCC,iFAAeC,iPACfD,iFAAeC",
+ ";AAAA;;;;;;;;;;;;;;;;;;;AAWA,gCAAA,mFAAA,wEAAA,iFAAA,mFAAA,sFAAA,wEAAA,iFAAA,mFAAA,jqBAAKA,+JACDC,iFAAeC,iPACfD,iFAAeC;AAEnB,AAAAC,gCAAAC,4BAAA,mFAAA,mDAAA,YAAA,gBAAA,AAAA,0FAAA,wEAAA,yFAAA,mFAAA,iEAAA,2DAAA,/cACGC,2IACCJ,yFAAmBC;;AAEvB,AAAAC,gCAAAC,4BAAA,mFAAA,mDAAA,oBAAA,gBAAA,LACGC,KAEI,8DAAA,vDAACC,yBAAKN;;AAEb,AAAAG,gCAAAC,4BAAA,mFAAA,mDAAA,wBAAA,gBAAA,LACGC,KACD,4BAAA,5BAACE,8CAA0B,+BAAA,mFAAA,yDAAA,3KAACC,2BAAOH;AAE9B,8DAAA,vDAACC,yBAAKN",
  "names":
- ["cljs.core/-add-method", "foundation.app.router/route", "req",
-  "foundation.app.message/type", "foundation.app.message/path"]}
+ ["foundation.test.services/init", "foundation.app.message/type",
+  "foundation.app.message/path", "cljs.core/-add-method",
+  "foundation.app.router/route", "req", "cljs.core/into",
+  "cljs.core/println", "cljs.core/get-in"]}

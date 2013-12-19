@@ -9,10 +9,24 @@
             [foundation.app.xhr :as xhr])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]))
 
-(defmethod route [:get "/"]
-  [req]
+(def init
   [{msg/type :init msg/path [:dashboard]}
    {msg/type :init msg/path [:datagrid]}])
+
+(defmethod route [:get "/"]
+  [req]
+  [{msg/type :navigate msg/path [:router] :to-path "/accounts"}])
+
+(defmethod route [:get "/accounts"]
+  [req]
+  (->> []
+       (into init)))
+
+(defmethod route [:get "/accounts/:id"]
+  [req]
+  (println "ACCOUNT ID IS: " (get-in req [:params :id]))
+  (->> []
+       (into init)))
 
 ;; (defmethod effect [:init #{[:dashboard]} :vals]
 ;;   [message input-queue input]

@@ -294,3 +294,6 @@
 (defn navigate!
   [router uri & {:keys [method params] :as args}]
   (-navigate router uri method params))
+
+(defn redirect
+  [router ])

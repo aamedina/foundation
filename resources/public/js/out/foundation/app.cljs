@@ -16,6 +16,8 @@
 
 (enable-console-print!)
 
+(declare system)
+
 (defmulti transform
   (fn [state message]
     [(msg/type message) (msg/path message)]))
@@ -126,15 +128,36 @@
     (assoc new-state
       :data-model (into {} (:data-model new-state)))))
 
+(defn process-special-message
+  [message]
+  (let [topic (msg/path message)
+        t (msg/type message)]
+    (case topic
+      [:router] (case t
+                  :navigate (r/navigate! (:router system)
+                                         (:to-path message)
+                                         :method :get)
+                  nil)
+      [:renderer] nil
+      nil)))
+
 (defn input-queue
   [app-state]
   (let [input-queue (chan (sliding-buffer 32))]
     (go-loop []
       (let [input (<! input-queue)]
-        (let [new-state (if (vector? input)
-                          (swap! app-state transact-batch input)
-                          (swap! app-state transact-one input))]
-          new-state))
+        (cond
+          (and (vector? input)
+               (= (count input) 1)
+               (contains? #{[:router] [:renderer]} (msg/path (first input))))
+          (process-special-message (first input))
+          (and (vector? input)
+               (= (count input) 1))
+          (swap! app-state transact-one input)
+          (and (vector? input)
+               (> (count input) 1))
+          (swap! app-state transact-batch input)
+          :else (swap! app-state transact-one input)))
       (recur))
     input-queue))
 
@@ -147,7 +170,9 @@
 (defrecord Dataflow [state input output deps renderer render-queue router]
   Lifecycle
   (start [df]
-    (c/start-system df #{:router :renderer})
+    (try (c/start-system df #{:router :renderer})
+         (catch js/Error e
+           (println e)))
     df)
   (stop [df]
     (c/stop-system df #{:router :renderer})
@@ -159,17 +184,17 @@
         input (input-queue app-state)
         output (output-queue app-state)
         renderer (render/renderer root-id)
-        deps (derives-dependencies)]
-    (try (c/start (map->Dataflow
-                   {:state app-state
-                    :input input
-                    :output output
-                    :deps deps
-                    :renderer (c/using renderer
+        deps (derives-dependencies)
+        df (c/start (map->Dataflow
+                     {:state app-state
+                      :input input
+                      :output output
+                      :deps deps
+                      :renderer (c/using renderer
+                                  {:input :input
+                                   :app-state :state})
+                      :router (c/using (r/router routes)
                                 {:input :input
-                                 :app-state :state})
-                    :router (c/using (r/router routes)
-                              {:input :input
-                               :app-state :state})}))
-         (catch js/Error e
-           (println e)))))
+                                 :app-state :state})}))]
+    (def system df)
+    df))
