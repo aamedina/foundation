@@ -89,8 +89,11 @@
             (if (contains? (set deps) output-path)
               (update-in state (into [:data-model] output-path)
                          f message
-                         (map #(get-in (:data-model new-state) %)
-                              input-paths))
+                         (reduce (fn [m input]
+                                   (assoc m
+                                     input (get-in (:data-model new-state)
+                                                   input)))
+                                 {} input-paths))
               state))
           new-state (dissoc (methods derives) :default)))
 

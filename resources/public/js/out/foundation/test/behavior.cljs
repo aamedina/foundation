@@ -23,5 +23,5 @@
 
 (defmethod derives [#{[:datagrid] [:dashboard]} [:chart] :vals]
   [state message input]
-  (println state message)
+  (println input)
   input)
