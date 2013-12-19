@@ -3,13 +3,14 @@
             [foundation.app :as app :refer [transform]]
             [foundation.app.render :as r :refer [render]]
             [foundation.app.ui :as ui]
+            [foundation.test.templates :as t]
             [dommy.core :as dom])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]
                    [dommy.macros :refer [sel1]]))
 
 (defmethod render [:node-create []]
   [renderer [op path old new] pid id]
-  [:h1 {:id id} "Hello, world!"])
+  (t/twitter-power id))
 
 (defmethod render [:node-create [:datagrid]]
   [renderer [op path old new] pid id]

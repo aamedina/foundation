@@ -139,7 +139,10 @@
       (with-meta dom-content {:component x})))
 
   PersistentVector
-  (-render [x renderer] (node x)))
+  (-render [x renderer] (node x))
+
+  js/Element
+  (-render [x renderer] x))
 
 (defn sort-deps
   [deps pid]
@@ -179,7 +182,6 @@
                                  (-get-data renderer [pid]))]
                         (dom/append! parent dom)
                         (dom/append! js/document.body dom))
-                      ;; (dom/set-attr! dom :id id)
                       (swap! deps depend id pid))
                     :node-update
                     (doseq [dep (sort-deps deps pid)]
@@ -189,7 +191,6 @@
                                             renderer)]
                           (when-let [old-content (-get-data renderer [dep])]
                             (dom/replace! old-content dom-content))
-                          ;; (dom/set-attr! dom-content :id dep)
                           (-set-data renderer [dep] dom-content))))
                     :node-destroy
                     (doseq [dep (sort-deps deps pid)]
