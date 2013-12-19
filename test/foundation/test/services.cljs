@@ -11,8 +11,8 @@
             [foundation.app.xhr :as xhr])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]))
 
-(defn init [resource model]
-  [{msg/type :init msg/path [:dashboard] :model model}
+(defn init [resource model stats]
+  [{msg/type :init msg/path [:dashboard] :model model :stats stats}
    {msg/type :init msg/path [:datagrid] :resource resource}])
 
 (defn get-route
@@ -36,20 +36,24 @@
 
 (defmethod route [:get "/accounts"]
   [req]
-  (go (let [models (<! (m/fetch models/accounts))]
+  (go (let [models (<! (m/fetch models/accounts))
+            model (first models)
+            stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
+                                 model models/account-stats))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/accounts (first models)))))))
+             (into (init models/accounts (first models) stats))))))
 
 (defmethod route [:get "/accounts/:id"]
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/accounts))
             model (set/select #(= (:id %) id) (set models))
-            stats (get-stats (:uri req) {} models/accounts)]
+            stats (<! (get-stats (str "/stats" (:uri req)) {}
+                                 models/account-stats))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/accounts model))))))
+             (into (init models/accounts model stats))))))
 
 (defmethod route [:get "/accounts/account-id/campaigns"]
   [req]
