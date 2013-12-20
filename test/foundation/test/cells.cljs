@@ -5,6 +5,8 @@
             [cljs-time.core :as time]
             [cljs-time.format :as fmt]
             [goog.date :as date]
+            [cljs.core.async :refer [<! chan]]
+            [foundation.app.xhr :as xhr]
             [foundation.test.templates
              :refer [format-currency format-percent]])
   (:require-macros [dommy.macros :as dom :refer [deftemplate node]]
@@ -122,7 +124,17 @@
 
 (defmethod td :tweet
   [column record]
- )
+  (let [tweet-chan
+        (xhr/GET
+         "http://192.241.130.213:8080/user/15/rest-api/statuses/oembed.json"
+         :where {:id (:tweet-id record)
+                 :align "left"
+                 :hide_media true
+                 :hide_thread true
+                 :omit_script true
+                 :maxwidth 400})]
+    (go (let [tweet (<! tweet-chan)]
+          (goog.dom/htmlToDocumentFragment (:html tweet))))))
 
 (deftemplate choice
   [content]

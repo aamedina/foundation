@@ -2,6 +2,7 @@
   (:require [foundation.app.ui :as ui]
             [foundation.test.templates :as t]
             [foundation.test.models :as m]
+            [foundation.app.render :as r]
             [dommy.template :as tmpl]
             [dommy.core :as dom]
             [enfocus.core :as en])
@@ -17,7 +18,7 @@
    ["Follows" "CPF" "Follow Rate"]])
 
 (defn dashboard-metrics
-  []
+  [renderer new]
   (reify ui/IRender
     (-render [_]
       [:div.twitter-stats#stats-list-group
@@ -38,12 +39,19 @@
                        :li.list-group-item.active)]
         (when-not (dom/has-class? el :active)
           (dom/add-class! el :active)
-          (some-> prev (dom/remove-class! :active)))))
+          (some-> prev (dom/remove-class! :active))
+          (let [chart (r/-get-data renderer [:chart])
+                start-time (.getTime (js/Date. (:start-time new)))]
+            (doseq [series (.-series chart)]
+              (.remove series))
+            (.addSeries chart (clj->js {:data (:stat new)
+                                        :pointInterval (* 3600 1000)
+                                        :pointStart start-time}))))))
     tmpl/PElement
     (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
 
 (deftemplate dashboard-template
-  [id]
+  [renderer state id]
   [:div.twitter-stats.panel.panel-default {:id id}
    [:div.panel-heading
     [:h1.panel-title {:id "resource-id"}]
@@ -57,14 +65,14 @@
    [:div.panel-body
     [:div.analytics-highcharts]]
    [:div.panel-footer.row
-    (dashboard-metrics)]])
+    (dashboard-metrics renderer state)]])
 
 (defn dashboard
-  [id state]
+  [renderer id state]
   (reify
     ui/IRender
     (-render [_]
-      (dashboard-template id))
+      (dashboard-template renderer state id))
     ui/IWithChildren
     (-with-children [_]
       [:#stats-list-group])))

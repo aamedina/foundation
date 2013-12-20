@@ -42,13 +42,32 @@
 
 (defmethod render [:node-create [:dashboard]]
   [renderer [op path old new] input pid id]
-  (dashboard id new))
+  (dashboard renderer id new))
 
 (defmethod render [:node-create [:chart]]
   [renderer [op path old new] input pid id]
-  (dorun [(r/-set-data renderer (conj path :chart) (highchart))
-          (start-date-picker renderer (:start-time new))
-          (end-date-picker renderer (:end-time new))]))
+  (let [chart (highchart)
+        stat (:promoted-tweet-timeline-clicks (:stats new))
+        start-time (.getTime (js/Date. (:start-time new)))]
+    (doseq [series (.-series chart)]
+      (.remove series))
+    (.addSeries chart (clj->js {:data stat
+                                :pointInterval (* 3600 1000)
+                                :pointStart start-time}))
+    (r/-set-data renderer [:chart] chart)
+    (start-date-picker renderer (:start-time new))
+    (end-date-picker renderer (:end-time new))
+    nil))
+
+(defmethod render [:node-update [:chart]]
+  [renderer [op path old new] input pid id]
+  (let [chart (r/-get-data renderer path)
+        start-time (.getTime (js/Date. (:start-time new)))]
+    (doseq [series (.-series chart)]
+      (.remove series))
+    (.addSeries chart (clj->js {:data (:stat new)
+                                :pointInterval (* 3600 1000)
+                                :pointStart start-time}))))
 
 (defn start-date-picker
   [renderer start-time]
