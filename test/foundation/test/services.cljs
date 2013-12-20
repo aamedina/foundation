@@ -25,13 +25,14 @@
 
 (defn get-stats
   [path params model & {:keys [granularity] :or {granularity "HOUR"}}]
+  (println path params model)
   (app-routes {:uri path
                :method :get
                :params params
                :model model
                :query-params
-               {:start-time (models/start-time models/campaign-stats)
-                :end-time (models/end-time models/campaign-stats)
+               {:start-time (models/start-time model)
+                :end-time (models/end-time model)
                 :granularity granularity}}))
 
 (defmethod route [:get "/"]
@@ -58,7 +59,7 @@
   [req]
   (go (let [id (get-in req [:params :id])
             models (<! (m/fetch models/accounts))
-            model (set/select #(= (:id %) id) (set models))
+            model (first (set/select #(= (:id %) id) (set models)))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/account-stats))
             total-stats (<! (get-stats (str "/stats" (:uri req) "/"
@@ -95,7 +96,7 @@
             account-id (get-in req [:params :account-id])
             models (<! (m/fetch models/campaigns
                                 :params {:account-id account-id}))
-            model (set/select #(= (:id %) id) (set models))
+            model (first (set/select #(= (:id %) id) (set models)))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/campaign-stats))
             total-stats (<! (get-stats (str "/stats" (:uri req) "/"
@@ -136,7 +137,7 @@
             models (<! (m/fetch models/line-items
                                 :params [:account-id account-id]
                                 :query-params {:campaign-ids campaign-id}))
-            model (set/select #(= (:id %) id) (set models))
+            model (first (set/select #(= (:id %) id) (set models)))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/line-item-stats))
             total-stats (<! (get-stats (str "/stats" (:uri req) "/"
@@ -177,7 +178,7 @@
             models (<! (m/fetch models/promoted-accounts
                                 :params {:account-id account-id
                                          :line_item_id line-item-id}))
-            model (set/select #(= (:id %) id) (set models))
+            model (first (set/select #(= (:id %) id) (set models)))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-account-stats))
             total-stats (<! (get-stats (str "/stats" (:uri req) "/"
@@ -219,7 +220,7 @@
             models (<! (m/fetch models/promoted-tweets
                                 :params {:account-id account-id
                                          :line_item_id line-item-id}))
-            model (set/select #(= (:id %) id) (set models))
+            model (first (set/select #(= (:id %) id) (set models)))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
                                  models/promoted-tweet-stats))
             total-stats (<! (get-stats (str "/stats" (:uri req) "/"

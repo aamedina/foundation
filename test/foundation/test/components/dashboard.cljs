@@ -82,8 +82,9 @@
         (doseq [series (.-series chart)]
           (.remove series))
         (go (let [start (.getDate start-picker)
-                  end (.getDate end-picker)]
-              (.addSeries chart (clj->js {:data t
+                  end (.getDate end-picker)
+                  stats 1]
+              (.addSeries chart (clj->js {:data stats
                                           :pointInterval (* 3600 1000)
                                           :pointStart start-time}))))))
     tmpl/PElement
