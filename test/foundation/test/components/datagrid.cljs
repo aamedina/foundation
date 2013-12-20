@@ -146,7 +146,7 @@
 (defn full-td-widths
   [th-widths ths row-width table-width]
   (reduce (fn [ws [width th]]
-            (let [th-width width
+            (let [th-width (.-width (style/getBounds th))
                   new-width (* table-width (/ width row-width))]
               (if (> new-width width)
                 (do (style/setWidth th new-width) (conj ws new-width))
@@ -164,9 +164,9 @@
         th-widths (th-widths ths td-widths)
         row-width (reduce + th-widths)
         th-widths (full-td-widths th-widths ths row-width table-width)]
-    ;; (if (> row-width table-width)
-    ;;   (style/setWidth (-> thead .-rows first) row-width)
-    ;;   (style/setWidth (-> thead .-rows first) table-width))
+    (if (> row-width table-width)
+      (style/setWidth (-> thead .-rows first) row-width)
+      (style/setWidth (-> thead .-rows first) table-width))
     (doseq [tr rows]
       (doseq [[width td] (map vector th-widths (.-cells tr))]
         (style/setWidth td width)))))

@@ -2,13 +2,27 @@
  "file":
  "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/test/templates.js",
  "sources":["templates.cljs"],
- "lineCount":39,
+ "lineCount":54,
  "mappings":
- ";AAAA;;;;;;;;;;;;;;;;;;;;;;;AAiBA,AAACA;AAED,wCAAA,iDAAA,zFAAMC,8DACHC,GAAGC,UAAUC,cACd,qRAAA,jRAAMA,mBAAa,EAAI,yBAAAC,xBAAUD,4CACZ,AAACA,uBAAaE,6BACdF,kBACfG,SAAO,KAAAC,wBACC,KAAAC,yBAA2BL,mBAC3B,KAAAM,wBAA0BN,qBACtC,IAAAO,0CAAA,AAAA,AAAAA,4CAAA,nEAAM,AAAgBJ;AAAtB,AAAAI,8BAAA;AAAAA,AAGA,IAAAC,mBAAA,AAAA,AAAAA,PAAML,0BACOL;AADb,AAAAU,kBAEYT;AAFZS;;AAIJ,0CAAA,4BAAA,AAAA,IAAAC,YAAA,AAAAC,uBAAA,OAAA,AAAA,pHAAaC,kEACVC,sEACUA;CAFb,AAAA,AAAAH,uBAAA,KAEaG;;CAFb;AAAAH",
+ ";AAAA;;;;;;;;;;;;;;;;;;;;;;;;;AAmBA,AAACA;AAED,wCAAA,iDAAA,zFAAMC,8DACHC,GAAGC,UAAUC,cACd,qRAAA,jRAAMA,mBAAa,EAAI,yBAAAC,xBAAUD,4CACZ,AAACA,uBAAaE,6BACdF,kBACfG,SAAO,KAAAC,wBACC,KAAAC,yBAA2BL,mBAC3B,KAAAM,wBAA0BN,qBACtC,IAAAO,0CAAA,AAAA,AAAAA,4CAAA,nEAAM,AAAgBJ;AAAtB,AAAAI,8BAAA;AAAAA,AAGA,IAAAC,mBAAA,AAAA,AAAAA,PAAML,0BACOL;AADb,AAAAU,kBAEYT;AAFZS;;AAIJ,0CAAA,4BAAA,AAAA,IAAAC,YAAA,AAAAC,uBAAA,OAAA,AAAA,pHAAaC,kEACVC,sEACUA;CAFb,AAAA,AAAAH,uBAAA,KAEaG;;CAFb;AAAAH;;AAIA,AAAKI,0CAAc,AAAA,AAAAC,kCAAA;AAEnB,4CAAA,2CAAA,vFAAMC,sEACHC,EAAEC,eACH,6IAAA,zIAAMC,SAAO,KAAAC,uBACC,AAACC,2CAAiC,+CAAA,7BAAIH,eACFA,wBAEhD,OAASC,cAAO,0GAAA,xFAAIF,GAAE,CAAGA,IAAE,AAACK,wBAAIR,wCAAcI;;AAElD,uCAAA,2CAAA,iGAAA,iGAAA,0GAAA,9XAAKK,6IAAqBC,iGACAC,uGACGC,sGACFC;AAE3B,2CAAA,4BAAA,vEAAMC,oEACHX,GACD,0KAAA,tKAAME,SAAO,KAAAC,uBAAyB,AAAA,yFAAUG,wCAC9C,OAASJ,cAAOF;;AAEpB;;;;yCAAA,4BAAA,rEAAMY,gEAGHC,KACD,sBAAM,AAACC,wCACA,AAACC,+BAAQ,wBAAA,WAAAC,mBAAA,tDAACC,sDAAK,wCAAAD,kBAAA,IAAA,vDAACE;GACF,AAACD,wBAAIE,eAAK,AAACC,yBAAKP,QAC9B,AAACE,+BAAQ,AAACM,yBAAKR",
  "names":
  ["cljs.core/enable-console-print!",
   "foundation.test.templates/date-picker", "el", "init-date",
   "date-pattern", "cljs.core/Keyword", "cljs-time.format/formatters",
   "picker", "goog/ui.InputDatePicker", "goog/i18n.DateTimeFormat",
-  "goog/i18n.DateTimeParse", "G__270028", "G__270029", "dom270032",
-  "js/document", "foundation.test.templates/twitter-power", "id"]}
+  "goog/i18n.DateTimeParse", "G__407211", "G__407212", "dom407215",
+  "js/document", "foundation.test.templates/twitter-power", "id",
+  "foundation.test.templates/exchange-rate", "cljs.reader/read-string",
+  "foundation.test.templates/format-currency", "n", "currency-code",
+  "parser", "goog/i18n.NumberFormat",
+  "goog.i18n.currency/getLocalCurrencyPattern", "cljs.core/get",
+  "foundation.test.templates/formatters",
+  "goog/i18n.NumberFormat.Format.DECIMAL",
+  "goog/i18n.NumberFormat.Format.PERCENT",
+  "goog/i18n.NumberFormat.Format.SCIENTIFIC",
+  "goog/i18n.NumberFormat.Format.CURRENCY",
+  "foundation.test.templates/format-percent",
+  "foundation.test.templates/query-string", "kvs",
+  "goog.Uri.QueryData/createFromKeysValues", "cljs.core/clj->js",
+  "p1__407216#", "cljs.core/map", "clojure.string/replace",
+  "cljs.core/name", "cljs.core/keys", "cljs.core/vals"]}
