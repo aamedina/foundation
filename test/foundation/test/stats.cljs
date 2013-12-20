@@ -1,4 +1,6 @@
-(ns foundation.app.stats)
+(ns foundation.test.stats
+  (:require [foundation.test.models :as models]
+            [clojure.string :as str]))
 
 (defn round [n places]
   (let [p (Math/pow 10 places)]

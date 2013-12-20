@@ -8,7 +8,8 @@
 (defmethod transform [:init [:dashboard]]
   [state message]
   {:model (:model message)
-   :stats (:stats message)})
+   :stats (:stats message)
+   :total-stats (:total-stats message)})
 
 (defmethod transform [:load [:datagrid :collection]]
   [state message]
@@ -35,5 +36,6 @@
     {:resource (:resource datagrid)
      :model (:model dashboard)
      :stats (:stats dashboard)
+     :total-stats (:total-stats dashboard)
      :start-time (:start-time (:stats dashboard))
      :end-time (:end-time (:stats dashboard))}))

@@ -2,8 +2,10 @@
   (:require [foundation.app.ui :as ui]
             [foundation.test.templates :as t]
             [foundation.test.models :as m]
+            [foundation.test.stats :as s]
             [foundation.app.render :as r]
             [dommy.template :as tmpl]
+            [clojure.string :as str]
             [dommy.core :as dom]
             [enfocus.core :as en])
   (:require-macros [dommy.macros :refer [sel1 sel deftemplate node]]
@@ -36,7 +38,11 @@
                               (seq (-> e .-target .-parentNode .-id))))
             el (sel1 (str "#" id))
             prev (sel1 (sel1 :div.twitter-stats#stats-list-group)
-                       :li.list-group-item.active)]
+                       :li.list-group-item.active)
+            stats (:stats new)
+            [metric metric-type] (str/split id "-")
+            t (s/graph-stats stats metric (keyword metric-type))
+            total-stats (:total-stats new)]
         (when-not (dom/has-class? el :active)
           (dom/add-class! el :active)
           (some-> prev (dom/remove-class! :active))
@@ -45,7 +51,7 @@
                 start-time (.getTime (.getDate start-picker))]
             (doseq [series (.-series chart)]
               (.remove series))
-            (.addSeries chart (clj->js {:data (:stat new)
+            (.addSeries chart (clj->js {:data t
                                         :pointInterval (* 3600 1000)
                                         :pointStart start-time}))))))
     tmpl/PElement
