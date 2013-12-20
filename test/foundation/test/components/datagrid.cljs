@@ -1,12 +1,16 @@
 (ns foundation.test.components.datagrid
   (:require [foundation.app.ui :as ui]
+            [foundation.app.message :as msg]
             [foundation.test.templates :as t]
             [foundation.test.models :as m :refer [columns]]
             [foundation.test.cells :as cells]
             [dommy.template :as tmpl]
-            [dommy.core :as dom])
+            [dommy.core :as dom]
+            [cljs.core.async :refer [put!]])
   (:require-macros [dommy.macros :refer [sel1 sel deftemplate]]
                    [foundation.app.ui :refer [defcomponent]]))
+
+(enable-console-print!)
 
 (deftemplate datagrid-filter
   []
@@ -44,16 +48,19 @@
      (datagrid-body coll cols)]))
 
 (defn new-button
-  []
+  [input]
   (reify ui/IRender
     (-render [_] [:button#new.btn.btn-success.btn-sm "New"])
     ui/IClickable
-    (-click [_ e] (println "CLICK!"))
+    (-click [_ e]
+      (put! input {msg/type :create
+                   msg/path [:datagrid :collection]
+                   :model {}}))
     tmpl/PElement
     (-elem [x] (with-meta (tmpl/-elem (ui/-render x)) {:component x}))))
 
 (deftemplate datagrid-template
-  [id model coll]
+  [input id model coll]
   [:div.datagrid-container.panel.panel-default {:id id}
    [:div.panel-heading
     (datagrid-breadcrumb)
@@ -64,7 +71,7 @@
     (datagrid-table model coll)]
    [:div.panel-footer
     [:div.form-inline
-     [:div.form-group (new-button)]
+     [:div.form-group (new-button input)]
      [:div.form-group [:button#save.btn.btn-info.btn-sm.disabled "Save"]]
      [:div.form-group
       [:button#delete.btn.btn-danger.btn-sm.disabled "Delete"]]
@@ -72,11 +79,11 @@
       [:button#dupe.btn.btn-primary.btn-sm.disabled "Duplicate"]]]]])
 
 (defn datagrid
-  [id state]
+  [input id state]
   (reify
     ui/IRender
     (-render [_]
-      (datagrid-template id (:resource state) (:collection state)))
+      (datagrid-template input id (:resource state) (:collection state)))
     ui/IWithChildren
     (-with-children [_]
       [:#new])))

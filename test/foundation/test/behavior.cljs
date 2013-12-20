@@ -3,8 +3,7 @@
 
 (defmethod transform [:init [:datagrid]]
   [state message]
-  {:collection []
-   :resource (:resource message)})
+  {:resource (:resource message)})
 
 (defmethod transform [:init [:dashboard]]
   [state message]
@@ -13,11 +12,11 @@
 
 (defmethod transform [:load [:datagrid :collection]]
   [state message]
-  (into state (:collection message)))
+  (:collection message))
 
 (defmethod transform [:create [:datagrid :collection]]
   [state message]
-  (into [((fnil identity {} (:model message)))] state))
+  (into [((fnil identity {}) (:model message))] state))
 
 (defmethod transform [:save [:datagrid :collection]]
   [state message]

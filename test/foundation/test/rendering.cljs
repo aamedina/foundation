@@ -5,7 +5,7 @@
             [foundation.test.models :as m]
             [foundation.app.ui :as ui]
             [foundation.test.templates :as t]
-            [foundation.test.components.datagrid :refer [datagrid]]
+            [foundation.test.components.datagrid :as dg :refer [datagrid]]
             [foundation.test.components.dashboard :refer [dashboard]]
             [foundation.test.components.chart :refer [highchart]]
             [dommy.core :as dom])
@@ -15,23 +15,28 @@
 (declare start-date-picker end-date-picker)
 
 (defmethod render [:node-create []]
-  [renderer [op path old new] pid id]
+  [renderer [op path old new] input pid id]
   (t/twitter-power id))
 
 (defmethod render [:node-create [:datagrid]]
-  [renderer [op path old new] pid id]
-  (datagrid id new))
+  [renderer [op path old new] input pid id]
+  (datagrid input id new))
 
 (defmethod render [:node-update [:datagrid]]
-  [renderer [op path old new] pid id]
-  )
+  [renderer [op path old new] input pid id]
+  (println new))
+
+(defmethod render [:node-update [:datagrid :collection]]
+  [renderer [op path old new] input pid id]
+  (reify ui/IRender
+    (-render [_] (dg/datagrid-body new (m/columns m/accounts)))))
 
 (defmethod render [:node-create [:dashboard]]
-  [renderer [op path old new] pid id]
+  [renderer [op path old new] input pid id]
   (dashboard id new))
 
 (defmethod render [:node-create [:chart]]
-  [renderer [op path old new] pid id]
+  [renderer [op path old new] input pid id]
   (dorun [(r/-set-data renderer (conj path :chart) (highchart))
           (start-date-picker renderer (:start-time new))
           (end-date-picker renderer (:end-time new))]))

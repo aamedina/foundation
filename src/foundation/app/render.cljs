@@ -19,7 +19,7 @@
 
 (enable-console-print!)
 
-(defmulti render (fn [renderer [op path _ _] pid id] [op path]))
+(defmulti render (fn [renderer [op path _ _] input-queue pid id] [op path]))
 
 (defn guid [] (.getNextUniqueId (IdGenerator/getInstance)))
 
@@ -176,6 +176,7 @@
   (start [renderer]
     (let [handlers (reset! handlers (event-delegate renderer))
           render-fns (methods render)
+          input (:input renderer)
           render-fn
           (fn [deltas]
             (when-let [deltas
@@ -192,7 +193,8 @@
                       pid (-parent-id renderer path)]
                   (case op
                     :node-create
-                    (when-let [dom (-render (f renderer d pid id) renderer)]
+                    (when-let [dom (-render (f renderer d input pid id)
+                                            renderer)]
                       (-set-data renderer [id] dom)
                       (let [c (:component (meta dom))
                             children (when (satisfies? ui/IWithChildren c)
@@ -207,20 +209,29 @@
                                       (-get-data renderer [pid]))
                                      (-get-data renderer [pid]))]
                         (doseq [child children]
-                          (println child))
+                          child)
                         (if parent
                           (dom/append! parent dom)
                           (dom/append! js/document.body dom)))
                       (swap! deps depend id pid))
                     :node-update
-                    (doseq [dep (sort-deps deps pid)]
-                      (let [dep-pid (-parent-id renderer dep)]
-                        (when-let [dom-content
-                                   (-render (f renderer d dep-pid dep)
-                                            renderer)]
-                          (when-let [old-content (-get-data renderer [dep])]
-                            (dom/replace! old-content dom-content))
-                          (-set-data renderer [dep] dom-content))))
+                    (if-let [deps (seq (sort-deps deps pid))]
+                      (doseq [dep deps]
+                        (let [dep-pid (-parent-id renderer dep)]
+                          (when-let [dom-content
+                                     (-render (f renderer d input dep-pid dep)
+                                              renderer)]
+                            (when-let [old-content (-get-data renderer [dep])]
+                              (dom/replace! old-content dom-content))
+                            (-set-data renderer [dep] dom-content))))
+                      (when-let [dom-content
+                                 (-render (f renderer d input pid id)
+                                          renderer)]
+                        (if-let [old-content (-get-data renderer [id])]
+                          (dom/replace! old-content dom-content)
+                          (dom/replace! (sel1 (str "#" (.-id dom-content)))
+                                        dom-content))
+                        (-set-data renderer [id] dom-content)))
                     :node-destroy
                     (doseq [dep (sort-deps deps pid)]
                       (let [dep-pid (-parent-id renderer dep)]
@@ -242,7 +253,6 @@
   IEventDelegate
   (-find-dispatches [renderer event-type e]
     (let [registered (-get-data renderer [:_event event-type])]
-      ;; (js/console.log (first registered))
       (filter (fn [x]
                 (let [el (sel1 (str "#" (.-id ((comp :dom meta) x))))]
                   (or (identical? (.-innerHTML el) (.-innerHTML (.-target e)))
@@ -324,6 +334,6 @@
                      :handlers (atom {})})))
 
 (defmethod render :default
-  [renderer [op path _ _] pid id]
+  [renderer [op path _ _] input-queue pid id]
   "Default render implementation. Implemented as a no-op and returns nil."
   (println "No matching render method for:" [op path]))

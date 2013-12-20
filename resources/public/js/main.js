@@ -1,5 +1,6 @@
 goog.addDependency("base.js", ['goog'], []);
 goog.addDependency("../cljs/core.js", ['cljs.core'], ['goog.string', 'goog.array', 'goog.object', 'goog.string.StringBuffer']);
+goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);
 goog.addDependency("../enfocus/enlive/syntax.js", ['enfocus.enlive.syntax'], ['cljs.core']);
 goog.addDependency("../clojure/string.js", ['clojure.string'], ['cljs.core', 'goog.string', 'goog.string.StringBuffer']);
 goog.addDependency("../domina/support.js", ['domina.support'], ['cljs.core', 'goog.dom', 'goog.events']);
@@ -29,7 +30,6 @@ goog.addDependency("../cljs/reader.js", ['cljs.reader'], ['cljs.core', 'goog.str
 goog.addDependency("../foundation/app/xhr.js", ['foundation.app.xhr'], ['cljs_time.coerce', 'goog.net.XhrManager', 'goog.Uri.QueryData', 'cljs.core', 'goog.storage.mechanism.HTML5LocalStorage', 'goog.storage.ExpiringStorage', 'clojure.walk', 'cljs.reader', 'cljs.core.async', 'cljs_time.core']);
 goog.addDependency("../foundation/app/data/dependency.js", ['foundation.app.data.dependency'], ['cljs.core', 'clojure.set']);
 goog.addDependency("../foundation/app/models.js", ['foundation.app.models'], ['goog.Uri.QueryData', 'cljs.core', 'foundation.app.xhr', 'clojure.walk', 'clojure.string', 'cljs.core.async', 'foundation.app.data.dependency']);
-goog.addDependency("../foundation/app/message.js", ['foundation.app.message'], ['cljs.core']);
 goog.addDependency("../foundation/app/data/component.js", ['foundation.app.data.component'], ['cljs.core', 'foundation.app.data.dependency']);
 goog.addDependency("../foundation/app/util.js", ['foundation.app.util'], ['cljs.core', 'cljs.reader']);
 goog.addDependency("../cljs/core/match.js", ['cljs.core.match'], ['cljs.core']);
@@ -41,7 +41,7 @@ goog.addDependency("../foundation/app/render.js", ['foundation.app.render'], ['g
 goog.addDependency("../foundation/app.js", ['foundation.app'], ['cljs.core', 'foundation.app.message', 'foundation.app.data.component', 'foundation.app.util', 'clojure.string', 'cljs.core.match', 'clojure.set', 'cljs.core.async', 'foundation.app.data.tracking_map', 'foundation.app.router', 'foundation.app.data.dependency', 'foundation.app.render']);
 goog.addDependency("../foundation/test/models.js", ['foundation.test.models'], ['cljs_time.coerce', 'cljs.core', 'foundation.app.models', 'cljs_time.format', 'clojure.string', 'foundation.app', 'goog.date', 'foundation.app.data.dependency', 'goog.Uri', 'cljs_time.core']);
 goog.addDependency("../foundation/test/templates.js", ['foundation.test.templates'], ['cljs.core', 'enfocus.events', 'cljs_time.format', 'foundation.test.cells', 'enfocus.core', 'foundation.test.models', 'goog.i18n.DateTimeFormat', 'goog.i18n.DateTimeParse', 'goog.date', 'goog.ui.InputDatePicker', 'dommy.core', 'cljs_time.core']);
-goog.addDependency("../foundation/test/components/datagrid.js", ['foundation.test.components.datagrid'], ['cljs.core', 'foundation.test.cells', 'dommy.template', 'foundation.test.templates', 'foundation.test.models', 'foundation.app.ui', 'dommy.core']);
+goog.addDependency("../foundation/test/components/datagrid.js", ['foundation.test.components.datagrid'], ['cljs.core', 'foundation.app.message', 'foundation.test.cells', 'dommy.template', 'foundation.test.templates', 'foundation.test.models', 'cljs.core.async', 'foundation.app.ui', 'dommy.core']);
 goog.addDependency("../foundation/test/components/chart.js", ['foundation.test.components.chart'], ['cljs.core', 'dommy.core', 'cljs_time.core']);
 goog.addDependency("../foundation/test/components/dashboard.js", ['foundation.test.components.dashboard'], ['cljs.core', 'foundation.test.templates', 'foundation.test.models', 'foundation.app.ui', 'dommy.core']);
 goog.addDependency("../foundation/test/rendering.js", ['foundation.test.rendering'], ['cljs.core', 'foundation.test.components.datagrid', 'foundation.test.templates', 'foundation.test.models', 'foundation.app', 'foundation.test.components.chart', 'cljs.core.async', 'foundation.app.ui', 'foundation.test.components.dashboard', 'foundation.app.render', 'dommy.core']);
