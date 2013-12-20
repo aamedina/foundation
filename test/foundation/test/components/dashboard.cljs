@@ -23,15 +23,24 @@
   [renderer new]
   (reify ui/IRender
     (-render [_]
-      [:div.twitter-stats#stats-list-group
-       (for [[metric cpa rate] metrics]
-         [:ul.list-group
-          [:li.list-group-item {:id metric}
-           [:h5.metric-header.list-group-item-heading (str "0 " metric)]]
-          [:li.list-group-item {:id (str metric "-cpa")}
-           [:small.list-group-item-text (str "0 " cpa)]]
-          [:li.list-group-item {:id (str metric "-rate")}
-           [:small.list-group-item-text (str "0 " rate)]]])])
+      (let [total (s/total-stats (:total-stats new))
+            billed (-> (:estimated-charge-local-micro (:stats new))
+                       (first))
+            cpas (s/cpa-stats total billed)
+            rates (s/rate-stats total)]
+        
+        [:div.twitter-stats#stats-list-group
+         (for [[metric cpa rate] metrics]
+           [:ul.list-group
+            [:li.list-group-item {:id metric}
+             [:h5.metric-header.list-group-item-heading
+              (str (get total metric) " " metric)]]
+            [:li.list-group-item {:id (str metric "-cpa")}
+             [:small.list-group-item-text
+              (str (get cpas metric) " " cpa)]]
+            [:li.list-group-item {:id (str metric "-rate")}
+             [:small.list-group-item-text
+              (str (get rates metric) " " rate)]]])]))
     ui/IClickable
     (-click [x e]
       (let [id (apply str (or (seq (-> e .-target .-id))

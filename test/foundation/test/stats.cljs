@@ -2,20 +2,28 @@
   (:require [foundation.test.models :as models]
             [clojure.string :as str]))
 
+(def metrics
+  [["Impressions" "CPM" "Impression Rate"]
+   ["Engagements" "CPE" "Engagement Rate"]
+   ["Clicks" "CPC" "Click Rate"]
+   ["Retweets" "CPRT" "Retweet Rate"]
+   ["Replies" "CPR" "Reply Rate"]
+   ["Follows" "CPF" "Follow Rate"]])
+
 (defn round [n places]
   (let [p (Math/pow 10 places)]
     (/ (Math/round (* p n)) p)))
 
 (defn total-stats
   [stats]
-  (->> (map (models/metrics :default) (map first tmpl/dashboard-metrics))
+  (->> (map (models/metrics :default) (map first metrics))
        (map (fn [ms]
               (->> (map #(str/replace % #"_" "-") ms)
                    (map keyword)
                    (map stats)
                    (reduce into)
                    (reduce +))))
-       (zipmap (map first tmpl/dashboard-metrics))))
+       (zipmap (map first metrics))))
 
 (defn js-number
   [n]
