@@ -38,8 +38,7 @@
                        :li.list-group-item.active)]
         (when-not (dom/has-class? el :active)
           (dom/add-class! el :active)
-          (some-> prev
-            (dom/remove-class! :active)))))
+          (some-> prev (dom/remove-class! :active)))))
     tmpl/PElement
     (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
 

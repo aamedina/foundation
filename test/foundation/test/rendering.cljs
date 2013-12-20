@@ -19,17 +19,26 @@
   (t/twitter-power id))
 
 (defmethod render [:node-create [:datagrid]]
-  [renderer [op path old new] input pid id]
+  [renderer [op path old new] input pid id]  
+  (r/-set-data renderer [:datagrid :resource] (:resource new))
   (datagrid input id new))
 
 (defmethod render [:node-update [:datagrid]]
   [renderer [op path old new] input pid id]
-  (println new))
+  (dg/set-datagrid-height!)
+  (r/-set-data renderer [:datagrid :resource] (:resource new)))
 
 (defmethod render [:node-update [:datagrid :collection]]
   [renderer [op path old new] input pid id]
-  (reify ui/IRender
-    (-render [_] (dg/datagrid-body new (m/columns m/accounts)))))
+  (dg/set-datagrid-height!)
+  (dg/fix-column-widths!)
+  (let [resource (r/-get-data renderer [:datagrid :resource])]
+    (reify ui/IRender
+      (-render [_] (dg/datagrid-body new (m/columns resource)))
+      ui/IPostProcess
+      (-post-process [_]
+        (dg/set-datagrid-height!)
+        (dg/fix-column-widths!)))))
 
 (defmethod render [:node-create [:dashboard]]
   [renderer [op path old new] input pid id]

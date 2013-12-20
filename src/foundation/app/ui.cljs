@@ -55,3 +55,6 @@
 
 (defprotocol IFileDrop
   (-drop [_ e]))
+
+(defprotocol IPostProcess
+  (-post-process [_]))

@@ -203,7 +203,6 @@
                     :node-create
                     (when-let [dom (-render (f renderer d input pid id)
                                             renderer)]
-                      (-set-data renderer [id] dom)
                       (let [c (:component (meta dom))
                             children (when (satisfies? ui/IWithChildren c)
                                        (map (fn [x]
@@ -216,30 +215,49 @@
                                      ((ui/-parent-node c)
                                       (-get-data renderer [pid]))
                                      (-get-data renderer [pid]))]
-                        (doseq [child children]
-                          child)
                         (if parent
                           (dom/append! parent dom)
-                          (dom/append! js/document.body dom)))
+                          (dom/append! js/document.body dom))
+                        (-set-data renderer [id] dom)
+                        (when (satisfies? ui/IPostProcess c)
+                          (ui/-post-process c))
+                        (doseq [child children]
+                          (when (satisfies? ui/IPostProcess c)
+                            (ui/-post-process c))))
                       (swap! deps depend id pid))
                     :node-update
                     (if-let [deps (seq (sort-deps deps pid))]
                       (doseq [dep deps]
                         (let [dep-pid (-parent-id renderer dep)]
-                          (when-let [dom-content
+                          (when-let [dom
                                      (-render (f renderer d input dep-pid dep)
                                               renderer)]
-                            (when-let [old-content (-get-data renderer [dep])]
-                              (dom/replace! old-content dom-content))
-                            (-set-data renderer [dep] dom-content))))
-                      (when-let [dom-content
+                            (when-let [old-content
+                                       (or (-get-data renderer [id])
+                                           (gdom/getElement
+                                            (.-id dom)))]
+                              (dom/replace! old-content dom))
+                            (-set-data renderer [dep] dom))))
+                      (when-let [dom
                                  (-render (f renderer d input pid id)
                                           renderer)]
-                        (if-let [old-content (-get-data renderer [id])]
-                          (dom/replace! old-content dom-content)
-                          (dom/replace! (sel1 (str "#" (.-id dom-content)))
-                                        dom-content))
-                        (-set-data renderer [id] dom-content)))
+                        (let [c (:component (meta dom))
+                              dom (if (satisfies? ui/IRender dom)
+                                    (node (ui/-render dom))
+                                    dom)
+                              parent (if (and (satisfies? ui/IParentNode c))
+                                       ((ui/-parent-node c)
+                                        (-get-data renderer [pid]))
+                                       (-get-data renderer [pid]))]
+                          (when-let [old-content (or (-get-data renderer [id])
+                                                     (gdom/getElement
+                                                      (.-id dom)))]
+                            (dom/replace! old-content dom)
+                            (-set-data renderer [id] dom))
+                          (js/console.log (satisfies? ui/IPostProcess c)
+                                          c)
+                          (when (satisfies? ui/IPostProcess c)
+                            (ui/-post-process c)))))
                     :node-destroy
                     (doseq [dep (sort-deps deps pid)]
                       (let [dep-pid (-parent-id renderer dep)]
@@ -262,9 +280,11 @@
   (-find-dispatches [renderer event-type e]
     (let [registered (-get-data renderer [:_event event-type])]
       (filter (fn [x]
-                (let [el (sel1 (str "#" (.-id ((comp :dom meta) x))))]
+                (let [el (gdom/getElement (.-id ((comp :dom meta) x)))]
                   (or (identical? (.-innerHTML el) (.-innerHTML (.-target e)))
-                      (dom/descendant? (.-target e) el))))
+                      (when (instance? js/Element (.-target e))
+                        (dom/descendant? (.-target e) el))
+                      (satisfies? ui/IResizeable x))))
               registered)))
   (-dispatch-action [renderer e]
     (doseq [c (-find-dispatches renderer :action e)]
@@ -298,8 +318,8 @@
     (doseq [c (-find-dispatches renderer :online e)]
       (when (satisfies? ui/IOnline c)
         (ui/-online c e))))
-  (-dispatch-resize [renderer e]
-    (doseq [c (-find-dispatches renderer :resize e)]
+  (-dispatch-resize [renderer e]    
+    (doseq [c (-find-dispatches renderer :resize e)]      
       (when (satisfies? ui/IResizeable c)
         (ui/-resize c e))))
   
