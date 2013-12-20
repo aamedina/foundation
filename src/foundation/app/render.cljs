@@ -254,8 +254,6 @@
                                                       (.-id dom)))]
                             (dom/replace! old-content dom)
                             (-set-data renderer [id] dom))
-                          (js/console.log (satisfies? ui/IPostProcess c)
-                                          c)
                           (when (satisfies? ui/IPostProcess c)
                             (ui/-post-process c)))))
                     :node-destroy

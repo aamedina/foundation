@@ -66,6 +66,42 @@
     tmpl/PElement
     (-elem [x] (with-meta (tmpl/-elem (ui/-render x)) {:component x}))))
 
+(defn save-button
+  [input]
+  (reify ui/IRender
+    (-render [_] [:button#save.btn.btn-info.btn-sm.disabled "Save"])
+    ui/IClickable
+    (-click [_ e]
+      (put! input {msg/type :update
+                   msg/path [:datagrid :collection]
+                   :model {}}))
+    tmpl/PElement
+    (-elem [x] (with-meta (tmpl/-elem (ui/-render x)) {:component x}))))
+
+(defn delete-button
+  [input]
+  (reify ui/IRender
+    (-render [_] [:button#delete.btn.btn-danger.btn-sm.disabled "Delete"])
+    ui/IClickable
+    (-click [_ e]
+      (put! input {msg/type :delete
+                   msg/path [:datagrid :collection]
+                   :model {}}))
+    tmpl/PElement
+    (-elem [x] (with-meta (tmpl/-elem (ui/-render x)) {:component x}))))
+
+(defn dupe-button
+  [input]
+  (reify ui/IRender
+    (-render [_] [:button#dupe.btn.btn-primary.btn-sm.disabled "Duplicate"])
+    ui/IClickable
+    (-click [_ e]
+      (put! input {msg/type :dupe
+                   msg/path [:datagrid :collection]
+                   :model {}}))
+    tmpl/PElement
+    (-elem [x] (with-meta (tmpl/-elem (ui/-render x)) {:component x}))))
+
 (deftemplate datagrid-template
   [input id model coll]
   [:div.datagrid-container.panel.panel-default {:id id}
@@ -79,11 +115,11 @@
    [:div.panel-footer
     [:div.form-inline
      [:div.form-group (new-button input)]
-     [:div.form-group [:button#save.btn.btn-info.btn-sm.disabled "Save"]]
+     [:div.form-group (save-button input)]
      [:div.form-group
-      [:button#delete.btn.btn-danger.btn-sm.disabled "Delete"]]
+      (delete-button input)]
      [:div.form-group
-      [:button#dupe.btn.btn-primary.btn-sm.disabled "Duplicate"]]]]])
+      (dupe-button input)]]]])
 
 (extend-type js/HTMLCollection
   ISeq
