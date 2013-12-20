@@ -41,7 +41,8 @@
           (dom/add-class! el :active)
           (some-> prev (dom/remove-class! :active))
           (let [chart (r/-get-data renderer [:chart])
-                start-time (.getTime (js/Date. (:start-time new)))]
+                start-picker (r/-get-data renderer [:start-time-picker])
+                start-time (.getTime (.getDate start-picker))]
             (doseq [series (.-series chart)]
               (.remove series))
             (.addSeries chart (clj->js {:data (:stat new)

@@ -55,4 +55,5 @@ goog.addDependency("../foundation/test.js", ['foundation.test'], ['foundation.te
 goog.addDependency("../foundation/app/data/combinatorics.js", ['foundation.app.data.combinatorics'], ['cljs.core']);
 goog.addDependency("../foundation/app/events.js", ['foundation.app.events'], ['cljs.core', 'cljs.core.async', 'goog.events']);
 goog.addDependency("../foundation/app/data/graph.js", ['foundation.app.data.graph'], ['cljs.core', 'clojure.set']);
+goog.addDependency("../foundation/app/stats.js", ['foundation.app.stats'], ['cljs.core']);
 goog.addDependency("../foundation/test/components/autocomplete.js", ['foundation.test.components.autocomplete'], ['cljs.core']);

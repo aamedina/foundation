@@ -11,8 +11,12 @@
             [foundation.app.xhr :as xhr])
   (:require-macros [cljs.core.async.macros :as a :refer [go go-loop]]))
 
-(defn init [resource model stats]
-  [{msg/type :init msg/path [:dashboard] :model model :stats stats}
+(defn init [resource model stats total-stats]
+  [{msg/type :init
+    msg/path [:dashboard]
+    :model model
+    :stats stats
+    :total-stats total-stats}
    {msg/type :init msg/path [:datagrid] :resource resource}])
 
 (defn get-route
@@ -20,7 +24,7 @@
   (app-routes {:uri path :method :get :params params}))
 
 (defn get-stats
-  [path params model]
+  [path params model & {:keys [granularity] :or {granularity "HOUR"}}]
   (app-routes {:uri path
                :method :get
                :params params
@@ -28,7 +32,7 @@
                :query-params
                {:start-time (models/start-time models/campaign-stats)
                 :end-time (models/end-time models/campaign-stats)
-                :granularity "HOUR"}}))
+                :granularity granularity}}))
 
 (defmethod route [:get "/"]
   [req]
@@ -40,10 +44,15 @@
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
-                                 models/account-stats))]
+                                 models/account-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/account-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/accounts (first models) stats))))))
+             (into (init models/accounts (first models) stats total-stats))))))
 
 (defmethod route [:get "/accounts/:id"]
   [req]
@@ -51,10 +60,15 @@
             models (<! (m/fetch models/accounts))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
-                                 models/account-stats))]
+                                 models/account-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/account-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/accounts model stats))))))
+             (into (init models/accounts model stats total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/campaigns"]
   [req]
@@ -64,10 +78,16 @@
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
-                                 models/campaign-stats))]
+                                 models/campaign-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/campaign-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/campaigns (first models) stats))))))
+             (into (init models/campaigns (first models) stats
+                         total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/campaigns/:id"]
   [req]
@@ -77,10 +97,15 @@
                                 :params {:account-id account-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
-                                 models/campaign-stats))]
+                                 models/campaign-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/campaign-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/campaigns model stats))))))
+             (into (init models/campaigns model stats total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/line_items"]
   [req]
@@ -92,10 +117,16 @@
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
-                                 models/line-item-stats))]
+                                 models/line-item-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/line-item-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/line-items (first models) stats))))))
+             (into (init models/line-items (first models) stats
+                         total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/line_items/:id"]
   [req]
@@ -107,10 +138,15 @@
                                 :query-params {:campaign-ids campaign-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
-                                 models/line-item-stats))]
+                                 models/line-item-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/line-item-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/line-items model stats))))))
+             (into (init models/line-items model stats total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_accounts"]
   [req]
@@ -122,10 +158,16 @@
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
-                                 models/promoted-account-stats))]
+                                 models/promoted-account-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/promoted-account-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-accounts (first models) stats))))))
+             (into (init models/promoted-accounts (first models) stats
+                         total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_accounts/:id"]
   [req]
@@ -137,10 +179,16 @@
                                          :line_item_id line-item-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
-                                 models/promoted-account-stats))]
+                                 models/promoted-account-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/promoted-account-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-accounts model stats))))))
+             (into (init models/promoted-accounts model stats
+                         total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_tweets"]
   [req]
@@ -152,10 +200,16 @@
             model (first models)
             stats (<! (get-stats (str "/stats" (:uri req) "/" (:id model))
                                  model
-                                 models/promoted-tweet-stats))]
+                                 models/promoted-tweet-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/promoted-tweet-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-tweets (first models) stats))))))
+             (into (init models/promoted-tweets (first models) stats
+                         total-stats))))))
 
 (defmethod route [:get "/accounts/:account-id/promoted_tweets/:id"]
   [req]
@@ -167,7 +221,13 @@
                                          :line_item_id line-item-id}))
             model (set/select #(= (:id %) id) (set models))
             stats (<! (get-stats (str "/stats" (:uri req)) {}
-                                 models/promoted-tweet-stats))]
+                                 models/promoted-tweet-stats))
+            total-stats (<! (get-stats (str "/stats" (:uri req) "/"
+                                            (:id model))
+                                       model
+                                       models/promoted-tweet-stats
+                                       :granularity "TOTAL"))]
         (->> [{msg/type :load msg/path [:datagrid :collection]
                :collection models}]
-             (into (init models/promoted-tweets model stats))))))
+             (into (init models/promoted-tweets model stats
+                         total-stats))))))
