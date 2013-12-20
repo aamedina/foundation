@@ -2,10 +2,11 @@
   (:require [foundation.app.ui :as ui]
             [foundation.test.templates :as t]
             [foundation.test.models :as m]
+            [dommy.template :as tmpl]
             [dommy.core :as dom])
-  (:require-macros [dommy.macros :refer [sel1 sel deftemplate]]))
+  (:require-macros [dommy.macros :refer [sel1 sel deftemplate node]]))
 
-(def dashboard-metrics
+(def metrics
   [["Impressions" "CPM" "Impression Rate"]
    ["Engagements" "CPE" "Engagement Rate"]
    ["Clicks" "CPC" "Click Rate"]
@@ -13,15 +14,24 @@
    ["Replies" "CPR" "Reply Rate"]
    ["Follows" "CPF" "Follow Rate"]])
 
-(deftemplate dashboard-metric
-  [[metric cpa rate]]
-  [:ul.list-group
-   [:li.list-group-item {:id metric}
-    [:h5.metric-header.list-group-item-heading (str "0 " metric)]]
-   [:li.list-group-item {:id (str metric "-cpa")}
-    [:small.list-group-item-text (str "0 " cpa)]]
-   [:li.list-group-item {:id (str metric "-rate")}
-    [:small.list-group-item-text (str "0 " rate)]]])
+(defn dashboard-metrics
+  []
+  (reify ui/IRender
+    (-render [_]
+      [:div.twitter-stats#stats-list-group
+       (for [[metric cpa rate] metrics]
+         [:ul.list-group
+          [:li.list-group-item {:id metric}
+           [:h5.metric-header.list-group-item-heading (str "0 " metric)]]
+          [:li.list-group-item {:id (str metric "-cpa")}
+           [:small.list-group-item-text (str "0 " cpa)]]
+          [:li.list-group-item {:id (str metric "-rate")}
+           [:small.list-group-item-text (str "0 " rate)]]])])
+    ui/IClickable
+    (-click [x e]
+      (js/console.log "click!" (.-target e)))
+    tmpl/PElement
+    (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
 
 (deftemplate dashboard-template
   [id]
@@ -38,13 +48,14 @@
    [:div.panel-body
     [:div.analytics-highcharts]]
    [:div.panel-footer.row
-    [:div.twitter-stats
-     (for [metric dashboard-metrics]
-       (dashboard-metric metric))]]])
+    (dashboard-metrics)]])
 
 (defn dashboard
   [id state]
   (reify
     ui/IRender
     (-render [_]
-      (dashboard-template id))))
+      (dashboard-template id))
+    ui/IWithChildren
+    (-with-children [_]
+      [:#stats-list-group])))

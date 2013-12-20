@@ -1,120 +1,52 @@
 // Compiled by ClojureScript 0.0-2120
 goog.provide('foundation.test.components.dashboard');
 goog.require('cljs.core');
-goog.require('dommy.core');
-goog.require('dommy.core');
-goog.require('foundation.test.models');
-goog.require('foundation.test.models');
-goog.require('foundation.test.templates');
 goog.require('foundation.test.templates');
 goog.require('foundation.app.ui');
+goog.require('dommy.core');
+goog.require('dommy.template');
+goog.require('foundation.test.templates');
+goog.require('foundation.test.models');
+goog.require('dommy.template');
+goog.require('foundation.test.models');
 goog.require('foundation.app.ui');
-foundation.test.components.dashboard.dashboard_metrics = new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Impressions","CPM","Impression Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Engagements","CPE","Engagement Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Clicks","CPC","Click Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Retweets","CPRT","Retweet Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Replies","CPR","Reply Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Follows","CPF","Follow Rate"], null)], null);
-foundation.test.components.dashboard.dashboard_metric = (function dashboard_metric(p__269351){var vec__269360 = p__269351;var metric = cljs.core.nth.call(null,vec__269360,0,null);var cpa = cljs.core.nth.call(null,vec__269360,1,null);var rate = cljs.core.nth.call(null,vec__269360,2,null);var dom269361 = document.createElement("ul");dom269361.className = "list-group";
-dom269361.appendChild((function (){var dom269362 = document.createElement("li");dom269362.className = "list-group-item";
-if(cljs.core.truth_(metric))
-{dom269362.setAttribute("id",metric);
-} else
-{}
-dom269362.appendChild((function (){var dom269363 = document.createElement("h5");dom269363.className = "metric-header list-group-item-heading";
-dom269363.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(metric)].join('')));
-return dom269363;
-})());
-return dom269362;
-})());
-dom269361.appendChild((function (){var dom269364 = document.createElement("li");dom269364.className = "list-group-item";
-if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-cpa")].join('')))
-{dom269364.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-cpa")].join(''));
-} else
-{}
-dom269364.appendChild((function (){var dom269365 = document.createElement("small");dom269365.className = "list-group-item-text";
-dom269365.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(cpa)].join('')));
-return dom269365;
-})());
-return dom269364;
-})());
-dom269361.appendChild((function (){var dom269366 = document.createElement("li");dom269366.className = "list-group-item";
-if(cljs.core.truth_([cljs.core.str(metric),cljs.core.str("-rate")].join('')))
-{dom269366.setAttribute("id",[cljs.core.str(metric),cljs.core.str("-rate")].join(''));
-} else
-{}
-dom269366.appendChild((function (){var dom269367 = document.createElement("small");dom269367.className = "list-group-item-text";
-dom269367.appendChild(dommy.template.__GT_node_like.call(null,[cljs.core.str("0 "),cljs.core.str(rate)].join('')));
-return dom269367;
-})());
-return dom269366;
-})());
-return dom269361;
-});
-foundation.test.components.dashboard.dashboard_template = (function dashboard_template(id){var dom269386 = document.createElement("div");dom269386.className = "twitter-stats panel panel-default";
-if(cljs.core.truth_(id))
-{dom269386.setAttribute("id",id);
-} else
-{}
-dom269386.appendChild((function (){var dom269387 = document.createElement("div");dom269387.className = "panel-heading";
-dom269387.appendChild((function (){var dom269388 = document.createElement("h1");dom269388.className = "panel-title";
-if("resource-id")
-{dom269388.setAttribute("id","resource-id");
-} else
-{}
-return dom269388;
-})());
-dom269387.appendChild((function (){var dom269389 = document.createElement("div");dom269389.className = "form-inline pull-right";
-dom269389.appendChild((function (){var dom269390 = document.createElement("div");dom269390.className = "form-group";
-dom269390.appendChild((function (){var dom269391 = document.createElement("input");dom269391.className = "form-control date-picker";
-dom269391.setAttribute("id","start-time");
-if(true)
-{dom269391.setAttribute("readonly",true);
-} else
-{}
-return dom269391;
-})());
-return dom269390;
-})());
-dom269389.appendChild((function (){var dom269392 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
-{dom269392.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
-} else
-{}
-dom269392.appendChild(document.createTextNode("to"));
-return dom269392;
-})());
-dom269389.appendChild((function (){var dom269393 = document.createElement("div");dom269393.className = "form-group";
-dom269393.appendChild((function (){var dom269394 = document.createElement("input");dom269394.className = "form-control date-picker";
-dom269394.setAttribute("id","end-time");
-if(true)
-{dom269394.setAttribute("readonly",true);
-} else
-{}
-return dom269394;
-})());
-return dom269393;
-})());
-dom269389.appendChild((function (){var dom269395 = document.createElement("button");dom269395.className = "btn btn-primary btn-sm";
-dom269395.setAttribute("id","update-stats");
-dom269395.appendChild(document.createTextNode("Update"));
-return dom269395;
-})());
-return dom269389;
-})());
-return dom269387;
-})());
-dom269386.appendChild((function (){var dom269396 = document.createElement("div");dom269396.className = "panel-body";
-dom269396.appendChild((function (){var dom269397 = document.createElement("div");dom269397.className = "analytics-highcharts";
-return dom269397;
-})());
-return dom269396;
-})());
-dom269386.appendChild((function (){var dom269398 = document.createElement("div");dom269398.className = "panel-footer row";
-dom269398.appendChild((function (){var dom269399 = document.createElement("div");dom269399.className = "twitter-stats";
-dom269399.appendChild(dommy.template.__GT_node_like.call(null,(function (){var iter__8921__auto__ = (function iter__269400(s__269401){return (new cljs.core.LazySeq(null,(function (){var s__269401__$1 = s__269401;while(true){
-var temp__4092__auto__ = cljs.core.seq.call(null,s__269401__$1);if(temp__4092__auto__)
-{var s__269401__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__269401__$2))
-{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__269401__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__269403 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__269402 = 0;while(true){
-if((i__269402 < size__8920__auto__))
-{var metric = cljs.core._nth.call(null,c__8919__auto__,i__269402);cljs.core.chunk_append.call(null,b__269403,foundation.test.components.dashboard.dashboard_metric.call(null,metric));
+goog.require('dommy.core');
+foundation.test.components.dashboard.metrics = new cljs.core.PersistentVector(null, 6, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Impressions","CPM","Impression Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Engagements","CPE","Engagement Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Clicks","CPC","Click Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Retweets","CPRT","Retweet Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Replies","CPR","Reply Rate"], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, ["Follows","CPF","Follow Rate"], null)], null);
+foundation.test.components.dashboard.dashboard_metrics = (function dashboard_metrics(){if(typeof foundation.test.components.dashboard.t333972 !== 'undefined')
+{} else
 {
-var G__269404 = (i__269402 + 1);
-i__269402 = G__269404;
+/**
+* @constructor
+*/
+foundation.test.components.dashboard.t333972 = (function (dashboard_metrics,meta333973){
+this.dashboard_metrics = dashboard_metrics;
+this.meta333973 = meta333973;
+this.cljs$lang$protocol_mask$partition1$ = 0;
+this.cljs$lang$protocol_mask$partition0$ = 393216;
+})
+foundation.test.components.dashboard.t333972.cljs$lang$type = true;
+foundation.test.components.dashboard.t333972.cljs$lang$ctorStr = "foundation.test.components.dashboard/t333972";
+foundation.test.components.dashboard.t333972.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.test.components.dashboard/t333972");
+});
+foundation.test.components.dashboard.t333972.prototype.dommy$template$PElement$ = true;
+foundation.test.components.dashboard.t333972.prototype.dommy$template$PElement$_elem$arity$1 = (function (x){var self__ = this;
+var x__$1 = this;return cljs.core.with_meta.call(null,dommy.template.__GT_node_like.call(null,foundation.app.ui._render.call(null,x__$1)),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"component","component",3908964463),x__$1], null));
+});
+foundation.test.components.dashboard.t333972.prototype.foundation$app$ui$IClickable$ = true;
+foundation.test.components.dashboard.t333972.prototype.foundation$app$ui$IClickable$_click$arity$2 = (function (x,e){var self__ = this;
+var x__$1 = this;return console.log("click!",e.target);
+});
+foundation.test.components.dashboard.t333972.prototype.foundation$app$ui$IRender$ = true;
+foundation.test.components.dashboard.t333972.prototype.foundation$app$ui$IRender$_render$arity$1 = (function (_){var self__ = this;
+var ___$1 = this;return new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"div.twitter-stats#stats-list-group","div.twitter-stats#stats-list-group",1533542123),(function (){var iter__8921__auto__ = (function iter__333975(s__333976){return (new cljs.core.LazySeq(null,(function (){var s__333976__$1 = s__333976;while(true){
+var temp__4092__auto__ = cljs.core.seq.call(null,s__333976__$1);if(temp__4092__auto__)
+{var s__333976__$2 = temp__4092__auto__;if(cljs.core.chunked_seq_QMARK_.call(null,s__333976__$2))
+{var c__8919__auto__ = cljs.core.chunk_first.call(null,s__333976__$2);var size__8920__auto__ = cljs.core.count.call(null,c__8919__auto__);var b__333978 = cljs.core.chunk_buffer.call(null,size__8920__auto__);if((function (){var i__333977 = 0;while(true){
+if((i__333977 < size__8920__auto__))
+{var vec__333981 = cljs.core._nth.call(null,c__8919__auto__,i__333977);var metric = cljs.core.nth.call(null,vec__333981,0,null);var cpa = cljs.core.nth.call(null,vec__333981,1,null);var rate = cljs.core.nth.call(null,vec__333981,2,null);cljs.core.chunk_append.call(null,b__333978,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"ul.list-group","ul.list-group",4606204857),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),metric], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"h5.metric-header.list-group-item-heading","h5.metric-header.list-group-item-heading",1171357138),[cljs.core.str("0 "),cljs.core.str(metric)].join('')], null)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),[cljs.core.str(metric),cljs.core.str("-cpa")].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"small.list-group-item-text","small.list-group-item-text",4177219747),[cljs.core.str("0 "),cljs.core.str(cpa)].join('')], null)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),[cljs.core.str(metric),cljs.core.str("-rate")].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"small.list-group-item-text","small.list-group-item-text",4177219747),[cljs.core.str("0 "),cljs.core.str(rate)].join('')], null)], null)], null));
+{
+var G__333983 = (i__333977 + 1);
+i__333977 = G__333983;
 continue;
 }
 } else
@@ -123,12 +55,12 @@ continue;
 break;
 }
 })())
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__269403),iter__269400.call(null,cljs.core.chunk_rest.call(null,s__269401__$2)));
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__333978),iter__333975.call(null,cljs.core.chunk_rest.call(null,s__333976__$2)));
 } else
-{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__269403),null);
+{return cljs.core.chunk_cons.call(null,cljs.core.chunk.call(null,b__333978),null);
 }
 } else
-{var metric = cljs.core.first.call(null,s__269401__$2);return cljs.core.cons.call(null,foundation.test.components.dashboard.dashboard_metric.call(null,metric),iter__269400.call(null,cljs.core.rest.call(null,s__269401__$2)));
+{var vec__333982 = cljs.core.first.call(null,s__333976__$2);var metric = cljs.core.nth.call(null,vec__333982,0,null);var cpa = cljs.core.nth.call(null,vec__333982,1,null);var rate = cljs.core.nth.call(null,vec__333982,2,null);return cljs.core.cons.call(null,new cljs.core.PersistentVector(null, 4, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"ul.list-group","ul.list-group",4606204857),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),metric], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"h5.metric-header.list-group-item-heading","h5.metric-header.list-group-item-heading",1171357138),[cljs.core.str("0 "),cljs.core.str(metric)].join('')], null)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),[cljs.core.str(metric),cljs.core.str("-cpa")].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"small.list-group-item-text","small.list-group-item-text",4177219747),[cljs.core.str("0 "),cljs.core.str(cpa)].join('')], null)], null),new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"li.list-group-item","li.list-group-item",1805578033),new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"id","id",1013907597),[cljs.core.str(metric),cljs.core.str("-rate")].join('')], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"small.list-group-item-text","small.list-group-item-text",4177219747),[cljs.core.str("0 "),cljs.core.str(rate)].join('')], null)], null)], null),iter__333975.call(null,cljs.core.rest.call(null,s__333976__$2)));
 }
 } else
 {return null;
@@ -136,46 +68,120 @@ break;
 break;
 }
 }),null,null));
-});return iter__8921__auto__.call(null,foundation.test.components.dashboard.dashboard_metrics);
-})()));
-return dom269399;
-})());
-return dom269398;
-})());
-return dom269386;
+});return iter__8921__auto__.call(null,foundation.test.components.dashboard.metrics);
+})()], null);
 });
-foundation.test.components.dashboard.dashboard = (function dashboard(id,state){if(typeof foundation.test.components.dashboard.t269408 !== 'undefined')
+foundation.test.components.dashboard.t333972.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_333974){var self__ = this;
+var _333974__$1 = this;return self__.meta333973;
+});
+foundation.test.components.dashboard.t333972.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_333974,meta333973__$1){var self__ = this;
+var _333974__$1 = this;return (new foundation.test.components.dashboard.t333972(self__.dashboard_metrics,meta333973__$1));
+});
+foundation.test.components.dashboard.__GT_t333972 = (function __GT_t333972(dashboard_metrics__$1,meta333973){return (new foundation.test.components.dashboard.t333972(dashboard_metrics__$1,meta333973));
+});
+}
+return (new foundation.test.components.dashboard.t333972(dashboard_metrics,null));
+});
+foundation.test.components.dashboard.dashboard_template = (function dashboard_template(id){var dom333997 = document.createElement("div");dom333997.className = "twitter-stats panel panel-default";
+if(cljs.core.truth_(id))
+{dom333997.setAttribute("id",id);
+} else
+{}
+dom333997.appendChild((function (){var dom333998 = document.createElement("div");dom333998.className = "panel-heading";
+dom333998.appendChild((function (){var dom333999 = document.createElement("h1");dom333999.className = "panel-title";
+if("resource-id")
+{dom333999.setAttribute("id","resource-id");
+} else
+{}
+return dom333999;
+})());
+dom333998.appendChild((function (){var dom334000 = document.createElement("div");dom334000.className = "form-inline pull-right";
+dom334000.appendChild((function (){var dom334001 = document.createElement("div");dom334001.className = "form-group";
+dom334001.appendChild((function (){var dom334002 = document.createElement("input");dom334002.className = "form-control date-picker";
+dom334002.setAttribute("id","start-time");
+if(true)
+{dom334002.setAttribute("readonly",true);
+} else
+{}
+return dom334002;
+})());
+return dom334001;
+})());
+dom334000.appendChild((function (){var dom334003 = document.createElement("em");if(cljs.core.truth_(new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)))
+{dom334003.setAttribute("style",dommy.core.style_str.call(null,new cljs.core.PersistentArrayMap(null, 1, [new cljs.core.Keyword(null,"color","color",1108746965),"#6F6F6F"], null)));
+} else
+{}
+dom334003.appendChild(document.createTextNode("to"));
+return dom334003;
+})());
+dom334000.appendChild((function (){var dom334004 = document.createElement("div");dom334004.className = "form-group";
+dom334004.appendChild((function (){var dom334005 = document.createElement("input");dom334005.className = "form-control date-picker";
+dom334005.setAttribute("id","end-time");
+if(true)
+{dom334005.setAttribute("readonly",true);
+} else
+{}
+return dom334005;
+})());
+return dom334004;
+})());
+dom334000.appendChild((function (){var dom334006 = document.createElement("button");dom334006.className = "btn btn-primary btn-sm";
+dom334006.setAttribute("id","update-stats");
+dom334006.appendChild(document.createTextNode("Update"));
+return dom334006;
+})());
+return dom334000;
+})());
+return dom333998;
+})());
+dom333997.appendChild((function (){var dom334007 = document.createElement("div");dom334007.className = "panel-body";
+dom334007.appendChild((function (){var dom334008 = document.createElement("div");dom334008.className = "analytics-highcharts";
+return dom334008;
+})());
+return dom334007;
+})());
+dom333997.appendChild((function (){var dom334009 = document.createElement("div");dom334009.className = "panel-footer row";
+dom334009.appendChild(dommy.template.__GT_node_like.call(null,foundation.test.components.dashboard.dashboard_metrics.call(null)));
+return dom334009;
+})());
+return dom333997;
+});
+foundation.test.components.dashboard.dashboard = (function dashboard(id,state){if(typeof foundation.test.components.dashboard.t334013 !== 'undefined')
 {} else
 {
 /**
 * @constructor
 */
-foundation.test.components.dashboard.t269408 = (function (state,id,dashboard,meta269409){
+foundation.test.components.dashboard.t334013 = (function (state,id,dashboard,meta334014){
 this.state = state;
 this.id = id;
 this.dashboard = dashboard;
-this.meta269409 = meta269409;
+this.meta334014 = meta334014;
 this.cljs$lang$protocol_mask$partition1$ = 0;
 this.cljs$lang$protocol_mask$partition0$ = 393216;
 })
-foundation.test.components.dashboard.t269408.cljs$lang$type = true;
-foundation.test.components.dashboard.t269408.cljs$lang$ctorStr = "foundation.test.components.dashboard/t269408";
-foundation.test.components.dashboard.t269408.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.test.components.dashboard/t269408");
+foundation.test.components.dashboard.t334013.cljs$lang$type = true;
+foundation.test.components.dashboard.t334013.cljs$lang$ctorStr = "foundation.test.components.dashboard/t334013";
+foundation.test.components.dashboard.t334013.cljs$lang$ctorPrWriter = (function (this__8772__auto__,writer__8773__auto__,opt__8774__auto__){return cljs.core._write.call(null,writer__8773__auto__,"foundation.test.components.dashboard/t334013");
 });
-foundation.test.components.dashboard.t269408.prototype.foundation$app$ui$IRender$ = true;
-foundation.test.components.dashboard.t269408.prototype.foundation$app$ui$IRender$_render$arity$1 = (function (_){var self__ = this;
+foundation.test.components.dashboard.t334013.prototype.foundation$app$ui$IWithChildren$ = true;
+foundation.test.components.dashboard.t334013.prototype.foundation$app$ui$IWithChildren$_with_children$arity$1 = (function (_){var self__ = this;
+var ___$1 = this;return new cljs.core.PersistentVector(null, 1, 5, cljs.core.PersistentVector.EMPTY_NODE, [new cljs.core.Keyword(null,"#stats-list-group","#stats-list-group",1832286227)], null);
+});
+foundation.test.components.dashboard.t334013.prototype.foundation$app$ui$IRender$ = true;
+foundation.test.components.dashboard.t334013.prototype.foundation$app$ui$IRender$_render$arity$1 = (function (_){var self__ = this;
 var ___$1 = this;return foundation.test.components.dashboard.dashboard_template.call(null,self__.id);
 });
-foundation.test.components.dashboard.t269408.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_269410){var self__ = this;
-var _269410__$1 = this;return self__.meta269409;
+foundation.test.components.dashboard.t334013.prototype.cljs$core$IMeta$_meta$arity$1 = (function (_334015){var self__ = this;
+var _334015__$1 = this;return self__.meta334014;
 });
-foundation.test.components.dashboard.t269408.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_269410,meta269409__$1){var self__ = this;
-var _269410__$1 = this;return (new foundation.test.components.dashboard.t269408(self__.state,self__.id,self__.dashboard,meta269409__$1));
+foundation.test.components.dashboard.t334013.prototype.cljs$core$IWithMeta$_with_meta$arity$2 = (function (_334015,meta334014__$1){var self__ = this;
+var _334015__$1 = this;return (new foundation.test.components.dashboard.t334013(self__.state,self__.id,self__.dashboard,meta334014__$1));
 });
-foundation.test.components.dashboard.__GT_t269408 = (function __GT_t269408(state__$1,id__$1,dashboard__$1,meta269409){return (new foundation.test.components.dashboard.t269408(state__$1,id__$1,dashboard__$1,meta269409));
+foundation.test.components.dashboard.__GT_t334013 = (function __GT_t334013(state__$1,id__$1,dashboard__$1,meta334014){return (new foundation.test.components.dashboard.t334013(state__$1,id__$1,dashboard__$1,meta334014));
 });
 }
-return (new foundation.test.components.dashboard.t269408(state,id,dashboard,null));
+return (new foundation.test.components.dashboard.t334013(state,id,dashboard,null));
 });
 
 //# sourceMappingURL=dashboard.js.map

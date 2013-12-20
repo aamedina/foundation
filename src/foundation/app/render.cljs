@@ -131,6 +131,14 @@
     (set! (.-meta el) meta)
     el))
 
+(extend-type js/DocumentFragment
+  IMeta
+  (-meta [el] (.-meta el))
+  IWithMeta
+  (-with-meta [el meta]
+    (set! (.-meta el) meta)
+    el))
+
 (defn bind-component-events
   [x renderer]
   (cond-> x
@@ -256,7 +264,7 @@
       (filter (fn [x]
                 (let [el (sel1 (str "#" (.-id ((comp :dom meta) x))))]
                   (or (identical? (.-innerHTML el) (.-innerHTML (.-target e)))
-                      (dom/descendant? el (.-target e)))))
+                      (dom/descendant? (.-target e) el))))
               registered)))
   (-dispatch-action [renderer e]
     (doseq [c (-find-dispatches renderer :action e)]
