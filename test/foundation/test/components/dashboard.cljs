@@ -7,8 +7,10 @@
             [dommy.template :as tmpl]
             [clojure.string :as str]
             [dommy.core :as dom]
-            [enfocus.core :as en])
+            [enfocus.core :as en]
+            [cljs.core.async :refer [<! >! put! take!]])
   (:require-macros [dommy.macros :refer [sel1 sel deftemplate node]]
+                   [cljs.core.async.macros :refer [go]]
                    [enfocus.macros :as en]))
 
 (def metrics
@@ -66,6 +68,27 @@
     tmpl/PElement
     (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
 
+(defn update-button
+  [renderer state]
+  (reify ui/IRender
+    (-render [_]
+      [:button#update-stats.btn.btn-primary.btn-sm "Update"])
+    ui/IClickable
+    (-click [_ e]
+      (let [start-picker (r/-get-data renderer [:start-time-picker])
+            end-picker (r/-get-data renderer [:end-time-picker])
+            chart (r/-get-data renderer [:chart])
+            start-time (.getTime (.getDate start-picker))]
+        (doseq [series (.-series chart)]
+          (.remove series))
+        (go (let [start (.getDate start-picker)
+                  end (.getDate end-picker)]
+              (.addSeries chart (clj->js {:data t
+                                          :pointInterval (* 3600 1000)
+                                          :pointStart start-time}))))))
+    tmpl/PElement
+    (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
+
 (deftemplate dashboard-template
   [renderer state id]
   [:div.twitter-stats.panel.panel-default {:id id}
@@ -77,7 +100,7 @@
      [:em {:style {:color "#6F6F6F"}} "to"]
      [:div.form-group
       [:input#end-time.form-control.date-picker {:readonly true}]]
-     [:button#update-stats.btn.btn-primary.btn-sm "Update"]]]
+     (update-button renderer state)]]
    [:div.panel-body
     [:div.analytics-highcharts]]
    [:div.panel-footer.row
@@ -91,4 +114,4 @@
       (dashboard-template renderer state id))
     ui/IWithChildren
     (-with-children [_]
-      [:#stats-list-group])))
+      [:#stats-list-group :#update-stats])))
