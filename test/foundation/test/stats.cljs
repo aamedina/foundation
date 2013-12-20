@@ -59,6 +59,7 @@
   [stats billed]
   (->> (map / (repeat (/ billed 1e6)) (vals stats))
        (#(map round % (repeat 2)))
+       (map js-number)
        (map #(tmpl/format-currency % "USD"))
        (zipmap (keys stats))))
 
@@ -66,5 +67,6 @@
   [stats]
   (->> (map / (repeat (get stats "Impressions")) (vals stats))
        (#(map round % (repeat 2)))
+       (map js-number)
        (map #(tmpl/format-percent %))
        (zipmap (keys stats))))
