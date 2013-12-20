@@ -17,6 +17,9 @@
 (defprotocol IClickable
   (-click [_ e]))
 
+(defprotocol IBeforeClick
+  (-before-click [_ e]))
+
 (defprotocol IMouseTarget
   (-mouseover [_ e])
   (-mouseout [_ e])
@@ -46,3 +49,9 @@
 
 (defprotocol IParentNode
   (-parent-node [_]))
+
+(defprotocol IWithChildren
+  (-with-children [_]))
+
+(defprotocol IFileDrop
+  (-drop [_ e]))

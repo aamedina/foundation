@@ -10,5 +10,5 @@
   "foundation.test.templates/date-picker", "el", "init-date",
   "date-pattern", "cljs.core/Keyword", "cljs-time.format/formatters",
   "picker", "goog/ui.InputDatePicker", "goog/i18n.DateTimeFormat",
-  "goog/i18n.DateTimeParse", "G__193596", "G__193597", "dom193600",
+  "goog/i18n.DateTimeParse", "G__270028", "G__270029", "dom270032",
   "js/document", "foundation.test.templates/twitter-power", "id"]}

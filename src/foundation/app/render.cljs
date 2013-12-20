@@ -117,7 +117,10 @@
 
 (defn extend-component
   [component renderer event-type]
-  (-set-data renderer [:_event event-type] component)
+  (-set-data renderer [:_event event-type] 
+             ((fnil conj []) (-get-data renderer [:_event event-type])
+              (with-meta component
+                {:dom (-render (ui/-render component) renderer)})))
   component)
 
 (extend-type js/Element
@@ -128,6 +131,18 @@
     (set! (.-meta el) meta)
     el))
 
+(defn bind-component-events
+  [x renderer]
+  (cond-> x
+    (satisfies? ui/IFocusable x) (extend-component renderer :focus)
+    (satisfies? ui/IClickable x) (extend-component renderer :action)
+    (satisfies? ui/IKeyTarget x) (extend-component renderer :key)
+    (satisfies? ui/IResizeable x) (extend-component renderer :resize)
+    (satisfies? ui/IScrollable x) (extend-component renderer :scroll)
+    (satisfies? ui/IInput x) (extend-component renderer :input)
+    (satisfies? ui/IOnline x) (extend-component renderer :online)
+    (satisfies? ui/IRender x) (ui/-render)))
+
 (extend-protocol IRender
   nil
   (-render [_ _] nil)
@@ -135,15 +150,7 @@
   default
   (-render [x renderer]
     (let [dom-content
-          (cond-> x
-            (satisfies? ui/IFocusable x) (extend-component renderer :focus)
-            (satisfies? ui/IClickable x) (extend-component renderer :action)
-            (satisfies? ui/IKeyTarget x) (extend-component renderer :key)
-            (satisfies? ui/IResizeable x) (extend-component renderer :resize)
-            (satisfies? ui/IScrollable x) (extend-component renderer :scroll)
-            (satisfies? ui/IInput x) (extend-component renderer :input)
-            (satisfies? ui/IOnline x) (extend-component renderer :online)
-            (satisfies? ui/IRender x) (ui/-render))]
+          (bind-component-events x renderer)]
       (with-meta dom-content {:component x})))
 
   PersistentVector
@@ -151,6 +158,9 @@
 
   Keyword
   (-render [x renderer] (sel1 x))
+
+  function
+  (-render [f renderer] (-render (f) renderer))
 
   js/Element
   (-render [x renderer] x))
@@ -184,15 +194,23 @@
                     :node-create
                     (when-let [dom (-render (f renderer d pid id) renderer)]
                       (-set-data renderer [id] dom)
-                      (if-let [parent
-                               (if (and (meta dom)
-                                        (satisfies? ui/IParentNode
-                                                    (:component (meta dom))))
-                                 ((ui/-parent-node (:component (meta dom)))
-                                  (-get-data renderer [pid]))
-                                 (-get-data renderer [pid]))]
-                        (dom/append! parent dom)
-                        (dom/append! js/document.body dom))
+                      (let [c (:component (meta dom))
+                            children (when (satisfies? ui/IWithChildren c)
+                                       (map (fn [x]
+                                              (-> (sel1 dom x)
+                                                  meta
+                                                  :component
+                                                  (-render renderer)))
+                                            (ui/-with-children c)))
+                            parent (if (and (satisfies? ui/IParentNode c))
+                                     ((ui/-parent-node c)
+                                      (-get-data renderer [pid]))
+                                     (-get-data renderer [pid]))]
+                        (doseq [child children]
+                          (println child))
+                        (if parent
+                          (dom/append! parent dom)
+                          (dom/append! js/document.body dom)))
                       (swap! deps depend id pid))
                     :node-update
                     (doseq [dep (sort-deps deps pid)]
@@ -223,29 +241,49 @@
 
   IEventDelegate
   (-find-dispatches [renderer event-type e]
-    (let [registered (-get-data renderer [event-type])]
-      (filter #(dom/descendant? % (.-target e)) registered)))
+    (let [registered (-get-data renderer [:_event event-type])]
+      ;; (js/console.log (first registered))
+      (filter (fn [x]
+                (let [el (sel1 (str "#" (.-id ((comp :dom meta) x))))]
+                  (or (identical? (.-innerHTML el) (.-innerHTML (.-target e)))
+                      (dom/descendant? el (.-target e)))))
+              registered)))
   (-dispatch-action [renderer e]
-    (doseq [component (-find-dispatches renderer :action e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :action e)]
+      (cond-> c
+        (and (identical? (.-type e) "action")
+             (satisfies? ui/IClickable c))
+        (ui/-click e)
+        (and (identical? (.-type e) "beforeaction")
+             (satisfies? ui/IBeforeClick c))
+        (ui/-before-click e))))
   (-dispatch-key [renderer e]
-    (doseq [component (-find-dispatches renderer :key e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :key e)]
+      (when (satisfies? ui/IKeyTarget c)
+        (ui/-keydown c e)
+        (ui/-keyup c e))))
   (-dispatch-focus [renderer e]
-    (doseq [component (-find-dispatches renderer :focus e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :focus e)]
+      (when (satisfies? ui/IFocusable c)
+        (cond-> c
+          (identical? (.-type e) "focusin") (ui/-focus e)
+          (identical? (.-type e) "focusout") (ui/-blur e)))))
   (-dispatch-scroll [renderer e]
-    (doseq [component (-find-dispatches renderer :scroll e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :scroll e)]
+      (when (satisfies? ui/IScrollable c)
+        (ui/-scroll c e))))
   (-dispatch-drop [renderer e]
-    (doseq [component (-find-dispatches renderer :drop e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :drop e)]
+      (when (satisfies? ui/IFileDrop c)
+        (ui/-drop c e))))
   (-dispatch-online [renderer e]
-    (doseq [component (-find-dispatches renderer :online e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :online e)]
+      (when (satisfies? ui/IOnline c)
+        (ui/-online c e))))
   (-dispatch-resize [renderer e]
-    (doseq [component (-find-dispatches renderer :resize e)]
-      (js/console.log component)))
+    (doseq [c (-find-dispatches renderer :resize e)]
+      (when (satisfies? ui/IResizeable c)
+        (ui/-resize c e))))
   
   IRenderer
   (-get-id [_ path]

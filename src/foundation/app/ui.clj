@@ -1,8 +1,5 @@
 (ns foundation.app.ui)
 
-(defmacro component
-  [body]
-  `(reify
-     foundation.app.ui/IComponent
-     (~'-render [this#]
-       (dommy.macros/node ~body))))
+(defmacro defcomponent
+  [name args & body]
+  `(defn ~name ~args ~@body))
