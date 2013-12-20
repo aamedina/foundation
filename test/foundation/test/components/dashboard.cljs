@@ -3,8 +3,10 @@
             [foundation.test.templates :as t]
             [foundation.test.models :as m]
             [dommy.template :as tmpl]
-            [dommy.core :as dom])
-  (:require-macros [dommy.macros :refer [sel1 sel deftemplate node]]))
+            [dommy.core :as dom]
+            [enfocus.core :as en])
+  (:require-macros [dommy.macros :refer [sel1 sel deftemplate node]]
+                   [enfocus.macros :as en]))
 
 (def metrics
   [["Impressions" "CPM" "Impression Rate"]
@@ -29,7 +31,15 @@
            [:small.list-group-item-text (str "0 " rate)]]])])
     ui/IClickable
     (-click [x e]
-      (js/console.log "click!" (.-target e)))
+      (let [id (apply str (or (seq (-> e .-target .-id))
+                              (seq (-> e .-target .-parentNode .-id))))
+            el (sel1 (str "#" id))
+            prev (sel1 (sel1 :div.twitter-stats#stats-list-group)
+                       :li.list-group-item.active)]
+        (when-not (dom/has-class? el :active)
+          (dom/add-class! el :active)
+          (some-> prev
+            (dom/remove-class! :active)))))
     tmpl/PElement
     (-elem [x] (with-meta (node (ui/-render x)) {:component x}))))
 
