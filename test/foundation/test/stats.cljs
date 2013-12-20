@@ -1,6 +1,7 @@
 (ns foundation.test.stats
   (:require [foundation.test.models :as models]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [foundation.test.templates :as tmpl]))
 
 (def metrics
   [["Impressions" "CPM" "Impression Rate"]
@@ -58,10 +59,12 @@
   [stats billed]
   (->> (map / (repeat (/ billed 1e6)) (vals stats))
        (#(map round % (repeat 2)))
+       (map #(tmpl/format-currency % "USD"))
        (zipmap (keys stats))))
 
 (defn rate-stats
   [stats]
   (->> (map / (repeat (get stats "Impressions")) (vals stats))
        (#(map round % (repeat 2)))
+       (map #(tmpl/format-percent %))
        (zipmap (keys stats))))
