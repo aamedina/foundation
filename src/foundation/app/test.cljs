@@ -1,4 +1,7 @@
-(ns foundation.app.test)
+(ns foundation.app.test
+  (:require [simple-check.core :as s]
+            [simple-check.generators :as gen])
+  (:require-macros [simple-check.properties :as props]))
 
 (def ascii (map char (range 65 (+ 65 26))))
 
