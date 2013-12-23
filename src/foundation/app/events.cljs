@@ -16,8 +16,11 @@
   (-validate event))
 
 (defprotocol IEffect
-  (-effect [record event]))
+  (-effect [record event])
+  (-registered [record]))
 
 (defn effect
   [record event]
-  (assert (satisfies? IEffect record) "Record does not implement IEffect."))
+  (assert (satisfies? IEffect record) "Record does not implement IEffect.")
+  (assert (contains? (-registered record) (type event))
+          "Incompatible event type for record."))
