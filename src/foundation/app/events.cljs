@@ -19,20 +19,40 @@
   (-effect [record event])
   (-registered [record]))
 
-(defn effect
+(defn apply-effect
   [record event]
   {:pre [(satisfies? IEffect record)
-         (contains? (-registered record) (type event))]})
+         (contains? (-registered record) (type event))
+         (valid? event)]}
+  (-effect record event))
 
 ;; tests
+
+(declare batting-event)
+
+(defn effect-test
+  [{:keys [ab h] :or {ab 0 h 0}} e]
+  (let [e (batting-event e)
+        ab (inc ab)
+        h (if (= (:result e) :hit)
+          (inc h)
+          h)]
+    {:ab ab :h h :avg (/ h ab)}))
 
 (defrecord BattingEvent [result]
   IValidate
   (-validate [e] (boolean (:result e))))
 
+(defrecord BattingStats [ab h avg]
+  IEffect
+  (-effect [record event] (effect-test record event))
+  (-registered [_] #{BattingEvent}))
+
 (defn batting-event
-  [event-map]
-  (map->BattingEvent event-map))
+  [e]
+  (if-not (instance? BattingEvent e)
+    (map->BattingEvent e)
+    e))
 
 (defn test-validate
   []
@@ -41,5 +61,8 @@
        (= (valid? (batting-event {:result nil}))
           false)))
 
-(defn effect-test
-  [{:keys [ab ]}])
+(defn test-apply-effect
+  []
+  (= (apply-effect (map->BattingStats {})
+                   (map->BattingEvent {:result :hit}))
+     {:ab 1 :h 1 :avg 1}))
