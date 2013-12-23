@@ -4,9 +4,20 @@
              :refer [<! take! put! >! chan close!]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
+(defprotocol IEventSource
+  (-emit [_ event])
+  (-observe [_ event]))
+
 (defprotocol IValidate
   (-validate [_]))
 
-(defn valid?
+(defn ^boolean valid?
   [event]
   (-validate event))
+
+(defprotocol IEffect
+  (-effect [record event]))
+
+(defn effect
+  [record event]
+  (assert (satisfies? IEffect record) "Record does not implement IEffect."))
