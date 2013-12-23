@@ -21,6 +21,5 @@
 
 (defn effect
   [record event]
-  (assert (satisfies? IEffect record) "Record does not implement IEffect.")
-  (assert (contains? (-registered record) (type event))
-          "Incompatible event type for record."))
+  {:pre [(satisfies? IEffect record)
+         (contains? (-registered record) (type event))]})
