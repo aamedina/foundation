@@ -32,5 +32,6 @@
                            :output-dir "resources/public/js/out"
                            :source-map "resources/public/js/main.js.map"
                            :source-map-path "resources/public/js/out"
-                           :optimizations :none}}]})
+                           :optimizations :none
+                           :libs [""]}}]})
 
