@@ -32,3 +32,4 @@
                            :source-map "resources/public/js/main.js.map"
                            :source-map-path "resources/public/js/out"
                            :optimizations :none}}]})
+

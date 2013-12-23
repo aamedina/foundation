@@ -1,8 +1,0 @@
-{"version":3,
- "file":
- "/Users/adrian/workspace/clojure/cljs/foundation/resources/public/js/out/foundation/app/message.js",
- "sources":["message.cljs"],
- "lineCount":7,
- "mappings":";AAAA;;AAGA,8BAAA,9BAAKA;AACL,8BAAA,9BAAKC",
- "names":
- ["foundation.app.message/type", "foundation.app.message/path"]}

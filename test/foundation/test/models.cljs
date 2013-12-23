@@ -16,7 +16,7 @@
 (def ^:dynamic *api* ads-api)
 
 (defmodel accounts
-  {:url "/accounts/:id"
+  {:url "/bootstrap"
    :api ads-api})
 
 (defmodel campaigns
