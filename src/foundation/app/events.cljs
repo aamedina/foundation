@@ -23,3 +23,23 @@
   [record event]
   {:pre [(satisfies? IEffect record)
          (contains? (-registered record) (type event))]})
+
+;; tests
+
+(defrecord BattingEvent [result]
+  IValidate
+  (-validate [e] (boolean (:result e))))
+
+(defn batting-event
+  [event-map]
+  (map->BattingEvent event-map))
+
+(defn test-validate
+  []
+  (and (= (valid? (batting-event {:result :hit}))
+          true)
+       (= (valid? (batting-event {:result nil}))
+          false)))
+
+(defn effect-test
+  [{:keys [ab ]}])
