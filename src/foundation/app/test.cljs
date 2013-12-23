@@ -1,7 +1,10 @@
 (ns foundation.app.test
   (:require [simple-check.core :as s]
-            [simple-check.generators :as gen])
-  (:require-macros [simple-check.properties :as props]))
+            [simple-check.generators :as gen]
+            [cemerick.cljs.test :as t])
+  (:require-macros [simple-check.properties :as prop]
+                   [cemerick.cljs.test :refer [deftest run-tests]]
+                   [simple-check.clojure-test :refer [defspec]]))
 
 (def ascii (map char (range 65 (+ 65 26))))
 
@@ -20,3 +23,8 @@
 (defn rand-map
   [size kgen vgen]
   (into {} (repeatedly size #(rand-vec kgen vgen))))
+
+(defspec first-element-is-min-after-sorting
+  (prop/for-all [v (gen/such-that gen/not-empty (gen/vector gen/int))]
+    (= (apply min v)
+       (first (sort v)))))

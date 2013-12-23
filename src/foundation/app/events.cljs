@@ -4,5 +4,9 @@
              :refer [<! take! put! >! chan close!]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(defn event-chan
-  [])
+(defprotocol IValidate
+  (-validate [_]))
+
+(defn valid?
+  [event]
+  (-validate event))
